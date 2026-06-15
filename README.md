@@ -1,73 +1,44 @@
-# React + TypeScript + Vite
+# Orbital Frameworks Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing page principal de `Orbital Frameworks`, construida con `React`, `TypeScript` y `Vite`.
 
-Currently, two official plugins are available:
+## Servicios Presentados
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Landing Page
+- Sistemas empresariales de gestion
+- Bots de automatizacion
+- Sistemas y servicios internos para empresas
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `npm install`: instala dependencias
+- `npm run dev`: inicia el entorno local
+- `npm run build`: genera la version de produccion
+- `npm run preview`: previsualiza el build generado
+- `npm run lint`: ejecuta ESLint
 
-## Expanding the ESLint configuration
+## GitHub Pages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+El proyecto ya queda preparado para publicarse en GitHub Pages con el repositorio:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `https://github.com/orbital-frameworks/orbitalframeworks-landingpage`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Para activarlo:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Entra a `Settings > Pages` del repositorio.
+2. En `Build and deployment`, selecciona `GitHub Actions`.
+3. Haz push a `main`.
+4. GitHub publicará automáticamente la landing.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+La configuracion ya incluye:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `base` correcta para `orbitalframeworks-landingpage`
+- workflow de despliegue en GitHub Pages
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Estructura
+
+- `src/App.tsx`: estructura y contenido principal
+- `src/App.css`: estilos de la landing
+- `src/index.css`: tipografias y variables globales
+- `src/assets/`: imagenes usadas por la landing
+- `.github/workflows/`: despliegue automatico a GitHub Pages

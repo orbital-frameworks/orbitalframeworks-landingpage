@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import astroImg from './assets/Astro showing.png'
 import perulogImg from './assets/PerulogPallets.png'
@@ -188,404 +188,194 @@ function ScrollHint() {
       <span className="scrollMouse" aria-hidden="true">
         <span className="scrollWheel" />
       </span>
-      <span className="scrollText">scroll me</span>
+      <span className="scrollText">ver stack</span>
     </button>
   )
 }
 
-type ServiceScene = {
+type ServicePrinciple = {
+  label: string
+  description: string
+}
+
+type ServiceOffering = {
   id: string
-  tag: string
+  index: string
+  eyebrow: string
   title: string
-  body: string
+  summary: string
+  detail: string
+  deliverable: string
+  bullets: string[]
 }
 
-const serviceScenes: ServiceScene[] = [
+const servicePrinciples: ServicePrinciple[] = [
   {
-    id: 's0',
-    tag: 'Servicios — Orbital Frameworks',
-    title: 'SERVICIOS',
-    body: 'Diseñamos y desarrollamos productos digitales con enfoque técnico, velocidad y estética.',
+    label: 'Narrativa primero',
+    description: 'Cada sección nace de una intención comercial concreta: posicionar, explicar, convertir o cerrar.',
   },
   {
-    id: 's1',
-    tag: '01 — Web Design',
-    title: 'WEB\nDESIGN',
-    body: 'Diseño UI moderno, responsive y orientado a conversión. Sistemas de componentes y coherencia visual.',
+    label: 'Diseño con estructura',
+    description: 'La estética no se separa de la lógica. Tipografía, layout y sistema visual nacen junto a la arquitectura.',
   },
   {
-    id: 's2',
-    tag: '02 — Frontend',
-    title: 'FRONT\nEND',
-    body: 'Interfaces rápidas, accesibles y escalables. Animaciones sutiles, performance y buenas prácticas.',
-  },
-  {
-    id: 's3',
-    tag: '03 — Backend',
-    title: 'BACK\nEND',
-    body: 'APIs, integraciones, autenticación y servicios. Arquitectura clara para crecer sin dolor.',
-  },
-  {
-    id: 's4',
-    tag: '04 — Product',
-    title: 'PRODUCT\nBUILD',
-    body: 'De idea a MVP y de MVP a producto. Roadmap, iteración y entregas enfocadas en resultados.',
-  },
-  {
-    id: 's5',
-    tag: '05 — Soporte',
-    title: 'CARE\n&\nSCALE',
-    body: 'Mantenimiento, mejoras continuas, monitoreo y optimización. Tu sitio siempre a punto.',
+    label: 'Construcción operativa',
+    description: 'Pensamos en equipos, procesos y escalabilidad desde el día uno, no después del primer lanzamiento.',
   },
 ]
 
-const IMAGE_SRCS = [
-  '/services/1.svg',
-  '/services/2.svg',
-  '/services/3.svg',
-  '/services/4.svg',
-  '/services/5.svg',
-  '/services/6.svg',
+const serviceOfferings: ServiceOffering[] = [
+  {
+    id: 'landing-pages',
+    index: '01',
+    eyebrow: 'Marketing / Conversion / Presencia',
+    title: 'Landing Page',
+    summary: 'Diseñamos y desarrollamos landing pages enfocadas en conversión, presencia de marca y captación de clientes.',
+    detail:
+      'Trabajamos estructura comercial, jerarquía visual, responsive y velocidad para que la página no solo se vea bien, sino que también venda mejor.',
+    deliverable: 'Landing page lista para campañas, posicionamiento o captación comercial.',
+    bullets: ['Diseño visual', 'Conversion', 'Responsive'],
+  },
+  {
+    id: 'erp',
+    index: '02',
+    eyebrow: 'ERP / Operaciones / Gestion',
+    title: 'Sistemas empresariales de gestion',
+    summary: 'Construimos sistemas para ordenar procesos, centralizar información y mejorar la operación diaria de una empresa.',
+    detail:
+      'Desarrollamos módulos, paneles administrativos, flujos internos y herramientas de control pensadas para crecimiento, trazabilidad y eficiencia.',
+    deliverable: 'Sistema de gestion adaptado a la operacion real del negocio.',
+    bullets: ['ERP', 'Paneles', 'Control operativo'],
+  },
+  {
+    id: 'bots',
+    index: '03',
+    eyebrow: 'Bots / Automatizacion / Mensajeria',
+    title: 'Bots de automatizacion',
+    summary: 'Creamos bots y automatizaciones para WhatsApp, Telegram, Instagram y otros canales de atención o venta.',
+    detail:
+      'Automatizamos respuestas, captación, seguimiento y procesos repetitivos para que tu negocio gane tiempo, consistencia y capacidad de atención.',
+    deliverable: 'Bots conectados a flujos reales de atencion, ventas o soporte.',
+    bullets: ['WhatsApp', 'Telegram', 'Instagram'],
+  },
+  {
+    id: 'internal-systems',
+    index: '04',
+    eyebrow: 'Interno / Empresa / Soporte',
+    title: 'Sistemas y servicios internos',
+    summary: 'Diseñamos soluciones internas para empresas que necesitan ordenar procesos, equipos, seguimiento o servicios operativos.',
+    detail:
+      'También apoyamos en mejoras, ampliaciones o mantenimiento de sistemas existentes cuando la operación necesita continuidad y soporte técnico.',
+    deliverable: 'Herramientas internas y soporte evolutivo alineados a la empresa.',
+    bullets: ['Intranet', 'Soporte', 'Mantenimiento'],
+  },
 ]
 
-const IMAGE_ASPECTS = [1, 1, 1, 1, 1, 1]
-
-const FACE_NAMES = serviceScenes.map((s) => s.title.replaceAll('\n', ' '))
-
-const SWAP_RADIUS = 3
-
-const N = IMAGE_SRCS.length
-
-const stopIndex = (s: number) => Math.min(N - 1, Math.floor(s * (N - 1)))
-
-function faceAtStop(i: number) {
-  if (i < 6) return i
-  return 1 + ((i - 2) % 4)
-}
-
-function buildStops(n: number) {
-  const base = [
-    { rx: 90, ry: 0 },
-    { rx: 0, ry: 0 },
-    { rx: 0, ry: -90 },
-    { rx: 0, ry: -180 },
-    { rx: 0, ry: -270 },
-    { rx: -90, ry: -360 },
-  ]
-  const out = base.slice(0, Math.min(n, 6))
-  for (let i = 6; i < n; i += 1) {
-    out.push({ rx: 0, ry: -360 - (i - 6) * 90 })
-  }
-  return out
-}
-
-const STOPS = buildStops(N)
-
-const easeIO = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
-
-const getDarkSrc = (src: string) => {
-  const m = src.match(/^(.*?)(\.[a-z0-9]+)(\?.*)?$/i)
-  if (!m) return `${src}-dark`
-  const base = m[1]
-  const ext = m[2]
-  const q = m[3] ?? ''
-  return `${base}-dark${ext}${q}`
-}
-
-const imagePromises = new Map<string, Promise<void>>()
-const preloadImage = (src: string) => {
-  const existing = imagePromises.get(src)
-  if (existing) return existing
-  const p = (async () => {
-    const img = new Image()
-    img.src = src
-    await img.decode().catch(() => {})
-  })()
-  imagePromises.set(src, p)
-  return p
-}
+const serviceSequence = [
+  'Diagnóstico y definición del servicio',
+  'Diseño de estructura y solución',
+  'Desarrollo e implementación',
+  'Ajustes, soporte y evolución',
+]
 
 function ServicesSection() {
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const cubeRef = useRef<HTMLDivElement | null>(null)
-  const sectionTopsRef = useRef<number[]>([])
-  const faceImgIdxRef = useRef<number[]>(new Array(6).fill(-1))
-  const [active, setActive] = useState(0)
-  const [pct, setPct] = useState(0)
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-  const [inView, setInView] = useState(false)
-  const [faceImgIdxs, setFaceImgIdxs] = useState<number[]>(() => new Array(6).fill(-1))
-
-  useEffect(() => {
-    const section = sectionRef.current
-    const container = containerRef.current
-    if (!section || !container) return
-
-    const setFaceImage = (faceIdx: number, imgIdx: number, force = false) => {
-      if (!force && faceImgIdxRef.current[faceIdx] === imgIdx) return
-      faceImgIdxRef.current[faceIdx] = imgIdx
-      setFaceImgIdxs((prev) => {
-        if (prev[faceIdx] === imgIdx) return prev
-        const next = prev.slice()
-        next[faceIdx] = imgIdx
-        return next
-      })
-    }
-
-    IMAGE_SRCS.forEach((src) => {
-      preloadImage(src)
-      preloadImage(getDarkSrc(src))
-    })
-
-    for (let i = 0; i < Math.min(N, 6); i += 1) {
-      if (IMAGE_SRCS[i]) setFaceImage(i, i, true)
-    }
-
-    const buildSectionTops = () => {
-      const sections = [...container.querySelectorAll('section')]
-      sectionTopsRef.current = sections.map((s) => s.getBoundingClientRect().top + window.scrollY)
-    }
-
-    const sectionIndexFromScroll = (y: number) => {
-      const mid = y + window.innerHeight * 0.5
-      const tops = sectionTopsRef.current
-      let idx = 0
-      for (let i = 0; i < tops.length; i += 1) {
-        if (mid >= tops[i]) idx = i
-      }
-      return Math.min(idx, N - 1)
-    }
-
-    const checkImageSwaps = (smooth: number) => {
-      const base = stopIndex(smooth)
-      setFaceImage(faceAtStop(base), base)
-      for (let offset = -SWAP_RADIUS; offset <= SWAP_RADIUS; offset += 1) {
-        if (offset === 0) continue
-        const si = base + offset
-        if (si < 0 || si >= N) continue
-        setFaceImage(faceAtStop(si), si)
-      }
-    }
-
-    const setCubeTransform = (s: number) => {
-      const cube = cubeRef.current
-      if (!cube || N < 2 || STOPS.length < 2) return
-
-      const t = s * (N - 1)
-      const i = Math.min(Math.floor(t), N - 2)
-      const f = easeIO(t - i)
-      const a = STOPS[i]
-      const b = STOPS[i + 1]
-      const rx = a.rx + (b.rx - a.rx) * f
-      const ry = a.ry + (b.ry - a.ry) * f
-      cube.style.setProperty('--cube-rx', `${rx}deg`)
-      cube.style.setProperty('--cube-ry', `${ry}deg`)
-    }
-
-    const revealEls = [
-      ...container.querySelectorAll('.tag, h1, h2, .body-text, .cta, .cta-back, .h-line'),
-    ]
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            ;(e.target as HTMLElement).classList.add('visible')
-            io.unobserve(e.target)
-          }
-        })
-      },
-      { threshold: 0.1 },
-    )
-    revealEls.forEach((el) => io.observe(el))
-
-    buildSectionTops()
-
-    let raf = 0
-    const update = () => {
-      const rect = section.getBoundingClientRect()
-      const nowInView = rect.top <= 0 && rect.bottom >= window.innerHeight
-      setInView(nowInView)
-
-      if (!nowInView) return
-
-      const containerTop = rect.top + window.scrollY
-      const max = Math.max(1, container.scrollHeight - window.innerHeight)
-      const cur = window.scrollY - containerTop
-      const smooth = Math.max(0, Math.min(1, cur / max))
-
-      const nextPct = Math.round(smooth * 100)
-      setPct((p) => (p === nextPct ? p : nextPct))
-      setCubeTransform(smooth)
-      checkImageSwaps(smooth)
-
-      const idx = sectionIndexFromScroll(window.scrollY)
-      setActive((a) => (a === idx ? a : idx))
-    }
-
-    const onScroll = () => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(update)
-    }
-
-    const onResize = () => {
-      buildSectionTops()
-      onScroll()
-    }
-
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onResize, { passive: true })
-
-    return () => {
-      cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onResize)
-      io.disconnect()
-    }
-  }, [])
-
-  const scene = serviceScenes[active] ?? serviceScenes[0]
-  const paddedPct = `${pct}`.padStart(3, '0')
-  const paddedNum = `${active + 1}`.padStart(2, '0')
-  const sceneName = FACE_NAMES[active] ?? scene.title.replaceAll('\n', ' ')
-  const isDark = theme === 'dark'
-
   return (
-    <section
-      ref={(node) => {
-        sectionRef.current = node
-      }}
-      id="servicios"
-      className="services"
-      data-theme={theme}
-      data-inview={inView ? 'true' : 'false'}
-      onClick={(e) => {
-        const a = (e.target as HTMLElement | null)?.closest?.('a[href^="#s"]') as
-          | HTMLAnchorElement
-          | null
-        if (!a) return
-        const href = a.getAttribute('href')
-        if (!href) return
-        const target = document.querySelector(href)
-        if (!target) return
-        e.preventDefault()
-        target.scrollIntoView({ behavior: 'smooth' })
-      }}
-    >
-      <div id="scene" aria-hidden="true">
-        <div
-          id="cube"
-          ref={(node) => {
-            cubeRef.current = node
-          }}
-          style={{ ['--cube-rx' as never]: '90deg', ['--cube-ry' as never]: '0deg' }}
-        >
-          {(['top', 'front', 'right', 'back', 'left', 'bottom'] as const).map((face, i) => {
-            const imgIdx = faceImgIdxs[i] ?? -1
-            const baseSrc = imgIdx >= 0 ? IMAGE_SRCS[imgIdx] : ''
-            const src = imgIdx >= 0 ? (isDark ? getDarkSrc(baseSrc) : baseSrc) : ''
-            return (
-              <div key={face} className={`face ${imgIdx >= 0 ? 'hasImg' : ''}`} data-face={face} data-i={i}>
-                {imgIdx >= 0 ? (
-                  <img
-                    src={src}
-                    alt={FACE_NAMES[imgIdx] ?? ''}
-                    onError={(ev) => {
-                      const t = ev.currentTarget
-                      if (t.src !== baseSrc) t.src = baseSrc
-                    }}
-                    style={{ objectFit: (IMAGE_ASPECTS[imgIdx] ?? 1) !== 1 ? 'contain' : 'cover' }}
-                  />
-                ) : null}
-                <span className="face-ph">{face.toUpperCase()}</span>
+    <section id="servicios" className="services">
+      <div className="servicesShell">
+        <header className="servicesHero">
+          <div className="servicesHeroCopy">
+            <div className="servicesKicker">Stack de servicios Orbital</div>
+            <h2 className="servicesTitle">Servicios construidos como sistemas claros, visuales y operativos.</h2>
+          </div>
+
+          <div className="servicesHeroMeta">
+            <p className="servicesLead">
+              Ofrecemos soluciones digitales enfocadas en captación, gestión empresarial, automatización y operación interna para negocios que necesitan verse y funcionar mejor.
+            </p>
+
+            <aside className="servicesManifesto">
+              <span className="servicesManifestoLabel">Manifiesto</span>
+              <p className="servicesManifestoText">
+                No vendemos “solo diseño” ni “solo desarrollo”. Diseñamos productos que se sienten premium y funcionan bajo presión operativa.
+              </p>
+              <div className="servicesManifestoMeta">
+                <div>
+                  <span>FORMATO</span>
+                  <strong>Landing pages, sistemas empresariales, bots y servicios internos</strong>
+                </div>
+                <div>
+                  <span>FIRMA</span>
+                  <strong>Soluciones claras, funcionales y con presencia visual</strong>
+                </div>
               </div>
-            )
-          })}
-        </div>
-      </div>
+            </aside>
+          </div>
+        </header>
 
-      <div id="hud" aria-hidden={!inView}>
-        <div id="hud_pct">{paddedPct}%</div>
-        <div className="progress-bar">
-          <div className="progress-fill" id="prog_fill" style={{ width: `${pct}%` }} />
-        </div>
-        <div className="scene-label" id="scene_name">
-          {sceneName}
-        </div>
-      </div>
-
-      <button
-        id="theme_toggle"
-        aria-label="Toggle light/dark mode"
-        type="button"
-        onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
-      >
-        <svg className="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-        </svg>
-        <svg className="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-        </svg>
-      </button>
-
-      <div id="scene_strip" aria-hidden={!inView}>
-        {serviceScenes.map((s, idx) => (
-          <a key={s.id} href={`#${s.id}`} className={`scene-dot${idx === active ? ' active' : ''}`}>
-            <span className="srOnly">{s.title}</span>
-          </a>
-        ))}
-      </div>
-
-      <div id="face_caption" aria-hidden={!inView}>
-        <div id="face_caption_num">{paddedNum}</div>
-        <div id="face_caption_name">{sceneName}</div>
-      </div>
-
-      <div
-        id="scroll_container"
-        ref={(node) => {
-          containerRef.current = node
-        }}
-      >
-        {serviceScenes.map((s, idx) => (
-          <section key={s.id} id={s.id}>
-            <div className={`text-card${idx === 0 ? ' center' : idx % 2 === 1 ? ' right' : ''}`}>
-              <div className="h-line" />
-              <div className="tag">{s.tag}</div>
-              {idx === 0 ? <h1>{s.title}</h1> : <h2>{s.title}</h2>}
-              <p className="body-text">{s.body}</p>
-              <div className="cta-row">
-                {idx > 0 ? (
-                  <a className="cta-back" href={`#${serviceScenes[idx - 1]?.id ?? 's0'}`}>
-                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M11 6H1M6 11L1 6l5-5" />
-                    </svg>
-                    Back
-                  </a>
-                ) : (
-                  <span />
-                )}
-                <a className="cta" href={`#${serviceScenes[(idx + 1) % serviceScenes.length]!.id}`}>
-                  {idx === serviceScenes.length - 1 ? 'Begin again' : 'Turn'}
-                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M1 6h10M6 1l5 5-5 5" />
-                  </svg>
-                </a>
-              </div>
+        <div className="servicesBody">
+          <aside className="servicesRail">
+            <div className="servicesRailLabel">Cómo pensamos</div>
+            <div className="servicesRailList">
+              {servicePrinciples.map((principle) => (
+                <article key={principle.label} className="servicesRailItem">
+                  <h3>{principle.label}</h3>
+                  <p>{principle.description}</p>
+                </article>
+              ))}
             </div>
-          </section>
-        ))}
-      </div>
+            <a className="servicesPrimaryLink" href="#proyectos">
+              Ver proyectos seleccionados
+            </a>
+          </aside>
 
-      <div id="credit" aria-hidden={!inView}>
-        <a
-          href="https://www.linkedin.com/posts/luis-martinez-lr_ai-creativity-reversecreativity-activity-7366853269517651970-zeUD"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        </a>
+          <div className="servicesGrid">
+            {serviceOfferings.map((service, index) => (
+              <article key={service.id} className="serviceCard" data-variant={String(index + 1)}>
+                <div className="serviceCardTop">
+                  <span className="serviceCardIndex">{service.index}</span>
+                  <span className="serviceCardEyebrow">{service.eyebrow}</span>
+                </div>
+                <h3 className="serviceCardTitle">{service.title}</h3>
+                <p className="serviceCardSummary">{service.summary}</p>
+                <p className="serviceCardDetail">{service.detail}</p>
+                <div className="serviceCardFooter">
+                  <div className="serviceCardDeliverable">
+                    <span>Entregable</span>
+                    <strong>{service.deliverable}</strong>
+                  </div>
+                  <div className="serviceCardTags">
+                    {service.bullets.map((bullet) => (
+                      <span key={bullet} className="serviceCardTag">
+                        {bullet}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="servicesSequence">
+          <div className="servicesSequenceLabel">Secuencia de entrega</div>
+          <div className="servicesSequenceGrid">
+            {serviceSequence.map((step, index) => (
+              <div key={step} className="servicesSequenceItem">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{step}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="servicesClosure">
+          <p>
+            Si el sistema necesita verse mejor, ordenar mejor la operación y vender mejor al mismo tiempo, ahí es donde entramos.
+          </p>
+          <a className="servicesClosureLink" href="#contacto">
+            Hablemos del próximo sistema
+          </a>
+        </div>
       </div>
     </section>
   )
@@ -600,48 +390,9 @@ type WorkItem = {
   tags: string[]
   featured?: boolean
   tone: 'red' | 'teal' | 'mix'
-}
-
-function makeWorkPreviewDataUri(tone: WorkItem['tone']) {
-  const a = tone === 'red' ? '#FF2A2A' : tone === 'teal' ? '#00D2D3' : '#00D2D3'
-  const b = tone === 'mix' ? '#FF2A2A' : '#102A43'
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0B1C2C"/>
-      <stop offset="1" stop-color="#102A43"/>
-    </linearGradient>
-    <radialGradient id="glowA" cx="30%" cy="25%" r="65%">
-      <stop offset="0" stop-color="${a}" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="${a}" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="glowB" cx="75%" cy="70%" r="70%">
-      <stop offset="0" stop-color="${b}" stop-opacity="0.38"/>
-      <stop offset="1" stop-color="${b}" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
-      <path d="M48 0H0V48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    </pattern>
-    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8"/>
-    </filter>
-  </defs>
-  <rect width="1200" height="750" fill="url(#bg)"/>
-  <rect width="1200" height="750" fill="url(#grid)" opacity="0.9"/>
-  <circle cx="360" cy="220" r="420" fill="url(#glowA)" filter="url(#soft)"/>
-  <circle cx="860" cy="560" r="520" fill="url(#glowB)" filter="url(#soft)"/>
-  <path d="M0 540 C 240 470 420 650 640 540 C 860 430 980 540 1200 460 L1200 750 L0 750 Z" fill="rgba(0,0,0,0.20)"/>
-  <rect x="70" y="120" width="520" height="320" rx="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.10)"/>
-  <rect x="92" y="150" width="200" height="18" rx="9" fill="rgba(255,255,255,0.10)"/>
-  <rect x="92" y="188" width="440" height="14" rx="7" fill="rgba(255,255,255,0.08)"/>
-  <rect x="92" y="214" width="380" height="14" rx="7" fill="rgba(255,255,255,0.08)"/>
-  <rect x="92" y="256" width="160" height="38" rx="19" fill="rgba(0,0,0,0.22)" stroke="rgba(255,255,255,0.12)"/>
-  <rect x="268" y="256" width="180" height="38" rx="19" fill="rgba(0,0,0,0.14)" stroke="rgba(255,255,255,0.10)"/>
-  <rect x="640" y="160" width="490" height="420" rx="22" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-  <circle cx="1086" cy="196" r="10" fill="${a}" opacity="0.9"/>
-</svg>`
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+  sector: string
+  status: string
+  impact: string
 }
 
 const workItems: WorkItem[] = [
@@ -653,6 +404,9 @@ const workItems: WorkItem[] = [
     tags: ['Beta', '+200 usuarios activos', 'SAAS'],
     featured: true,
     tone: 'teal',
+    sector: 'Tecnologia RRHH',
+    status: 'Beta privada',
+    impact: 'Operación diaria con trazabilidad y control de asistencia.',
   },
   {
     title: 'VetERP-Enterprise Resource Planning',
@@ -662,6 +416,9 @@ const workItems: WorkItem[] = [
     tags: ['ERP', 'Veterinaria', 'Operaciones'],
     featured: true,
     tone: 'teal',
+    sector: 'Salud operativa',
+    status: 'Suite operativa',
+    impact: 'Centraliza agenda, pacientes e inventario en un mismo flujo.',
   },
   {
     title: 'Localisa',
@@ -671,6 +428,9 @@ const workItems: WorkItem[] = [
     description: 'Mapa interactivo para localización de plazas de Serumistas del todo el Perú',
     tags: ['+700mil visitas', 'Respaldado por CMP', '+15mil usuarios activos'],
     tone: 'red',
+    sector: 'Plataforma civica',
+    status: 'Producción',
+    impact: 'Acceso público a información territorial a gran escala.',
   },
   {
     title: 'PeruLog Pallets',
@@ -681,10 +441,13 @@ const workItems: WorkItem[] = [
     tags: ['UI/UX Design', 'B2B Strategy', 'Web Development'],
     featured: true,
     tone: 'mix',
+    sector: 'Crecimiento B2B',
+    status: 'Lanzamiento comercial',
+    impact: 'Landing comercial enfocada en captación y posicionamiento.',
   },
 ]
 
-function WorkCard({ item }: { item: WorkItem }) {
+function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const tone =
     item.tone === 'red'
       ? { ['--g1' as never]: 'rgba(255,42,42,0.95)', ['--g2' as never]: 'rgba(16,42,67,0.2)' }
@@ -716,6 +479,7 @@ function WorkCard({ item }: { item: WorkItem }) {
   item.tags.forEach((t) => {
     accentByTag.set(t, pickAccent(t))
   })
+  const cardLabel = `${String(index + 1).padStart(2, '0')} / ${item.sector}`
 
   const cardContent = (
     <>
@@ -723,8 +487,9 @@ function WorkCard({ item }: { item: WorkItem }) {
         <img src={item.imageSrc} alt={item.title} loading="lazy" />
 
         <div className="workMediaOverlay">
+          <div className="workMediaEyebrow">{cardLabel}</div>
           <div className="workMediaTitle">{item.title}</div>
-          <div className="workMediaSub">{item.url ? 'Ver sitio' : 'Proyecto'}</div>
+          <div className="workMediaSub">{item.status}</div>
         </div>
 
         <div className="workTop">
@@ -736,8 +501,10 @@ function WorkCard({ item }: { item: WorkItem }) {
       </div>
 
       <div className="workBody">
+        <div className="workIndex">{cardLabel}</div>
         <h3 className="workTitle">{item.title}</h3>
         <p className="workDesc">{item.description}</p>
+        <p className="workImpact">{item.impact}</p>
         <div className="workTags">
           {item.tags.map((t) => (
             <span key={t} className="workTag" style={{ ['--tag-accent' as never]: accentByTag.get(t) }}>
@@ -753,296 +520,23 @@ function WorkCard({ item }: { item: WorkItem }) {
 
   if (item.url) {
     return (
-      <a className={className} style={tone} href={item.url} target="_blank" rel="noopener noreferrer">
+      <a
+        className={className}
+        style={tone}
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-index={String(index + 1).padStart(2, '0')}
+      >
         {cardContent}
       </a>
     )
   }
 
   return (
-    <article className={className} style={tone}>
+    <article className={className} style={tone} data-index={String(index + 1).padStart(2, '0')}>
       {cardContent}
     </article>
-  )
-}
-
-type TechItem = {
-  id: string
-  label: string
-  accentRgb: string
-  icon: ReactNode
-}
-
-const techItems: TechItem[] = [
-  {
-    id: 'ts',
-    label: 'TypeScript',
-    accentRgb: '0, 210, 211',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="6" fill="rgba(245,245,245,0.06)" />
-        <rect
-          x="3.5"
-          y="3.5"
-          width="17"
-          height="17"
-          rx="6"
-          fill="none"
-          stroke="rgba(245,245,245,0.16)"
-          strokeWidth="1"
-        />
-        <text x="12" y="15.2" textAnchor="middle" fontSize="9" fontWeight="900" fill="rgba(245,245,245,0.92)">
-          TS
-        </text>
-      </svg>
-    ),
-  },
-  {
-    id: 'react',
-    label: 'React',
-    accentRgb: '0, 210, 211',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <circle cx="12" cy="12" r="1.55" fill="currentColor" />
-        <ellipse cx="12" cy="12" rx="8" ry="3.1" stroke="currentColor" strokeWidth="1.55" />
-        <ellipse
-          cx="12"
-          cy="12"
-          rx="8"
-          ry="3.1"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          transform="rotate(60 12 12)"
-        />
-        <ellipse
-          cx="12"
-          cy="12"
-          rx="8"
-          ry="3.1"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          transform="rotate(120 12 12)"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: 'node',
-    label: 'Node.js',
-    accentRgb: '0, 210, 211',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <path
-          d="M12 3.6 19.6 8v8L12 20.4 4.4 16V8L12 3.6Z"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10.2 15.9V9.2h2.4c1.65 0 2.7.9 2.7 2.35 0 1.43-1.05 2.33-2.7 2.33h-.95v2.02"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: 'html',
-    label: 'HTML5',
-    accentRgb: '255, 42, 42',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <path
-          d="M5.5 3.8h13l-1.1 14.8L12 20.2l-5.4-1.6L5.5 3.8Z"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinejoin="round"
-        />
-        <path d="M9.2 9h5.6M9.6 12h4.8M10 15h4" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    id: 'css',
-    label: 'CSS3',
-    accentRgb: '255, 42, 42',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <path
-          d="M5.5 3.8h13l-1.1 14.8L12 20.2l-5.4-1.6L5.5 3.8Z"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M14.7 9.6c-.8-.7-1.8-1-3-.8-1.1.2-1.8 1-1.8 1.9 0 1 .9 1.6 2.2 1.8 1.3.2 2.2.7 2.2 1.8 0 .9-.7 1.7-1.8 1.9-1.2.2-2.2-.1-3-.8"
-          stroke="currentColor"
-          strokeWidth="1.45"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: 'js',
-    label: 'JavaScript',
-    accentRgb: '255, 42, 42',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="6" fill="rgba(245,245,245,0.06)" />
-        <rect
-          x="3.5"
-          y="3.5"
-          width="17"
-          height="17"
-          rx="6"
-          fill="none"
-          stroke="rgba(245,245,245,0.16)"
-          strokeWidth="1"
-        />
-        <text x="12" y="15.2" textAnchor="middle" fontSize="9" fontWeight="900" fill="rgba(245,245,245,0.92)">
-          JS
-        </text>
-      </svg>
-    ),
-  },
-  {
-    id: 'python',
-    label: 'Python',
-    accentRgb: '245, 245, 245',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="6" fill="rgba(245,245,245,0.06)" />
-        <rect
-          x="3.5"
-          y="3.5"
-          width="17"
-          height="17"
-          rx="6"
-          fill="none"
-          stroke="rgba(245,245,245,0.16)"
-          strokeWidth="1"
-        />
-        <text x="12" y="15.2" textAnchor="middle" fontSize="9" fontWeight="900" fill="rgba(245,245,245,0.92)">
-          PY
-        </text>
-      </svg>
-    ),
-  },
-  {
-    id: 'sql',
-    label: 'PostgreSQL',
-    accentRgb: '245, 245, 245',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <ellipse cx="12" cy="7.8" rx="6.5" ry="3" fill="currentColor" opacity="0.9" />
-        <path
-          d="M5.5 7.8v8.1c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3V7.8"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5.5 11.85c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: 'sqlserver',
-    label: 'SQL Server',
-    accentRgb: '245, 245, 245',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="6" fill="rgba(245,245,245,0.06)" />
-        <rect
-          x="3.5"
-          y="3.5"
-          width="17"
-          height="17"
-          rx="6"
-          fill="none"
-          stroke="rgba(245,245,245,0.16)"
-          strokeWidth="1"
-        />
-        <text x="12" y="15.2" textAnchor="middle" fontSize="8.6" fontWeight="900" fill="rgba(245,245,245,0.92)">
-          SQL
-        </text>
-      </svg>
-    ),
-  },
-  {
-    id: 'azure',
-    label: 'Azure',
-    accentRgb: '0, 210, 211',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none">
-        <path
-          d="M6.2 18.4 10.5 4.8h4.3l3 13.6h-3.3l-.55-2.7H10l-.55 2.7H6.2Z"
-          stroke="currentColor"
-          strokeWidth="1.55"
-          strokeLinejoin="round"
-        />
-        <path d="M10.8 12.6h2.4" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    id: 'n8n',
-    label: 'n8n',
-    accentRgb: '255, 42, 42',
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="6" fill="rgba(245,245,245,0.06)" />
-        <rect
-          x="3.5"
-          y="3.5"
-          width="17"
-          height="17"
-          rx="6"
-          fill="none"
-          stroke="rgba(245,245,245,0.16)"
-          strokeWidth="1"
-        />
-        <text x="12" y="15.2" textAnchor="middle" fontSize="8.6" fontWeight="900" fill="rgba(245,245,245,0.92)">
-          n8n
-        </text>
-      </svg>
-    ),
-  },
-]
-
-function ExperienceSection() {
-  return (
-    <section id="experiencia" className="experience">
-      <div className="experienceInner">
-        <header className="experienceHead">
-          <h2 className="experienceTitle">Nuestra Experiencia</h2>
-        </header>
-
-        <div className="expGrid" role="list">
-          {techItems.map((t) => (
-            <div
-              key={t.id}
-              className="expChip"
-              role="listitem"
-              style={{ ['--tech-accent' as never]: t.accentRgb }}
-            >
-              <span className="expIcon" aria-hidden="true">
-                {t.icon}
-              </span>
-              <span className="expLabel">{t.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -1051,22 +545,95 @@ function PortfolioSection() {
     <section id="proyectos" className="portfolio">
       <div className="portfolioInner">
         <header className="portfolioHead">
-          <div className="portfolioKicker">Proyectos</div>
-          <h2 className="portfolioTitle">Nuestros Proyectos</h2>
-          <p className="portfolioSub"></p>
+          <div className="portfolioIntro">
+            <div className="portfolioKicker">Sistemas seleccionados</div>
+            <h2 className="portfolioTitle">Casos donde la forma, el flujo y la operación responden a una misma idea.</h2>
+            <p className="portfolioSub">
+              Estas piezas no se construyen como galerías bonitas. Cada una resuelve una necesidad concreta de negocio, experiencia u operación.
+            </p>
+          </div>
+          <div className="portfolioLedger">
+            <div className="portfolioLedgerItem">
+              <span className="portfolioLedgerLabel">Casos</span>
+              <strong>04</strong>
+            </div>
+            <div className="portfolioLedgerItem">
+              <span className="portfolioLedgerLabel">Enfoque</span>
+              <strong>SaaS / ERP / Crecimiento</strong>
+            </div>
+            <div className="portfolioLedgerItem">
+              <span className="portfolioLedgerLabel">Firma</span>
+              <strong>Sistemas con presencia</strong>
+            </div>
+          </div>
         </header>
 
         <div className="portfolioSplit">
           <aside className="portfolioRobot" aria-hidden="true">
+            <div className="portfolioNote">
+              <span className="portfolioNoteLine" />
+              <p>
+                Cada proyecto entra al portafolio cuando la interfaz, la lógica y la narrativa comercial sostienen una misma idea.
+              </p>
+            </div>
             <img className="portfolioRobotImg" src={astroImg} alt="" loading="lazy" />
           </aside>
 
           <div className="portfolioProjects">
             <div className="workGrid">
-              {workItems.map((item) => (
-                <WorkCard key={item.title} item={item} />
+              {workItems.map((item, index) => (
+                <WorkCard key={item.title} item={item} index={index} />
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className="portfolioCta">
+          <div className="portfolioCtaCopy">
+            <span className="portfolioCtaLabel">Siguiente movimiento</span>
+            <p>Si ya viste la dirección visual y el tipo de sistemas que construimos, el siguiente paso es aterrizar tu caso.</p>
+          </div>
+          <a className="btn btnPrimary" href="#contacto">
+            Solicitar una conversación
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ContactSection() {
+  return (
+    <section id="contacto" className="contact">
+      <div className="contactInner">
+        <div className="contactIntro">
+          <div className="contactKicker">Contacto / Orbital Frameworks</div>
+          <h2 className="contactTitle">Hagamos que tu producto se vea más claro, opere mejor y se sienta imposible de ignorar.</h2>
+          <p className="contactLead">
+            Si estás construyendo una plataforma, un ERP, un dashboard o una experiencia comercial con más peso visual y más orden operativo,
+            podemos diseñarlo contigo.
+          </p>
+        </div>
+
+        <div className="contactPanel">
+          <div className="contactBlock">
+            <span>Qué podemos conversar</span>
+            <strong>Landing pages, SaaS, ERP, dashboards, automatización y rediseños completos.</strong>
+          </div>
+          <div className="contactBlock">
+            <span>Canales</span>
+            <a href="mailto:contact@orbitalframeworks@gmail.com">contact@orbitalframeworks@gmail.com</a>
+            <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">
+              LinkedIn de Orbital Frameworks
+            </a>
+          </div>
+          <div className="contactActions">
+            <a className="btn btnPrimary" href="mailto:hello@orbitalframeworks.com?subject=Nuevo%20proyecto%20-%20Orbital%20Frameworks">
+              Escribir correo
+            </a>
+            <a className="btn btnGhost" href="#inicio">
+              Volver arriba
+            </a>
           </div>
         </div>
       </div>
@@ -1188,14 +755,76 @@ function Hero() {
       style={{ ['--mx' as never]: '0', ['--my' as never]: '0' }}
     >
       <div className="heroGlow" aria-hidden="true" />
+      <div className="heroGridLines" aria-hidden="true" />
 
       <div className="heroInner">
         <div className="heroCopy">
+          <div className="heroKicker">
+            <span>Orbital Frameworks</span>
+            <span>Editorial Tech Studio</span>
+          </div>
           <h1 className="heroTitle">
-            ORBITAL FRAMEWORKS<span className="heroCursor" aria-hidden="true">._</span>
+            <span>SISTEMAS</span>
+            <span>DIGITALES</span>
+            <span>CON</span>
+            <span>PRESENCIA</span>
+            <span className="heroCursor" aria-hidden="true">._</span>
           </h1>
-          <p className="heroSubtitle">WEB DESIGN &amp; SOFTWARE SOLUTIONS</p>
+          <p className="heroLead">
+            Diseñamos software, herramientas internas y experiencias web con dirección visual fuerte, lectura editorial clara y una lógica operativa impecable.
+          </p>
+          <p className="heroSubtitle">Interfaces editoriales. Arquitectura clara. Sistemas que se sienten premium incluso cuando la operación se vuelve compleja.</p>
+          <div className="heroActions">
+            <a className="btn btnGhost" href="#servicios">
+              Explorar nuestro stack
+            </a>
+            <a className="btn btnPrimary" href="#proyectos">
+              Ver casos seleccionados
+            </a>
+          </div>
+          <div className="heroMetrics" role="list" aria-label="Indicadores clave">
+            <div className="heroMetric" role="listitem">
+              <strong>01</strong>
+              <span>Dirección visual con criterio editorial</span>
+            </div>
+            <div className="heroMetric" role="listitem">
+              <strong>02</strong>
+              <span>Producto, interfaz y arquitectura dentro de un mismo sistema</span>
+            </div>
+            <div className="heroMetric" role="listitem">
+              <strong>03</strong>
+              <span>Automatización, dashboards y plataformas internas</span>
+            </div>
+          </div>
+          <div className="heroFlow">
+            <span>Inicio</span>
+            <span>Servicios</span>
+            <span>Casos</span>
+            <span>Cierre</span>
+          </div>
         </div>
+
+        <aside className="heroPanel">
+          <div className="heroPanelLabel">Manifiesto / Orbital</div>
+          <p className="heroPanelText">
+            La mayoría de estudios entrega pantallas bonitas o software funcional. Nosotros buscamos ambas cosas al mismo tiempo: presencia,
+            claridad y control operacional.
+          </p>
+          <div className="heroPanelList">
+            <div>
+              <span>SECTORES</span>
+              <strong>RRHH / Salud / B2B / Civico</strong>
+            </div>
+            <div>
+              <span>FORMATO</span>
+              <strong>Landing pages, SaaS, ERP, portales y automatización</strong>
+            </div>
+            <div>
+              <span>ESTILO</span>
+              <strong>Tech editorial fuerte, preciso y nada genérico</strong>
+            </div>
+          </div>
+        </aside>
 
         <div className="heroShapes" aria-hidden="true">
           <div
@@ -1222,7 +851,6 @@ function App() {
     () => [
       { id: 'inicio', label: 'Inicio' },
       { id: 'servicios', label: 'Servicios' },
-      { id: 'experiencia', label: 'Experiencia' },
       { id: 'proyectos', label: 'Proyectos' },
       { id: 'contacto', label: 'Contacto' },
     ],
@@ -1234,8 +862,8 @@ function App() {
       <NavBar items={items} />
       <Hero />
       <ServicesSection />
-      <ExperienceSection />
       <PortfolioSection />
+      <ContactSection />
     </>
   )
 }
