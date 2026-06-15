@@ -3,6 +3,8 @@ import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import astroImg from './assets/Astro showing.png'
 import perulogImg from './assets/PerulogPallets.png'
 import lisaImg from './assets/Lisa.png'
+import checkioImg from './assets/checkio.png'
+import veterpSisImg from './assets/veterp_sis.png'
 import './App.css'
 
 type NavItem = {
@@ -644,20 +646,21 @@ function makeWorkPreviewDataUri(tone: WorkItem['tone']) {
 
 const workItems: WorkItem[] = [
   {
-    title: 'Landing de conversión',
-    kind: 'Web',
-    imageSrc: makeWorkPreviewDataUri('mix'),
-    description: 'Diseño + desarrollo con performance y animaciones suaves.',
-    tags: ['UI', 'SEO', 'Performance'],
+    title: 'Checkio - Sistema de gestion de personal',
+    kind: 'App',
+    imageSrc: checkioImg,
+    description: 'Plataforma de RRHH para gestionar personal, asistencia, ausencias integrada con geolocalizacón en marcaciones.',
+    tags: ['Beta', '+200 usuarios activos', 'SAAS'],
     featured: true,
-    tone: 'mix',
+    tone: 'teal',
   },
   {
-    title: 'Dashboard SaaS',
+    title: 'VetERP-Enterprise Resource Planning',
     kind: 'App',
-    imageSrc: makeWorkPreviewDataUri('teal'),
-    description: 'Sistema de componentes, tablas y estados complejos.',
-    tags: ['React', 'UX', 'Data'],
+    imageSrc: veterpSisImg,
+    description: 'Sistema ERP para gestion operativa de clinicas veterinarias, agenda, inventario y seguimiento de pacientes.',
+    tags: ['ERP', 'Veterinaria', 'Operaciones'],
+    featured: true,
     tone: 'teal',
   },
   {
