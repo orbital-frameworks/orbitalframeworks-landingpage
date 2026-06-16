@@ -5,9 +5,20 @@
   right: 0;
   z-index: 50;
   font-family: var(--font-mono);
-  background: transparent;
-  border-bottom: none;
-  backdrop-filter: none;
+  isolation: isolate;
+}
+
+.navShell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(7, 17, 27, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(245, 245, 245, 0.06);
+  opacity: 0;
+  transition: opacity 500ms ease;
 }
 
 .nav {
@@ -620,9 +631,15 @@
   .portfolioProjects {
     grid-column: auto;
   }
+  
+  .portfolioRobot {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 12px;
+  }
 
   .portfolioRobotImg {
-    width: min(320px, 84vw);
+    width: 140px;
   }
 
   .portfolioProjects .workCard,
@@ -833,7 +850,7 @@
 }
 
 .pyramid {
-  --p: 160px;
+  --p: 210px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -848,6 +865,7 @@
     scale(0.98);
   filter: blur(0.85px) saturate(1.06);
   opacity: 0.98;
+  animation: orbitalSpin 18s linear infinite;
 }
 
 .pyramid .shape {
@@ -856,15 +874,15 @@
 }
 
 .pyramid .p1 {
-  transform: translate3d(calc(var(--p) * -0.55), calc(var(--p) * 0.38), 0);
+  transform: translate3d(calc(var(--p) * -0.62), calc(var(--p) * 0.42), 0);
 }
 
 .pyramid .p2 {
-  transform: translate3d(calc(var(--p) * 0.55), calc(var(--p) * 0.38), 0);
+  transform: translate3d(calc(var(--p) * 0.62), calc(var(--p) * 0.42), 0);
 }
 
 .pyramid .p3 {
-  transform: translate3d(0, calc(var(--p) * -0.42), calc(var(--p) * 0.55));
+  transform: translate3d(0, calc(var(--p) * -0.48), calc(var(--p) * 0.6));
 }
 
 .pyramid .p3 {
@@ -884,9 +902,9 @@
 
 .s1 .cube {
   transform:
-    translate3d(calc(var(--mx) * 18px), calc(var(--my) * 12px), 0)
-    rotateX(calc(58deg + var(--my) * -10deg))
-    rotateY(calc(-28deg + var(--mx) * 10deg))
+    translate3d(calc(var(--mx) * 36px), calc(var(--my) * 24px), 0)
+    rotateX(calc(58deg + var(--my) * -14deg))
+    rotateY(calc(-28deg + var(--mx) * 18deg))
     rotateZ(-10deg);
 }
 
@@ -898,9 +916,9 @@
 
 .s2 .cube {
   transform:
-    translate3d(calc(var(--mx) * -16px), calc(var(--my) * -14px), 0)
-    rotateX(calc(44deg + var(--my) * -8deg))
-    rotateY(calc(34deg + var(--mx) * 12deg))
+    translate3d(calc(var(--mx) * -32px), calc(var(--my) * -28px), 0)
+    rotateX(calc(44deg + var(--my) * -12deg))
+    rotateY(calc(34deg + var(--mx) * 20deg))
     rotateZ(18deg);
 }
 
@@ -912,9 +930,9 @@
 
 .s3 .cube {
   transform:
-    translate3d(calc(var(--mx) * 14px), calc(var(--my) * -10px), 0)
-    rotateX(calc(52deg + var(--my) * -10deg))
-    rotateY(calc(-18deg + var(--mx) * 14deg))
+    translate3d(calc(var(--mx) * 28px), calc(var(--my) * -20px), 0)
+    rotateX(calc(52deg + var(--my) * -14deg))
+    rotateY(calc(-18deg + var(--mx) * 24deg))
     rotateZ(8deg);
 }
 
@@ -930,7 +948,7 @@
     transform: translate3d(0, 0, 60px);
   }
   50% {
-    transform: translate3d(0, -14px, 90px);
+    transform: translate3d(0, -32px, 110px);
   }
 }
 
@@ -940,7 +958,7 @@
     transform: translate3d(0, 0, 30px);
   }
   50% {
-    transform: translate3d(0, 16px, 70px);
+    transform: translate3d(0, 36px, 90px);
   }
 }
 
@@ -950,7 +968,7 @@
     transform: translate3d(0, 0, 40px);
   }
   50% {
-    transform: translate3d(0, -18px, 76px);
+    transform: translate3d(0, -38px, 100px);
   }
 }
 
@@ -960,7 +978,26 @@
     transform: translate3d(0, 0, 50px);
   }
   50% {
-    transform: translate3d(0, -22px, 92px);
+    transform: translate3d(0, -44px, 115px);
+  }
+}
+
+@keyframes orbitalSpin {
+  from {
+    transform:
+      translate3d(var(--bx, 0px), var(--by, 0px), -120px)
+      translate(-50%, -50%)
+      rotateX(-10deg)
+      rotateY(0deg)
+      scale(0.98);
+  }
+  to {
+    transform:
+      translate3d(var(--bx, 0px), var(--by, 0px), -120px)
+      translate(-50%, -50%)
+      rotateX(-10deg)
+      rotateY(360deg)
+      scale(0.98);
   }
 }
 
@@ -1287,8 +1324,8 @@
 }
 
 .pyramid {
-  left: 66%;
-  top: 48%;
+  left: 72%;
+  top: 32%;
   transform:
     translate3d(var(--bx, 0px), var(--by, 0px), -120px)
     translate(-50%, -50%)
@@ -2116,14 +2153,8 @@
 
 /* Second pass refinements */
 
-.navShell {
-  transition: background-color 180ms ease, backdrop-filter 180ms ease, border-color 180ms ease;
-}
-
-.navShell.isScrolled {
-  background: rgba(7, 17, 27, 0.66);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(245, 245, 245, 0.06);
+.navShell.isScrolled::before {
+  opacity: 1;
 }
 
 .navLink {

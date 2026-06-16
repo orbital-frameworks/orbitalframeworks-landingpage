@@ -76,15 +76,7 @@ function NavBar({ items }: { items: NavItem[] }) {
   useEffect(() => {
     let raf = 0
     const update = () => {
-      const hero = document.getElementById('inicio')
-      if (!hero) {
-        setScrolled(window.scrollY > 10)
-        return
-      }
-      const r = hero.getBoundingClientRect()
-      const nav = document.querySelector<HTMLElement>('.nav')
-      const navH = nav ? nav.getBoundingClientRect().height : 72
-      setScrolled(r.bottom <= navH + 10)
+      setScrolled(window.scrollY > 20)
     }
 
     const onScroll = () => {
@@ -834,9 +826,9 @@ function Hero() {
             }}
             style={{ ['--bx' as never]: '0px', ['--by' as never]: '0px' }}
           >
-            <Cube className="p1" size={160} a="var(--orbital-red)" b="var(--orbital-red)" />
-            <Cube className="p2" size={160} a="var(--orbital-red)" b="var(--orbital-red)" />
-            <Cube className="p3" size={160} a="var(--orbital-red)" b="var(--orbital-red)" />
+            <Cube className="p1" size={210} a="var(--orbital-red)" b="var(--orbital-red)" />
+            <Cube className="p2" size={210} a="var(--orbital-red)" b="var(--orbital-red)" />
+            <Cube className="p3" size={210} a="var(--orbital-red)" b="var(--orbital-red)" />
           </div>
         </div>
       </div>
