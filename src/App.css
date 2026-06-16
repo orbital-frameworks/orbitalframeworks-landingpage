@@ -1090,6 +1090,7 @@
     top: 50%;
     width: calc(var(--p) * 2.1);
     height: calc(var(--p) * 2.1);
+    animation: none;
   }
 
   .s1 {
