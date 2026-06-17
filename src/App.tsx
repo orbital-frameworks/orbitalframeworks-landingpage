@@ -415,7 +415,7 @@ const workItems: WorkItem[] = [
   {
     title: 'Localisa',
     kind: 'Web',
-    url: 'https://www.localisa.pe/',
+    url: '',
     imageSrc: lisaImg,
     description: 'Mapa interactivo para localización de plazas de Serumistas del todo el Perú',
     tags: ['+700mil visitas', 'Respaldado por CMP', '+15mil usuarios activos'],
