@@ -1,0 +1,32 @@
+# Orbital Frameworks
+
+Orbital Frameworks es una empresa de desarrollo de software y soluciones digitales con base en Perú. Desarrolla landing pages, sistemas web, apps móviles, automatizaciones y soluciones internas para empresas que buscan mejorar su presencia digital, ordenar procesos y operar con mayor claridad.
+
+## Servicios principales
+
+* Desarrollo de software a medida.
+* Landing pages comerciales para productos, servicios y demos.
+* Sistemas web para gestión operativa y administrativa.
+* Apps móviles para operaciones, marketplaces, gestión interna y servicios digitales.
+* Automatizaciones y bots para reducir tareas repetitivas.
+* Soluciones internas para ordenar equipos, procesos e información.
+
+## Casos y proyectos
+
+* Checkio: sistema orientado a gestión de personal, asistencia y operación de equipos.
+* VetERP: sistema ERP para gestión operativa veterinaria, actualmente en demo/pruebas.
+* Localisa: solución digital de mapas e información para consulta y localización.
+* PeruLog Pallets: proyecto B2B orientado a presencia digital y procesos comerciales/operativos.
+
+## Enfoque de trabajo
+
+* Claridad comercial antes que decoración visual.
+* Diseño con estructura y propósito.
+* Desarrollo orientado a operación real.
+* Soluciones digitales pensadas para vender mejor, ordenar procesos y facilitar la gestión.
+
+## URLs importantes
+
+* Sitio web: https://orbitalframeworks.qzz.io/
+* LinkedIn: https://www.linkedin.com/company/orbitalframeworks/
+* Contacto: contact.orbitalframeworks@gmail.com

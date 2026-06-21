@@ -753,7 +753,7 @@ function Hero() {
         <div className="heroCopy">
           <div className="heroKicker">
             <span>Orbital Frameworks</span>
-            <span>Editorial Tech Studio</span>
+            <span>Desarrollo y Soluciones Digitales</span>
           </div>
           <h1 className="heroTitle">
             <span>SISTEMAS</span>
