@@ -614,13 +614,13 @@ function ContactSection() {
           </div>
           <div className="contactBlock">
             <span>Canales</span>
-            <a href="mailto:contact@orbitalframeworks@gmail.com">contact@orbitalframeworks@gmail.com</a>
+            <a href="mailto:contact.orbitalframeworks@gmail.com">contact.orbitalframeworks@gmail.com</a>
             <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">
               LinkedIn de Orbital Frameworks
             </a>
           </div>
           <div className="contactActions">
-            <a className="btn btnPrimary" href="mailto:hello@orbitalframeworks.com?subject=Nuevo%20proyecto%20-%20Orbital%20Frameworks">
+            <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Nuevo%20proyecto%20-%20Orbital%20Frameworks">
               Escribir correo
             </a>
             <a className="btn btnGhost" href="#inicio">
