@@ -405,7 +405,7 @@ const workItems: WorkItem[] = [
     kind: 'App',
     imageSrc: veterpSisImg,
     description: 'Sistema ERP para gestion operativa de clinicas veterinarias, agenda, inventario y seguimiento de pacientes.',
-    tags: ['ERP', 'Veterinaria', 'Operaciones'],
+    tags: ['ERP', 'Veterinaria', 'EN PRUEBAS'],
     featured: true,
     tone: 'teal',
     sector: 'Salud operativa',
@@ -763,7 +763,7 @@ function Hero() {
             <span className="heroCursor" aria-hidden="true">._</span>
           </h1>
           <p className="heroLead">
-            Diseñamos software, herramientas internas y experiencias web con dirección visual fuerte, lectura editorial clara y una lógica operativa impecable.
+            Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales con dirección visual fuerte y lógica operativa clara.
           </p>
           <p className="heroSubtitle">Interfaces editoriales. Arquitectura clara. Sistemas que se sienten premium incluso cuando la operación se vuelve compleja.</p>
           <div className="heroActions">
@@ -813,7 +813,7 @@ function Hero() {
             </div>
             <div>
               <span>ESTILO</span>
-              <strong>Tech editorial fuerte, preciso y nada genérico</strong>
+              <strong>Diseño fuerte, software claro y operación real</strong>
             </div>
           </div>
         </aside>
