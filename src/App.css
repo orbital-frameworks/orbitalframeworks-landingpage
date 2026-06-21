@@ -5,20 +5,9 @@
   right: 0;
   z-index: 50;
   font-family: var(--font-mono);
-  isolation: isolate;
-}
-
-.navShell::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: rgba(7, 17, 27, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(245, 245, 245, 0.06);
-  opacity: 0;
-  transition: opacity 500ms ease;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 500ms ease, border-bottom-color 500ms ease, backdrop-filter 500ms ease;
 }
 
 .nav {
@@ -2154,8 +2143,11 @@
 
 /* Second pass refinements */
 
-.navShell.isScrolled::before {
-  opacity: 1;
+.navShell.isScrolled {
+  background-color: rgba(7, 17, 27, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(245, 245, 245, 0.06);
 }
 
 .navLink {
