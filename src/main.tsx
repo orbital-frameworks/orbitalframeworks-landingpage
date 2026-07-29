@@ -1,17 +1,37 @@
-import { StrictMode } from 'react'
-import { createRoot, hydrateRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
+import './App.css'
 
-const rootElement = document.getElementById('root')!
-const app = (
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+function enhanceNavigation() {
+  const toggle = document.querySelector<HTMLButtonElement>('.navToggle')
+  const links = document.querySelector<HTMLElement>('.navLinks')
 
-if (rootElement.hasChildNodes()) {
-  hydrateRoot(rootElement, app)
+  if (!toggle || !links) return
+
+  const setOpen = (open: boolean) => {
+    links.classList.toggle('isOpen', open)
+    toggle.setAttribute('aria-expanded', String(open))
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú')
+  }
+
+  toggle.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true')
+  })
+
+  links.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false))
+  })
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 860) setOpen(false)
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false)
+  })
+}
+
+if (import.meta.env.DEV) {
+  void import('./client-dev.tsx')
 } else {
-  createRoot(rootElement).render(app)
+  enhanceNavigation()
 }
