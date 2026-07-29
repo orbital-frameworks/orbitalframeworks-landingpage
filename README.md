@@ -1,44 +1,68 @@
 # Orbital Frameworks Landing Page
 
-Landing page principal de `Orbital Frameworks`, construida con `React`, `TypeScript` y `Vite`.
+Landing pública de Orbital Frameworks, empresa peruana de desarrollo de software y soluciones digitales. Está construida con React, TypeScript y Vite.
 
-## Servicios Presentados
+## Objetivo
 
-- Landing Page
-- Sistemas empresariales de gestion
-- Bots de automatizacion
-- Sistemas y servicios internos para empresas
+La página explica:
+
+- qué problemas resuelve Orbital;
+- qué tipos de soluciones desarrolla;
+- qué proyectos públicos pueden verificarse;
+- cómo funciona una primera conversación;
+- cuáles son los canales oficiales de contacto.
+
+No presenta métricas, clientes, testimonios o resultados que no puedan demostrarse.
 
 ## Scripts
 
-- `npm install`: instala dependencias
-- `npm run dev`: inicia el entorno local
-- `npm run build`: genera la version de produccion
-- `npm run preview`: previsualiza el build generado
-- `npm run lint`: ejecuta ESLint
+- `npm install`: instala dependencias.
+- `npm run dev`: inicia el entorno local.
+- `npm run lint`: ejecuta ESLint.
+- `npm run build`: genera el build de producción, optimiza imágenes, genera variantes de favicon y prerenderiza el HTML.
+- `npm run preview`: sirve localmente el build generado.
 
-## GitHub Pages
+## Build de producción
 
-El proyecto ya queda preparado para publicarse en GitHub Pages con el repositorio:
+El proceso de build ejecuta:
+
+1. validación de TypeScript;
+2. build cliente de Vite;
+3. generación de imágenes WebP responsive mediante ImageMagick;
+4. generación de favicons optimizados;
+5. build SSR temporal;
+6. prerender del contenido React dentro de `dist/index.html`.
+
+ImageMagick debe estar disponible como `magick` o `convert`. El workflow de GitHub Actions lo instala explícitamente en Ubuntu.
+
+## Despliegue
+
+El sitio se publica mediante GitHub Pages desde:
 
 - `https://github.com/orbital-frameworks/orbitalframeworks-landingpage`
 
-Para activarlo:
+El workflow `.github/workflows/deploy-pages.yml` se ejecuta al hacer push a `main` o manualmente mediante `workflow_dispatch`.
 
-1. Entra a `Settings > Pages` del repositorio.
-2. En `Build and deployment`, selecciona `GitHub Actions`.
-3. Haz push a `main`.
-4. GitHub publicará automáticamente la landing.
+Antes de desplegar ejecuta:
 
-La configuracion ya incluye:
+```bash
+npm run lint
+npm run build
+```
 
-- `base` correcta para `orbitalframeworks-landingpage`
-- workflow de despliegue en GitHub Pages
+El dominio público configurado actualmente es:
 
-## Estructura
+- `https://orbitalframeworks.qzz.io/`
 
-- `src/App.tsx`: estructura y contenido principal
-- `src/App.css`: estilos de la landing
-- `src/index.css`: tipografias y variables globales
-- `src/assets/`: imagenes usadas por la landing
-- `.github/workflows/`: despliegue automatico a GitHub Pages
+La publicación del artefacto no garantiza por sí sola que las capas CDN externas hayan invalidado una versión anterior. Después de cada despliegue debe verificarse el contenido, `last-modified`, `age`, sitemap y assets directamente en el dominio público.
+
+## Estructura relevante
+
+- `src/App.tsx`: contenido y estructura principal.
+- `src/App.css`: estilos de la landing.
+- `src/main.tsx`: hidratación del HTML prerenderizado.
+- `src/entry-server.tsx`: entrada SSR usada durante el build.
+- `scripts/optimize-images.mjs`: generación de imágenes responsive y favicons.
+- `scripts/prerender.mjs`: inserción del HTML prerenderizado.
+- `public/`: robots, sitemap, Open Graph y archivos públicos.
+- `.github/workflows/deploy-pages.yml`: validación, build y despliegue a GitHub Pages.
