@@ -33,6 +33,19 @@ check('HTTPS final URL', pageResponse.url.startsWith('https://'), pageResponse.u
 
 const cacheControl = pageResponse.headers.get('cache-control') ?? '(missing)'
 const age = pageResponse.headers.get('age') ?? '(missing)'
+const hsts = pageResponse.headers.get('strict-transport-security') ?? '(missing)'
+const contentTypeOptions = pageResponse.headers.get('x-content-type-options') ?? '(missing)'
+const frameOptions = pageResponse.headers.get('x-frame-options') ?? '(missing)'
+const referrerPolicy = pageResponse.headers.get('referrer-policy') ?? '(missing)'
+const permissionsPolicy = pageResponse.headers.get('permissions-policy') ?? '(missing)'
+
+check('HTML cache requires revalidation', cacheControl.includes('max-age=0') && cacheControl.includes('must-revalidate'), cacheControl)
+check('HSTS enabled', hsts.includes('max-age=31536000'), hsts)
+check('MIME sniffing disabled', contentTypeOptions.toLowerCase() === 'nosniff', contentTypeOptions)
+check('Framing restricted', frameOptions.toUpperCase() === 'SAMEORIGIN', frameOptions)
+check('Referrer policy configured', referrerPolicy === 'strict-origin-when-cross-origin', referrerPolicy)
+check('Sensitive browser capabilities disabled', permissionsPolicy.includes('camera=()') && permissionsPolicy.includes('microphone=()') && permissionsPolicy.includes('geolocation=()'), permissionsPolicy)
+
 console.log(`URL: ${pageResponse.url}`)
 console.log(`Cache-Control: ${cacheControl}`)
 console.log(`Age: ${age}`)
