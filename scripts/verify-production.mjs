@@ -28,6 +28,7 @@ check('VetERP public link', html.includes('https://veterp.qzz.io/'))
 check('Localisa public link', html.includes('https://www.localisa.pe/'))
 check('PeruLog public link', html.includes('https://perulogpallets.com.pe/'))
 check('Responsive portfolio images', html.includes('/portfolio/checkio-640.webp') && html.includes('/portfolio/perulog-pallets-960.webp'))
+check('Institutional about copy', html.includes('combina criterio de producto, diseño y desarrollo') && !html.includes('identidad personal completa'))
 check('Current sitemap date', sitemap.includes('<lastmod>2026-07-29</lastmod>'))
 check('HTTPS final URL', pageResponse.url.startsWith('https://'), pageResponse.url)
 

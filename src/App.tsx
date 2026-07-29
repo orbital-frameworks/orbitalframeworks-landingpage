@@ -248,11 +248,11 @@ function AboutSection() {
       <div className="aboutInner">
         <div>
           <div className="servicesKicker">Quiénes somos</div>
-          <h2>Una empresa peruana en etapa de construcción, con trabajo real para revisar.</h2>
+          <h2>Una empresa peruana que combina criterio de producto, diseño y desarrollo.</h2>
         </div>
         <div className="aboutCopy">
-          <p>Orbital Frameworks desarrolla y gestiona productos de software, herramientas internas y superficies digitales. No se presenta como una gran agencia ni utiliza testimonios, cifras o logos para aparentar una trayectoria que todavía no puede demostrar.</p>
-          <p>La identidad personal completa, responsabilidades y perfiles profesionales del equipo deben incorporarse cuando estén confirmados y autorizados para publicación. Hasta entonces, el canal verificable es la página de empresa en LinkedIn.</p>
+          <p>Orbital Frameworks desarrolla productos de software, herramientas internas y experiencias digitales para empresas que necesitan resolver una situación concreta, mejorar un proceso o poner en marcha una idea.</p>
+          <p>El trabajo se gestiona de forma directa: se entiende el contexto, se acota el alcance y se revisa evidencia funcional antes de ampliar una solución. Los proyectos publicados en esta página permiten comprobar distintos tipos de trabajo sin depender de testimonios o resultados no verificables.</p>
           <a className="textLink" href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">Ver Orbital Frameworks en LinkedIn ↗</a>
         </div>
       </div>
