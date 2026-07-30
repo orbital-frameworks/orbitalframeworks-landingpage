@@ -20,6 +20,9 @@ function check(label, condition, detail = '') {
 
 const { response: pageResponse, text: html } = await fetchText('/')
 const { text: sitemap } = await fetchText('/sitemap.xml')
+const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
+const structuredData = structuredDataMatch ? JSON.parse(structuredDataMatch[1]) : null
+const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
 
 check('Expected production title', html.includes('<title>Desarrollo de software en Perú | Orbital Frameworks</title>'))
 check('Prerendered heading', html.includes('Construimos y mejoramos herramientas digitales para problemas concretos.'))
@@ -29,6 +32,8 @@ check('Localisa public link', html.includes('https://www.localisa.pe/'))
 check('PeruLog public link', html.includes('https://perulogpallets.com.pe/'))
 check('Responsive portfolio images', html.includes('/portfolio/checkio-640.webp') && html.includes('/portfolio/perulog-pallets-960.webp'))
 check('Institutional about copy', html.includes('combina criterio de producto, diseño y desarrollo') && !html.includes('identidad personal completa'))
+check('Structured data graph', structuredTypes.includes('Organization') && structuredTypes.includes('WebPage') && structuredTypes.includes('ItemList') && structuredTypes.includes('Service'), structuredTypes.join(', '))
+check('Structured logo uses published asset', html.includes('https://orbitalframeworks.qzz.io/favicon-192.png') && !html.includes('Logo_favicon.png'))
 check('Current sitemap date', sitemap.includes('<lastmod>2026-07-29</lastmod>'))
 check('HTTPS final URL', pageResponse.url.startsWith('https://'), pageResponse.url)
 

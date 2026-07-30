@@ -19,7 +19,9 @@ No presenta métricas, clientes, testimonios o resultados que no puedan demostra
 - `npm install`: instala dependencias.
 - `npm run dev`: inicia el entorno local.
 - `npm run lint`: ejecuta ESLint.
-- `npm run build`: genera el build de producción, optimiza imágenes, genera variantes de favicon y prerenderiza el HTML.
+- `npm run build`: genera el build de producción, optimiza imágenes, prerenderiza el HTML y valida el artefacto final.
+- `npm run verify:build`: valida prerender, canonical, robots, sitemap, schema, assets y límite de JavaScript.
+- `npm run verify:production`: comprueba contenido, enlaces, caché y headers del dominio público.
 - `npm run preview`: sirve localmente el build generado.
 
 ## Build de producción
@@ -31,17 +33,19 @@ El proceso de build ejecuta:
 3. generación de imágenes WebP responsive mediante ImageMagick;
 4. generación de favicons optimizados;
 5. build SSR temporal;
-6. prerender del contenido React dentro de `dist/index.html`.
+6. prerender del contenido React dentro de `dist/index.html`;
+7. verificación automática del artefacto final.
 
 ImageMagick debe estar disponible como `magick` o `convert`. El workflow de GitHub Actions lo instala explícitamente en Ubuntu.
 
 ## Despliegue
 
-El sitio se publica mediante GitHub Pages desde:
+El repositorio está conectado a GitHub Pages y AWS Amplify:
 
-- `https://github.com/orbital-frameworks/orbitalframeworks-landingpage`
+- GitHub: `https://github.com/orbital-frameworks/orbitalframeworks-landingpage`
+- Amplify: publica el dominio principal desde `main` usando `amplify.yml`.
 
-El workflow `.github/workflows/deploy-pages.yml` se ejecuta al hacer push a `main` o manualmente mediante `workflow_dispatch`.
+El workflow `.github/workflows/deploy-pages.yml` se ejecuta al hacer push a `main` o manualmente mediante `workflow_dispatch`. Amplify compila el mismo commit y publica `dist`.
 
 Antes de desplegar ejecuta:
 
@@ -60,9 +64,12 @@ La publicación del artefacto no garantiza por sí sola que las capas CDN extern
 
 - `src/App.tsx`: contenido y estructura principal.
 - `src/App.css`: estilos de la landing.
-- `src/main.tsx`: hidratación del HTML prerenderizado.
+- `src/main.tsx`: mejora progresiva mínima para el menú móvil; no hidrata React en producción.
 - `src/entry-server.tsx`: entrada SSR usada durante el build.
 - `scripts/optimize-images.mjs`: generación de imágenes responsive y favicons.
 - `scripts/prerender.mjs`: inserción del HTML prerenderizado.
+- `scripts/verify-build.mjs`: contrato técnico del artefacto de producción.
+- `scripts/verify-production.mjs`: verificación del dominio publicado.
+- `customHttp.yml`: caché y headers de seguridad de Amplify.
 - `public/`: robots, sitemap, Open Graph y archivos públicos.
 - `.github/workflows/deploy-pages.yml`: validación, build y despliegue a GitHub Pages.
