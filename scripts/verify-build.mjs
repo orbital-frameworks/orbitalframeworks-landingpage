@@ -18,6 +18,8 @@ function requireFile(relativePath) {
 }
 
 const indexPath = requireFile('index.html')
+const checkioCasePath = requireFile('casos/checkio/index.html')
+const veterpCasePath = requireFile('casos/veterp/index.html')
 const robotsPath = requireFile('robots.txt')
 const sitemapPath = requireFile('sitemap.xml')
 requireFile('favicon-32.png')
@@ -36,6 +38,8 @@ for (const file of [
 ]) requireFile(file)
 
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''
+const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
+const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
 const sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
 
@@ -45,6 +49,10 @@ check('Canonical URL is present', html.includes('<link rel="canonical" href="htt
 check('Search crawlers are allowed', robots.includes('User-agent: *') && robots.includes('Allow: /'))
 check('Sitemap is declared in robots', robots.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))
 check('Sitemap contains canonical URL', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/</loc>'))
+check('Sitemap contains case studies', sitemap.includes('/casos/checkio/') && sitemap.includes('/casos/veterp/'))
+check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
+check('VetERP case is prerendered', veterpCase.includes('Qué existe dentro del producto.') && veterpCase.includes('https://orbitalframeworks.qzz.io/casos/veterp/'))
+check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
 
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
 let structuredData = null

@@ -2,13 +2,18 @@ import { StrictMode } from 'react'
 import { hydrateRoot, createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import CaseStudyPage from './CaseStudyPage.tsx'
+import { isCaseStudySlug } from './caseStudies'
+
+function resolvePage(pathname: string) {
+  const match = pathname.match(/^\/casos\/([^/]+)\/?$/)
+  const slug = match?.[1]
+  if (slug && isCaseStudySlug(slug)) return <CaseStudyPage slug={slug} />
+  return <App />
+}
 
 const root = document.getElementById('root')!
-const app = (
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+const app = <StrictMode>{resolvePage(window.location.pathname)}</StrictMode>
 
 if (root.hasChildNodes()) {
   hydrateRoot(root, app)

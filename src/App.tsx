@@ -67,7 +67,7 @@ function NavBar({ items }: { items: NavItem[] }) {
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth >= 860) setOpen(false)
+      if (window.innerWidth >= 1101) setOpen(false)
     }
     window.addEventListener('resize', onResize, { passive: true })
     return () => window.removeEventListener('resize', onResize)
@@ -354,6 +354,7 @@ type WorkItem = {
   kind: string
   imageSrc: string
   url: string
+  external?: boolean
   description: string
   tags: string[]
   featured?: boolean
@@ -368,7 +369,7 @@ const workItems: WorkItem[] = [
     title: 'Checkio — Gestión de personal',
     kind: 'App',
     imageSrc: checkioImg,
-    url: 'https://checkio-frontend.onrender.com/landing',
+    url: '/casos/checkio/',
     description: 'Plataforma para gestionar personal, asistencia, ausencias y marcaciones con geolocalización.',
     tags: ['Producto publicado', 'Gestión de personal', 'SaaS'],
     featured: true,
@@ -381,7 +382,7 @@ const workItems: WorkItem[] = [
     title: 'VetERP — Gestión veterinaria',
     kind: 'App',
     imageSrc: veterpSisImg,
-    url: 'https://veterp.qzz.io/',
+    url: '/casos/veterp/',
     description: 'Sistema ERP para agenda, pacientes, inventario y operación interna de clínicas veterinarias.',
     tags: ['ERP', 'Veterinaria', 'En pruebas'],
     featured: true,
@@ -394,6 +395,7 @@ const workItems: WorkItem[] = [
     title: 'Localisa',
     kind: 'Web',
     url: 'https://www.localisa.pe/',
+    external: true,
     imageSrc: lisaImg,
     description: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
     tags: ['Mapa interactivo', 'SERUMS', 'Plataforma pública'],
@@ -406,6 +408,7 @@ const workItems: WorkItem[] = [
     title: 'PeruLog Pallets',
     kind: 'Landing',
     url: 'https://perulogpallets.com.pe/',
+    external: true,
     imageSrc: perulogImg,
     description: 'Landing comercial B2B para explicar servicios, propuesta de valor y canales de contacto.',
     tags: ['UI/UX Design', 'B2B', 'Web Development'],
@@ -424,34 +427,16 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       ? { ['--g1' as never]: 'rgba(0,210,211,0.95)', ['--g2' as never]: 'rgba(16,42,67,0.2)' }
       : { ['--g1' as never]: 'rgba(0,210,211,0.9)', ['--g2' as never]: 'rgba(255,42,42,0.78)' }
 
-  const tagAccentRgbs = ['0, 210, 211', '255, 42, 42', '245, 245, 245'] as const
-  const usedAccents = new Set<number>()
-  const hashTag = (s: string) => {
-    let h = 0
-    for (let i = 0; i < s.length; i += 1) h = (h * 31 + s.charCodeAt(i)) >>> 0
-    return h
-  }
-  const pickAccent = (tag: string) => {
-    const base = hashTag(tag) % tagAccentRgbs.length
-    let idx = base
-    for (let tries = 0; tries < tagAccentRgbs.length; tries += 1) {
-      if (!usedAccents.has(idx)) break
-      idx = (idx + 1) % tagAccentRgbs.length
-    }
-    usedAccents.add(idx)
-    return tagAccentRgbs[idx] ?? tagAccentRgbs[2]
-  }
-  const accentByTag = new Map<string, string>()
-  item.tags.forEach((tag) => accentByTag.set(tag, pickAccent(tag)))
   const cardLabel = `${String(index + 1).padStart(2, '0')} / ${item.sector}`
+  const destinationLabel = item.url.startsWith('/casos/') ? 'Ver caso completo ↗' : 'Ver sitio publicado ↗'
 
   return (
     <a
       className={`workCard ${item.featured ? 'isFeatured' : ''}`}
       style={tone}
       href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={item.external ? '_blank' : undefined}
+      rel={item.external ? 'noopener noreferrer' : undefined}
       data-index={String(index + 1).padStart(2, '0')}
     >
       <div className="workMedia">
@@ -474,9 +459,10 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
         <p className="workImpact">{item.impact}</p>
         <div className="workTags">
           {item.tags.map((tag) => (
-            <span key={tag} className="workTag" style={{ ['--tag-accent' as never]: accentByTag.get(tag) }}>{tag}</span>
+            <span key={tag} className="workTag">{tag}</span>
           ))}
         </div>
+        <span className="workCaseLink">{destinationLabel}</span>
       </div>
     </a>
   )
@@ -492,18 +478,14 @@ function PortfolioSection() {
             <h2 className="portfolioTitle">Casos donde la forma, el flujo y la operación responden a una misma idea.</h2>
             <p className="portfolioSub">Cada pieza resuelve una necesidad concreta de negocio, experiencia u operación.</p>
           </div>
-          <div className="portfolioLedger">
-            <div className="portfolioLedgerItem"><span className="portfolioLedgerLabel">Casos</span><strong>04</strong></div>
-            <div className="portfolioLedgerItem"><span className="portfolioLedgerLabel">Enfoque</span><strong>SaaS / ERP / Crecimiento</strong></div>
-            <div className="portfolioLedgerItem"><span className="portfolioLedgerLabel">Firma</span><strong>Sistemas con presencia</strong></div>
-          </div>
+          <p className="portfolioSummary">Cuatro productos publicados o verificables en RRHH, salud, información territorial y presencia comercial.</p>
         </header>
 
         <div className="portfolioSplit">
           <aside className="portfolioRobot" aria-hidden="true">
             <div className="portfolioNote">
               <span className="portfolioNoteLine" />
-              <p>Cada proyecto entra al portafolio cuando la interfaz, la lógica y la narrativa comercial sostienen una misma idea.</p>
+              <p>Seleccionamos proyectos donde interfaz, lógica y operación sostienen una misma solución.</p>
             </div>
             <img className="portfolioRobotImg" src={astroImg} alt="" loading="lazy" />
           </aside>
@@ -517,10 +499,118 @@ function PortfolioSection() {
 
         <div className="portfolioCta">
           <div className="portfolioCtaCopy">
-            <span className="portfolioCtaLabel">Siguiente movimiento</span>
-            <p>Si ya viste la dirección visual y el tipo de sistemas que construimos, el siguiente paso es aterrizar tu caso.</p>
+            <span className="portfolioCtaLabel">Casos completos</span>
+            <p>Revisa el problema, el alcance, los flujos y las decisiones detrás de Checkio y VetERP.</p>
           </div>
-          <a className="btn btnPrimary" href="#contacto">Solicitar una conversación</a>
+          <div className="portfolioCtaActions">
+            <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
+            <a className="btn btnGhost" href="/casos/veterp/">Caso VetERP</a>
+            <a className="btn btnPrimary" href="#contacto">Plantear un caso</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ProcessSection() {
+  const steps = [
+    {
+      index: '01',
+      title: 'Entender la situación',
+      text: 'Revisamos qué ocurre hoy, qué parte del flujo genera fricción y por qué vale la pena intervenir.',
+    },
+    {
+      index: '02',
+      title: 'Acotar el cambio',
+      text: 'Definimos qué conviene mejorar, qué debe mantenerse intacto y cómo sabremos si el trabajo funcionó.',
+    },
+    {
+      index: '03',
+      title: 'Construir evidencia',
+      text: 'Diseñamos y desarrollamos una solución verificable antes de ampliar el alcance o añadir complejidad.',
+    },
+    {
+      index: '04',
+      title: 'Cerrar el siguiente paso',
+      text: 'La conversación termina con una decisión concreta: avanzar, aclarar información o no construir todavía.',
+    },
+  ]
+
+  return (
+    <section id="como-trabajamos" className="processSection">
+      <div className="processInner">
+        <header className="processIntro">
+          <div className="processKicker">Cómo trabajamos / Primera conversación</div>
+          <h2 className="processTitle">Primero se entiende el problema. Después se decide si construir tiene sentido.</h2>
+          <p className="processLead">La primera conversación no parte de una solución cerrada ni de un rediseño completo. Parte de una situación concreta y de un resultado que tendría valor para el negocio.</p>
+        </header>
+
+        <div className="processGrid">
+          {steps.map((step) => (
+            <article key={step.index} className="processCard">
+              <span className="processIndex">{step.index}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="processBoundary">
+          <div>
+            <span>Qué no hacemos</span>
+            <strong>No forzamos una propuesta antes de entender el contexto.</strong>
+          </div>
+          <div>
+            <span>Qué buscamos</span>
+            <strong>Un alcance claro, evidencia revisable y un siguiente paso explícito.</strong>
+          </div>
+          <a className="btn btnPrimary" href="#contacto">Plantear una situación concreta</a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function TeamSection() {
+  const people = [
+    {
+      initials: 'AR',
+      name: 'Angel Reaño',
+      role: 'Producto, operaciones y dirección de proyectos',
+      description: 'Coordina la definición de problemas, el alcance de las soluciones y la ejecución de los proyectos de Orbital Frameworks.',
+      linkedin: 'https://www.linkedin.com/in/angelreañovasquez/',
+    },
+    {
+      initials: 'MM',
+      name: 'Mathias Javier Murillo',
+      role: 'Desarrollo de software y producto',
+      description: 'Desarrollador vinculado a Checkio y Localisa, con trabajo en productos digitales y construcción de software.',
+      linkedin: 'https://www.linkedin.com/in/mathias-javier-murillo-744508350/',
+    },
+  ]
+
+  return (
+    <section id="equipo" className="teamSection">
+      <div className="teamInner">
+        <header className="teamIntro">
+          <div className="teamKicker">Quiénes somos / Orbital Frameworks</div>
+          <h2>Un equipo pequeño, con participación directa en cada proyecto.</h2>
+          <p>Orbital no separa la conversación comercial de las decisiones de producto y desarrollo. Las personas que entienden el problema también participan en la definición y revisión de la solución.</p>
+        </header>
+        <div className="teamGrid">
+          {people.map((person, index) => (
+            <article key={person.name} className="teamCard">
+              <div className="teamCardTop">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div className="teamInitials" aria-hidden="true">{person.initials}</div>
+              </div>
+              <h3>{person.name}</h3>
+              <strong>{person.role}</strong>
+              <p>{person.description}</p>
+              <a href={person.linkedin} target="_blank" rel="noopener noreferrer">Ver LinkedIn ↗</a>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -534,25 +624,46 @@ function ContactSection() {
         <div className="contactIntro">
           <div className="contactKicker">Contacto / Orbital Frameworks</div>
           <h2 className="contactTitle">Hagamos que tu producto se vea más claro, opere mejor y se sienta imposible de ignorar.</h2>
-          <p className="contactLead">Conversemos sobre la situación concreta que necesitas resolver y el cambio que tendría valor.</p>
+          <p className="contactLead">Cuéntanos qué está ocurriendo hoy, por qué importa y qué resultado tendría valor. Revisaremos el contexto antes de recomendar una llamada, una mejora o un proyecto.</p>
         </div>
 
         <div className="contactPanel">
           <div className="contactBlock">
-            <span>Qué podemos conversar</span>
-            <strong>Landing pages, SaaS, ERP, dashboards, automatización y mejoras sobre sistemas existentes.</strong>
+            <span>Qué incluir en el mensaje</span>
+            <strong>Tu negocio, la situación observada, cómo se resuelve hoy y qué cambio sería valioso.</strong>
           </div>
           <div className="contactBlock">
-            <span>Canales</span>
+            <span>Qué ocurre después</span>
+            <strong>Revisamos el contexto y respondemos para aclarar información o coordinar una conversación breve.</strong>
+          </div>
+          <div className="contactBlock">
+            <span>Canales verificables</span>
             <a href="mailto:contact.orbitalframeworks@gmail.com">contact.orbitalframeworks@gmail.com</a>
             <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn de Orbital Frameworks</a>
           </div>
           <div className="contactActions">
-            <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Nuevo%20proyecto%20-%20Orbital%20Frameworks">Escribir correo</a>
-            <a className="btn btnGhost" href="#inicio">Volver arriba</a>
+            <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks&body=Negocio%3A%0A%0ASituaci%C3%B3n%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A">Describir una situación</a>
+            <a className="btn btnGhost" href="#proyectos">Revisar proyectos</a>
           </div>
         </div>
       </div>
+      <footer className="siteFooter">
+        <div className="siteFooterBrand">
+          <Logo />
+          <p>Desarrollo de software y soluciones digitales en Perú.</p>
+        </div>
+        <div className="siteFooterLinks" aria-label="Enlaces del footer">
+          <a href="#servicios">Servicios</a>
+          <a href="#proyectos">Casos</a>
+          <a href="#como-trabajamos">Método</a>
+          <a href="#equipo">Equipo</a>
+          <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        </div>
+        <div className="siteFooterMeta">
+          <span>Orbital Frameworks</span>
+          <span>2026 · Perú</span>
+        </div>
+      </footer>
     </section>
   )
 }
@@ -644,22 +755,15 @@ function Hero() {
 
       <div className="heroInner">
         <div className="heroCopy">
-          <div className="heroKicker"><span>Orbital Frameworks</span><span>Desarrollo y soluciones digitales</span></div>
+          <p className="heroKicker">Empresa peruana de desarrollo de software y soluciones digitales.</p>
           <h1 className="heroTitle">
-            <span>SISTEMAS</span><span>DIGITALES</span><span>CON</span><span>PRESENCIA</span><span className="heroCursor" aria-hidden="true">._</span>
+            <span>SISTEMAS</span><span>DIGITALES</span><span>CON</span><span>PRESENCIA<span className="heroCursor" aria-hidden="true">._</span></span>
           </h1>
           <p className="heroLead">Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales con dirección visual fuerte y lógica operativa clara.</p>
-          <p className="heroSubtitle">Interfaces editoriales. Arquitectura clara. Sistemas que se sienten premium incluso cuando la operación se vuelve compleja.</p>
           <div className="heroActions">
-            <a className="btn btnGhost" href="#servicios">Explorar nuestro stack</a>
+            <a className="btn btnGhost" href="#servicios">Explorar servicios</a>
             <a className="btn btnPrimary" href="#proyectos">Ver casos seleccionados</a>
           </div>
-          <div className="heroMetrics" role="list" aria-label="Principios de trabajo">
-            <div className="heroMetric" role="listitem"><strong>01</strong><span>Dirección visual con criterio editorial</span></div>
-            <div className="heroMetric" role="listitem"><strong>02</strong><span>Producto, interfaz y arquitectura dentro de un mismo sistema</span></div>
-            <div className="heroMetric" role="listitem"><strong>03</strong><span>Automatización, dashboards y plataformas internas</span></div>
-          </div>
-          <div className="heroFlow"><span>Inicio</span><span>Servicios</span><span>Casos</span><span>Cierre</span></div>
         </div>
 
         <aside className="heroPanel">
@@ -691,6 +795,8 @@ function App() {
     { id: 'inicio', label: 'Inicio' },
     { id: 'servicios', label: 'Servicios' },
     { id: 'proyectos', label: 'Proyectos' },
+    { id: 'como-trabajamos', label: 'Método' },
+    { id: 'equipo', label: 'Equipo' },
     { id: 'contacto', label: 'Contacto' },
   ], [])
 
@@ -700,6 +806,8 @@ function App() {
       <Hero />
       <ServicesSection />
       <PortfolioSection />
+      <ProcessSection />
+      <TeamSection />
       <ContactSection />
     </>
   )
