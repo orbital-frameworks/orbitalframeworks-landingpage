@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises'
+
 const origin = process.env.ORBITAL_PUBLIC_URL ?? 'https://orbitalframeworks.qzz.io'
 
 async function fetchText(path) {
@@ -20,6 +22,7 @@ function check(label, condition, detail = '') {
 
 const { response: pageResponse, text: html } = await fetchText('/')
 const { text: sitemap } = await fetchText('/sitemap.xml')
+const expectedSitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
 const structuredData = structuredDataMatch ? JSON.parse(structuredDataMatch[1]) : null
 const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
@@ -34,7 +37,7 @@ check('Original visual assets', html.includes('/assets/checkio-') && html.includ
 check('Original visual architecture', html.includes('class="servicesManifesto"') && html.includes('class="portfolioRobot"') && html.includes('class="heroShapes"'))
 check('Structured data graph', structuredTypes.includes('Organization') && structuredTypes.includes('WebPage') && structuredTypes.includes('ItemList') && structuredTypes.includes('Service'), structuredTypes.join(', '))
 check('Structured logo uses published asset', html.includes('https://orbitalframeworks.qzz.io/favicon-192.png') && !html.includes('Logo_favicon.png'))
-check('Current sitemap date', sitemap.includes('<lastmod>2026-07-29</lastmod>'))
+check('Published sitemap matches repository', sitemap.trim() === expectedSitemap.trim())
 check('HTTPS final URL', pageResponse.url.startsWith('https://'), pageResponse.url)
 
 const cacheControl = pageResponse.headers.get('cache-control') ?? '(missing)'
