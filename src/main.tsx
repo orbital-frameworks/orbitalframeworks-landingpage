@@ -3,9 +3,11 @@ import { hydrateRoot, createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import CaseStudyPage from './CaseStudyPage.tsx'
+import AboutPage from './AboutPage.tsx'
 import { isCaseStudySlug } from './caseStudies'
 
 function resolvePage(pathname: string) {
+  if (pathname === '/sobre-orbital-frameworks' || pathname === '/sobre-orbital-frameworks/') return <AboutPage />
   const match = pathname.match(/^\/casos\/([^/]+)\/?$/)
   const slug = match?.[1]
   if (slug && isCaseStudySlug(slug)) return <CaseStudyPage slug={slug} />

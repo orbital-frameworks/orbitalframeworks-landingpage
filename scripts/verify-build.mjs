@@ -18,6 +18,7 @@ function requireFile(relativePath) {
 }
 
 const indexPath = requireFile('index.html')
+const aboutPath = requireFile('sobre-orbital-frameworks/index.html')
 const checkioCasePath = requireFile('casos/checkio/index.html')
 const veterpCasePath = requireFile('casos/veterp/index.html')
 const robotsPath = requireFile('robots.txt')
@@ -38,6 +39,7 @@ for (const file of [
 ]) requireFile(file)
 
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''
+const about = existsSync(aboutPath) ? readFileSync(aboutPath, 'utf8') : ''
 const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
 const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
@@ -49,7 +51,9 @@ check('Canonical URL is present', html.includes('<link rel="canonical" href="htt
 check('Search crawlers are allowed', robots.includes('User-agent: *') && robots.includes('Allow: /'))
 check('Sitemap is declared in robots', robots.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))
 check('Sitemap contains canonical URL', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/</loc>'))
+check('Sitemap contains institutional page', sitemap.includes('/sobre-orbital-frameworks/'))
 check('Sitemap contains case studies', sitemap.includes('/casos/checkio/') && sitemap.includes('/casos/veterp/'))
+check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
 check('VetERP case is prerendered', veterpCase.includes('Qué existe dentro del producto.') && veterpCase.includes('https://orbitalframeworks.qzz.io/casos/veterp/'))
 check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
@@ -64,7 +68,10 @@ try {
 }
 
 const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
-check('Structured data graph is complete', ['Organization', 'WebSite', 'WebPage', 'ItemList', 'Service'].every((type) => structuredTypes.includes(type)), structuredTypes.join(', '))
+check('Structured data graph is complete', ['Organization', 'WebSite', 'WebPage', 'ItemList', 'Service', 'Person'].every((type) => structuredTypes.includes(type)), structuredTypes.join(', '))
+check('Identity metadata is explicit', html.includes('<meta name="application-name" content="Orbital Frameworks"') && html.includes('"alternateName": [') && html.includes('Orbital Frameworks Perú'))
+check('Team entities are structured', html.includes('"name": "Angel Reaño"') && html.includes('"name": "Mathias Javier Murillo"'))
+check('About page uses AboutPage schema', about.includes('"@type": "AboutPage"') && about.includes('"mainEntity": {') && about.includes('#organization'))
 check('Structured logo uses published asset', html.includes('https://orbitalframeworks.qzz.io/favicon-192.png') && !html.includes('Logo_favicon.png'))
 
 const assetsDir = join(dist, 'assets')

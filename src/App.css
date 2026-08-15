@@ -2768,6 +2768,22 @@
   color: rgba(21, 21, 21, 0.7);
 }
 
+.teamAboutLink {
+  grid-column: 2;
+  width: fit-content;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: #8d1818;
+  text-decoration: none;
+}
+
+.teamAboutLink:hover,
+.teamAboutLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .teamGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2849,6 +2865,10 @@
   .teamIntro,
   .teamGrid {
     grid-template-columns: 1fr;
+  }
+
+  .teamAboutLink {
+    grid-column: 1;
   }
 }
 

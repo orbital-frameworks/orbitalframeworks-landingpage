@@ -33,7 +33,7 @@ El proceso de build ejecuta:
 3. generación de imágenes WebP responsive mediante ImageMagick;
 4. generación de favicons optimizados;
 5. build SSR temporal;
-6. prerender del contenido React dentro de `dist/index.html`;
+6. prerender de la home, la página institucional y los casos públicos dentro de `dist/`;
 7. verificación automática del artefacto final.
 
 ImageMagick debe estar disponible como `magick` o `convert`. El workflow de GitHub Actions lo instala explícitamente en Ubuntu.
@@ -60,12 +60,21 @@ El dominio público configurado actualmente es:
 
 La publicación del artefacto no garantiza por sí sola que las capas CDN externas hayan invalidado una versión anterior. Después de cada despliegue debe verificarse el contenido, `last-modified`, `age`, sitemap y assets directamente en el dominio público.
 
+## Rutas públicas
+
+- `/`: landing principal.
+- `/sobre-orbital-frameworks/`: identidad institucional, equipo, capacidades, método y proyectos públicos.
+- `/casos/checkio/`: caso público de Checkio.
+- `/casos/veterp/`: caso público de VetERP.
+
 ## Estructura relevante
 
 - `src/App.tsx`: contenido y estructura principal.
 - `src/App.css`: estilos de la landing.
-- `src/main.tsx`: mejora progresiva mínima para el menú móvil; no hidrata React en producción.
-- `src/entry-server.tsx`: entrada SSR usada durante el build.
+- `src/AboutPage.tsx` y `src/AboutPage.css`: página institucional rastreable de Orbital Frameworks.
+- `src/CaseStudyPage.tsx` y `src/CaseStudyPage.css`: páginas de casos públicos.
+- `src/main.tsx`: resolución de rutas e hidratación del cliente.
+- `src/entry-server.tsx`: entrada SSR usada durante el build para todas las rutas prerenderizadas.
 - `scripts/optimize-images.mjs`: generación de imágenes responsive y favicons.
 - `scripts/prerender.mjs`: inserción del HTML prerenderizado.
 - `scripts/verify-build.mjs`: contrato técnico del artefacto de producción.

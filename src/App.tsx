@@ -597,6 +597,7 @@ function TeamSection() {
           <div className="teamKicker">Quiénes somos / Orbital Frameworks</div>
           <h2>Un equipo pequeño, con participación directa en cada proyecto.</h2>
           <p>Orbital no separa la conversación comercial de las decisiones de producto y desarrollo. Las personas que entienden el problema también participan en la definición y revisión de la solución.</p>
+          <a className="teamAboutLink" href="/sobre-orbital-frameworks/">Conocer Orbital Frameworks ↗</a>
         </header>
         <div className="teamGrid">
           {people.map((person, index) => (
@@ -657,6 +658,7 @@ function ContactSection() {
           <a href="#proyectos">Casos</a>
           <a href="#como-trabajamos">Método</a>
           <a href="#equipo">Equipo</a>
+          <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>
           <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
         </div>
         <div className="siteFooterMeta">
