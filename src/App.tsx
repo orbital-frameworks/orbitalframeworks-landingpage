@@ -577,11 +577,11 @@ function OrbitalLeadsSection() {
     <section className="orbitalLeadsSection" aria-labelledby="orbital-leads-title">
       <div className="orbitalLeadsInner">
         <div className="orbitalLeadsIntro">
-          <div className="orbitalLeadsKicker">Herramienta interna / Orbital Frameworks</div>
-          <h2 id="orbital-leads-title">Orbital Leads</h2>
+          <div className="orbitalLeadsKicker">Aplicación OAuth interna / Orbital Frameworks</div>
+          <h2 id="orbital-leads-title">Orbital Leads Gmail</h2>
           <p>
-            Orbital Leads es una herramienta interna de Orbital Frameworks para investigación comercial,
-            gestión de oportunidades y preparación o gestión de comunicaciones empresariales. En Google, la integración con Gmail se identifica como Orbital Leads Gmail.
+            Orbital Leads Gmail es la integración OAuth con Gmail de Orbital Leads, una herramienta interna de Orbital Frameworks para investigación comercial,
+            gestión de oportunidades y preparación o gestión de comunicaciones empresariales.
           </p>
         </div>
         <div className="orbitalLeadsDetails">
