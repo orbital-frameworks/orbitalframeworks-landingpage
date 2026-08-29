@@ -36,6 +36,13 @@ Orbital no parte de una solución predeterminada ni recomienda rediseños comple
 
 Estos proyectos muestran trabajo verificable, pero no se presentan automáticamente como clientes, testimonios ni casos de éxito comercial.
 
+## Orbital Leads
+
+Orbital Leads es una herramienta interna de Orbital Frameworks para investigación comercial, gestión de oportunidades y preparación o gestión de comunicaciones empresariales. Su integración con Gmail se utiliza únicamente con una cuenta autorizada de Orbital Frameworks. No realiza envíos automáticos ni contactos sin aprobación humana.
+
+- Política de privacidad: https://orbitalframeworks.qzz.io/privacy
+- Términos de uso: https://orbitalframeworks.qzz.io/terms
+
 ## Primera conversación
 
 La primera conversación revisa una situación concreta, cómo funciona actualmente, qué podría cambiarse, qué conviene mantener y cómo se evaluaría el resultado. No exige decidir una solución antes de hablar.
@@ -44,5 +51,7 @@ La primera conversación revisa una situación concreta, cómo funciona actualme
 
 - Sitio web: https://orbitalframeworks.qzz.io/
 - Sobre Orbital Frameworks: https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/
+- Privacy Policy: https://orbitalframeworks.qzz.io/privacy
+- Terms of Use: https://orbitalframeworks.qzz.io/terms
 - LinkedIn: https://www.linkedin.com/company/orbitalframeworks/
 - Contacto: contact.orbitalframeworks@gmail.com

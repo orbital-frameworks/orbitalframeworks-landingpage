@@ -572,6 +572,38 @@ function ProcessSection() {
   )
 }
 
+function OrbitalLeadsSection() {
+  return (
+    <section className="orbitalLeadsSection" aria-labelledby="orbital-leads-title">
+      <div className="orbitalLeadsInner">
+        <div className="orbitalLeadsIntro">
+          <div className="orbitalLeadsKicker">Herramienta interna / Orbital Frameworks</div>
+          <h2 id="orbital-leads-title">Orbital Leads</h2>
+          <p>
+            Orbital Leads es una herramienta interna de Orbital Frameworks para investigación comercial,
+            gestión de oportunidades y preparación o gestión de comunicaciones empresariales. En Google, la integración con Gmail se identifica como Orbital Leads Gmail.
+          </p>
+        </div>
+        <div className="orbitalLeadsDetails">
+          <p>
+            Su integración con Gmail se utiliza únicamente con una cuenta autorizada de Orbital Frameworks
+            para preparar y gestionar borradores, reconciliar conversaciones, detectar respuestas, rebotes u
+            opt-outs y mantener el estado operativo necesario para revisión humana.
+          </p>
+          <p>
+            Orbital Leads no realiza envíos automáticos ni contactos sin aprobación humana. Cualquier envío
+            que se habilite requiere autorización expresa del propietario.
+          </p>
+          <div className="orbitalLeadsLinks">
+            <a href="/privacy">Política de privacidad</a>
+            <a href="/terms">Términos de uso</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function TeamSection() {
   const people = [
     {
@@ -654,11 +686,14 @@ function ContactSection() {
           <p>Desarrollo de software y soluciones digitales en Perú.</p>
         </div>
         <div className="siteFooterLinks" aria-label="Enlaces del footer">
+          <a href="/">Home</a>
           <a href="#servicios">Servicios</a>
           <a href="#proyectos">Casos</a>
           <a href="#como-trabajamos">Método</a>
           <a href="#equipo">Equipo</a>
           <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
           <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
         </div>
         <div className="siteFooterMeta">
@@ -809,6 +844,7 @@ function App() {
       <ServicesSection />
       <PortfolioSection />
       <ProcessSection />
+      <OrbitalLeadsSection />
       <TeamSection />
       <ContactSection />
     </>

@@ -21,6 +21,8 @@ function check(label, condition, detail = '') {
 }
 
 const { response: pageResponse, text: html } = await fetchText('/')
+const { response: privacyResponse, text: privacy } = await fetchText('/privacy')
+const { response: termsResponse, text: terms } = await fetchText('/terms')
 const { text: about } = await fetchText('/sobre-orbital-frameworks/')
 const { text: sitemap } = await fetchText('/sitemap.xml')
 const expectedSitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
@@ -38,6 +40,12 @@ check('Original visual assets', html.includes('/assets/checkio-') && html.includ
 check('Original visual architecture', html.includes('class="servicesManifesto"') && html.includes('class="portfolioRobot"') && html.includes('class="heroShapes"'))
 check('Structured data graph', structuredTypes.includes('Organization') && structuredTypes.includes('WebSite') && structuredTypes.includes('WebPage') && structuredTypes.includes('ItemList') && structuredTypes.includes('Service') && structuredTypes.includes('Person'), structuredTypes.join(', '))
 check('Identity metadata is explicit', html.includes('<meta name="application-name" content="Orbital Frameworks"') && html.includes('Orbital Frameworks Perú') && html.includes('"name": "Angel Reaño"') && html.includes('"name": "Mathias Javier Murillo"'))
+check('Home describes Orbital Leads and links legal pages', html.includes('Orbital Leads') && html.includes('href="/privacy"') && html.includes('href="/terms"'))
+check('Privacy URL returns 200 and distinct policy', privacyResponse.status === 200 && privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && !privacy.includes('class="heroTitle"'), `${privacyResponse.status} ${privacyResponse.url}`)
+check('Privacy keeps exact public URL', privacyResponse.url === new URL('/privacy', origin).href, privacyResponse.url)
+check('Terms URL returns 200 and distinct terms', termsResponse.status === 200 && terms.includes('Términos de uso') && terms.includes('Orbital Leads') && !terms.includes('class="heroTitle"'), `${termsResponse.status} ${termsResponse.url}`)
+check('Terms keeps exact public URL', termsResponse.url === new URL('/terms', origin).href, termsResponse.url)
+check('Privacy and Terms content differ', privacy !== terms)
 check('About page is published and structured', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('"@type": "AboutPage"'))
 check('Structured logo uses published asset', html.includes('https://orbitalframeworks.qzz.io/favicon-192.png') && !html.includes('Logo_favicon.png'))
 check('Published sitemap matches repository', sitemap.trim() === expectedSitemap.trim())

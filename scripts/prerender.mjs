@@ -27,6 +27,24 @@ const pages = [
     canonical: 'https://orbitalframeworks.qzz.io/',
   },
   {
+    pathname: '/privacy',
+    output: 'dist/privacy.html',
+    extraOutputs: ['dist/privacy/index.html'],
+    title: 'Privacy Policy | Orbital Frameworks',
+    description: 'Política de privacidad de Orbital Frameworks para Orbital Leads y su integración autorizada con Google y Gmail.',
+    canonical: 'https://orbitalframeworks.qzz.io/privacy',
+    schemaType: 'legal',
+  },
+  {
+    pathname: '/terms',
+    output: 'dist/terms.html',
+    extraOutputs: ['dist/terms/index.html'],
+    title: 'Terms of Use | Orbital Frameworks',
+    description: 'Términos de uso de Orbital Leads, herramienta interna de Orbital Frameworks para investigación comercial y gestión de comunicaciones empresariales.',
+    canonical: 'https://orbitalframeworks.qzz.io/terms',
+    schemaType: 'legal',
+  },
+  {
     pathname: '/sobre-orbital-frameworks/',
     output: 'dist/sobre-orbital-frameworks/index.html',
     title: 'Sobre Orbital Frameworks | Desarrollo de software en Perú',
@@ -69,12 +87,12 @@ function schemaForPage(page) {
     url: page.canonical,
     name: page.title,
     description: page.description,
-    dateModified: '2026-08-15',
+    dateModified: page.schemaType === 'legal' ? '2026-08-28' : '2026-08-15',
     isPartOf: { '@id': 'https://orbitalframeworks.qzz.io/#website' },
     about: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
-    mainEntity: page.schemaType === 'about'
-      ? { '@id': 'https://orbitalframeworks.qzz.io/#organization' }
-      : { '@id': 'https://orbitalframeworks.qzz.io/#portfolio' },
+    mainEntity: page.schemaType === 'case'
+      ? { '@id': 'https://orbitalframeworks.qzz.io/#portfolio' }
+      : { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
   }
 
   return {
@@ -103,9 +121,12 @@ function withMetadata(html, page) {
 
 for (const page of pages) {
   const appHtml = render(page.pathname)
-  const outputPath = resolve(root, page.output)
-  await mkdir(dirname(outputPath), { recursive: true })
   const output = withMetadata(template.replace(marker, `<div id="root">${appHtml}</div>`), page)
-  await writeFile(outputPath, output, 'utf8')
+  const outputs = [page.output, ...(page.extraOutputs ?? [])]
+  for (const relativeOutput of outputs) {
+    const outputPath = resolve(root, relativeOutput)
+    await mkdir(dirname(outputPath), { recursive: true })
+    await writeFile(outputPath, output, 'utf8')
+  }
   console.log(`Prerendered ${page.pathname} (${appHtml.length} characters)`)
 }

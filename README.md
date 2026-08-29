@@ -62,7 +62,9 @@ La publicación del artefacto no garantiza por sí sola que las capas CDN extern
 
 ## Rutas públicas
 
-- `/`: landing principal.
+- `/`: landing principal, incluida una descripción pública de Orbital Leads.
+- `/privacy`: política de privacidad de Orbital Frameworks y Orbital Leads para integración Google/Gmail.
+- `/terms`: términos de uso de Orbital Leads.
 - `/sobre-orbital-frameworks/`: identidad institucional, equipo, capacidades, método y proyectos públicos.
 - `/casos/checkio/`: caso público de Checkio.
 - `/casos/veterp/`: caso público de VetERP.
@@ -72,6 +74,7 @@ La publicación del artefacto no garantiza por sí sola que las capas CDN extern
 - `src/App.tsx`: contenido y estructura principal.
 - `src/App.css`: estilos de la landing.
 - `src/AboutPage.tsx` y `src/AboutPage.css`: página institucional rastreable de Orbital Frameworks.
+- `src/LegalPage.tsx` y `src/LegalPage.css`: Privacy Policy y Terms de Orbital Leads.
 - `src/CaseStudyPage.tsx` y `src/CaseStudyPage.css`: páginas de casos públicos.
 - `src/main.tsx`: resolución de rutas e hidratación del cliente.
 - `src/entry-server.tsx`: entrada SSR usada durante el build para todas las rutas prerenderizadas.

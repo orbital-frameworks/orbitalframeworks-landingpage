@@ -18,6 +18,10 @@ function requireFile(relativePath) {
 }
 
 const indexPath = requireFile('index.html')
+const privacyPath = requireFile('privacy.html')
+const termsPath = requireFile('terms.html')
+requireFile('privacy/index.html')
+requireFile('terms/index.html')
 const aboutPath = requireFile('sobre-orbital-frameworks/index.html')
 const checkioCasePath = requireFile('casos/checkio/index.html')
 const veterpCasePath = requireFile('casos/veterp/index.html')
@@ -39,6 +43,8 @@ for (const file of [
 ]) requireFile(file)
 
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''
+const privacy = existsSync(privacyPath) ? readFileSync(privacyPath, 'utf8') : ''
+const terms = existsSync(termsPath) ? readFileSync(termsPath, 'utf8') : ''
 const about = existsSync(aboutPath) ? readFileSync(aboutPath, 'utf8') : ''
 const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
 const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
@@ -51,8 +57,13 @@ check('Canonical URL is present', html.includes('<link rel="canonical" href="htt
 check('Search crawlers are allowed', robots.includes('User-agent: *') && robots.includes('Allow: /'))
 check('Sitemap is declared in robots', robots.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))
 check('Sitemap contains canonical URL', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/</loc>'))
+check('Sitemap contains legal pages', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>') && sitemap.includes('<loc>https://orbitalframeworks.qzz.io/terms</loc>'))
 check('Sitemap contains institutional page', sitemap.includes('/sobre-orbital-frameworks/'))
 check('Sitemap contains case studies', sitemap.includes('/casos/checkio/') && sitemap.includes('/casos/veterp/'))
+check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
+check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
+check('Privacy and Terms are different documents', privacy !== terms)
+check('Home links visibly to legal pages', html.includes('href="/privacy"') && html.includes('href="/terms"') && html.includes('Orbital Leads'))
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
 check('VetERP case is prerendered', veterpCase.includes('Qué existe dentro del producto.') && veterpCase.includes('https://orbitalframeworks.qzz.io/casos/veterp/'))
