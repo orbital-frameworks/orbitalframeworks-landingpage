@@ -45,6 +45,16 @@ const pages = [
     schemaType: 'legal',
   },
   {
+    pathname: '/orbital-leads-gmail',
+    output: 'dist/orbital-leads-gmail.html',
+    extraOutputs: ['dist/orbital-leads-gmail/index.html'],
+    title: 'Orbital Leads Gmail | Orbital Frameworks',
+    description: 'Orbital Leads Gmail es la integración OAuth con Gmail de la herramienta interna Orbital Leads de Orbital Frameworks.',
+    canonical: 'https://orbitalframeworks.qzz.io/orbital-leads-gmail',
+    schemaType: 'app',
+    noindex: true,
+  },
+  {
     pathname: '/sobre-orbital-frameworks/',
     output: 'dist/sobre-orbital-frameworks/index.html',
     title: 'Sobre Orbital Frameworks | Desarrollo de software en Perú',
@@ -102,7 +112,7 @@ function schemaForPage(page) {
 }
 
 function withMetadata(html, page) {
-  return html
+  let output = html
     .replace(/<title>[^<]*<\/title>/, `<title>${page.title}</title>`)
     .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${page.description}" />`)
     .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${page.canonical}" />`)
@@ -117,6 +127,15 @@ function withMetadata(html, page) {
       /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
       `<script type="application/ld+json">\n${JSON.stringify(schemaForPage(page), null, 2)}\n    </script>`,
     )
+
+  if (page.noindex) {
+    output = output.replace(
+      /<meta name="robots" content="[^"]*" \/>/,
+      '<meta name="robots" content="noindex, follow" />',
+    )
+  }
+
+  return output
 }
 
 for (const page of pages) {

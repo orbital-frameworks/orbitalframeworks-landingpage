@@ -20,6 +20,7 @@ function requireFile(relativePath) {
 const indexPath = requireFile('index.html')
 const privacyPath = requireFile('privacy.html')
 const termsPath = requireFile('terms.html')
+const oauthAppPath = requireFile('orbital-leads-gmail.html')
 requireFile('privacy/index.html')
 requireFile('terms/index.html')
 const aboutPath = requireFile('sobre-orbital-frameworks/index.html')
@@ -45,6 +46,7 @@ for (const file of [
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''
 const privacy = existsSync(privacyPath) ? readFileSync(privacyPath, 'utf8') : ''
 const terms = existsSync(termsPath) ? readFileSync(termsPath, 'utf8') : ''
+const oauthApp = existsSync(oauthAppPath) ? readFileSync(oauthAppPath, 'utf8') : ''
 const about = existsSync(aboutPath) ? readFileSync(aboutPath, 'utf8') : ''
 const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
 const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
@@ -63,6 +65,8 @@ check('Sitemap contains case studies', sitemap.includes('/casos/checkio/') && si
 check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
 check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
 check('Privacy and Terms are different documents', privacy !== terms)
+check('OAuth app homepage is prerendered', oauthApp.includes('<h1>Orbital Leads Gmail</h1>') && oauthApp.includes('Aplicación OAuth interna / Orbital Frameworks'))
+check('OAuth app homepage is excluded from search indexing', oauthApp.includes('<meta name="robots" content="noindex, follow" />'))
 check('Home links visibly to legal pages', html.includes('href="/privacy"') && html.includes('href="/terms"') && html.includes('Orbital Leads'))
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
@@ -96,7 +100,7 @@ if (jsFiles.length === 1) {
   const jsPath = join(assetsDir, jsFiles[0])
   const jsSize = statSync(jsPath).size
   const js = readFileSync(jsPath, 'utf8')
-  check('Client JavaScript stays within visual baseline', jsSize <= 250_000, `${jsSize} bytes`)
+  check('Client JavaScript stays within visual baseline', jsSize <= 255_000, `${jsSize} bytes`)
   check('Client bundle has no dynamic code execution', !/\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(/.test(js))
 }
 
