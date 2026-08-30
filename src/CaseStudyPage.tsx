@@ -15,6 +15,7 @@ const images: Record<CaseStudySlug, string> = {
 
 export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
   const study = caseStudies[slug]
+  const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20un%20caso%20-%20Orbital%20Frameworks&body=Proyecto%20o%20negocio%3A%0A%0AProblema%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
 
   return (
     <div className="casePage">
@@ -130,7 +131,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
             <h2>¿Tienes un problema operativo parecido?</h2>
             <p>Describe la situación actual y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
           </div>
-          <a className="btn btnPrimary" href="/#contacto">Ir a contacto</a>
+          <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir a Orbital ↗</a>
         </section>
       </main>
     </div>

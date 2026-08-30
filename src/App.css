@@ -2507,6 +2507,10 @@
   flex-wrap: wrap;
 }
 
+.contactActions button {
+  cursor: pointer;
+}
+
 @media (max-width: 980px) {
   .contactInner {
     grid-template-columns: 1fr;
@@ -3119,6 +3123,7 @@
 .servicesClosureLink,
 .portfolioCta,
 .contactActions a,
+.contactActions button,
 .teamCard a,
 .siteFooter {
   font-family: var(--font-sans);

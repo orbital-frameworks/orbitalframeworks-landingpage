@@ -651,6 +651,15 @@ function TeamSection() {
 }
 
 function ContactSection() {
+  const [emailCopied, setEmailCopied] = useState(false)
+  const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks&body=Negocio%3A%0A%0ASituaci%C3%B3n%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText('contact.orbitalframeworks@gmail.com')
+    setEmailCopied(true)
+    window.setTimeout(() => setEmailCopied(false), 2200)
+  }
+
   return (
     <section id="contacto" className="contact">
       <div className="contactInner">
@@ -675,7 +684,8 @@ function ContactSection() {
             <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn de Orbital Frameworks</a>
           </div>
           <div className="contactActions">
-            <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks&body=Negocio%3A%0A%0ASituaci%C3%B3n%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A">Describir una situación</a>
+            <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir por Gmail ↗</a>
+            <button className="btn btnGhost" type="button" onClick={copyEmail}>{emailCopied ? 'Correo copiado' : 'Copiar correo'}</button>
             <a className="btn btnGhost" href="#proyectos">Revisar proyectos</a>
           </div>
         </div>
