@@ -394,8 +394,7 @@ const workItems: WorkItem[] = [
   {
     title: 'Localisa',
     kind: 'Web',
-    url: 'https://www.localisa.pe/',
-    external: true,
+    url: '/casos/localisa/',
     imageSrc: lisaImg,
     description: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
     tags: ['Mapa interactivo', 'SERUMS', 'Plataforma pública'],
@@ -407,8 +406,7 @@ const workItems: WorkItem[] = [
   {
     title: 'PeruLog Pallets',
     kind: 'Landing',
-    url: 'https://perulogpallets.com.pe/',
-    external: true,
+    url: '/casos/perulog-pallets/',
     imageSrc: perulogImg,
     description: 'Landing comercial B2B para explicar servicios, propuesta de valor y canales de contacto.',
     tags: ['UI/UX Design', 'B2B', 'Web Development'],
@@ -500,11 +498,13 @@ function PortfolioSection() {
         <div className="portfolioCta">
           <div className="portfolioCtaCopy">
             <span className="portfolioCtaLabel">Casos completos</span>
-            <p>Revisa el problema, el alcance, los flujos y las decisiones detrás de Checkio y VetERP.</p>
+            <p>Revisa el problema, el alcance, los flujos y las decisiones detrás de los cuatro proyectos seleccionados.</p>
           </div>
           <div className="portfolioCtaActions">
             <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
             <a className="btn btnGhost" href="/casos/veterp/">Caso VetERP</a>
+            <a className="btn btnGhost" href="/casos/localisa/">Caso Localisa</a>
+            <a className="btn btnGhost" href="/casos/perulog-pallets/">Caso PeruLog</a>
             <a className="btn btnPrimary" href="#contacto">Plantear un caso</a>
           </div>
         </div>

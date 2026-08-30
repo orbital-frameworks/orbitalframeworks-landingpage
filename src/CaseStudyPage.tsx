@@ -1,5 +1,7 @@
 import checkioImg from './assets/checkio.png'
 import veterpImg from './assets/veterp_sis.png'
+import lisaImg from './assets/lisa.png'
+import perulogImg from './assets/PerulogPallets.png'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { caseStudies, type CaseStudySlug } from './caseStudies'
 import './CaseStudyPage.css'
@@ -7,6 +9,8 @@ import './CaseStudyPage.css'
 const images: Record<CaseStudySlug, string> = {
   checkio: checkioImg,
   veterp: veterpImg,
+  localisa: lisaImg,
+  'perulog-pallets': perulogImg,
 }
 
 export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
@@ -32,9 +36,12 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
             <div className="caseEyebrow">{study.eyebrow}</div>
             <h1>{study.title}</h1>
             <p>{study.summary}</p>
+            <div className="caseHeroActions">
+              <a className="caseProductCta" href={study.publicUrl} target="_blank" rel="noopener noreferrer">Abrir producto público ↗</a>
+            </div>
             <div className="caseHeroMeta">
               <span>{study.status}</span>
-              <a href={study.publicUrl} target="_blank" rel="noopener noreferrer">Abrir producto público ↗</a>
+              <span>Producto verificable en web</span>
             </div>
           </div>
           <div className="caseHeroMedia">
@@ -123,7 +130,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
             <h2>¿Tienes un problema operativo parecido?</h2>
             <p>Describe la situación actual y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
           </div>
-          <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Revisar%20un%20caso%20-%20Orbital%20Frameworks">Plantear un caso</a>
+          <a className="btn btnPrimary" href="/#contacto">Ir a contacto</a>
         </section>
       </main>
     </div>

@@ -31,8 +31,8 @@ Orbital no parte de una solución predeterminada ni recomienda rediseños comple
 
 - Checkio: plataforma de gestión de personal y asistencia. Caso Orbital: https://orbitalframeworks.qzz.io/casos/checkio/ Producto público: https://checkio-frontend.onrender.com/landing
 - VetERP: sistema de gestión para operación veterinaria, actualmente presentado como producto en pruebas. Caso Orbital: https://orbitalframeworks.qzz.io/casos/veterp/ Producto público: https://veterp.qzz.io/
-- Localisa: plataforma pública con mapa y filtros para revisar plazas SERUMS en Perú. https://www.localisa.pe/
-- PeruLog Pallets: landing comercial B2B. https://perulogpallets.com.pe/
+- Localisa: plataforma pública con mapa y filtros para revisar plazas SERUMS en Perú. Caso Orbital: https://orbitalframeworks.qzz.io/casos/localisa/ Producto público: https://www.localisa.pe/
+- PeruLog Pallets: landing comercial B2B para productos, especificaciones, servicios y cotización. Caso Orbital: https://orbitalframeworks.qzz.io/casos/perulog-pallets/ Producto público: https://perulogpallets.com.pe/
 
 Estos proyectos muestran trabajo verificable, pero no se presentan automáticamente como clientes, testimonios ni casos de éxito comercial.
 

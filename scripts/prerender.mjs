@@ -78,6 +78,22 @@ const pages = [
     canonical: 'https://orbitalframeworks.qzz.io/casos/veterp/',
     schemaType: 'case',
   },
+  {
+    pathname: '/casos/localisa/',
+    output: 'dist/casos/localisa/index.html',
+    title: 'Localisa: caso de plataforma SERUMS | Orbital Frameworks',
+    description: 'Caso Localisa: plataforma pública para explorar plazas SERUMS mediante mapa, filtros, favoritos y herramientas de comparación.',
+    canonical: 'https://orbitalframeworks.qzz.io/casos/localisa/',
+    schemaType: 'case',
+  },
+  {
+    pathname: '/casos/perulog-pallets/',
+    output: 'dist/casos/perulog-pallets/index.html',
+    title: 'PeruLog Pallets: caso de presencia B2B | Orbital Frameworks',
+    description: 'Caso PeruLog Pallets: landing B2B para presentar productos, especificaciones, servicios logísticos y solicitudes de cotización.',
+    canonical: 'https://orbitalframeworks.qzz.io/casos/perulog-pallets/',
+    schemaType: 'case',
+  },
 ]
 
 function schemaForPage(page) {

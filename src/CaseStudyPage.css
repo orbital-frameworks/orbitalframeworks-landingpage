@@ -29,8 +29,8 @@
 
 .caseHero {
   position: relative;
-  min-height: 760px;
-  padding: clamp(70px, 9vw, 128px) clamp(18px, 5vw, 72px) 80px;
+  min-height: auto;
+  padding: clamp(56px, 6vw, 88px) clamp(18px, 5vw, 72px) 72px;
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
   gap: 52px;
@@ -43,8 +43,10 @@
 .caseEyebrow, .caseSectionLabel { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orbital-teal); }
 .caseHero h1 { margin: 22px 0 24px; max-width: 9ch; font-family: var(--font-display); font-size: clamp(68px, 8vw, 112px); line-height: .84; letter-spacing: .02em; text-wrap: balance; text-transform: uppercase; color: #fff; }
 .caseHeroCopy > p { max-width: 660px; margin: 0; font-size: clamp(19px, 2vw, 27px); line-height: 1.6; color: rgba(245,245,245,.76); }
-.caseHeroMeta { margin-top: 34px; padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; border-top: 1px solid rgba(245,245,245,.12); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
-.caseHeroMeta a { color: var(--orbital-teal); text-decoration: none; }
+.caseHeroActions { margin-top: 32px; }
+.caseProductCta { min-width: 300px; min-height: 64px; padding: 0 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(0,210,211,.82); background: var(--orbital-teal); color: #041014; text-decoration: none; font-family: var(--font-body); font-size: 17px; font-weight: 800; letter-spacing: .01em; box-shadow: 0 18px 46px rgba(0,210,211,.18); transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+.caseProductCta:hover { transform: translateY(-2px); background: #20e1e2; box-shadow: 0 22px 58px rgba(0,210,211,.23); }
+.caseHeroMeta { margin-top: 26px; padding-top: 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; border-top: 1px solid rgba(245,245,245,.12); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .caseHeroMedia { padding: 20px; border: 1px solid rgba(245,245,245,.12); background: rgba(255,255,255,.03); box-shadow: 0 40px 100px rgba(0,0,0,.34); transform: rotate(1.5deg); }
 .caseHeroMedia img { width: 100%; display: block; }
 
@@ -93,7 +95,8 @@
 
 @media (max-width: 640px) {
   .caseNavActions a:first-child { display: none; }
-  .caseHero { padding-top: 68px; gap: 34px; }
+  .caseHero { padding-top: 48px; gap: 34px; }
+  .caseProductCta { width: 100%; min-width: 0; min-height: 58px; padding-inline: 20px; }
   .caseHero h1 { max-width: 100%; font-size: clamp(58px, 18vw, 86px); line-height: .88; }
   .caseHeroMedia { padding: 10px; transform: none; }
   .caseCapabilityGrid { grid-template-columns: 1fr; }

@@ -68,6 +68,8 @@ La publicación del artefacto no garantiza por sí sola que las capas CDN extern
 - `/sobre-orbital-frameworks/`: identidad institucional, equipo, capacidades, método y proyectos públicos.
 - `/casos/checkio/`: caso público de Checkio.
 - `/casos/veterp/`: caso público de VetERP.
+- `/casos/localisa/`: caso público de Localisa.
+- `/casos/perulog-pallets/`: caso público de PeruLog Pallets.
 
 ## Estructura relevante
 
