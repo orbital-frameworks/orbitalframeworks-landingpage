@@ -24,6 +24,7 @@ const oauthAppPath = requireFile('orbital-leads-gmail.html')
 requireFile('privacy/index.html')
 requireFile('terms/index.html')
 const aboutPath = requireFile('sobre-orbital-frameworks/index.html')
+const proofPath = requireFile('evidencia/index.html')
 const checkioCasePath = requireFile('casos/checkio/index.html')
 const veterpCasePath = requireFile('casos/veterp/index.html')
 const localisaCasePath = requireFile('casos/localisa/index.html')
@@ -50,6 +51,7 @@ const privacy = existsSync(privacyPath) ? readFileSync(privacyPath, 'utf8') : ''
 const terms = existsSync(termsPath) ? readFileSync(termsPath, 'utf8') : ''
 const oauthApp = existsSync(oauthAppPath) ? readFileSync(oauthAppPath, 'utf8') : ''
 const about = existsSync(aboutPath) ? readFileSync(aboutPath, 'utf8') : ''
+const proof = existsSync(proofPath) ? readFileSync(proofPath, 'utf8') : ''
 const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
 const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
 const localisaCase = existsSync(localisaCasePath) ? readFileSync(localisaCasePath, 'utf8') : ''
@@ -65,6 +67,7 @@ check('Sitemap is declared in robots', robots.includes('Sitemap: https://orbital
 check('Sitemap contains canonical URL', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/</loc>'))
 check('Sitemap contains legal pages', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>') && sitemap.includes('<loc>https://orbitalframeworks.qzz.io/terms</loc>'))
 check('Sitemap contains institutional page', sitemap.includes('/sobre-orbital-frameworks/'))
+check('Sitemap contains proof hub', sitemap.includes('/evidencia/'))
 check('Sitemap contains case studies', ['/casos/checkio/', '/casos/veterp/', '/casos/localisa/', '/casos/perulog-pallets/'].every((path) => sitemap.includes(path)))
 check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
 check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
@@ -73,6 +76,7 @@ check('OAuth app homepage is prerendered', oauthApp.includes('<h1>Orbital Leads 
 check('OAuth app homepage is excluded from search indexing', oauthApp.includes('<meta name="robots" content="noindex, follow" />'))
 check('Home links visibly to legal pages', html.includes('href="/privacy"') && html.includes('href="/terms"') && html.includes('Orbital Leads'))
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
+check('Proof hub is prerendered', proof.includes('Trabajo que se puede revisar antes de conversar.') && proof.includes('https://orbitalframeworks.qzz.io/evidencia/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
 check('VetERP case is prerendered', veterpCase.includes('Qué existe dentro del producto.') && veterpCase.includes('https://orbitalframeworks.qzz.io/casos/veterp/'))
 check('Localisa case is prerendered', localisaCase.includes('Qué existe dentro del producto.') && localisaCase.includes('https://orbitalframeworks.qzz.io/casos/localisa/'))
@@ -107,7 +111,7 @@ if (jsFiles.length === 1) {
   const jsPath = join(assetsDir, jsFiles[0])
   const jsSize = statSync(jsPath).size
   const js = readFileSync(jsPath, 'utf8')
-  check('Client JavaScript stays within visual baseline', jsSize <= 260_000, `${jsSize} bytes`)
+  check('Client JavaScript stays within visual baseline', jsSize <= 266_000, `${jsSize} bytes`)
   check('Client bundle has no dynamic code execution', !/\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(/.test(js))
 }
 

@@ -501,6 +501,7 @@ function PortfolioSection() {
             <p>Revisa el problema, el alcance, los flujos y las decisiones detrás de los cuatro proyectos seleccionados.</p>
           </div>
           <div className="portfolioCtaActions">
+            <a className="btn btnGhost" href="/evidencia/">Ver evidencia</a>
             <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
             <a className="btn btnGhost" href="/casos/veterp/">Caso VetERP</a>
             <a className="btn btnGhost" href="/casos/localisa/">Caso Localisa</a>
@@ -699,6 +700,7 @@ function ContactSection() {
           <a href="/">Home</a>
           <a href="#servicios">Servicios</a>
           <a href="#proyectos">Casos</a>
+          <a href="/evidencia/">Evidencia</a>
           <a href="#como-trabajamos">Método</a>
           <a href="#equipo">Equipo</a>
           <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>

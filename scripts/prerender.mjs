@@ -63,6 +63,14 @@ const pages = [
     schemaType: 'about',
   },
   {
+    pathname: '/evidencia/',
+    output: 'dist/evidencia/index.html',
+    title: 'Evidencia de trabajo | Orbital Frameworks',
+    description: 'Productos, casos y superficies públicas de Orbital Frameworks que pueden revisarse antes de una conversación comercial.',
+    canonical: 'https://orbitalframeworks.qzz.io/evidencia/',
+    schemaType: 'proof',
+  },
+  {
     pathname: '/casos/checkio/',
     output: 'dist/casos/checkio/index.html',
     title: 'Checkio: caso de gestión de personal | Orbital Frameworks',

@@ -6,6 +6,7 @@ import CaseStudyPage from './CaseStudyPage.tsx'
 import AboutPage from './AboutPage.tsx'
 import LegalPage from './LegalPage.tsx'
 import OAuthAppPage from './OAuthAppPage.tsx'
+import ProofHubPage from './ProofHubPage.tsx'
 import { isCaseStudySlug } from './caseStudies'
 
 function resolvePage(pathname: string) {
@@ -13,6 +14,7 @@ function resolvePage(pathname: string) {
   if (pathname === '/terms' || pathname === '/terms/') return <LegalPage kind="terms" />
   if (pathname === '/orbital-leads-gmail' || pathname === '/orbital-leads-gmail/') return <OAuthAppPage />
   if (pathname === '/sobre-orbital-frameworks' || pathname === '/sobre-orbital-frameworks/') return <AboutPage />
+  if (pathname === '/evidencia' || pathname === '/evidencia/') return <ProofHubPage />
   const match = pathname.match(/^\/casos\/([^/]+)\/?$/)
   const slug = match?.[1]
   if (slug && isCaseStudySlug(slug)) return <CaseStudyPage slug={slug} />

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://orbitalframeworks.qzz.io/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -20,9 +20,15 @@
   </url>
   <url>
     <loc>https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://orbitalframeworks.qzz.io/evidencia/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://orbitalframeworks.qzz.io/casos/checkio/</loc>

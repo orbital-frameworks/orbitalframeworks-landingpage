@@ -24,6 +24,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
           <img src={orbitalLogo} alt="Orbital Frameworks" />
         </a>
         <div className="caseNavActions">
+          <a href="/evidencia/">Evidencia</a>
           <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>
           <a href="/#proyectos">Todos los proyectos</a>
           <a href="/#contacto">Contacto</a>

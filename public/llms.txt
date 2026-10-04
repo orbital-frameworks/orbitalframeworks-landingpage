@@ -8,6 +8,7 @@ Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones
 - País: Perú.
 - Actividad: desarrollo de software y soluciones digitales.
 - Página institucional: https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/
+- Evidencia pública: https://orbitalframeworks.qzz.io/evidencia/
 - LinkedIn oficial: https://www.linkedin.com/company/orbitalframeworks/
 
 ## Equipo
