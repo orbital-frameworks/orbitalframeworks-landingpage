@@ -41,7 +41,7 @@ check('Checkio public link', checkioCase.includes('https://checkio-frontend.onre
 check('VetERP public link', veterpCase.includes('https://veterp.qzz.io/'))
 check('Localisa public link', localisaCase.includes('https://www.localisa.pe/'))
 check('PeruLog public link', perulogCase.includes('https://perulogpallets.com.pe/'))
-check('Case product CTAs are prominent in markup', [checkioCase, veterpCase, localisaCase, perulogCase].every((page) => page.includes('Visitar producto publicado')))
+check('Case product CTAs are prominent in markup', [checkioCase, veterpCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
 check('Original visual assets', html.includes('/assets/checkio-') && html.includes('/assets/PerulogPallets-') && html.includes('/assets/Astro%20showing-'))
 check('Original visual architecture', html.includes('class="servicesManifesto"') && html.includes('class="portfolioRobot"') && html.includes('class="heroShapes"'))
 check('Structured data graph', structuredTypes.includes('Organization') && structuredTypes.includes('WebSite') && structuredTypes.includes('WebPage') && structuredTypes.includes('ItemList') && structuredTypes.includes('Service') && structuredTypes.includes('Person'), structuredTypes.join(', '))

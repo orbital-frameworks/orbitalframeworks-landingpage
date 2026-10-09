@@ -25,27 +25,33 @@ function resolveImageMagickCommand() {
   if (process.platform === 'win32' && existsSync(windowsMagick)) return windowsMagick
   if (commandExists('magick')) return 'magick'
   if (commandExists('convert')) return 'convert'
-  throw new Error('ImageMagick is required. Install ImageMagick and expose either `magick` or `convert` in PATH.')
+  return null
 }
 
 const command = resolveImageMagickCommand()
+const ffmpeg = command ? null : commandExists('ffmpeg') ? 'ffmpeg' : null
+if (!command && !ffmpeg) {
+  throw new Error('Image optimization requires ImageMagick (magick/convert) or FFmpeg on PATH.')
+}
+
+function optimize(input, output, { width, height, webp = false }) {
+  const args = command
+    ? [input, '-auto-orient', '-strip', '-resize', height ? `${width}x${height}` : `${width}x>`,
+        ...(webp ? ['-quality', '78', '-define', 'webp:method=6'] : []), output]
+    : ['-hide_banner', '-loglevel', 'error', '-nostdin', '-y', '-i', input,
+        '-vf', height
+          ? `scale=${width}:${height}:flags=lanczos`
+          : `scale=w='min(iw,${width})':h=-2:flags=lanczos`,
+        ...(webp ? ['-c:v', 'libwebp', '-quality', '78', '-compression_level', '6'] : []),
+        '-frames:v', '1', '-update', '1', output]
+  const result = spawnSync(command ?? ffmpeg, args, { stdio: 'inherit' })
+  if (result.status !== 0) throw new Error(`Image optimization failed for ${output}`)
+}
 
 for (const [name, input] of images) {
   for (const width of widths) {
     const output = join(outputDir, `${name}-${width}.webp`)
-    const result = spawnSync(command, [
-      input,
-      '-auto-orient',
-      '-strip',
-      '-resize', `${width}x>`,
-      '-quality', '78',
-      '-define', 'webp:method=6',
-      output,
-    ], { stdio: 'inherit' })
-
-    if (result.status !== 0) {
-      throw new Error(`Image optimization failed for ${name} at ${width}px`)
-    }
+    optimize(input, output, { width, webp: true })
   }
 }
 
@@ -57,17 +63,7 @@ const faviconVariants = [
 ]
 
 for (const [filename, size] of faviconVariants) {
-  const result = spawnSync(command, [
-    faviconSource,
-    '-auto-orient',
-    '-strip',
-    '-resize', `${size}x${size}`,
-    join(root, 'dist', filename),
-  ], { stdio: 'inherit' })
-
-  if (result.status !== 0) {
-    throw new Error(`Favicon optimization failed for ${filename}`)
-  }
+  optimize(faviconSource, join(root, 'dist', filename), { width: size, height: size })
 }
 
 const copiedSource = join(root, 'dist', 'Logo_favicon.png')

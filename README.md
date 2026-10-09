@@ -30,13 +30,13 @@ El proceso de build ejecuta:
 
 1. validación de TypeScript;
 2. build cliente de Vite;
-3. generación de imágenes WebP responsive mediante ImageMagick;
+3. generación de imágenes WebP responsive mediante ImageMagick o FFmpeg;
 4. generación de favicons optimizados;
 5. build SSR temporal;
 6. prerender de la home, la página institucional y los casos públicos dentro de `dist/`;
 7. verificación automática del artefacto final.
 
-ImageMagick debe estar disponible como `magick` o `convert`. El workflow de GitHub Actions lo instala explícitamente en Ubuntu.
+La optimización usa ImageMagick (`magick` o `convert`) si está disponible y, en su ausencia, FFmpeg (`ffmpeg`). El workflow de GitHub Actions instala ImageMagick explícitamente en Ubuntu; la VPS puede reutilizar FFmpeg sin instalar otra dependencia global.
 
 ## Despliegue
 
