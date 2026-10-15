@@ -21,7 +21,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
     <div className="casePage">
       <header className="caseNav">
         <a href="/" className="caseBrand" aria-label="Volver a Orbital Frameworks">
-          <img src={orbitalLogo} alt="Orbital Frameworks" />
+          <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
         </a>
         <div className="caseNavActions">
           <a href="/evidencia/">Evidencia</a>
@@ -47,7 +47,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
             </div>
           </div>
           <div className="caseHeroMedia">
-            <img src={images[slug]} alt={`Vista del producto ${study.title}`} />
+            <img src={images[slug]} alt={`Vista del producto ${study.title}`} width={960} height={540} loading="eager" decoding="async" />
           </div>
         </section>
 

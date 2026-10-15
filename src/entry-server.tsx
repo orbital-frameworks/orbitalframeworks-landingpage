@@ -6,18 +6,22 @@ import AboutPage from './AboutPage.tsx'
 import LegalPage from './LegalPage.tsx'
 import OAuthAppPage from './OAuthAppPage.tsx'
 import ProofHubPage from './ProofHubPage.tsx'
+import NotFoundPage from './NotFoundPage.tsx'
 import { isCaseStudySlug } from './caseStudies'
 
 function resolvePage(pathname: string) {
-  if (pathname === '/privacy' || pathname === '/privacy/') return <LegalPage kind="privacy" />
-  if (pathname === '/terms' || pathname === '/terms/') return <LegalPage kind="terms" />
-  if (pathname === '/orbital-leads-gmail' || pathname === '/orbital-leads-gmail/') return <OAuthAppPage />
-  if (pathname === '/sobre-orbital-frameworks' || pathname === '/sobre-orbital-frameworks/') return <AboutPage />
-  if (pathname === '/evidencia' || pathname === '/evidencia/') return <ProofHubPage />
-  const match = pathname.match(/^\/casos\/([^/]+)\/?$/)
+  const p = pathname.replace(/\/+$/, '') || '/'
+  if (p === '/privacy') return <LegalPage kind="privacy" />
+  if (p === '/terms') return <LegalPage kind="terms" />
+  if (p === '/orbital-leads-gmail') return <OAuthAppPage />
+  if (p === '/sobre-orbital-frameworks') return <AboutPage />
+  if (p === '/evidencia') return <ProofHubPage />
+  if (p === '/404' || p === '/404.html') return <NotFoundPage />
+  const match = p.match(/^\/casos\/([^/]+)$/)
   const slug = match?.[1]
   if (slug && isCaseStudySlug(slug)) return <CaseStudyPage slug={slug} />
-  return <App />
+  if (p === '/' || p === '/index.html') return <App />
+  return <NotFoundPage />
 }
 
 export function render(pathname = '/') {

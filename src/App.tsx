@@ -5,6 +5,7 @@ import perulogImg from './assets/PerulogPallets.png'
 import lisaImg from './assets/lisa.png'
 import checkioImg from './assets/checkio.png'
 import veterpSisImg from './assets/veterp_sis.png'
+import { trackContactIntent } from './analytics'
 import './App.css'
 
 type NavItem = {
@@ -55,7 +56,7 @@ function usePointerParallaxVars() {
 function Logo() {
   return (
     <a className="logoMark" href="#inicio" aria-label="Orbital Frameworks">
-      <img className="logoImg" src={orbitalLogo} alt="Orbital Frameworks" />
+      <img className="logoImg" src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
     </a>
   )
 }
@@ -438,7 +439,7 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       data-index={String(index + 1).padStart(2, '0')}
     >
       <div className="workMedia">
-        <img src={item.imageSrc} alt={`Vista de ${item.title}`} loading="lazy" />
+        <img src={item.imageSrc} alt={`Vista de ${item.title}`} loading="lazy" width={640} height={360} decoding="async" />
         <div className="workMediaOverlay">
           <div className="workMediaEyebrow">{cardLabel}</div>
           <div className="workMediaTitle">{item.title}</div>
@@ -485,7 +486,7 @@ function PortfolioSection() {
               <span className="portfolioNoteLine" />
               <p>Seleccionamos proyectos donde interfaz, lógica y operación sostienen una misma solución.</p>
             </div>
-            <img className="portfolioRobotImg" src={astroImg} alt="" loading="lazy" />
+            <img className="portfolioRobotImg" src={astroImg} alt="" loading="lazy" width={600} height={600} decoding="async" />
           </aside>
 
           <div className="portfolioProjects">
@@ -658,6 +659,7 @@ function ContactSection() {
   const copyEmail = async () => {
     await navigator.clipboard.writeText('contact.orbitalframeworks@gmail.com')
     setEmailCopied(true)
+    trackContactIntent('copy_email')
     window.setTimeout(() => setEmailCopied(false), 2200)
   }
 
@@ -686,7 +688,7 @@ function ContactSection() {
           </div>
           <div className="contactActions">
             <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir por Gmail ↗</a>
-            <button className="btn btnGhost" type="button" onClick={copyEmail}>{emailCopied ? 'Correo copiado' : 'Copiar correo'}</button>
+            <button className="btn btnGhost" type="button" data-analytics-action="copy_email" onClick={copyEmail}>{emailCopied ? 'Correo copiado' : 'Copiar correo'}</button>
             <a className="btn btnGhost" href="#proyectos">Revisar proyectos</a>
           </div>
         </div>
@@ -739,6 +741,8 @@ function Hero() {
     let maxX = 0
     let minY = 0
     let maxY = 0
+    let isVisible = true
+    let isRunning = false
 
     const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 
@@ -767,7 +771,28 @@ function Hero() {
       pyramid.style.setProperty('--by', `${y.toFixed(2)}px`)
     }
 
+    const start = () => {
+      if (isRunning) return
+      isRunning = true
+      last = performance.now()
+      raf = requestAnimationFrame(step)
+    }
+
+    const stop = () => {
+      if (!isRunning) return
+      isRunning = false
+      if (raf) {
+        cancelAnimationFrame(raf)
+        raf = 0
+      }
+    }
+
     const step = (now: number) => {
+      if (!isRunning || !isVisible) {
+        isRunning = false
+        raf = 0
+        return
+      }
       raf = requestAnimationFrame(step)
       const dt = Math.min(0.033, (now - last) / 1000)
       last = now
@@ -783,7 +808,22 @@ function Hero() {
 
     computeBounds()
     setVars()
-    raf = requestAnimationFrame(step)
+
+    const io = typeof IntersectionObserver !== 'undefined'
+      ? new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            isVisible = entry.isIntersecting
+            if (isVisible) start()
+            else stop()
+          }
+        }, { threshold: 0.05 })
+      : null
+
+    if (io) {
+      io.observe(hero)
+    } else {
+      start()
+    }
 
     const onResize = () => computeBounds()
     window.addEventListener('resize', onResize, { passive: true })
@@ -791,7 +831,8 @@ function Hero() {
     ro.observe(hero)
 
     return () => {
-      cancelAnimationFrame(raf)
+      stop()
+      if (io) io.disconnect()
       window.removeEventListener('resize', onResize)
       ro.disconnect()
     }
@@ -804,7 +845,7 @@ function Hero() {
 
       <div className="heroInner">
         <div className="heroCopy">
-          <p className="heroKicker">Empresa peruana de desarrollo de software y soluciones digitales.</p>
+          <p className="heroKicker">Orbital Frameworks / Desarrollo de software en Perú.</p>
           <h1 className="heroTitle">
             <span>SISTEMAS</span><span>DIGITALES</span><span>CON</span><span>PRESENCIA<span className="heroCursor" aria-hidden="true">._</span></span>
           </h1>

@@ -114,9 +114,20 @@ const pages = [
     schemaType: 'case',
     dateModified: '2026-08-30',
   },
+  {
+    pathname: '/404',
+    output: 'dist/404.html',
+    extraOutputs: ['dist/404/index.html'],
+    title: '404 - Página no encontrada | Orbital Frameworks',
+    description: 'La página solicitada no existe o fue movida.',
+    canonical: 'https://orbitalframeworks.qzz.io/404',
+    schemaType: '404',
+    noindex: true,
+  },
 ]
 
 function schemaForPage(page) {
+  if (page.schemaType === '404') return null
   if (!page.schemaType) return baseStructuredData
 
   const baseGraph = baseStructuredData['@graph'] ?? []
@@ -125,6 +136,70 @@ function schemaForPage(page) {
   const people = baseGraph.filter((item) => item['@type'] === 'Person')
   const portfolio = baseGraph.find((item) => item['@type'] === 'ItemList')
   const baseWebPage = baseGraph.find((item) => item['@type'] === 'WebPage')
+
+  let breadcrumb = null
+  if (page.pathname !== '/') {
+    if (page.schemaType === 'case') {
+      const caseName = page.title.split(':')[0].trim()
+      breadcrumb = {
+        '@type': 'BreadcrumbList',
+        '@id': `${page.canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: 'https://orbitalframeworks.qzz.io/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Proyectos',
+            item: 'https://orbitalframeworks.qzz.io/#proyectos',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: caseName,
+            item: page.canonical,
+          },
+        ],
+      }
+    } else {
+      breadcrumb = {
+        '@type': 'BreadcrumbList',
+        '@id': `${page.canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: 'https://orbitalframeworks.qzz.io/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: page.title.split('|')[0].trim(),
+            item: page.canonical,
+          },
+        ],
+      }
+    }
+  }
+
+  let caseEntity = null
+  if (page.schemaType === 'case') {
+    const caseName = page.title.split(':')[0].trim()
+    caseEntity = {
+      '@type': 'CreativeWork',
+      '@id': `${page.canonical}#project`,
+      name: caseName,
+      headline: page.title,
+      description: page.description,
+      url: page.canonical,
+      creator: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
+    }
+  }
 
   const webPage = {
     ...baseWebPage,
@@ -136,14 +211,15 @@ function schemaForPage(page) {
     dateModified: page.dateModified || (page.schemaType === 'legal' ? '2026-08-28' : '2026-10-15'),
     isPartOf: { '@id': 'https://orbitalframeworks.qzz.io/#website' },
     about: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
-    mainEntity: page.schemaType === 'case'
-      ? { '@id': 'https://orbitalframeworks.qzz.io/#portfolio' }
+    mainEntity: caseEntity
+      ? { '@id': `${page.canonical}#project` }
       : { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
+    ...(breadcrumb ? { breadcrumb: { '@id': `${page.canonical}#breadcrumb` } } : {}),
   }
 
   return {
     '@context': 'https://schema.org',
-    '@graph': [organization, website, ...people, portfolio, webPage].filter(Boolean),
+    '@graph': [organization, website, ...people, portfolio, caseEntity, breadcrumb, webPage].filter(Boolean),
   }
 }
 
@@ -159,10 +235,25 @@ function withMetadata(html, page) {
     .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${page.canonical}" />`)
     .replace(/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${page.title}" />`)
     .replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${page.description}" />`)
-    .replace(
+  const schema = schemaForPage(page)
+  if (schema) {
+    output = output.replace(
       /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
-      `<script type="application/ld+json">\n${JSON.stringify(schemaForPage(page), null, 2)}\n    </script>`,
+      `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n    </script>`,
     )
+  } else {
+    output = output.replace(
+      /\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      '',
+    )
+  }
+
+  if (page.schemaType === 'case') {
+    output = output.replace(
+      /<meta property="og:type" content="[^"]*" \/>/,
+      '<meta property="og:type" content="article" />',
+    )
+  }
 
   if (page.noindex) {
     output = output.replace(

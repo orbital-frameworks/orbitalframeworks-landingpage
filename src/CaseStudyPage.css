@@ -48,7 +48,7 @@
 .caseProductCta:hover { transform: translateY(-2px); background: #20e1e2; box-shadow: 0 22px 58px rgba(0,210,211,.23); }
 .caseHeroMeta { margin-top: 26px; padding-top: 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; border-top: 1px solid rgba(245,245,245,.12); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .caseHeroMedia { padding: 20px; border: 1px solid rgba(245,245,245,.12); background: rgba(255,255,255,.03); box-shadow: 0 40px 100px rgba(0,0,0,.34); transform: rotate(1.5deg); }
-.caseHeroMedia img { width: 100%; display: block; }
+.caseHeroMedia img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 
 .caseNarrative { padding: 0 clamp(18px, 5vw, 72px) 104px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(245,245,245,.12); }
 .caseNarrative article { padding: 34px; background: #0a1622; }

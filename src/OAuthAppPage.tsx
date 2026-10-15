@@ -6,7 +6,7 @@ export default function OAuthAppPage() {
     <div className="legalPage">
       <header className="legalNav">
         <a href="/" className="legalBrand" aria-label="Orbital Frameworks">
-          <img src={orbitalLogo} alt="Orbital Frameworks" />
+          <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
         </a>
         <nav className="legalNavLinks" aria-label="Navegación de Orbital Leads Gmail">
           <a href="/">Orbital Frameworks</a>

@@ -52,6 +52,11 @@ export function prefersMarkdown(acceptHeader) {
 
 export default {
   async fetch(request, env, ctx) {
+    // Negotiation must never turn a POST or other non-document method into
+    // an asset GET. Leave non-GET/HEAD traffic untouched.
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      return fetch(request)
+    }
     const accept = request.headers.get('accept') || ''
     const wantsMarkdown = prefersMarkdown(accept)
     const url = new URL(request.url)
@@ -67,7 +72,10 @@ export default {
       if (originResponse.ok) {
         const headers = new Headers(originResponse.headers)
         headers.set('Content-Type', 'text/markdown; charset=utf-8')
-        headers.set('Vary', 'Accept')
+        const priorVary = headers.get('Vary')
+        if (!priorVary || !priorVary.split(',').some((item) => item.trim().toLowerCase() === 'accept')) {
+          headers.set('Vary', priorVary ? `${priorVary}, Accept` : 'Accept')
+        }
         return new Response(originResponse.body, {
           status: 200,
           statusText: 'OK',

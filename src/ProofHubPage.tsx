@@ -59,7 +59,7 @@ export default function ProofHubPage() {
     <div className="proofPage">
       <header className="proofNav">
         <a href="/" className="proofBrand" aria-label="Volver a Orbital Frameworks">
-          <img src={orbitalLogo} alt="Orbital Frameworks" />
+          <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
         </a>
         <nav className="proofNavLinks" aria-label="Navegación de evidencia">
           <a href="#trabajo">Trabajo</a>
@@ -98,7 +98,7 @@ export default function ProofHubPage() {
           <div className="proofList">
             {proofItems.map((item) => (
               <article className="proofItem" key={item.title}>
-                <div className="proofItemMedia"><img src={item.image} alt={`Vista de ${item.title}`} loading="lazy" /></div>
+                <div className="proofItemMedia"><img src={item.image} alt={`Vista de ${item.title}`} loading="lazy" width={640} height={360} decoding="async" /></div>
                 <div className="proofItemBody">
                   <div className="proofItemMeta"><span>{item.index}</span><span>{item.sector}</span></div>
                   <h3>{item.title}</h3>

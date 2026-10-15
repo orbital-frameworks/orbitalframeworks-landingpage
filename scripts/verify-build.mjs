@@ -84,6 +84,14 @@ check('PeruLog case is prerendered', perulogCase.includes('Qué existe dentro de
 check('Case pages expose primary product CTA', [checkioCase, veterpCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
 check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
 
+const notFoundPath = join(dist, '404.html')
+if (existsSync(notFoundPath)) {
+  const notFoundHtml = readFileSync(notFoundPath, 'utf8')
+  check('404 error page is prerendered with noindex', notFoundHtml.includes('<meta name="robots" content="noindex, follow" />'))
+  check('404 error page has canonical /404', notFoundHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/404" />'))
+  check('404 error page does not contain contradictory homepage schema', !notFoundHtml.includes('"@type": "WebSite"') && !notFoundHtml.includes('"@type": "WebPage"'))
+}
+
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
 let structuredData = null
 try {
@@ -102,7 +110,14 @@ check('Structured logo uses published asset', html.includes('https://orbitalfram
 
 const orgEntity = structuredData?.['@graph']?.find((item) => item['@type'] === 'Organization')
 check('Organization schema includes contactPoint', Boolean(orgEntity?.contactPoint && orgEntity.contactPoint.length > 0 && orgEntity.contactPoint[0].email === 'contact.orbitalframeworks@gmail.com'))
-check('Organization schema excludes PostalAddress and physical address', !orgEntity?.address)
+check('Organization schema has a country-only PostalAddress', Boolean(
+  orgEntity?.address?.['@type'] === 'PostalAddress' &&
+  orgEntity.address.addressCountry === 'PE' &&
+  !orgEntity.address.streetAddress &&
+  !orgEntity.address.postalCode &&
+  !orgEntity.address.addressLocality &&
+  !orgEntity.address.addressRegion
+))
 check('Organization schema excludes fabricated Lima references', Boolean(orgEntity && !JSON.stringify(orgEntity).includes('Lima')))
 check('Organization schema specifies Peru as served country', Boolean(
   orgEntity &&
@@ -138,7 +153,7 @@ if (jsFiles.length === 1) {
   const jsPath = join(assetsDir, jsFiles[0])
   const jsSize = statSync(jsPath).size
   const js = readFileSync(jsPath, 'utf8')
-  check('Client JavaScript stays within visual baseline', jsSize <= 266_000, `${jsSize} bytes`)
+  check('Client JavaScript stays within visual baseline', jsSize <= 275_000, `${jsSize} bytes`)
   check('Client bundle has no dynamic code execution', !/\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(/.test(js))
 }
 

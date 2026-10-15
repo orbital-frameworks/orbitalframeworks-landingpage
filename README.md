@@ -24,6 +24,7 @@ No presenta métricas, clientes, testimonios o resultados que no puedan demostra
 - `npm run build`: genera `dist/` desde cero, optimiza imágenes, prerenderiza y valida que permanezca un artefacto de despliegue real (falla si está ausente). No usa salidas temporales que desaparezcan al terminar.
 - `npm run verify:build`: valida prerender, canonical, robots, sitemap, schema, assets y límite de JavaScript.
 - `npm run verify:production`: comprueba contenido, enlaces, caché y headers del dominio público.
+- `npm run verify:agents`: comprueba directamente en el dominio publicado la negociación `Accept: text/markdown`, 404 Markdown, `Vary: Accept`, archivos para agentes y JSON-LD. Este comando falla antes de activar la ruta Cloudflare Worker; no lo confundir con `npm test`.
 - `npm run preview`: sirve localmente el build generado.
 
 ## Build de producción

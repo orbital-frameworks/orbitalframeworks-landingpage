@@ -59,7 +59,7 @@ export default function AboutPage() {
     <div className="aboutPage">
       <header className="aboutNav">
         <a href="/" className="aboutBrand" aria-label="Volver a Orbital Frameworks">
-          <img src={orbitalLogo} alt="Orbital Frameworks" />
+          <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
         </a>
         <nav className="aboutNavActions" aria-label="Navegación institucional">
           <a href="/#proyectos">Proyectos</a>

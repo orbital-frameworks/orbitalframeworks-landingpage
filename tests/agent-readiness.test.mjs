@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs'
 import { resolve, join } from 'node:path'
-import { execSync } from 'node:child_process'
+import { execSync, spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
 
 const root = resolve(process.cwd())
@@ -45,8 +45,12 @@ test('1. Organization JSON-LD completeness & truthfulness', () => {
   assert.equal(primaryContact.url, 'https://orbitalframeworks.qzz.io/')
   assert.equal(primaryContact.telephone, undefined, 'Must NOT invent a phone number')
 
-  // address assertions (truthful absence of physical address / PostalAddress)
-  assert.equal(org.address, undefined, 'Must NOT invent PostalAddress or physical address')
+  // The company's public identity confirms Peru, not a street/postal location.
+  // Only declare country-level address information until a company address is verified.
+  assert.deepEqual(org.address, { '@type': 'PostalAddress', addressCountry: 'PE' })
+  assert.equal(org.address.streetAddress, undefined, 'Must NOT invent a street')
+  assert.equal(org.address.addressLocality, undefined, 'Must NOT invent a locality')
+  assert.equal(org.address.postalCode, undefined, 'Must NOT invent a postal code')
   assert.ok(!JSON.stringify(org).includes('Lima'), 'Must NOT invent references to Lima')
 
   // Country Peru assertion
@@ -142,7 +146,10 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
       if (url.pathname === '/index.md') {
         return new Response(indexMd, {
           status: 200,
-          headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
+          headers: {
+            'Content-Type': 'text/markdown; charset=utf-8',
+            'Vary': 'Accept-Encoding',
+          },
         })
       }
       if (url.pathname === '/' || url.pathname === '/index.html') {
@@ -171,6 +178,7 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
     assert.equal(resHomeMd.status, 200)
     assert.ok(resHomeMd.headers.get('Content-Type').includes('text/markdown'))
     assert.ok(resHomeMd.headers.get('Vary').includes('Accept'))
+    assert.ok(resHomeMd.headers.get('Vary').includes('Accept-Encoding'), 'Must not discard origin cache variants')
     const bodyHomeMd = await resHomeMd.text()
     assert.ok(bodyHomeMd.includes('# Orbital Frameworks'))
     assert.ok(bodyHomeMd.includes('desarrollo de software'))
@@ -185,6 +193,22 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
     assert.ok(resHomeHtml.headers.get('Vary').includes('Accept'))
     const bodyHomeHtml = await resHomeHtml.text()
     assert.ok(bodyHomeHtml.includes('<!doctype html>') || bodyHomeHtml.includes('<html'))
+
+    // A browser that explicitly prefers HTML must never receive Markdown.
+    const reqPreferHtml = new Request('https://orbitalframeworks.qzz.io/', {
+      headers: { Accept: 'text/html;q=1, text/markdown;q=0.5' },
+    })
+    const resPreferHtml = await worker.fetch(reqPreferHtml)
+    assert.ok(resPreferHtml.headers.get('Content-Type').includes('text/html'))
+
+    // Non-document methods must pass through, even when requesting Markdown.
+    const reqPostMd = new Request('https://orbitalframeworks.qzz.io/', {
+      method: 'POST',
+      headers: { Accept: 'text/markdown' },
+      body: 'test',
+    })
+    const resPostMd = await worker.fetch(reqPostMd)
+    assert.ok(resPostMd.headers.get('Content-Type').includes('text/html'))
 
     // Simulation C: GET /non-existent-probe-404 with Accept: text/markdown
     const req404Md = new Request('https://orbitalframeworks.qzz.io/non-existent-probe-404', {
@@ -216,6 +240,8 @@ test('7. Brand search consistency & dateModified synchronization across assets',
   // Title and descriptions match
   assert.ok(indexHtml.includes('<title>Orbital Frameworks | Desarrollo de software en Perú</title>'))
   assert.ok(indexHtml.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.'))
+  const homepageSource = readFileSync(join(root, 'src/App.tsx'), 'utf8')
+  assert.ok(homepageSource.includes('Orbital Frameworks / Desarrollo de software en Perú.'), 'Brand and service must appear together in the visible home hero')
 
   // Robots & Sitemap match
   assert.ok(robotsTxt.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))
@@ -277,7 +303,7 @@ test('9. verify-build strictly requires index.md and 404.md in dist without sile
     cpSync(join(root, 'dist'), testDist, { recursive: true })
     // Ensure updated llms.txt is present
     writeFileSync(join(testDist, 'llms.txt'), readFileSync(join(root, 'public/llms.txt')))
-    // Ensure testDist index.html has the updated JSON-LD without PostalAddress / Lima and with 2026-10-15 dateModified
+    // Ensure testDist index.html has updated country-only schema and dateModified.
     const baseHtml = readFileSync(join(testDist, 'index.html'), 'utf8')
     const sourceIndexHtml = readFileSync(join(root, 'index.html'), 'utf8')
     const sourceLdJson = sourceIndexHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1]
@@ -421,4 +447,126 @@ test('12. Deployment pipelines produce dist before artifact-dependent tests', ()
   for (const file of ['index.html', 'index.md', '404.md', 'llms.txt', 'sitemap.xml']) {
     assert.ok(readFileSync(join(root, 'dist', file)).length > 0, `Missing deployment asset: ${file}`)
   }
+})
+
+test('13. The real-host negotiation verifier passes against a local compatible server', async () => {
+  const { createNegotiationServer } = await import('../scripts/serve-negotiation.mjs')
+  const server = createNegotiationServer()
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  const url = `http://127.0.0.1:${server.address().port}`
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      const child = spawn(process.execPath, ['scripts/verify-agent-production.mjs'], {
+        cwd: root,
+        env: { ...process.env, ORBITAL_PUBLIC_URL: url },
+        stdio: ['ignore', 'pipe', 'pipe'],
+      })
+      let stdout = ''
+      let stderr = ''
+      child.stdout.on('data', (chunk) => { stdout += chunk })
+      child.stderr.on('data', (chunk) => { stderr += chunk })
+      child.once('error', reject)
+      child.once('close', (code) => resolve({ code, stdout, stderr }))
+    })
+    assert.equal(result.code, 0, result.stdout + result.stderr)
+    assert.match(result.stdout, /AGENT_PRODUCTION_CONTRACT_PASS/)
+    assert.match(result.stdout, /PASS Home Markdown negotiated/)
+    assert.match(result.stdout, /PASS Nonexistent page Markdown negotiated/)
+  } finally {
+    await new Promise((resolve) => server.close(resolve))
+  }
+})
+
+test('14. Technical SEO: BreadcrumbList schema, OpenGraph article type, and 404 routing configuration', () => {
+  const prerenderSrc = readFileSync(join(root, 'scripts/prerender.mjs'), 'utf8')
+  const entryServerSrc = readFileSync(join(root, 'src/entry-server.tsx'), 'utf8')
+  const mainSrc = readFileSync(join(root, 'src/main.tsx'), 'utf8')
+  const notFoundPageSrc = readFileSync(join(root, 'src/NotFoundPage.tsx'), 'utf8')
+
+  // 1. BreadcrumbList schema defined for subpages and case studies
+  assert.ok(prerenderSrc.includes('BreadcrumbList'), 'prerender.mjs must define BreadcrumbList schema')
+  assert.ok(prerenderSrc.includes('itemListElement'), 'prerender.mjs BreadcrumbList must have itemListElement')
+  assert.ok(prerenderSrc.includes("'CreativeWork'"), 'Case studies must include CreativeWork schema')
+
+  // 2. OpenGraph article type for case studies
+  assert.ok(prerenderSrc.includes("schemaType === 'case'"), 'prerender.mjs must check case schema type')
+  assert.ok(prerenderSrc.includes("content=\"article\""), 'prerender.mjs must assign article og:type to case studies')
+
+  // 3. 404 routing and soft-404 prevention
+  assert.ok(entryServerSrc.includes('NotFoundPage'), 'entry-server.tsx must import and route NotFoundPage')
+  assert.ok(mainSrc.includes('NotFoundPage'), 'main.tsx must import and route NotFoundPage')
+  assert.ok(notFoundPageSrc.includes('404'), 'NotFoundPage must render 404 code')
+  assert.ok(notFoundPageSrc.includes('Página no encontrada'), 'NotFoundPage must render descriptive title')
+  assert.ok(notFoundPageSrc.includes('Volver al inicio'), 'NotFoundPage must link to home')
+
+  // 4. 404 schema policy: must not emit contradictory homepage JSON-LD
+  assert.ok(
+    prerenderSrc.includes("if (page.schemaType === '404') return null"),
+    'prerender.mjs must return null schema for 404 page',
+  )
+  assert.ok(
+    prerenderSrc.includes('const schema = schemaForPage(page)') &&
+    prerenderSrc.includes('if (schema)'),
+    'prerender.mjs must strip application/ld+json tag completely when schema is null',
+  )
+})
+
+test('15. Core Web Vitals (CWV) & Accessibility: explicit image dimensions, animation pausing & tap targets', () => {
+  const appSrc = readFileSync(join(root, 'src/App.tsx'), 'utf8')
+  const caseStudySrc = readFileSync(join(root, 'src/CaseStudyPage.tsx'), 'utf8')
+  const appCss = readFileSync(join(root, 'src/App.css'), 'utf8')
+  const caseStudyCss = readFileSync(join(root, 'src/CaseStudyPage.css'), 'utf8')
+
+  // 1. CLS: Explicit width and height attributes on key images
+  assert.ok(appSrc.includes('width={200} height={20}'), 'Logo must have explicit width and height in App.tsx')
+  assert.ok(appSrc.includes('width={640} height={360}'), 'WorkCard preview image must have explicit width and height')
+  assert.ok(appSrc.includes('width={600} height={600}'), 'Portfolio robot image must have explicit width and height')
+  assert.ok(caseStudySrc.includes('width={960} height={540}'), 'Case study hero image must have explicit width and height')
+
+  // 2. INP / Performance: Hero 3D animation loop pauses with IntersectionObserver when off-screen
+  assert.ok(appSrc.includes('IntersectionObserver'), 'Hero component must use IntersectionObserver to throttle animation loop')
+  assert.ok(appSrc.includes('isVisible'), 'Hero component must track visibility')
+
+  // 3. Mobile tap targets: navToggle must have minimum 48x48px size
+  assert.ok(appCss.includes('min-width: 48px'), 'navToggle must have min-width: 48px for mobile tap accessibility')
+  assert.ok(appCss.includes('min-height: 48px'), 'navToggle must have min-height: 48px for mobile tap accessibility')
+
+  // 4. CSS aspect-ratio on case study media to eliminate shift
+  assert.ok(caseStudyCss.includes('aspect-ratio: 16 / 9'), 'caseHeroMedia img must have aspect-ratio: 16 / 9')
+})
+
+test('16. GA4 remains consent-gated and tracks only aggregate navigation intents', () => {
+  const analytics = readFileSync(join(root, 'src/analytics.ts'), 'utf8')
+  const consent = readFileSync(join(root, 'src/AnalyticsConsent.tsx'), 'utf8')
+  const appSrc = readFileSync(join(root, 'src/App.tsx'), 'utf8')
+
+  // 1. Gated by deployment environment variable without committed secrets
+  assert.ok(analytics.includes('VITE_GA_MEASUREMENT_ID'), 'GA4 must be configured only by a deployment environment variable')
+
+  // 2. Google Consent Mode v2 default to denied & advertising signals disabled
+  assert.ok(analytics.includes("analytics_storage: 'denied'"), 'GA4 consent must default to denied')
+  assert.ok(analytics.includes("ad_storage: 'denied'"), 'ad_storage must default to denied')
+  assert.ok(analytics.includes("ad_user_data: 'denied'"), 'ad_user_data must default to denied')
+  assert.ok(analytics.includes("ad_personalization: 'denied'"), 'ad_personalization must default to denied')
+  assert.ok(analytics.includes('allow_google_signals: false'), 'Google signals must be disabled for privacy')
+  assert.ok(analytics.includes('restricted_data_processing: true'), 'Restricted data processing must be enabled')
+
+  // 3. Duplicate tag and auto-tracking prevention
+  assert.ok(analytics.includes('send_page_view: false'), 'send_page_view must be false in config to prevent duplicate automatic page views')
+  assert.ok(analytics.includes('trackPageView'), 'Controlled page view function must exist for SPA navigation')
+  assert.ok(analytics.includes('popstate'), 'popstate must be monitored for client-side route tracking')
+
+  // 4. Intent & conversion tracking without message content or PII
+  assert.ok(analytics.includes("'generate_lead'"), 'Contact intent must be measured without message content')
+  assert.ok(analytics.includes("'copy_email'"), 'Email copy action must be supported in contact intent tracking')
+  assert.ok(appSrc.includes("trackContactIntent('copy_email')"), 'App.tsx must invoke trackContactIntent on email copy')
+  assert.ok(analytics.includes("'view_item'"), 'Case navigation must be measured')
+
+  // 5. Consent UX & SSR hydration mismatch prevention
+  assert.ok(consent.includes('Aceptar analítica') && consent.includes('No aceptar'), 'Visitors must be able to choose analytics')
+  assert.ok(
+    consent.includes('useSyncExternalStore') && consent.includes('isClient'),
+    'AnalyticsConsent must defer client mounting via useSyncExternalStore to prevent SSR hydration mismatch',
+  )
 })

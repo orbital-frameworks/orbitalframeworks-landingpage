@@ -9,7 +9,7 @@ function LegalHeader() {
   return (
     <header className="legalNav">
       <a href="/" className="legalBrand" aria-label="Volver a Orbital Frameworks">
-        <img src={orbitalLogo} alt="Orbital Frameworks" />
+        <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
       </a>
       <nav aria-label="Navegación legal">
         <a href="/">Home</a>
@@ -61,6 +61,16 @@ function PrivacyPolicy() {
             gestión de oportunidades y preparación o gestión de comunicaciones empresariales. La integración
             OAuth con Gmail se identifica en Google como Orbital Leads Gmail. No es un servicio público de correo
             ni un sistema de envío automático masivo.
+          </p>
+        </article>
+
+        <article>
+          <h2>1.1 Medición del sitio web</h2>
+          <p>
+            Si se habilita la analítica del sitio, Orbital Frameworks solicita autorización antes de cargarla.
+            La medición se limita a navegación y acciones de contacto o revisión de casos; no incluye el texto
+            de mensajes ni datos introducidos por visitantes. La preferencia puede rechazarse sin afectar el
+            acceso al sitio.
           </p>
         </article>
 

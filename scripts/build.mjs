@@ -3,8 +3,8 @@ import { existsSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
 const root = resolve(process.cwd())
-const outputDir = resolve(root, 'dist')
-const ssrDir = resolve(root, 'dist-ssr')
+const outputDir = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : resolve(root, 'dist')
+const ssrDir = process.env.DIST_SSR_DIR ? resolve(root, process.env.DIST_SSR_DIR) : resolve(root, 'dist-ssr')
 const node = process.execPath
 
 // A successful build must leave the real deployment artifact in dist/.
@@ -26,11 +26,12 @@ function requireNonempty(relativePath) {
   }
 }
 
+const viteConfigArgs = ['--config', 'scripts/vite.config.cjs']
 run('node_modules/typescript/bin/tsc', ['-p', 'tsconfig.app.json', '--noEmit'])
 run('node_modules/typescript/bin/tsc', ['-p', 'tsconfig.node.json', '--noEmit'])
-run('node_modules/vite/bin/vite.js', ['build'])
+run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--outDir', outputDir])
 run('scripts/optimize-images.mjs')
-run('node_modules/vite/bin/vite.js', ['build', '--ssr', 'src/entry-server.tsx', '--outDir', ssrDir])
+run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--ssr', 'src/entry-server.tsx', '--outDir', ssrDir])
 run('scripts/prerender.mjs')
 run('scripts/verify-build.mjs')
 

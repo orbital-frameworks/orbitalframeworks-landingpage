@@ -150,3 +150,25 @@ La revisión del Sponsor tras el run 9a62a4d0-fe04-47b0-ace7-be552d5c8be2 encont
 - **Verificación independiente de un checkout limpio:** se reprodujo el pipeline en una copia temporal sin `dist/` ni `dist-ssr/`, enlazando las dependencias locales ya instaladas. `npm run lint && npm run build && npm test` terminó en PASS: 12/12 tests, `Build verification passed`, `DEPLOYMENT_ARTIFACT_PASS`. Se confirmaron en la carpeta `dist/` temporal las páginas HTML de home, Privacy, Terms, OAuth, los cuatro casos, `index.md`, `404.md`, `llms.txt` y `sitemap.xml`. `git diff --check`: PASS. No se realizó `npm ci` desde cero ni un deploy real en AWS.
 
 **Estado después de esta corrección:** artefacto listo para revisión de commit/push **localmente**; `F1` continúa como gate externo de publicación y activación en edge. Ni estas pruebas ni el run original demuestran que el dominio público alcance 100/100 en Is Agentic. No se hizo commit, push, modificación de DNS/Cloudflare ni despliegue en producción.
+
+---
+
+## 8. Nueva auditoría después de publicación (15-oct-2026)
+
+El usuario informa una **nueva puntuación Is Agentic de 79/100**. La publicación de la versión `9237bcc` en AWS Amplify sí se completó, pero el dominio sigue sin capa Worker activa. Inspección HTTP de solo lectura:
+
+- `GET /` con `Accept: text/html`: 200 `text/html`, correcto.
+- `GET /` con `Accept: text/markdown`: 200 `text/html`, sin `Vary: Accept`; contrato esencial incumplido.
+- `GET /__ora-404-probe-66fep3j3` con `Accept: text/markdown`: HTTP 404 correcto, pero cuerpo HTML; contrato esencial incumplido.
+- `GET /index.md`, `/404.md`, `/llms.txt`: activos, HTTP 200. Esto prueba que los assets existen, **no** que la negociación funciona.
+- DNS autoritativo: zona `orbitalframeworks.qzz.io` delegada a nameservers Cloudflare; tráfico público responde con `Server: AmazonS3` y `X-Cache: ...cloudfront`, no con proxy Worker.
+
+Cambios preparados en el repositorio para esta fase (no publicados todavía):
+
+- Schema.org `Organization.address` de grano **país únicamente**: `{ "@type": "PostalAddress", "addressCountry": "PE" }`. La identidad pública de Orbital Frameworks acredita Perú. Este dato **no es una dirección postal completa** y no autoriza inventar localidad, calle o código postal.
+- Worker con paso transparente para métodos no GET/HEAD y preservación de `Vary: Accept-Encoding` en las respuestas Markdown, además de `Accept`.
+- `npm run verify:agents` como test HTTP de producción con resultados verificables de portada HTML/Markdown, 404 HTML/Markdown, assets y JSON-LD. No se usará un test local para dar por aprobado el sitio en vivo.
+- Runbook Cloudflare corregido: no prometer rollback DNS en segundos; verificar permisos, zona, proxy DNS, TLS Full (strict), validación ACM y límites de plan antes de activar la ruta. La activación es una acción externa protegida.
+- La home presenta nombre de marca + actividad en su texto visible superior (`heroKicker`), conservando el H1, estructura, estilos y diseño. Esto mejora la coherencia SEO, pero **no garantiza** ranking top 10; hace falta indexación y autoridad externa.
+
+**Pendientes estructurales independientes:** búsqueda de marca en top 10 (indexación y enlaces externos, no controlable ni garantizable mediante metadata) y publicación de los cambios de schema/edge. Un Worker solo corrige los dos requisitos de respuesta HTTP; no puede garantizar el salto de 79 a 100.
