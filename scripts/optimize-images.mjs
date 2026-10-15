@@ -1,9 +1,10 @@
 import { existsSync, mkdirSync, unlinkSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const outputDir = join(root, 'dist', 'portfolio')
+const distDir = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : join(root, 'dist')
+const outputDir = join(distDir, 'portfolio')
 mkdirSync(outputDir, { recursive: true })
 
 const images = [
@@ -63,10 +64,10 @@ const faviconVariants = [
 ]
 
 for (const [filename, size] of faviconVariants) {
-  optimize(faviconSource, join(root, 'dist', filename), { width: size, height: size })
+  optimize(faviconSource, join(distDir, filename), { width: size, height: size })
 }
 
-const copiedSource = join(root, 'dist', 'Logo_favicon.png')
+const copiedSource = join(distDir, 'Logo_favicon.png')
 if (existsSync(copiedSource)) unlinkSync(copiedSource)
 
 console.log(`Generated ${images.length * widths.length} responsive WebP images and ${faviconVariants.length} favicon variants`)

@@ -1,8 +1,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
-import { extname, join } from 'node:path'
+import { extname, join, resolve } from 'node:path'
 
 const root = process.cwd()
-const dist = join(root, 'dist')
+const dist = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : join(root, 'dist')
 const failures = []
 
 function check(label, condition, detail = '') {
@@ -99,6 +99,33 @@ check('Identity metadata is explicit', html.includes('<meta name="application-na
 check('Team entities are structured', html.includes('"name": "Angel Reaño"') && html.includes('"name": "Mathias Javier Murillo"'))
 check('About page uses AboutPage schema', about.includes('"@type": "AboutPage"') && about.includes('"mainEntity": {') && about.includes('#organization'))
 check('Structured logo uses published asset', html.includes('https://orbitalframeworks.qzz.io/favicon-192.png') && !html.includes('Logo_favicon.png'))
+
+const orgEntity = structuredData?.['@graph']?.find((item) => item['@type'] === 'Organization')
+check('Organization schema includes contactPoint', Boolean(orgEntity?.contactPoint && orgEntity.contactPoint.length > 0 && orgEntity.contactPoint[0].email === 'contact.orbitalframeworks@gmail.com'))
+check('Organization schema excludes PostalAddress and physical address', !orgEntity?.address)
+check('Organization schema excludes fabricated Lima references', Boolean(orgEntity && !JSON.stringify(orgEntity).includes('Lima')))
+check('Organization schema specifies Peru as served country', Boolean(
+  orgEntity &&
+  (Array.isArray(orgEntity.areaServed)
+    ? orgEntity.areaServed.some((area) => area.name === 'Perú' || area['@type'] === 'Country')
+    : orgEntity.areaServed?.name === 'Perú' || orgEntity.areaServed?.['@type'] === 'Country')
+))
+
+const llmsPath = requireFile('llms.txt')
+const llmsContent = existsSync(llmsPath) ? readFileSync(llmsPath, 'utf8') : ''
+check('llms.txt contains when-to-use guidance', llmsContent.toLowerCase().includes('when to use'))
+
+const md404Path = requireFile('404.md')
+const md404Content = existsSync(md404Path) ? readFileSync(md404Path, 'utf8') : ''
+check('404.md has >=20 characters and agent links', md404Content.length >= 20 && md404Content.includes('llms.txt') && md404Content.includes('sitemap.xml'))
+
+const mdIndexPath = requireFile('index.md')
+const mdIndexContent = existsSync(mdIndexPath) ? readFileSync(mdIndexPath, 'utf8') : ''
+check('index.md has substantial content and brand positioning', mdIndexContent.length >= 200 && mdIndexContent.includes('Orbital Frameworks') && mdIndexContent.includes('desarrollo de software'))
+
+const customHttpPath = join(root, 'customHttp.yml')
+const customHttpContent = existsSync(customHttpPath) ? readFileSync(customHttpPath, 'utf8') : ''
+check('customHttp.yml declares Vary: Accept and markdown content type', customHttpContent.includes('Vary') && customHttpContent.includes('Accept') && customHttpContent.includes('text/markdown'))
 
 const assetsDir = join(dist, 'assets')
 const assetFiles = existsSync(assetsDir) ? readdirSync(assetsDir) : []

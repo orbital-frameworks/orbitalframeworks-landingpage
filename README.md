@@ -19,7 +19,9 @@ No presenta métricas, clientes, testimonios o resultados que no puedan demostra
 - `npm install`: instala dependencias.
 - `npm run dev`: inicia el entorno local.
 - `npm run lint`: ejecuta ESLint.
-- `npm run build`: genera el build de producción, optimiza imágenes, prerenderiza el HTML y valida el artefacto final.
+- `npm run typecheck`: ejecuta comprobación de tipos TypeScript sin emitir archivos temporales.
+- `npm test`: ejecuta la suite de preparación para agentes y negociación de contenidos **después** de `npm run build`, ya que también valida el contenido de `dist/`.
+- `npm run build`: genera `dist/` desde cero, optimiza imágenes, prerenderiza y valida que permanezca un artefacto de despliegue real (falla si está ausente). No usa salidas temporales que desaparezcan al terminar.
 - `npm run verify:build`: valida prerender, canonical, robots, sitemap, schema, assets y límite de JavaScript.
 - `npm run verify:production`: comprueba contenido, enlaces, caché y headers del dominio público.
 - `npm run preview`: sirve localmente el build generado.
@@ -52,7 +54,10 @@ Antes de desplegar ejecuta:
 ```bash
 npm run lint
 npm run build
+npm test
 ```
+
+El pipeline de AWS Amplify y GitHub Pages ejecuta las pruebas después del build: en un checkout limpio `dist/` todavía no existe. Que el build termine con éxito garantiza que `dist/index.html`, `dist/index.md` y `dist/404.md` siguen presentes para su publicación.
 
 El dominio público configurado actualmente es:
 
@@ -84,6 +89,8 @@ La publicación del artefacto no garantiza por sí sola que las capas CDN extern
 - `scripts/prerender.mjs`: inserción del HTML prerenderizado.
 - `scripts/verify-build.mjs`: contrato técnico del artefacto de producción.
 - `scripts/verify-production.mjs`: verificación del dominio publicado.
-- `customHttp.yml`: caché y headers de seguridad de Amplify.
+- `scripts/edge/`: arquitectura y especificación de negociación de contenidos en Cloudflare Workers.
+- `tests/`: pruebas automatizadas para contratos de agentes, negociación de contenidos y schema.
+- `customHttp.yml`: caché, Vary y headers de seguridad de Amplify.
 - `public/`: robots, sitemap, Open Graph y archivos públicos.
 - `.github/workflows/deploy-pages.yml`: validación, build y despliegue a GitHub Pages.

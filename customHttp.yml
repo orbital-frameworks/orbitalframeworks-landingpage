@@ -15,6 +15,16 @@ customHeaders:
     headers:
       - key: Cache-Control
         value: public, max-age=0, must-revalidate, s-maxage=300
+      - key: Vary
+        value: Accept
+  - pattern: '**/*.md'
+    headers:
+      - key: Content-Type
+        value: text/markdown; charset=utf-8
+      - key: Vary
+        value: Accept
+      - key: Cache-Control
+        value: public, max-age=0, must-revalidate, s-maxage=300
   - pattern: '/assets/**'
     headers:
       - key: Cache-Control
@@ -33,5 +43,9 @@ customHeaders:
         value: public, max-age=3600, s-maxage=3600
   - pattern: '/llms.txt'
     headers:
+      - key: Content-Type
+        value: text/plain; charset=utf-8
+      - key: Vary
+        value: Accept
       - key: Cache-Control
         value: public, max-age=3600, s-maxage=3600

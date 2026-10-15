@@ -3,8 +3,11 @@ import { pathToFileURL } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
 const root = resolve(process.cwd())
-const clientHtmlPath = resolve(root, 'dist/index.html')
-const serverEntryPath = resolve(root, 'dist-ssr/entry-server.js')
+const distDir = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : resolve(root, 'dist')
+const clientHtmlPath = resolve(distDir, 'index.html')
+const serverEntryPath = process.env.DIST_SSR_DIR
+  ? resolve(root, process.env.DIST_SSR_DIR, 'entry-server.js')
+  : resolve(root, 'dist-ssr/entry-server.js')
 
 const [{ render }, template] = await Promise.all([
   import(pathToFileURL(serverEntryPath).href),
@@ -25,6 +28,7 @@ const pages = [
     title: 'Orbital Frameworks | Desarrollo de software en Perú',
     description: 'Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales. Construye productos, sistemas web y herramientas para problemas concretos de negocio.',
     canonical: 'https://orbitalframeworks.qzz.io/',
+    dateModified: '2026-10-15',
   },
   {
     pathname: '/privacy',
@@ -34,6 +38,7 @@ const pages = [
     description: 'Política de privacidad de Orbital Frameworks para Orbital Leads y su integración autorizada con Google y Gmail.',
     canonical: 'https://orbitalframeworks.qzz.io/privacy',
     schemaType: 'legal',
+    dateModified: '2026-08-28',
   },
   {
     pathname: '/terms',
@@ -43,6 +48,7 @@ const pages = [
     description: 'Términos de uso de Orbital Leads, herramienta interna de Orbital Frameworks para investigación comercial y gestión de comunicaciones empresariales.',
     canonical: 'https://orbitalframeworks.qzz.io/terms',
     schemaType: 'legal',
+    dateModified: '2026-08-28',
   },
   {
     pathname: '/orbital-leads-gmail',
@@ -61,6 +67,7 @@ const pages = [
     description: 'Qué es Orbital Frameworks: empresa peruana de desarrollo de software y soluciones digitales, su equipo, capacidades, método y proyectos públicos.',
     canonical: 'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
     schemaType: 'about',
+    dateModified: '2026-10-15',
   },
   {
     pathname: '/evidencia/',
@@ -69,6 +76,7 @@ const pages = [
     description: 'Productos, casos y superficies públicas de Orbital Frameworks que pueden revisarse antes de una conversación comercial.',
     canonical: 'https://orbitalframeworks.qzz.io/evidencia/',
     schemaType: 'proof',
+    dateModified: '2026-10-15',
   },
   {
     pathname: '/casos/checkio/',
@@ -77,6 +85,7 @@ const pages = [
     description: 'Caso Checkio: plataforma de asistencia y gestión de personal con marcaciones, geolocalización, historial y flujos para RRHH.',
     canonical: 'https://orbitalframeworks.qzz.io/casos/checkio/',
     schemaType: 'case',
+    dateModified: '2026-08-15',
   },
   {
     pathname: '/casos/veterp/',
@@ -85,6 +94,7 @@ const pages = [
     description: 'Caso VetERP: sistema para agenda, pacientes, atención clínica, hospitalización, inventario, caja y operación veterinaria.',
     canonical: 'https://orbitalframeworks.qzz.io/casos/veterp/',
     schemaType: 'case',
+    dateModified: '2026-08-30',
   },
   {
     pathname: '/casos/localisa/',
@@ -93,6 +103,7 @@ const pages = [
     description: 'Caso Localisa: plataforma pública para explorar plazas SERUMS mediante mapa, filtros, favoritos y herramientas de comparación.',
     canonical: 'https://orbitalframeworks.qzz.io/casos/localisa/',
     schemaType: 'case',
+    dateModified: '2026-08-30',
   },
   {
     pathname: '/casos/perulog-pallets/',
@@ -101,6 +112,7 @@ const pages = [
     description: 'Caso PeruLog Pallets: landing B2B para presentar productos, especificaciones, servicios logísticos y solicitudes de cotización.',
     canonical: 'https://orbitalframeworks.qzz.io/casos/perulog-pallets/',
     schemaType: 'case',
+    dateModified: '2026-08-30',
   },
 ]
 
@@ -121,7 +133,7 @@ function schemaForPage(page) {
     url: page.canonical,
     name: page.title,
     description: page.description,
-    dateModified: page.schemaType === 'legal' ? '2026-08-28' : '2026-08-15',
+    dateModified: page.dateModified || (page.schemaType === 'legal' ? '2026-08-28' : '2026-10-15'),
     isPartOf: { '@id': 'https://orbitalframeworks.qzz.io/#website' },
     about: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
     mainEntity: page.schemaType === 'case'
@@ -167,9 +179,21 @@ for (const page of pages) {
   const output = withMetadata(template.replace(marker, `<div id="root">${appHtml}</div>`), page)
   const outputs = [page.output, ...(page.extraOutputs ?? [])]
   for (const relativeOutput of outputs) {
-    const outputPath = resolve(root, relativeOutput)
+    const cleanedOutput = relativeOutput.startsWith('dist/') ? relativeOutput.slice(5) : relativeOutput
+    const outputPath = resolve(distDir, cleanedOutput)
     await mkdir(dirname(outputPath), { recursive: true })
     await writeFile(outputPath, output, 'utf8')
   }
   console.log(`Prerendered ${page.pathname} (${appHtml.length} characters)`)
+}
+
+for (const mdFile of ['index.md', '404.md']) {
+  const src = resolve(root, 'public', mdFile)
+  const dest = resolve(distDir, mdFile)
+  const content = await readFile(src, 'utf8')
+  if (!content || content.trim().length === 0) {
+    throw new Error(`Prerender agent asset failure: ${src} is empty or missing`)
+  }
+  await writeFile(dest, content, 'utf8')
+  console.log(`Guaranteed markdown asset ${mdFile} copied to dist/ (${content.length} characters)`)
 }

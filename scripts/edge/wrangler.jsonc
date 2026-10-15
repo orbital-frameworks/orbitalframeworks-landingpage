@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "orbitalframeworks-content-negotiation",
+  "main": "cloudflare-worker-content-negotiation.js",
+  "compatibility_date": "2026-10-15",
+  "routes": [
+    {
+      "pattern": "orbitalframeworks.qzz.io/*",
+      "zone_name": "orbitalframeworks.qzz.io"
+    }
+  ]
+}
