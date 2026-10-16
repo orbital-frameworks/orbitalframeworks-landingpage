@@ -166,6 +166,26 @@ Se creó un build experimental aislado con la CSS de Google Fonts como `rel="sty
 El bajo número de muestras no permite afirmar mejora estadística de FCP; sí reproduce de forma determinista la desaparición del fuerte salto tipográfico en escritorio. `tests/agent-readiness.test.mjs` añade aserción de regresión para evitar reinstalar la CSS corporativa con `onload` tardío.
 
 **Gate de publicación:** ejecutar lint, typecheck, build limpio sin `dist/` anterior, tests, diff y QA visual; hacer commit/push solo con acceso autorizado y comprobar en la URL pública que el HTML utiliza la hoja síncrona, que se mantiene la respuesta Markdown por Accept, y medir CLS de producción de nuevo con la misma metodología. No declarar esta mejora LIVE antes de esas pruebas.
+
+### 9.1. Segunda iteración: sustituir la dependencia externa por las fuentes existentes alojadas localmente
+
+Un primer deploy de la hoja de Google Fonts como `rel="stylesheet"` pasó QA pero **no eliminó consistentemente el CLS público**: en dos cargas reales de escritorio se midieron 0 y 0,28421. Por eso el cambio de hoja síncrona no se considera suficiente.
+
+Se compararon cuatro configuraciones de las **mismas familias tipográficas** utilizando archivos WOFF2 latinos oficiales (Google Fonts, redistribución conforme a las licencias SIL OFL incluidas). Sin cambios de tipo, tamaños, colores ni composición:
+
+| Versión local, Chrome 154 | CLS desktop sin throttling | CLS móvil 4× CPU / 1,28 Mbps | FCP móvil (dos cargas) |
+|---|---:|---:|---:|
+| CSS Google Fonts asíncrona original | ~0,284 | 0,0755 | 1.948 / 1.896 ms |
+| CSS Google Fonts síncrona | ≈0 en pruebas locales, intermitente en producción | 0,0755 | 1.988 / 1.860 ms |
+| WOFF2 local + tres preloads | ≈0 | 0 | 2.696 / 2.584 ms |
+| WOFF2 local + una preload | ≈0 | 0 | 2.300 / 2.188 ms |
+| **WOFF2 local sin preloads** | ≈0 | 0,0755 | **1.960 / 1.932 ms** |
+
+Con un perfil adicional de escritorio lento (CPU 4× / 1,28 Mbps / 150 ms RTT), ambos Google Fonts asíncrono y la variante WOFF2 local sin preloads obtuvieron CLS 0,0777 y FCP cercanos a 2,1 segundos. La alternativa local sin preloads evita otra dependencia de red, preserva la velocidad sintética móvil y no crea una nueva penalización observable. No se afirma CLS universal 0; las cifras dependen del contexto de laboratorio.
+
+**Decisión técnica:** alojar las cinco variantes WOFF2 oficiales de Big Shoulders Display, IBM Plex Sans e IBM Plex Mono en `public/fonts/`, incluir las tres licencias SIL OFL, definir `@font-face` en `src/index.css`, eliminar las tres conexiones Google Fonts de `index.html` y NO introducir preloads de fuente. La prueba 19 y `verify-build` validan que los activos existen y se sirven como fonts válidas. No hay cambios de tracking, proveedores de medición, contenido ni datos estructurados.
+
+**Acceptance público pendiente de esta segunda iteración:** validar en el dominio final que la CSS apunta a WOFF2 propios, que los cinco endpoints responden 200, que no hay peticiones a Google Fonts, que las tres vistas responsive mantienen la tipografía y que la medición posterior no muestra CLS grave sistemático. Conservar el contrato HTTP de Is Agentic 100/100; no asumir que las pruebas locales sustituyen a la publicación.
 2. **Monitoreo post-despliegue en AWS Amplify (Impacto Medio):**
    - Verificar la invalidación de caché en Cloudflare / AWS Amplify para certificar que `https://orbitalframeworks.qzz.io/portfolio/astro-720.webp` responda HTTP 200 con encabezados de caché inmutables.
 3. **Vinculación autenticada de Search Console (Impacto Futuro - Alto):**

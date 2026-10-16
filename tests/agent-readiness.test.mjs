@@ -641,12 +641,30 @@ test('18. Production verifier checks the deployed responsive WebP assets, not th
     'Production check must not retain the obsolete positive assertion for the PNG')
 })
 
-test('19. Corporate fonts load before first render to prevent desktop layout shifts', () => {
+test('19. Licensed corporate fonts self-host without late third-party stylesheet swaps', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8')
-  assert.match(html, /<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?family=Big\+Shoulders\+Display/,
-    'Corporate font stylesheet must participate in the browser render-blocking phase')
-  assert.doesNotMatch(html, /rel="preload" as="style" href="https:\/\/fonts\.googleapis\.com/,
-    'Asynchronous font stylesheet previously caused reproducible desktop CLS >= 0.28')
+  const css = readFileSync(join(root, 'src/index.css'), 'utf8')
+  assert.doesNotMatch(html, /fonts\.(?:googleapis|gstatic)\.com/,
+    'Site must not depend on an external Google Fonts CSS/asset connection')
   assert.doesNotMatch(html, /onload="this\.onload=null;this\.rel='stylesheet'"/,
     'Corporate font styles must not be applied late through onload')
+  const fonts = [
+    'big-shoulders-display-latin.woff2',
+    'ibm-plex-sans-latin.woff2',
+    'ibm-plex-mono-400-latin.woff2',
+    'ibm-plex-mono-500-latin.woff2',
+    'ibm-plex-mono-600-latin.woff2',
+  ]
+  for (const filename of fonts) {
+    const bytes = readFileSync(join(root, 'public/fonts', filename))
+    assert.ok(bytes.byteLength > 10000, `Missing valid font payload: ${filename}`)
+    assert.equal(bytes.subarray(0, 4).toString(), 'wOF2', `Not a WOFF2 font: ${filename}`)
+    assert.ok(css.includes(`/fonts/${filename}`), `Font not referenced by CSS: ${filename}`)
+  }
+  for (const license of ['LICENSE-bigshouldersdisplay.txt', 'LICENSE-ibmplexsans.txt', 'LICENSE-ibmplexmono.txt']) {
+    assert.match(readFileSync(join(root, 'public/fonts', license), 'utf8'), /SIL OPEN FONT LICENSE/i,
+      `Official font redistribution license missing: ${license}`)
+  }
+  assert.doesNotMatch(html, /<link rel="preload" as="font"/,
+    'No blocking font preloads: the measured mobile FCP regression must not return')
 })

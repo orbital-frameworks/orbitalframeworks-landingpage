@@ -47,6 +47,11 @@ for (const file of [
   'portfolio/perulog-pallets-960.webp',
   'portfolio/astro-480.webp',
   'portfolio/astro-720.webp',
+  'fonts/big-shoulders-display-latin.woff2',
+  'fonts/ibm-plex-sans-latin.woff2',
+  'fonts/ibm-plex-mono-400-latin.woff2',
+  'fonts/ibm-plex-mono-500-latin.woff2',
+  'fonts/ibm-plex-mono-600-latin.woff2',
 ]) requireFile(file)
 
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''

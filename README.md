@@ -25,6 +25,8 @@ No presenta métricas, clientes, testimonios o resultados que no puedan demostra
 - `npm run verify:build`: valida prerender, canonical, robots, sitemap, schema, assets y límite de JavaScript.
 - `npm run verify:production`: comprueba contenido, enlaces, caché y headers del dominio público.
 - `npm run verify:agents`: comprueba directamente en el dominio publicado la negociación `Accept: text/markdown`, 404 Markdown, `Vary: Accept`, archivos para agentes y JSON-LD. Este comando falla antes de activar la ruta Cloudflare Worker; no lo confundir con `npm test`.
+
+Las tipografías corporativas (Big Shoulders Display, IBM Plex Sans y IBM Plex Mono) se sirven como WOFF2 latinos desde `public/fonts/`, con sus licencias SIL OFL. No se solicita CSS a Google Fonts; evitamos su carga tardía y la dependencia de un tercer dominio. La auditoría sintética antes/después y los límites de los resultados figuran en `docs/seo-independent-optimization-20261015.md`.
 - `npm run preview`: sirve localmente el build generado.
 
 ## Build de producción
