@@ -34,6 +34,7 @@ const sitemapPath = requireFile('sitemap.xml')
 requireFile('favicon-32.png')
 requireFile('favicon-192.png')
 requireFile('apple-touch-icon.png')
+const gscTokenPath = requireFile('google466769daa2952733.html')
 
 for (const file of [
   'portfolio/checkio-640.webp',
@@ -58,6 +59,9 @@ const localisaCase = existsSync(localisaCasePath) ? readFileSync(localisaCasePat
 const perulogCase = existsSync(perulogCasePath) ? readFileSync(perulogCasePath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
 const sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
+const gscToken = existsSync(gscTokenPath) ? readFileSync(gscTokenPath, 'utf8') : ''
+
+check('GSC verification token has canonical content', gscToken.trim() === 'google-site-verification: google466769daa2952733.html')
 
 check('Prerendered root is not empty', !html.includes('<div id="root"></div>'))
 check('Primary heading is prerendered', html.includes('class="heroTitle"') && ['SISTEMAS', 'DIGITALES', 'PRESENCIA'].every((word) => html.includes(`>${word}<`)))
@@ -84,13 +88,13 @@ check('PeruLog case is prerendered', perulogCase.includes('Qué existe dentro de
 check('Case pages expose primary product CTA', [checkioCase, veterpCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
 check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
 
-const notFoundPath = join(dist, '404.html')
-if (existsSync(notFoundPath)) {
-  const notFoundHtml = readFileSync(notFoundPath, 'utf8')
-  check('404 error page is prerendered with noindex', notFoundHtml.includes('<meta name="robots" content="noindex, follow" />'))
-  check('404 error page has canonical /404', notFoundHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/404" />'))
-  check('404 error page does not contain contradictory homepage schema', !notFoundHtml.includes('"@type": "WebSite"') && !notFoundHtml.includes('"@type": "WebPage"'))
-}
+const notFoundPath = requireFile('404.html')
+requireFile('404/index.html')
+const notFoundHtml = existsSync(notFoundPath) ? readFileSync(notFoundPath, 'utf8') : ''
+check('404 error page is prerendered with noindex', Boolean(notFoundHtml) && notFoundHtml.includes('<meta name="robots" content="noindex, follow" />'))
+check('404 error page has canonical /404', Boolean(notFoundHtml) && notFoundHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/404" />'))
+check('404 error page does not contain contradictory homepage schema', Boolean(notFoundHtml) && !notFoundHtml.includes('"@type": "WebSite"') && !notFoundHtml.includes('"@type": "WebPage"'))
+
 
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
 let structuredData = null

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs'
+import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync, mkdirSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { execSync, spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
@@ -155,7 +155,10 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
       if (url.pathname === '/' || url.pathname === '/index.html') {
         return new Response(indexHtml, {
           status: 200,
-          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Vary': 'Accept-Encoding',
+          },
         })
       }
       if (url.pathname === '/404.md') {
@@ -191,6 +194,7 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
     assert.equal(resHomeHtml.status, 200)
     assert.ok(resHomeHtml.headers.get('Content-Type').includes('text/html'))
     assert.ok(resHomeHtml.headers.get('Vary').includes('Accept'))
+    assert.ok(resHomeHtml.headers.get('Vary').split(',').some((value) => value.trim().toLowerCase() === 'accept'), 'Vary must have a distinct Accept entry (Accept-Encoding alone does not count)')
     const bodyHomeHtml = await resHomeHtml.text()
     assert.ok(bodyHomeHtml.includes('<!doctype html>') || bodyHomeHtml.includes('<html'))
 
@@ -311,6 +315,17 @@ test('9. verify-build strictly requires index.md and 404.md in dist without sile
       const updatedTestHtml = baseHtml.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, `<script type="application/ld+json">${sourceLdJson}</script>`)
       writeFileSync(join(testDist, 'index.html'), updatedTestHtml)
     }
+
+    // Ensure testDist has prerendered 404.html and 404/index.html required by verify-build
+    const notFoundHtml = baseHtml
+      .replace(/<title>[\s\S]*?<\/title>/, '<title>Página no encontrada | Orbital Frameworks</title>')
+      .replace(/<link rel="canonical" href="[^"]*" \/>/, '<link rel="canonical" href="https://orbitalframeworks.qzz.io/404" />')
+      .replace(/<meta name="robots" content="[^"]*" \/>/, '<meta name="robots" content="noindex, follow" />')
+      .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/, '')
+      .replace(/<div id="root">[\s\S]*?<\/div>/, '<div id="root"><main><h1>404</h1><p>Página no encontrada</p><a href="/">Volver al inicio</a></main></div>')
+    mkdirSync(join(testDist, '404'), { recursive: true })
+    writeFileSync(join(testDist, '404.html'), notFoundHtml)
+    writeFileSync(join(testDist, '404/index.html'), notFoundHtml)
 
     // Case A: Missing 404.md -> must fail strictly with non-zero exit code
     rmSync(join(testDist, '404.md'), { force: true })
@@ -569,4 +584,39 @@ test('16. GA4 remains consent-gated and tracks only aggregate navigation intents
     consent.includes('useSyncExternalStore') && consent.includes('isClient'),
     'AnalyticsConsent must defer client mounting via useSyncExternalStore to prevent SSR hydration mismatch',
   )
+})
+
+test('17. Webmaster and analytics platform verification: GSC token, sitemap indexing, and identity gates', () => {
+  const gscPath = join(root, 'public/google466769daa2952733.html')
+  assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
+  assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
+
+  // Verify all 9 sitemap canonical routes are properly formed
+  const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
+  const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz\.io[^<]*)<\/loc>/g)].map(m => m[1])
+  assert.equal(locMatches.length, 9, 'Sitemap must contain exactly 9 canonical routes')
+
+  const expectedUrls = [
+    'https://orbitalframeworks.qzz.io/',
+    'https://orbitalframeworks.qzz.io/privacy',
+    'https://orbitalframeworks.qzz.io/terms',
+    'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
+    'https://orbitalframeworks.qzz.io/evidencia/',
+    'https://orbitalframeworks.qzz.io/casos/checkio/',
+    'https://orbitalframeworks.qzz.io/casos/veterp/',
+    'https://orbitalframeworks.qzz.io/casos/localisa/',
+    'https://orbitalframeworks.qzz.io/casos/perulog-pallets/',
+  ]
+  for (const expectedUrl of expectedUrls) {
+    assert.ok(locMatches.includes(expectedUrl), `Sitemap must include ${expectedUrl}`)
+  }
+
+  // Verify identity gate documentation
+  const gateDocPath = join(root, 'docs/measurement-platform-gate-2026-10-15.md')
+  const gateDoc = readFileSync(gateDocPath, 'utf8')
+  assert.ok(gateDoc.includes('Google Search Console (GSC)'), 'Gate doc must document GSC verification')
+  assert.ok(gateDoc.includes('Google Analytics 4 (GA4)'), 'Gate doc must document GA4 gating')
+  assert.ok(gateDoc.includes('VITE_GA_MEASUREMENT_ID'), 'Gate doc must document VITE_GA_MEASUREMENT_ID')
+  assert.ok(gateDoc.includes('Bing Webmaster Tools'), 'Gate doc must document Bing Webmaster')
+  assert.ok(gateDoc.includes('PageSpeed Insights'), 'Gate doc must document PageSpeed baseline')
 })

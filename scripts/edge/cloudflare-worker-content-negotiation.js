@@ -107,7 +107,7 @@ export default {
     const headers = new Headers(originResponse.headers)
     const currentVary = headers.get('vary')
     if (currentVary) {
-      if (!currentVary.toLowerCase().includes('accept')) {
+      if (!currentVary.split(',').some((name) => name.trim().toLowerCase() === 'accept')) {
         headers.set('Vary', `${currentVary}, Accept`)
       }
     } else {
