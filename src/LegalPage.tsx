@@ -49,7 +49,7 @@ function PrivacyPolicy() {
         </p>
         <div className="legalMeta">
           <span>Responsable: Orbital Frameworks</span>
-          <span>Última actualización: 28 de agosto de 2026</span>
+          <span>Última actualización: 16 de octubre de 2026</span>
         </div>
       </section>
 
@@ -67,10 +67,14 @@ function PrivacyPolicy() {
         <article>
           <h2>1.1 Medición del sitio web</h2>
           <p>
-            Si se habilita la analítica del sitio, Orbital Frameworks solicita autorización antes de cargarla.
-            La medición se limita a navegación y acciones de contacto o revisión de casos; no incluye el texto
-            de mensajes ni datos introducidos por visitantes. La preferencia puede rechazarse sin afectar el
-            acceso al sitio.
+            El sitio utiliza Cloudflare Web Analytics para métricas agregadas de tráfico.
+            Google Analytics 4 (GA4) se carga únicamente si el visitante acepta la analítica
+            en el aviso correspondiente; si la rechaza, no se carga la etiqueta de GA4.
+            Cuando se acepta, se miden visitas a páginas y acciones de navegación o contacto,
+            sin incluir el texto de mensajes ni datos introducidos por visitantes. Abrir un
+            enlace de correo o copiar la dirección se considera intención de contacto, no un
+            mensaje enviado ni una oportunidad comercial confirmada. Rechazar GA4 no impide
+            acceder a las páginas del sitio.
           </p>
         </article>
 

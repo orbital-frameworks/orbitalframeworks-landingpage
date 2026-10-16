@@ -38,7 +38,7 @@ const pages = [
     description: 'Política de privacidad de Orbital Frameworks para Orbital Leads y su integración autorizada con Google y Gmail.',
     canonical: 'https://orbitalframeworks.qzz.io/privacy',
     schemaType: 'legal',
-    dateModified: '2026-08-28',
+    dateModified: '2026-10-16',
   },
   {
     pathname: '/terms',

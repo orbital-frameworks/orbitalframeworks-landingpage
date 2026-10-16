@@ -5,7 +5,9 @@ declare global {
   }
 }
 
-const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() || undefined
+// GA4 Measurement ID is public (not a secret). Allow a deployment override,
+// but keep the owner's verified web stream enabled in a clean Amplify build.
+const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() || 'G-487MJFCW45'
 const consentKey = 'orbital-analytics-consent'
 
 function gtag(...args: unknown[]) {
@@ -37,7 +39,9 @@ export function trackPageView(pathname?: string, title?: string) {
 
 export function trackContactIntent(method: 'email' | 'gmail' | 'copy_email') {
   if (!measurementId || !isConsentGranted()) return
-  gtag('event', 'generate_lead', {
+  // Opening a mail composer or copying an address is an intent, not a lead.
+  // Never report generate_lead without confirmed submission/receipt.
+  gtag('event', 'contact_intent', {
     method,
     contact_channel: method === 'gmail' ? 'gmail_compose' : method === 'copy_email' ? 'clipboard' : 'mailto',
   })
@@ -89,7 +93,7 @@ function trackClick(event: MouseEvent) {
         ) {
           trackCaseNavigation(url.pathname)
         }
-      } else if (link.classList.contains('caseProductCta') || link.relList.contains('noopener')) {
+      } else if (link.classList.contains('caseProductCta')) {
         trackProductClick(url.hostname)
       }
     } catch {
@@ -98,11 +102,8 @@ function trackClick(event: MouseEvent) {
     return
   }
 
-  // 2. Handle buttons (e.g. email copy button)
-  const button = target?.closest('button')
-  if (button && (button.dataset.analyticsAction === 'copy_email' || button.textContent?.includes('Copiar correo'))) {
-    trackContactIntent('copy_email')
-  }
+  // Copy-email is tracked once, by the click handler in App.tsx, and only
+  // after navigator.clipboard.writeText() actually succeeds.
 }
 
 export function grantAnalyticsConsent() {

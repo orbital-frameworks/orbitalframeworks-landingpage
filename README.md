@@ -27,6 +27,12 @@ No presenta métricas, clientes, testimonios o resultados que no puedan demostra
 - `npm run verify:agents`: comprueba directamente en el dominio publicado la negociación `Accept: text/markdown`, 404 Markdown, `Vary: Accept`, archivos para agentes y JSON-LD. Este comando falla antes de activar la ruta Cloudflare Worker; no lo confundir con `npm test`.
 
 Las tipografías corporativas (Big Shoulders Display, IBM Plex Sans y IBM Plex Mono) se sirven como WOFF2 latinos desde `public/fonts/`, con sus licencias SIL OFL. No se solicita CSS a Google Fonts; evitamos su carga tardía y la dependencia de un tercer dominio. La auditoría sintética antes/después y los límites de los resultados figuran en `docs/seo-independent-optimization-20261015.md`.
+
+## Google Analytics 4
+
+El flujo web de GA4 de Orbital Frameworks usa el ID público `G-487MJFCW45` en `src/analytics.ts` (sobrescribible mediante `VITE_GA_MEASUREMENT_ID` para entornos especiales). No se debe insertar una segunda etiqueta estática en `index.html` ni crear un contenedor GTM redundante.
+
+El navegador **no solicita** `gtag.js` antes del consentimiento afirmativo. Al aceptar, se carga una sola etiqueta, se configura `send_page_view: false` y se registra una vista controlada. Si se rechaza, la etiqueta sigue sin cargarse. Las acciones de contacto se miden como `contact_intent`, **no** como `generate_lead` sin confirmación de un mensaje enviado. Los eventos excluyen direcciones de correo e información introducida por el visitante. La comprobación automática de instalación de Google puede no detectar la etiqueta hasta que un visitante consienta; verificar con una visita consentida y el informe en tiempo real de GA4.
 - `npm run preview`: sirve localmente el build generado.
 
 ## Build de producción

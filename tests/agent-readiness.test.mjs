@@ -257,7 +257,7 @@ test('7. Brand search consistency & dateModified synchronization across assets',
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/</loc>\n    <lastmod>2026-10-15</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/</loc>\n    <lastmod>2026-10-15</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>\n    <lastmod>2026-10-15</lastmod>'))
-  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>\n    <lastmod>2026-08-28</lastmod>'))
+  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>\n    <lastmod>2026-10-16</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/terms</loc>\n    <lastmod>2026-08-28</lastmod>'))
 
   // Case studies consistency
@@ -567,7 +567,8 @@ test('16. GA4 remains consent-gated and tracks only aggregate navigation intents
   const appSrc = readFileSync(join(root, 'src/App.tsx'), 'utf8')
 
   // 1. Gated by deployment environment variable without committed secrets
-  assert.ok(analytics.includes('VITE_GA_MEASUREMENT_ID'), 'GA4 must be configured only by a deployment environment variable')
+  assert.ok(analytics.includes('VITE_GA_MEASUREMENT_ID'), 'GA4 must support a deployment environment variable')
+  assert.ok(analytics.includes('G-487MJFCW45'), 'The owner-approved GA4 public stream ID must be available in clean production builds')
 
   // 2. Google Consent Mode v2 default to denied & advertising signals disabled
   assert.ok(analytics.includes("analytics_storage: 'denied'"), 'GA4 consent must default to denied')
@@ -583,9 +584,12 @@ test('16. GA4 remains consent-gated and tracks only aggregate navigation intents
   assert.ok(analytics.includes('popstate'), 'popstate must be monitored for client-side route tracking')
 
   // 4. Intent & conversion tracking without message content or PII
-  assert.ok(analytics.includes("'generate_lead'"), 'Contact intent must be measured without message content')
+  assert.ok(analytics.includes("'contact_intent'"), 'Unconfirmed contact attempts must be tracked as intent, not a completed lead')
+  assert.ok(!analytics.includes("gtag('event', 'generate_lead'"), 'Do not count a mailto or clipboard interaction as a generated lead')
   assert.ok(analytics.includes("'copy_email'"), 'Email copy action must be supported in contact intent tracking')
   assert.ok(appSrc.includes("trackContactIntent('copy_email')"), 'App.tsx must invoke trackContactIntent on email copy')
+  assert.ok(!analytics.includes("link.relList.contains('noopener')"), 'Opening a social link must not be miscounted as a product click')
+  assert.ok(!analytics.includes("button.dataset.analyticsAction === 'copy_email'"), 'Copied email must not fire twice through button and delegated click handlers')
   assert.ok(analytics.includes("'view_item'"), 'Case navigation must be measured')
 
   // 5. Consent UX & SSR hydration mismatch prevention
