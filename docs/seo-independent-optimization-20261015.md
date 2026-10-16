@@ -190,3 +190,26 @@ Con un perfil adicional de escritorio lento (CPU 4× / 1,28 Mbps / 150 ms RTT), 
    - Verificar la invalidación de caché en Cloudflare / AWS Amplify para certificar que `https://orbitalframeworks.qzz.io/portfolio/astro-720.webp` responda HTTP 200 con encabezados de caché inmutables.
 3. **Vinculación autenticada de Search Console (Impacto Futuro - Alto):**
    - Una vez que el owner disponga de la cuenta GSC, revisar periódicamente la cobertura del sitemap y las métricas de rastreo del agente `OAI-SearchBot`.
+
+---
+
+## 10. Corrección dirigida del CLS en navegación fría (2026-10-16)
+
+La auditoría posterior al commit f0bb5fb detectó que alojar las tipografías localmente **no resolvió** por sí solo el CLS del hero: siguieron apareciendo valores de ~0,284 en escritorio. Las primeras pruebas con un solo proceso Chrome daban falsos negativos por caché/memoria de fuentes. Se cambió el protocolo: cada iteración utiliza un perfil de Chrome 154 nuevo, caché vacía y un documento recién cargado.
+
+**Causa observada:** durante el cambio de métricas de la fuente usada en el título principal, la cuadrícula del hero reorganizaba contenido. Una traza fría mostró que el texto principal bajaba/subía unos 96 px y el panel lateral unos 36 px. El elemento decorativo heroGlow aparecía en el informe de LayoutShift, pero ocultarlo no resolvía toda la causa (CLS ~0,228). Añadir paint containment tampoco lo arreglaba: hubo CLS elevado en 3 de 4 arranques fríos. Ambos experimentos se descartaron y **no se publicaron**.
+
+Se compararon precargas de los WOFF2 corporativos ya servidos por la landing, sin cambiar el CSS ni el diseño:
+
+| Variante | CLS desktop, perfiles nuevos | FCP móvil frío, CPU 4× / 1,28 Mbps / RTT 150 ms |
+|---|---|---|
+| Sin precargas | ~0,284 en las dos primeras cargas frías observadas | 2.068–2.148 ms, CLS 0 |
+| Solo IBM Plex Sans | ~0,284 en 3/4 | No seleccionado |
+| IBM Plex Sans y Big Shoulders Display | ~0 en 4/4 | 2.572–2.636 ms, CLS 0 |
+| **Solo Big Shoulders Display** | **~0,01033 en 4/4** | **2.324–2.360 ms, CLS 0** |
+
+En la variante seleccionada se retiró además el paint containment experimental y los cuatro resultados de escritorio siguieron en ~0,01033, preservando la geometría y diseño original del glow. El coste de FCP móvil frío fue de aproximadamente +180 a +290 ms en esta pequeña muestra; no son métricas de usuarios reales ni garantías universales.
+
+**Cambio mínimo:** añadir una única precarga del archivo /fonts/big-shoulders-display-latin.woff2 en el head de index.html, con as=font, type=font/woff2 y crossorigin. Sin añadir otras precargas ni alterar CSS. El test automatizado 20 comprueba este contrato.
+
+**Gate de cierre:** build limpio, QA, commit/push autorizado, confirmar Amplify y Cloudflare en producción y medir CLS público con perfiles nuevos, no solo recargas de la misma pestaña. Validar verify:agents y verify:production después del despliegue.

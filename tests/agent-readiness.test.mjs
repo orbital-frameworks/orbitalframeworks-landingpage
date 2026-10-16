@@ -668,3 +668,14 @@ test('19. Licensed corporate fonts self-host without late third-party stylesheet
   assert.doesNotMatch(html, /<link rel="preload" as="font"/,
     'No blocking font preloads: the measured mobile FCP regression must not return')
 })
+
+test('20. Preload only the critical corporate headline font, preserving the glow design', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8')
+  const css = readFileSync(join(root, 'src/App.css'), 'utf8')
+  assert.match(html, /<link rel="preload" href="\/fonts\/big-shoulders-display-latin\.woff2" as="font" type="font\/woff2" crossorigin\s*\/>/,
+    'Preload the exact self-hosted headline font used in the hero on cold navigations')
+  assert.equal((html.match(/rel="preload"[^>]*as="font"/g) ?? []).length, 1,
+    'Preloading additional fonts measurably delayed mobile FCP; keep exactly the critical font')
+  assert.match(css, /\.heroGlow\s*\{[^}]*inset:\s*-40%\s*;/s,
+    'The existing decorative hero glow geometry must be preserved')
+})
