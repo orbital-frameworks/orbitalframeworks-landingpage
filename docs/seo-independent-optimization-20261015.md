@@ -213,3 +213,20 @@ En la variante seleccionada se retiró además el paint containment experimental
 **Cambio mínimo:** añadir una única precarga del archivo /fonts/big-shoulders-display-latin.woff2 en el head de index.html, con as=font, type=font/woff2 y crossorigin. Sin añadir otras precargas ni alterar CSS. El test automatizado 20 comprueba este contrato.
 
 **Gate de cierre:** build limpio, QA, commit/push autorizado, confirmar Amplify y Cloudflare en producción y medir CLS público con perfiles nuevos, no solo recargas de la misma pestaña. Validar verify:agents y verify:production después del despliegue.
+
+### 10.1. Validación posterior al despliegue: PASS técnico observado
+
+El commit **22c3cedcfcecf8115c6b27582f435765429299dc** se publicó en main y se comprobó igualdad exacta con el SHA remoto. Tras esperar a que el origen AWS CloudFront/Amplify mostrara el nuevo HTML, se verificó también en el dominio Cloudflare que la única precarga crítica aparecía en el head.
+
+Prueba sintética reproducible con **Chrome 154, cuatro perfiles temporales independientes y caché vacía por viewport**, usando directamente https://orbitalframeworks.qzz.io/:
+
+| Entorno | CLS por carga fría | FCP observado |
+|---|---|---|
+| Escritorio 1440 × 900, sin throttling | 0,010329 / 0,010329 / 0,010329 / 0,010329 | No incluido en esta tanda |
+| Móvil 390 × 844, CPU 4× lenta / 1,28 Mbps / RTT 150 ms | 0 / 0 / 0 / 0 | 1.384 / 1.640 / 1.352 / 1.416 ms |
+
+Los cuatro arranques de escritorio mejoraron frente al baseline frío previo (~0,284); los cuatro de móvil permanecieron por debajo del umbral CLS 0,1. Las cifras son pruebas de laboratorio y no reemplazan los percentiles CrUX de usuarios reales. Los tiempos FCP medidos contra el CDN público no se deben comparar directamente con los del servidor local como si la red fuera idéntica.
+
+**No regresión pública:** scripts verify:agents y verify:production en PASS después del despliegue. Se conservaron el HTML/Markdown negociados, el estado 404 y los assets de fuentes WOFF2. El 100/100 anterior de Is Agentic está respaldado por la captura del usuario; **no se ejecutó un nuevo escaneo oficial** con este commit.
+
+**Pendientes independientes:** indexación y términos reales de Google Search Console; stream y eventos GA4 verificados con cuenta; CWV de campo p75/INP; auditoría de autoridad/enlaces y conversiones comerciales. No inferir esas métricas del CLS sintético.
