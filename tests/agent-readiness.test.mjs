@@ -630,3 +630,13 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   assert.ok(gateDoc.includes('Bing Webmaster Tools'), 'Gate doc must document Bing Webmaster')
   assert.ok(gateDoc.includes('PageSpeed Insights'), 'Gate doc must document PageSpeed baseline')
 })
+
+test('18. Production verifier checks the deployed responsive WebP assets, not the obsolete PNG', () => {
+  const productionVerifier = readFileSync(join(root, 'scripts/verify-production.mjs'), 'utf8')
+  assert.ok(productionVerifier.includes('/portfolio/astro-480.webp'), 'Production check must include the small WebP')
+  assert.ok(productionVerifier.includes('/portfolio/astro-720.webp'), 'Production check must include the large WebP')
+  assert.ok(productionVerifier.includes('asset.status === 200'), 'Production check must reject missing assets')
+  assert.ok(productionVerifier.includes('asset.isWebP'), 'Production check must validate a WebP response body')
+  assert.ok(!productionVerifier.includes("check('Original visual assets'"),
+    'Production check must not retain the obsolete positive assertion for the PNG')
+})
