@@ -12,7 +12,11 @@ const consentKey = 'orbital-analytics-consent'
 
 function gtag(...args: unknown[]) {
   window.dataLayer ??= []
-  window.dataLayer.push(args)
+  void args // Preserve the typed public signature while using Google's Arguments queue.
+  // Google tag commands must be Arguments objects, not plain arrays.
+  // Arrays look correct in DevTools but are silently ignored by gtag.js.
+  // eslint-disable-next-line prefer-rest-params -- gtag.js requires the actual Arguments object.
+  window.dataLayer.push(arguments)
 }
 
 export function isAnalyticsConfigured() {
@@ -145,6 +149,7 @@ function loadAnalytics() {
 
 export function initializeAnalytics() {
   if (!measurementId) return
+  window.gtag = gtag
   gtag('consent', 'default', {
     analytics_storage: 'denied',
     ad_storage: 'denied',

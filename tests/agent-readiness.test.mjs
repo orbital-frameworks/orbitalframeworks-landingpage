@@ -569,6 +569,8 @@ test('16. GA4 remains consent-gated and tracks only aggregate navigation intents
   // 1. Gated by deployment environment variable without committed secrets
   assert.ok(analytics.includes('VITE_GA_MEASUREMENT_ID'), 'GA4 must support a deployment environment variable')
   assert.ok(analytics.includes('G-487MJFCW45'), 'The owner-approved GA4 public stream ID must be available in clean production builds')
+  assert.ok(analytics.includes('window.dataLayer.push(arguments)'), 'gtag.js must receive real Arguments objects, not inert arrays')
+  assert.ok(analytics.includes('window.gtag = gtag'), 'The standard global gtag callable must be available when the consent-gated tag loads')
 
   // 2. Google Consent Mode v2 default to denied & advertising signals disabled
   assert.ok(analytics.includes("analytics_storage: 'denied'"), 'GA4 consent must default to denied')

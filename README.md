@@ -33,6 +33,8 @@ Las tipografías corporativas (Big Shoulders Display, IBM Plex Sans y IBM Plex M
 El flujo web de GA4 de Orbital Frameworks usa el ID público `G-487MJFCW45` en `src/analytics.ts` (sobrescribible mediante `VITE_GA_MEASUREMENT_ID` para entornos especiales). No se debe insertar una segunda etiqueta estática en `index.html` ni crear un contenedor GTM redundante.
 
 El navegador **no solicita** `gtag.js` antes del consentimiento afirmativo. Al aceptar, se carga una sola etiqueta, se configura `send_page_view: false` y se registra una vista controlada. Si se rechaza, la etiqueta sigue sin cargarse. Las acciones de contacto se miden como `contact_intent`, **no** como `generate_lead` sin confirmación de un mensaje enviado. Los eventos excluyen direcciones de correo e información introducida por el visitante. La comprobación automática de instalación de Google puede no detectar la etiqueta hasta que un visitante consienta; verificar con una visita consentida y el informe en tiempo real de GA4.
+
+Importante: `gtag.js` solo procesa los comandos estándar si se encolan como objetos `arguments` (no como arrays). La validación de navegador debe comprobar una petición real a `google-analytics.com/g/collect` después de aceptar; observar únicamente el script `gtag.js` o una entrada en `dataLayer` **no demuestra medición activa**.
 - `npm run preview`: sirve localmente el build generado.
 
 ## Build de producción
