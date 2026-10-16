@@ -640,3 +640,13 @@ test('18. Production verifier checks the deployed responsive WebP assets, not th
   assert.ok(!productionVerifier.includes("check('Original visual assets'"),
     'Production check must not retain the obsolete positive assertion for the PNG')
 })
+
+test('19. Corporate fonts load before first render to prevent desktop layout shifts', () => {
+  const html = readFileSync(join(root, 'index.html'), 'utf8')
+  assert.match(html, /<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?family=Big\+Shoulders\+Display/,
+    'Corporate font stylesheet must participate in the browser render-blocking phase')
+  assert.doesNotMatch(html, /rel="preload" as="style" href="https:\/\/fonts\.googleapis\.com/,
+    'Asynchronous font stylesheet previously caused reproducible desktop CLS >= 0.28')
+  assert.doesNotMatch(html, /onload="this\.onload=null;this\.rel='stylesheet'"/,
+    'Corporate font styles must not be applied late through onload')
+})

@@ -145,6 +145,27 @@ Se añadió `src/App.css` a los cambios: `.portfolioRobot picture` tiene ahora a
 La prueba tomó capturas reales y midió `getBoundingClientRect()` y `scrollWidth` a los tres tamaños. La imagen y el contenido del portafolio no se superponen en las capturas inspeccionadas. **No se ejecutó una medición Lighthouse/PSI reproducible de LCP/CLS/FCP/TBT ni CrUX/INP de campo.** No atribuir mejoras numéricas de Core Web Vitals a esta optimización sin esos datos.
 
 **QA después del ajuste:** lint, TypeScript, build desde carpeta temporal sin `dist/` previo y 17/17 tests PASS; `git diff --check` PASS. Se confirma la generación WebP (23.230 B móvil, 35.550 B escritorio), ausencia del PNG original en bundle y conservación de páginas HTML/Markdown y 404. Los informes previos de Cloudflare y medición no versionados permanecen intactos.
+
+---
+
+## 9. Continuación: diagnóstico y corrección de inestabilidad de fuentes (2026-10-16)
+
+Tras publicar la versión WebP, el Sponsor midió el sitio vivo con Chrome 154 y PerformanceObserver en navegador real: 2 cargas de escritorio 1440 × 900 sin throttling y 2 de móvil 390 × 844 con CPU 4× más lenta, 150 ms RTT y enlace simulado de 1,28 Mbps, con caché deshabilitada. Son datos **sintéticos**, no Lighthouse oficial ni CWV de campo. Se observaron CLS de ~0,284 en escritorio y ~0,0755 en móvil.
+
+El análisis de fuentes de layout shift y las pruebas de aislamiento señalaron la carga asíncrona de la CSS externa de Google Fonts mediante `rel="preload" as="style" onload="...stylesheet"`: cuando se bloquearon estas fuentes, el CLS de escritorio desapareció. Esta carga tardía cambiaba las métricas tipográficas después del primer render.
+
+Se creó un build experimental aislado con la CSS de Google Fonts como `rel="stylesheet"` convencional, preservando las tres familias corporativas y sus variantes sin recursos adicionales ni cambios de composición visual. Una prueba A/B en el mismo servidor HTTP local con las mismas condiciones Chrome/CPU/red obtuvo:
+
+| Medición sintética | CSS asíncrona (base) | CSS de render (variante) |
+|---|---:|---:|
+| CLS escritorio 1440 × 900 (2 cargas) | 0,28436 / 0,28421 | 0,000000153 / 0,000000172 |
+| CLS móvil 390 × 844 (2 cargas) | 0,07550 / 0,07550 | 0,07550 / 0,07550 |
+| FCP escritorio (ms, 2 cargas) | 844 / 396 | 516 / 408 |
+| FCP móvil (ms, 2 cargas) | 1948 / 1896 | 1988 / 1860 |
+
+El bajo número de muestras no permite afirmar mejora estadística de FCP; sí reproduce de forma determinista la desaparición del fuerte salto tipográfico en escritorio. `tests/agent-readiness.test.mjs` añade aserción de regresión para evitar reinstalar la CSS corporativa con `onload` tardío.
+
+**Gate de publicación:** ejecutar lint, typecheck, build limpio sin `dist/` anterior, tests, diff y QA visual; hacer commit/push solo con acceso autorizado y comprobar en la URL pública que el HTML utiliza la hoja síncrona, que se mantiene la respuesta Markdown por Accept, y medir CLS de producción de nuevo con la misma metodología. No declarar esta mejora LIVE antes de esas pruebas.
 2. **Monitoreo post-despliegue en AWS Amplify (Impacto Medio):**
    - Verificar la invalidación de caché en Cloudflare / AWS Amplify para certificar que `https://orbitalframeworks.qzz.io/portfolio/astro-720.webp` responda HTTP 200 con encabezados de caché inmutables.
 3. **Vinculación autenticada de Search Console (Impacto Futuro - Alto):**
