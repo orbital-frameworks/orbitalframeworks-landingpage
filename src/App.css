@@ -3408,6 +3408,23 @@
   align-self: center;
 }
 
+/* Reserve the responsive art's space before the lazy WebP loads.
+   A flex-item <picture> without dimensions can collapse to 0x0 on desktop,
+   preventing the browser from ever requesting its lazy-loaded child image. */
+.portfolioRobot picture {
+  display: block;
+  flex: 0 0 auto;
+  align-self: center;
+  width: min(370px, 100%);
+  aspect-ratio: 600 / 806;
+}
+
+.portfolioRobot picture .portfolioRobotImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .workBody .workTags,
 .serviceCard .serviceCardTags {
   display: flex;
@@ -3495,6 +3512,10 @@
   .portfolioRobotImg {
     width: min(260px, 38vw);
   }
+
+  .portfolioRobot picture {
+    width: min(260px, 38vw);
+  }
 }
 
 @media (max-width: 640px) {
@@ -3538,6 +3559,10 @@
   }
 
   .portfolioRobotImg {
+    width: min(280px, 82vw);
+  }
+
+  .portfolioRobot picture {
     width: min(280px, 82vw);
   }
 }

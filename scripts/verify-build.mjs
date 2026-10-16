@@ -45,6 +45,8 @@ for (const file of [
   'portfolio/localisa-960.webp',
   'portfolio/perulog-pallets-640.webp',
   'portfolio/perulog-pallets-960.webp',
+  'portfolio/astro-480.webp',
+  'portfolio/astro-720.webp',
 ]) requireFile(file)
 
 const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : ''

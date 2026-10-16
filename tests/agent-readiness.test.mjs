@@ -327,6 +327,11 @@ test('9. verify-build strictly requires index.md and 404.md in dist without sile
     writeFileSync(join(testDist, '404.html'), notFoundHtml)
     writeFileSync(join(testDist, '404/index.html'), notFoundHtml)
 
+    // This fixture models the generated WebP artifacts independently of a stale local dist/.
+    mkdirSync(join(testDist, 'portfolio'), { recursive: true })
+    writeFileSync(join(testDist, 'portfolio/astro-480.webp'), 'fixture')
+    writeFileSync(join(testDist, 'portfolio/astro-720.webp'), 'fixture')
+
     // Case A: Missing 404.md -> must fail strictly with non-zero exit code
     rmSync(join(testDist, '404.md'), { force: true })
     rmSync(join(testDist, 'index.md'), { force: true })
@@ -536,7 +541,12 @@ test('15. Core Web Vitals (CWV) & Accessibility: explicit image dimensions, anim
   // 1. CLS: Explicit width and height attributes on key images
   assert.ok(appSrc.includes('width={200} height={20}'), 'Logo must have explicit width and height in App.tsx')
   assert.ok(appSrc.includes('width={640} height={360}'), 'WorkCard preview image must have explicit width and height')
-  assert.ok(appSrc.includes('width={600} height={600}'), 'Portfolio robot image must have explicit width and height')
+  assert.ok(appSrc.includes('width={600} height={806}'), 'Portfolio robot image must have explicit width and height')
+  assert.ok(appSrc.includes('/portfolio/astro-480.webp') && appSrc.includes('/portfolio/astro-720.webp'), 'Portfolio robot must use generated responsive WebP assets instead of the source PNG')
+  assert.match(appCss, /\.portfolioRobot picture\s*\{[^}]*width:\s*min\(370px,\s*100%\);[^}]*aspect-ratio:\s*600\s*\/\s*806/s,
+    'The portfolio picture itself must reserve visible dimensions, not collapse to 0x0 before lazy image load')
+  assert.match(appCss, /\.portfolioRobot picture \.portfolioRobotImg\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto/s,
+    'The image must fill its layout-stable picture container without distortion')
   assert.ok(caseStudySrc.includes('width={960} height={540}'), 'Case study hero image must have explicit width and height')
 
   // 2. INP / Performance: Hero 3D animation loop pauses with IntersectionObserver when off-screen

@@ -14,6 +14,10 @@ const images = [
   ['perulog-pallets', join(root, 'src', 'assets', 'PerulogPallets.png')],
 ]
 
+const decorativeImages = [
+  ['astro', join(root, 'src', 'assets', 'Astro showing.png')],
+]
+
 const widths = [640, 960]
 const windowsMagick = join(process.env.ProgramFiles ?? 'C:\\Program Files', 'ImageMagick-7.1.2-Q16-HDRI', 'magick.exe')
 
@@ -56,6 +60,13 @@ for (const [name, input] of images) {
   }
 }
 
+for (const [name, input] of decorativeImages) {
+  for (const width of [480, 720]) {
+    const output = join(outputDir, `${name}-${width}.webp`)
+    optimize(input, output, { width, webp: true })
+  }
+}
+
 const faviconSource = join(root, 'public', 'Logo_favicon.png')
 const faviconVariants = [
   ['favicon-32.png', 32],
@@ -70,4 +81,4 @@ for (const [filename, size] of faviconVariants) {
 const copiedSource = join(distDir, 'Logo_favicon.png')
 if (existsSync(copiedSource)) unlinkSync(copiedSource)
 
-console.log(`Generated ${images.length * widths.length} responsive WebP images and ${faviconVariants.length} favicon variants`)
+console.log(`Generated ${(images.length * widths.length) + 2} responsive WebP images and ${faviconVariants.length} favicon variants`)

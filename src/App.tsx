@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
-import astroImg from './assets/Astro showing.png'
 import perulogImg from './assets/PerulogPallets.png'
 import lisaImg from './assets/lisa.png'
 import checkioImg from './assets/checkio.png'
@@ -486,7 +485,10 @@ function PortfolioSection() {
               <span className="portfolioNoteLine" />
               <p>Seleccionamos proyectos donde interfaz, lógica y operación sostienen una misma solución.</p>
             </div>
-            <img className="portfolioRobotImg" src={astroImg} alt="" loading="lazy" width={600} height={600} decoding="async" />
+            <picture>
+              <source type="image/webp" srcSet="/portfolio/astro-480.webp 480w, /portfolio/astro-720.webp 720w" sizes="(max-width: 768px) 78vw, 370px" />
+              <img className="portfolioRobotImg" src="/portfolio/astro-720.webp" alt="" loading="lazy" width={600} height={806} decoding="async" />
+            </picture>
           </aside>
 
           <div className="portfolioProjects">
