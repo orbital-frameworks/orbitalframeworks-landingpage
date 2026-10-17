@@ -49,10 +49,10 @@ Orbital no parte de una solución predeterminada ni recomienda rediseños comple
 
 ## Capacidades
 
-- Desarrollo de software y productos digitales.
-- Sistemas web y herramientas internas.
-- Landing pages y presencia digital.
-- Automatización de procesos.
+- Desarrollo de software y productos digitales a medida: https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/
+- Sistemas web y herramientas internas: https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/
+- Automatización de procesos y mensajería estructurada: https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/
+- Landing pages comerciales B2B y presencia digital: https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/
 - Mejora y evolución de sistemas existentes.
 
 ## Proyectos públicos
@@ -71,6 +71,14 @@ Orbital Leads es una herramienta interna de Orbital Frameworks para investigaci�
 - Política de privacidad: https://orbitalframeworks.qzz.io/privacy
 - Términos de uso: https://orbitalframeworks.qzz.io/terms
 
+## Orbital Insights (Blog técnico)
+
+Orbital Insights es el espacio de publicaciones técnicas y criterios operativos de Orbital Frameworks. Presenta análisis objetivos sobre decisiones de software, arquitectura de sistemas y automatización en empresas de Perú:
+
+- Índice de artículos (Blog): https://orbitalframeworks.qzz.io/blog/
+- Feed RSS oficial: https://orbitalframeworks.qzz.io/feed.xml
+- Artículo piloto: "Software a medida o SaaS: cómo decidir según el proceso de tu empresa" — https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/
+
 ## Primera conversación
 
 La primera conversación revisa una situación concreta, cómo funciona actualmente, qué podría cambiarse, qué conviene mantener y cómo se evaluaría el resultado. No exige decidir una solución antes de hablar.
@@ -78,6 +86,11 @@ La primera conversación revisa una situación concreta, cómo funciona actualme
 ## URLs oficiales
 
 - Sitio web: https://orbitalframeworks.qzz.io/
+- Blog / Orbital Insights: https://orbitalframeworks.qzz.io/blog/
+- Feed RSS: https://orbitalframeworks.qzz.io/feed.xml
+- Desarrollo de software a medida: https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/
+- Automatización de procesos: https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/
+- Landing pages B2B: https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/
 - Sobre Orbital Frameworks: https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/
 - Evidencia de trabajo: https://orbitalframeworks.qzz.io/evidencia/
 - Mapa del sitio: https://orbitalframeworks.qzz.io/sitemap.xml

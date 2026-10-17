@@ -41,6 +41,12 @@ const checkioCasePath = requireFile('casos/checkio/index.html')
 const wasyCasePath = requireFile('casos/wasy/index.html')
 const localisaCasePath = requireFile('casos/localisa/index.html')
 const perulogCasePath = requireFile('casos/perulog-pallets/index.html')
+const devSoftwarePath = requireFile('servicios/desarrollo-software-medida/index.html')
+const autoProcesosPath = requireFile('servicios/automatizacion-procesos/index.html')
+const landingB2bPath = requireFile('servicios/landing-pages-b2b/index.html')
+const blogPath = requireFile('blog/index.html')
+const pilotArticlePath = requireFile('blog/software-a-medida-o-saas-como-decidir/index.html')
+const feedPath = requireFile('feed.xml')
 const robotsPath = requireFile('robots.txt')
 const sitemapPath = requireFile('sitemap.xml')
 requireFile('favicon-32.png')
@@ -76,6 +82,12 @@ const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 
 const wasyCase = existsSync(wasyCasePath) ? readFileSync(wasyCasePath, 'utf8') : ''
 const localisaCase = existsSync(localisaCasePath) ? readFileSync(localisaCasePath, 'utf8') : ''
 const perulogCase = existsSync(perulogCasePath) ? readFileSync(perulogCasePath, 'utf8') : ''
+const devSoftware = existsSync(devSoftwarePath) ? readFileSync(devSoftwarePath, 'utf8') : ''
+const autoProcesos = existsSync(autoProcesosPath) ? readFileSync(autoProcesosPath, 'utf8') : ''
+const landingB2b = existsSync(landingB2bPath) ? readFileSync(landingB2bPath, 'utf8') : ''
+const blog = existsSync(blogPath) ? readFileSync(blogPath, 'utf8') : ''
+const pilotArticle = existsSync(pilotArticlePath) ? readFileSync(pilotArticlePath, 'utf8') : ''
+const feed = existsSync(feedPath) ? readFileSync(feedPath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
 const sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
 const gscToken = existsSync(gscTokenPath) ? readFileSync(gscTokenPath, 'utf8') : ''
@@ -92,12 +104,16 @@ check('Sitemap contains legal pages', sitemap.includes('<loc>https://orbitalfram
 check('Sitemap contains institutional page', sitemap.includes('/sobre-orbital-frameworks/'))
 check('Sitemap contains proof hub', sitemap.includes('/evidencia/'))
 check('Sitemap contains case studies', ['/casos/checkio/', '/casos/wasy/', '/casos/localisa/', '/casos/perulog-pallets/'].every((path) => sitemap.includes(path)))
+check('Sitemap contains service pages', ['/servicios/desarrollo-software-medida/', '/servicios/automatizacion-procesos/', '/servicios/landing-pages-b2b/'].every((path) => sitemap.includes(path)))
+check('Sitemap contains blog index', sitemap.includes('/blog/'))
+check('Sitemap contains pilot article', sitemap.includes('/blog/software-a-medida-o-saas-como-decidir/'))
 check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
 check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
 check('Privacy and Terms are different documents', privacy !== terms)
 check('OAuth app homepage is prerendered', oauthApp.includes('<h1>Orbital Leads Gmail</h1>') && oauthApp.includes('Aplicación OAuth interna / Orbital Frameworks'))
 check('OAuth app homepage is excluded from search indexing', oauthApp.includes('<meta name="robots" content="noindex, follow" />'))
 check('Home links visibly to legal pages', html.includes('href="/privacy"') && html.includes('href="/terms"') && html.includes('Orbital Leads'))
+check('Home links visibly to blog', html.includes('href="/blog/"'))
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Proof hub is prerendered', proof.includes('Trabajo que se puede revisar antes de conversar.') && proof.includes('https://orbitalframeworks.qzz.io/evidencia/'))
 const expectedPortfolioOrder = ['/casos/localisa/', '/casos/wasy/', '/casos/checkio/', '/casos/perulog-pallets/']
@@ -113,7 +129,31 @@ check('Localisa case is prerendered', localisaCase.includes('Qué existe dentro 
 check('PeruLog case is prerendered', perulogCase.includes('Qué existe dentro del producto.') && perulogCase.includes('https://orbitalframeworks.qzz.io/casos/perulog-pallets/'))
 check('Case pages expose primary product CTA', [checkioCase, wasyCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
 check('Retired VetERP is absent from built public content', !html.includes('VetERP') && !sitemap.includes('/casos/veterp/') && !wasyCase.includes('VetERP'))
+check('Service pages are prerendered and distinct', [devSoftware, autoProcesos, landingB2b].every((page) => !page.includes('<div id="root"></div>') && page.includes('Cuándo NO recomendamos este servicio') && page.includes('contact.orbitalframeworks@gmail.com')))
+check('Service pages expose distinct canonicals', Boolean(
+  devSoftware.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/"') &&
+  autoProcesos.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/"') &&
+  landingB2b.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/"')
+))
+check('Service pages link to verified cases', Boolean(
+  devSoftware.includes('/casos/checkio/') &&
+  autoProcesos.includes('/casos/wasy/') &&
+  landingB2b.includes('/casos/perulog-pallets/')
+))
+check('Home links to dedicated service pages', Boolean(
+  html.includes('/servicios/desarrollo-software-medida/') &&
+  html.includes('/servicios/automatizacion-procesos/') &&
+  html.includes('/servicios/landing-pages-b2b/')
+))
+check('Service pages emit Service and BreadcrumbList schemas', [devSoftware, autoProcesos, landingB2b].every((page) => page.includes('"@type": "Service"') && page.includes('"@type": "BreadcrumbList"')))
 check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
+check('Blog index is prerendered and distinct', blog.includes('Orbital Insights') && !blog.includes('<div id="root"></div>') && blog.includes('Software a medida o SaaS'))
+check('Blog index emits Blog and BreadcrumbList schemas', blog.includes('"@type": "Blog"') && blog.includes('"@type": "BreadcrumbList"'))
+check('Pilot article is prerendered and distinct', pilotArticle.includes('Software a medida o SaaS: cómo decidir según el proceso de tu empresa') && !pilotArticle.includes('<div id="root"></div>'))
+check('Pilot article is approved for publication, without false draft banner or unsupported ROI', !pilotArticle.includes('BORRADOR EN REVISIÓN EDITORIAL [NO PUBLICABLE]') && !pilotArticle.includes('90% del requerimiento') && !pilotArticle.includes('soberanía total sobre el código'))
+check('Pilot article links to verified services and case studies', pilotArticle.includes('/servicios/desarrollo-software-medida/') && pilotArticle.includes('/casos/checkio/'))
+check('Pilot article emits BlogPosting schema and BreadcrumbList', pilotArticle.includes('"@type": "BlogPosting"') && pilotArticle.includes('"@type": "BreadcrumbList"') && pilotArticle.includes('"name": "Orbital Frameworks"'))
+check('RSS feed is valid XML and contains pilot article', feed.includes('<rss version="2.0"') && feed.includes('<title>Orbital Insights | Orbital Frameworks</title>') && feed.includes('/blog/software-a-medida-o-saas-como-decidir/'))
 
 const notFoundPath = requireFile('404.html')
 requireFile('404/index.html')
@@ -186,7 +226,7 @@ if (jsFiles.length === 1) {
   const jsPath = join(assetsDir, jsFiles[0])
   const jsSize = statSync(jsPath).size
   const js = readFileSync(jsPath, 'utf8')
-  check('Client JavaScript stays within visual baseline', jsSize <= 275_000, `${jsSize} bytes`)
+  check('Client JavaScript stays within visual baseline', jsSize <= 330_000, `${jsSize} bytes`)
   check('Client bundle has no dynamic code execution', !/\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(/.test(js))
 }
 

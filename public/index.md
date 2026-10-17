@@ -11,16 +11,19 @@ Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales
 ### 1. Landing pages
 - **Enfoque**: Marketing / Conversión / Presencia.
 - **Descripción**: Diseñamos y desarrollamos landing pages enfocadas en claridad, presencia de marca y captación comercial.
+- **Página del servicio**: https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/
 - **Entregable**: Landing page lista para campañas, posicionamiento o captación comercial con diseño responsive y alta velocidad de carga.
 
 ### 2. Sistemas empresariales de gestión
 - **Enfoque**: ERP / Operaciones / Gestión.
 - **Descripción**: Construimos sistemas para ordenar procesos, centralizar información y mejorar la operación diaria de la empresa.
+- **Página del servicio**: https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/
 - **Entregable**: Sistema de gestión adaptado a la operación real del negocio (módulos, paneles administrativos, flujos internos).
 
 ### 3. Automatización y bots
 - **Enfoque**: Bots / Automatización / Mensajería.
 - **Descripción**: Creamos automatizaciones y asistentes para atención, seguimiento y tareas repetitivas conectadas a flujos reales de atención, ventas o soporte.
+- **Página del servicio**: https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/
 - **Entregable**: Automatizaciones e integraciones para ganar tiempo y consistencia operativa.
 
 ### 4. Sistemas y servicios internos
@@ -75,6 +78,12 @@ Herramienta interna de Orbital Frameworks para investigación comercial, gestió
 
 ## Documentación y recursos para agentes
 
+- [Orbital Insights (Blog técnico)](https://orbitalframeworks.qzz.io/blog/)
+- [Artículo: Software a medida o SaaS: cómo decidir según el proceso de tu empresa](https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/)
+- [Feed RSS oficial (feed.xml)](https://orbitalframeworks.qzz.io/feed.xml)
+- [Desarrollo de software a medida](https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/)
+- [Automatización de procesos](https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/)
+- [Landing pages comerciales B2B](https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/)
 - [Instrucciones para agentes y modelos (llms.txt)](https://orbitalframeworks.qzz.io/llms.txt)
 - [Mapa del sitio XML](https://orbitalframeworks.qzz.io/sitemap.xml)
 - [Sobre Orbital Frameworks](https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/)

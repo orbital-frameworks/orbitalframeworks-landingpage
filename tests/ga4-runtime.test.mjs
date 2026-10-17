@@ -335,6 +335,102 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
       assert.ok(collectUrl.startsWith('https://www.google-analytics.com/g/collect'), 'Emitted request targets official GA4 endpoint')
       assert.ok(collectUrl.includes('tid=G-487MJFCW45'), 'Emitted request targets approved stream ID')
     }
+
+    // ---------------------------------------------------------
+    // Phase 9: Funnel navigation (article -> service -> contact) & PII sanitization
+    // ---------------------------------------------------------
+    // Journey 1: Article with UTM -> Service link -> Contact
+    const beforeFunnelLen = interceptedGCollect.length
+    await sendCdp('Page.navigate', {
+      url: `${origin}/blog/software-a-medida-o-saas-como-decidir/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=pilot_saas_vs_custom&email=ceo%40empresa.pe`,
+    })
+    await waitForPage('!!document.querySelector(".blogArticleMain")', 'Blog article page must be loaded')
+    await new Promise((r) => setTimeout(r, 400))
+
+    // 9a. Verify page_view on article retains UTM parameters but strips PII (email)
+    const articlePageView = interceptedGCollect.slice(beforeFunnelLen).find(
+      (u) => u.includes('en=page_view') && u.includes('software-a-medida-o-saas-como-decidir')
+    )
+    assert.ok(articlePageView, 'Article page_view must be emitted')
+    const decodedArticlePageView = decodeURIComponent(articlePageView)
+    assert.ok(decodedArticlePageView.includes('utm_source=linkedin'), 'Retains utm_source in page_location')
+    assert.ok(decodedArticlePageView.includes('utm_medium=organic_social'), 'Retains utm_medium in page_location')
+    assert.ok(decodedArticlePageView.includes('utm_campaign=pilot_saas_vs_custom'), 'Retains utm_campaign in page_location')
+    assert.ok(!decodedArticlePageView.includes('ceo@empresa.pe') && !decodedArticlePageView.includes('email='), 'PII parameter email must be stripped from page_location')
+
+    // 9b. Click internal service link from article (article -> service intent)
+    const beforeArticleLinkLen = interceptedGCollect.length
+    await evalInPage(`
+      const serviceLink = document.querySelector('a[href^="/servicios/desarrollo-software-medida"]')
+      if (serviceLink) {
+        serviceLink.click()
+      }
+    `)
+    await waitForPage('!!document.querySelector(".serviceHeroCopy")', 'Service page must be loaded following link navigation')
+    await new Promise((r) => setTimeout(r, 400))
+
+    const articleToServiceCollect = interceptedGCollect.slice(beforeArticleLinkLen).find(
+      (u) => u.includes('en=article_intent') && u.includes('ep.intent_type=article_to_service')
+    )
+    assert.ok(articleToServiceCollect, 'Must emit article_intent with intent_type=article_to_service')
+    assert.ok(articleToServiceCollect.includes('ep.article_slug=software-a-medida-o-saas-como-decidir'), 'Carries article_slug')
+
+    // 9c. Verify service page_view following funnel progression
+    const servicePageView = interceptedGCollect.slice(beforeArticleLinkLen).find(
+      (u) => u.includes('en=page_view') && u.includes('desarrollo-software-medida')
+    )
+    assert.ok(servicePageView, 'Service page_view must be emitted in funnel sequence')
+
+    // 9d. Click contact CTA on service page (service -> contact intent)
+    const beforeServiceContactLen = interceptedGCollect.length
+    await evalInPage(`
+      const serviceMailto = document.querySelector('.serviceHeroActions a[href^="mailto:"]')
+      serviceMailto?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
+    `)
+    await new Promise((r) => setTimeout(r, 400))
+
+    const serviceToContactCollect = interceptedGCollect.slice(beforeServiceContactLen).find(
+      (u) => u.includes('en=service_intent') && u.includes('ep.intent_type=service_to_contact')
+    )
+    assert.ok(serviceToContactCollect, 'Must emit service_intent with intent_type=service_to_contact')
+    assert.ok(serviceToContactCollect.includes('ep.service_slug=desarrollo-software-medida'), 'Carries service_slug')
+
+    const serviceContactIntentCollect = interceptedGCollect.slice(beforeServiceContactLen).find(
+      (u) => u.includes('en=contact_intent')
+    )
+    assert.ok(serviceContactIntentCollect, 'Must emit contact_intent from service page')
+    assert.ok(serviceContactIntentCollect.includes('ep.source_path=%2Fservicios%2Fdesarrollo-software-medida%2F'), 'Carries service source_path')
+
+    // ---------------------------------------------------------
+    // Journey 2: Direct Article -> Contact intent
+    // ---------------------------------------------------------
+    await sendCdp('Page.navigate', {
+      url: `${origin}/blog/software-a-medida-o-saas-como-decidir/`,
+    })
+    await waitForPage('!!document.querySelector(".blogArticleMain")', 'Blog article page must be loaded for direct contact test')
+    await new Promise((r) => setTimeout(r, 400))
+
+    const beforeDirectArticleContactLen = interceptedGCollect.length
+    await evalInPage(`
+      const mailtoLink = document.querySelector('.blogCtaActions a[href^="mailto:"]')
+      mailtoLink?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
+    `)
+    await new Promise((r) => setTimeout(r, 400))
+
+    const directArticleToContactCollect = interceptedGCollect.slice(beforeDirectArticleContactLen).find(
+      (u) => u.includes('en=article_intent') && u.includes('ep.intent_type=article_to_contact')
+    )
+    assert.ok(directArticleToContactCollect, 'Must emit article_intent with intent_type=article_to_contact on article mailto click')
+
+    const directArticleContactIntentCollect = interceptedGCollect.slice(beforeDirectArticleContactLen).find(
+      (u) => u.includes('en=contact_intent')
+    )
+    assert.ok(directArticleContactIntentCollect, 'Must emit contact_intent on direct article contact click')
+    assert.ok(directArticleContactIntentCollect.includes('ep.method=email'), 'contact_intent has method=email')
+
+    // 9e. Confirm generate_lead is NEVER emitted anywhere in the entire funnel
+    const anyLeadInFunnel = interceptedGCollect.some((u) => u.includes('en=generate_lead'))
+    assert.equal(anyLeadInFunnel, false, 'Never emit generate_lead on unconfirmed interactions across any funnel step')
   } finally {
     if (ws) ws.close()
     chrome.kill()

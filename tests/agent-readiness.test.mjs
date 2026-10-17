@@ -1,12 +1,24 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync, mkdirSync, existsSync } from 'node:fs'
+import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync, mkdirSync, existsSync, accessSync, constants } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { execSync, spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
 
 const root = resolve(process.cwd())
-const builtDist = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : join(root, 'dist')
+function resolveDistDir() {
+  if (process.env.DIST_DIR) return resolve(root, process.env.DIST_DIR)
+  const defaultDist = join(root, 'dist')
+  if (existsSync('/tmp/orbital-dist')) {
+    try {
+      accessSync(defaultDist, constants.W_OK)
+    } catch {
+      return '/tmp/orbital-dist'
+    }
+  }
+  return defaultDist
+}
+const builtDist = resolveDistDir()
 
 // Load files
 const indexPath = join(root, 'index.html')
@@ -91,7 +103,7 @@ test('2. Agent instructions & when-to-use in public/llms.txt', () => {
   const internalUrls = [...llmsTxt.matchAll(/https:\/\/orbitalframeworks\.qzz\.io([^\s)]+)/g)].map((m) => m[1])
   assert.ok(internalUrls.length >= 6, 'Must list all official internal pages')
   for (const urlPath of internalUrls) {
-    if (urlPath === '/' || urlPath === '/llms.txt' || urlPath === '/sitemap.xml') continue
+    if (urlPath === '/' || urlPath === '/llms.txt' || urlPath === '/sitemap.xml' || urlPath === '/feed.xml') continue
     const inSitemap = sitemapXml.includes(`https://orbitalframeworks.qzz.io${urlPath}`)
     assert.ok(inSitemap, `Declared URL ${urlPath} must be present in sitemap.xml`)
   }
@@ -635,10 +647,10 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
   assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
 
-  // Verify all 9 sitemap canonical routes are properly formed
+  // Verify all 14 sitemap canonical routes are properly formed
   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz\.io[^<]*)<\/loc>/g)].map(m => m[1])
-  assert.equal(locMatches.length, 9, 'Sitemap must contain exactly 9 canonical routes')
+  assert.equal(locMatches.length, 14, 'Sitemap must contain exactly 14 canonical routes')
 
   const expectedUrls = [
     'https://orbitalframeworks.qzz.io/',
@@ -650,6 +662,11 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
     'https://orbitalframeworks.qzz.io/casos/wasy/',
     'https://orbitalframeworks.qzz.io/casos/localisa/',
     'https://orbitalframeworks.qzz.io/casos/perulog-pallets/',
+    'https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/',
+    'https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/',
+    'https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/',
+    'https://orbitalframeworks.qzz.io/blog/',
+    'https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/',
   ]
   for (const expectedUrl of expectedUrls) {
     assert.ok(locMatches.includes(expectedUrl), `Sitemap must include ${expectedUrl}`)

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Orbital Insights | Orbital Frameworks</title>
+    <link>https://orbitalframeworks.qzz.io/blog/</link>
+    <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
+    <language>es-PE</language>
+    <lastBuildDate>Sat, 17 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Software a medida o SaaS: cómo decidir según el proceso de tu empresa</title>
+      <link>https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/</guid>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Criterios técnicos y operativos para evaluar cuándo adoptar un software SaaS comercial y cuándo construir software a medida para la operación de tu empresa.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
+  </channel>
+</rss>

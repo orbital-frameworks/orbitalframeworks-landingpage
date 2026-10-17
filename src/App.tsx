@@ -129,6 +129,16 @@ function NavBar({ items }: { items: NavItem[] }) {
               {item.label}
             </a>
           ))}
+          <a
+            className={`navLink ${hoveredId === 'blog' ? 'isHover' : ''}`}
+            href="/blog/"
+            onClick={() => setOpen(false)}
+            onMouseEnter={() => setHoveredId('blog')}
+            onFocus={() => setHoveredId('blog')}
+            onBlur={() => setHoveredId(null)}
+          >
+            Blog
+          </a>
         </div>
       </nav>
     </div>
@@ -186,6 +196,7 @@ type ServiceOffering = {
   detail: string
   deliverable: string
   bullets: string[]
+  href?: string
 }
 
 const servicePrinciples: ServicePrinciple[] = [
@@ -214,6 +225,7 @@ const serviceOfferings: ServiceOffering[] = [
       'Trabajamos estructura comercial, jerarquía visual, responsive y velocidad para que la página no solo se vea bien, sino que también explique y convierta mejor.',
     deliverable: 'Landing page lista para campañas, posicionamiento o captación comercial.',
     bullets: ['Diseño visual', 'Conversión', 'Responsive'],
+    href: '/servicios/landing-pages-b2b/',
   },
   {
     id: 'erp',
@@ -225,6 +237,7 @@ const serviceOfferings: ServiceOffering[] = [
       'Desarrollamos módulos, paneles administrativos, flujos internos y herramientas de control pensadas para crecimiento, trazabilidad y eficiencia.',
     deliverable: 'Sistema de gestión adaptado a la operación real del negocio.',
     bullets: ['ERP', 'Paneles', 'Control operativo'],
+    href: '/servicios/desarrollo-software-medida/',
   },
   {
     id: 'bots',
@@ -236,6 +249,7 @@ const serviceOfferings: ServiceOffering[] = [
       'Automatizamos respuestas, captación, seguimiento y procesos repetitivos para que el negocio gane tiempo, consistencia y capacidad operativa.',
     deliverable: 'Automatizaciones conectadas a flujos reales de atención, ventas o soporte.',
     bullets: ['WhatsApp', 'Integraciones', 'Procesos'],
+    href: '/servicios/automatizacion-procesos/',
   },
   {
     id: 'internal-systems',
@@ -323,6 +337,11 @@ function ServicesSection() {
                   <div className="serviceCardTags">
                     {service.bullets.map((bullet) => <span key={bullet} className="serviceCardTag">{bullet}</span>)}
                   </div>
+                  {service.href && (
+                    <a className="serviceCardLink" href={service.href}>
+                      Ver página del servicio →
+                    </a>
+                  )}
                 </div>
               </article>
             ))}
@@ -742,6 +761,7 @@ function ContactSection() {
           <a href="#servicios">Servicios</a>
           <a href="#proyectos">Casos</a>
           <a href="/evidencia/">Evidencia</a>
+          <a href="/blog/">Blog</a>
           <a href="#como-trabajamos">Método</a>
           <a href="#equipo">Equipo</a>
           <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>

@@ -115,6 +115,59 @@ const pages = [
     dateModified: '2026-08-30',
   },
   {
+    pathname: '/servicios/desarrollo-software-medida/',
+    output: 'dist/servicios/desarrollo-software-medida/index.html',
+    title: 'Desarrollo de software a medida en Perú | Orbital Frameworks',
+    description: 'Desarrollo de software a medida y sistemas de gestión para empresas en Perú. Procesos trazables, integraciones y soluciones adaptadas a la operación.',
+    canonical: 'https://orbitalframeworks.qzz.io/servicios/desarrollo-software-medida/',
+    serviceName: 'Desarrollo de software a medida',
+    serviceType: 'Desarrollo de software a medida',
+    schemaType: 'service',
+    dateModified: '2026-10-17',
+  },
+  {
+    pathname: '/servicios/automatizacion-procesos/',
+    output: 'dist/servicios/automatizacion-procesos/index.html',
+    title: 'Automatización de procesos y WhatsApp para empresas | Orbital Frameworks',
+    description: 'Automatización de procesos operativos y flujos de WhatsApp para empresas en Perú. Conecte pedidos, cotizaciones y atención con supervisión humana.',
+    canonical: 'https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/',
+    serviceName: 'Automatización de procesos y WhatsApp',
+    serviceType: 'Automatización de procesos',
+    schemaType: 'service',
+    dateModified: '2026-10-17',
+  },
+  {
+    pathname: '/servicios/landing-pages-b2b/',
+    output: 'dist/servicios/landing-pages-b2b/index.html',
+    title: 'Landing pages para empresas B2B en Perú | Orbital Frameworks',
+    description: 'Landing pages comerciales de alta velocidad para empresas B2B e industriales en Perú. Explicación técnica de ofertas, SEO estructurado y cotizaciones directas.',
+    canonical: 'https://orbitalframeworks.qzz.io/servicios/landing-pages-b2b/',
+    serviceName: 'Landing pages comerciales B2B',
+    serviceType: 'Landing pages y presencia digital',
+    schemaType: 'service',
+    dateModified: '2026-10-17',
+  },
+  {
+    pathname: '/blog/',
+    output: 'dist/blog/index.html',
+    title: 'Orbital Insights | Criterios técnicos de software en Perú',
+    description: 'Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización elaborados por Orbital Frameworks.',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/',
+    schemaType: 'blog',
+    dateModified: '2026-10-17',
+  },
+  {
+    pathname: '/blog/software-a-medida-o-saas-como-decidir/',
+    output: 'dist/blog/software-a-medida-o-saas-como-decidir/index.html',
+    title: 'Software a medida o SaaS: cómo decidir según el proceso de tu empresa | Orbital Insights',
+    description: 'Criterios técnicos y operativos para evaluar cuándo adoptar un software SaaS comercial y cuándo construir software a medida para la operación de tu empresa.',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/',
+    schemaType: 'article',
+    articleHeadline: 'Software a medida o SaaS: cómo decidir según el proceso de tu empresa',
+    datePublished: '2026-10-17',
+    dateModified: '2026-10-17',
+  },
+  {
     pathname: '/404',
     output: 'dist/404.html',
     extraOutputs: ['dist/404/index.html'],
@@ -165,6 +218,75 @@ function schemaForPage(page) {
           },
         ],
       }
+    } else if (page.schemaType === 'service') {
+      breadcrumb = {
+        '@type': 'BreadcrumbList',
+        '@id': `${page.canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: 'https://orbitalframeworks.qzz.io/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Servicios',
+            item: 'https://orbitalframeworks.qzz.io/#servicios',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: page.serviceName,
+            item: page.canonical,
+          },
+        ],
+      }
+    } else if (page.schemaType === 'blog') {
+      breadcrumb = {
+        '@type': 'BreadcrumbList',
+        '@id': `${page.canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: 'https://orbitalframeworks.qzz.io/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Blog',
+            item: page.canonical,
+          },
+        ],
+      }
+    } else if (page.schemaType === 'article') {
+      breadcrumb = {
+        '@type': 'BreadcrumbList',
+        '@id': `${page.canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: 'https://orbitalframeworks.qzz.io/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Blog',
+            item: 'https://orbitalframeworks.qzz.io/blog/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: page.articleHeadline || page.title.split('|')[0].trim(),
+            item: page.canonical,
+          },
+        ],
+      }
     } else {
       breadcrumb = {
         '@type': 'BreadcrumbList',
@@ -201,9 +323,59 @@ function schemaForPage(page) {
     }
   }
 
+  let serviceEntity = null
+  if (page.schemaType === 'service') {
+    serviceEntity = {
+      '@type': 'Service',
+      '@id': `${page.canonical}#service`,
+      name: page.serviceName,
+      serviceType: page.serviceType,
+      description: page.description,
+      url: page.canonical,
+      provider: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
+      areaServed: { '@type': 'Country', name: 'Perú' },
+    }
+  }
+
+  let blogEntity = null
+  if (page.schemaType === 'blog') {
+    blogEntity = {
+      '@type': 'Blog',
+      '@id': `${page.canonical}#blog`,
+      name: 'Orbital Insights',
+      headline: 'Orbital Insights / Criterios técnicos de software',
+      description: page.description,
+      url: page.canonical,
+      publisher: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
+      inLanguage: 'es-PE',
+    }
+  }
+
+  let articleEntity = null
+  if (page.schemaType === 'article') {
+    articleEntity = {
+      '@type': 'BlogPosting',
+      '@id': `${page.canonical}#article`,
+      headline: page.articleHeadline || page.title.split('|')[0].trim(),
+      name: page.articleHeadline || page.title.split('|')[0].trim(),
+      description: page.description,
+      url: page.canonical,
+      datePublished: page.datePublished || '2026-10-17',
+      dateModified: page.dateModified || '2026-10-17',
+      inLanguage: 'es-PE',
+      author: {
+        '@type': 'Organization',
+        name: 'Orbital Frameworks',
+        url: 'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
+      },
+      publisher: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
+      mainEntityOfPage: { '@id': `${page.canonical}#webpage` },
+    }
+  }
+
   const webPage = {
     ...baseWebPage,
-    '@type': page.schemaType === 'about' ? 'AboutPage' : 'WebPage',
+    '@type': page.schemaType === 'about' ? 'AboutPage' : page.schemaType === 'blog' ? 'CollectionPage' : 'WebPage',
     '@id': `${page.canonical}#webpage`,
     url: page.canonical,
     name: page.title,
@@ -213,13 +385,19 @@ function schemaForPage(page) {
     about: { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
     mainEntity: caseEntity
       ? { '@id': `${page.canonical}#project` }
+      : serviceEntity
+      ? { '@id': `${page.canonical}#service` }
+      : articleEntity
+      ? { '@id': `${page.canonical}#article` }
+      : blogEntity
+      ? { '@id': `${page.canonical}#blog` }
       : { '@id': 'https://orbitalframeworks.qzz.io/#organization' },
     ...(breadcrumb ? { breadcrumb: { '@id': `${page.canonical}#breadcrumb` } } : {}),
   }
 
   return {
     '@context': 'https://schema.org',
-    '@graph': [organization, website, ...people, portfolio, caseEntity, breadcrumb, webPage].filter(Boolean),
+    '@graph': [organization, website, ...people, portfolio, caseEntity, serviceEntity, blogEntity, articleEntity, breadcrumb, webPage].filter(Boolean),
   }
 }
 
@@ -235,6 +413,14 @@ function withMetadata(html, page) {
     .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${page.canonical}" />`)
     .replace(/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${page.title}" />`)
     .replace(/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${page.description}" />`)
+
+  if (!output.includes('application/rss+xml')) {
+    output = output.replace(
+      '</head>',
+      '    <link rel="alternate" type="application/rss+xml" title="Orbital Insights RSS Feed" href="https://orbitalframeworks.qzz.io/feed.xml" />\n  </head>',
+    )
+  }
+
   const schema = schemaForPage(page)
   if (schema) {
     output = output.replace(
@@ -248,7 +434,7 @@ function withMetadata(html, page) {
     )
   }
 
-  if (page.schemaType === 'case') {
+  if (page.schemaType === 'case' || page.schemaType === 'article') {
     output = output.replace(
       /<meta property="og:type" content="[^"]*" \/>/,
       '<meta property="og:type" content="article" />',
@@ -278,13 +464,13 @@ for (const page of pages) {
   console.log(`Prerendered ${page.pathname} (${appHtml.length} characters)`)
 }
 
-for (const mdFile of ['index.md', '404.md']) {
-  const src = resolve(root, 'public', mdFile)
-  const dest = resolve(distDir, mdFile)
+for (const staticAsset of ['index.md', '404.md', 'feed.xml']) {
+  const src = resolve(root, 'public', staticAsset)
+  const dest = resolve(distDir, staticAsset)
   const content = await readFile(src, 'utf8')
   if (!content || content.trim().length === 0) {
-    throw new Error(`Prerender agent asset failure: ${src} is empty or missing`)
+    throw new Error(`Prerender asset failure: ${src} is empty or missing`)
   }
   await writeFile(dest, content, 'utf8')
-  console.log(`Guaranteed markdown asset ${mdFile} copied to dist/ (${content.length} characters)`)
+  console.log(`Guaranteed asset ${staticAsset} copied to dist/ (${content.length} characters)`)
 }

@@ -57,9 +57,9 @@ function requireNonempty(relativePath) {
 const viteConfigArgs = ['--config', 'scripts/vite.config.cjs']
 run('node_modules/typescript/bin/tsc', ['-p', 'tsconfig.app.json', '--noEmit'])
 run('node_modules/typescript/bin/tsc', ['-p', 'tsconfig.node.json', '--noEmit'])
-run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--outDir', outputDir])
+run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--outDir', outputDir, '--emptyOutDir'])
 run('scripts/optimize-images.mjs')
-run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--ssr', 'src/entry-server.tsx', '--outDir', ssrDir])
+run('node_modules/vite/bin/vite.js', ['build', ...viteConfigArgs, '--ssr', 'src/entry-server.tsx', '--outDir', ssrDir, '--emptyOutDir'])
 run('scripts/prerender.mjs')
 run('scripts/verify-build.mjs')
 
