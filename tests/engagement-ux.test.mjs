@@ -1,9 +1,22 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { accessSync, constants, existsSync, readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import test from 'node:test'
 
-const dist = join(process.cwd(), 'dist')
+const root = resolve(process.cwd())
+function resolveDistDir() {
+  if (process.env.DIST_DIR) return resolve(root, process.env.DIST_DIR)
+  const defaultDist = join(root, 'dist')
+  if (existsSync('/tmp/orbital-dist')) {
+    try {
+      accessSync(defaultDist, constants.W_OK)
+    } catch {
+      return '/tmp/orbital-dist'
+    }
+  }
+  return defaultDist
+}
+const dist = resolveDistDir()
 const html = (path) => readFileSync(join(dist, path), 'utf8')
 
 test('blog cards have a single keyboard-accessible link wrapping the full card', () => {

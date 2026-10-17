@@ -18,8 +18,17 @@ if (!origin) {
 }
 const tmpBase = existsSync('/tmp') ? '/tmp' : tmpdir()
 const profile = mkdtempSync(join(tmpBase, 'orbital-wasy-visual-chrome-'))
-const screenshotDirectory = resolve(process.env.QA_SCREENSHOT_DIR || join(tmpBase, 'orbital-landing-visual-qa'))
-mkdirSync(screenshotDirectory, { recursive: true })
+let screenshotDirectory = resolve(process.env.QA_SCREENSHOT_DIR || join(tmpBase, 'orbital-landing-visual-qa'))
+try {
+  mkdirSync(screenshotDirectory, { recursive: true })
+} catch (error) {
+  if (error?.code === 'EROFS' || error?.code === 'EACCES') {
+    screenshotDirectory = resolve(join(tmpBase, 'orbital-landing-visual-qa'))
+    mkdirSync(screenshotDirectory, { recursive: true })
+  } else {
+    throw error
+  }
+}
 const cdpPort = await new Promise((resolvePort, reject) => {
   const probe = createServer()
   probe.once('error', reject)
@@ -250,8 +259,19 @@ try {
 
       if (viewport.capture && (route.name === 'home' || route.name === 'case' || route.name === 'evidence')) {
         const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true })
-        const output = join(screenshotDirectory, `qa-wasy-${route.name}-${viewport.name}.png`)
-        writeFileSync(output, Buffer.from(capture.data, 'base64'))
+        let output = join(screenshotDirectory, `qa-wasy-${route.name}-${viewport.name}.png`)
+        try {
+          writeFileSync(output, Buffer.from(capture.data, 'base64'))
+        } catch (error) {
+          if (error?.code === 'EROFS' || error?.code === 'EACCES') {
+            screenshotDirectory = resolve(join(tmpBase, 'orbital-landing-visual-qa'))
+            mkdirSync(screenshotDirectory, { recursive: true })
+            output = join(screenshotDirectory, `qa-wasy-${route.name}-${viewport.name}.png`)
+            writeFileSync(output, Buffer.from(capture.data, 'base64'))
+          } else {
+            throw error
+          }
+        }
       }
       console.log(`PASS ${route.name}/${viewport.name} ${result.naturalWidth}x${result.naturalHeight} ${result.currentSrc}`)
     }

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "orbitalframeworks-landingpage",
+  "lastUpdated": "2026-10-17T21:46:34.676Z",
+  "policy": {
+    "autopostAllowed": false,
+    "duplicatePolicy": "BLOCK_DUPLICATE_DISTRIBUTION",
+    "historicalPostsImmutable": true
+  },
+  "historicPosts": [
+    {
+      "urn": "urn:li:share:7516883410074836992",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7516883410074836992?actorCompanyId=134014070",
+      "actorCompanyId": "134014070",
+      "hasLink": false,
+      "policy": "IMMUTABLE_PRESERVE",
+      "note": "Post LinkedIn histórico publicado SIN enlace. Prohibido modificar, borrar o duplicar en nuevas campañas."
+    }
+  ],
+  "publications": {
+    "software-a-medida-o-saas-como-decidir": {
+      "slug": "software-a-medida-o-saas-como-decidir",
+      "title": "Software a medida o SaaS: cómo decidir según el proceso de tu empresa",
+      "campaign": "pilot_saas_vs_custom",
+      "utmUrl": "https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=pilot_saas_vs_custom",
+      "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/",
+      "status": "LISTO_PARA_DISTRIBUCION_EXTERNA",
+      "gateVerdict": "PASS",
+      "lastCheckedAt": "2026-10-17T21:46:34.676Z",
+      "packPath": "docs/linkedin-pilot-handoff-2026-10-17.md",
+      "autopostAuthorized": false,
+      "failedChecks": []
+    }
+  }
+}

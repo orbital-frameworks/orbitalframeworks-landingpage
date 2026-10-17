@@ -1,25 +1,29 @@
-# Pack de Publicación LinkedIn — Piloto Orbital Insights
+# Pack de Publicación LinkedIn — Orbital Insights
 
-Fecha: 2026-10-17
-Canal objetivo: LinkedIn Orgánico (Proyecto externo desacoplado)
+**Documento:** `docs/linkedin-pilot-handoff-2026-10-17.md`
+**Fecha de Verificación Gate:** 2026-10-17
+**Canal Objetivo:** LinkedIn Orgánico (Empresa y Socios)
+**Estado Editorial del Gate:** `LISTO_PARA_DISTRIBUCION_EXTERNA`
+**Autopost Automatizado:** DESHABILITADO (Solo revisión humana)
 Estado editorial: artículo piloto informativo revisado para publicación; este texto de LinkedIn es una propuesta para el flujo externo y no se ha publicado automáticamente.
 
 ---
 
-## 1. URL de Campaña con UTM Pasivo
+## 1. URL de Campaña con Parámetros UTM Limpios
 
 ```
 https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=pilot_saas_vs_custom
 ```
 
-### Parámetros UTM:
+### Parámetros UTM Deterministas:
 - `utm_source`: `linkedin`
 - `utm_medium`: `organic_social`
 - `utm_campaign`: `pilot_saas_vs_custom`
+- **PII:** CERO parámetros personales (Validado por `sanitizeAndValidateUtmUrl`)
 
 ---
 
-## 2. Variante Corta de Contenido (Texto de Publicación)
+## 2. Texto de la Publicación (Copia de Difusión)
 
 ```text
 Adoptar un SaaS comercial no siempre es la solución definitiva, pero construir software a medida tampoco debe ser el primer impulso.
@@ -35,20 +39,21 @@ https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/?utm
 
 ---
 
-## 3. Instrucciones de Integración Interoperable
+## 3. Contrato de Distribución e Instrucciones para el Operador
 
-1. **Desacoplamiento total**: Este pack no invoca APIs de LinkedIn, no utiliza tokens ni realiza autoposting. Se entrega como texto plano listo para ser consumido por la sesión externa encargada de redes.
-2. **Sin cebo vacío**: El post resume criterios operativos reales y útiles por sí mismos, evitando clickbaits o promesas exageradas de ahorro.
-3. **Mejora editorial futura**: El artículo ofrece criterios generales y no afirma resultados propios. Para añadir experiencia de campo verificable y diferenciada, solicitar una respuesta real del equipo a la pregunta:
-   > *«¿Qué decisión concreta del equipo de Orbital sobre adaptar un SaaS o desarrollar software propio podemos documentar, y qué evidencia autorizada respalda esa decisión?»*
+1. **Gate Preflight Superado:** Este paquete solo se genera tras verificar HTTP 200, Canonical definitiva, Prerender H1 real, Open Graph tags y sitemap.
+2. **Desacoplamiento Absoluto:** Prohibido invocar APIs no autorizadas de LinkedIn o utilizar tokens de sesión automatizados. La publicación es efectuada manualmente por el operador autorizado o sesión social dedicada.
+3. **Ventana Recomendada:** Publicar con un margen de **2 a 4 horas posteriores al despliegue** (o al día siguiente) para permitir que los crawlers de LinkedIn generen la previsualización del Open Graph (`og:image`, `og:title`) desde caché perimetral sin timeouts.
+4. **Respeto a Publicaciones Históricas:** La publicación histórica institucional `urn:li:share:7516883410074836992` permanece intacta y no se altera ni duplica.
 
 ---
 
-## 4. Medición y Embudo GA4
+## 4. Medición GA4 y Embudo de Conversión
 
-- **Ruta observada**: `/blog/software-a-medida-o-saas-como-decidir/` con parámetros UTM conservados de forma segura en `page_location`.
-- **Métricas de intención**:
-  - `article_to_service`: clics desde el artículo hacia servicios (`/servicios/desarrollo-software-medida/`, etc.).
-  - `article_to_contact`: clics hacia mailto/Gmail.
-  - No se computa como `generate_lead` sin recepción humana confirmada.
-- **Límite de medición documentado**: El desfase conocido en GA4 ("0 filas Windsor vs collect HTTP 204") debe considerarse al monitorear la campaña, validando en informes en tiempo real (Realtime) antes de concluir sobre el volumen de tráfico.
+- **Página de Entrada:** `/blog/software-a-medida-o-saas-como-decidir/` conservando los parámetros UTM en `page_location`.
+- **Consentimiento:** Google Consent Mode v2 activo; no se escriben cookies de rastreo sin aceptación explícita.
+- **Eventos de Intención Calificados:**
+  - `article_intent` (`intent_type: "article_to_service"`) al hacer clic hacia servicios comerciales.
+  - `article_intent` (`intent_type: "article_to_contact"`) al hacer clic en el CTA de correo.
+  - `contact_intent` emitido en aperturas de Gmail compose o copia de correo al portapapeles.
+- **Prohibición de Falso Lead:** Cero disparo de `generate_lead` en el navegador. La única evidencia de lead calificado es el correo recibido en `contact.orbitalframeworks@gmail.com`.
