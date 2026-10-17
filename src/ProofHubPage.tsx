@@ -1,6 +1,7 @@
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import checkioImg from './assets/checkio.png'
-import veterpImg from './assets/veterp_sis.png'
+import wasyImg640 from './assets/wasy-catalog-2026-10-16-640.webp'
+import wasyImg from './assets/wasy-catalog-2026-10-16-960.webp'
 import lisaImg from './assets/lisa.png'
 import perulogImg from './assets/PerulogPallets.png'
 import './ProofHubPage.css'
@@ -14,18 +15,20 @@ const proofItems = [
     summary: 'Plataforma para asistencia, incidencias y gestión operativa de colaboradores.',
     verify: 'Se puede revisar el producto público y un caso que documenta problema, alcance, flujos y límites.',
     image: checkioImg,
+    imageSrcSet: undefined,
     href: '/casos/checkio/',
     action: 'Revisar caso',
   },
   {
     index: '02',
-    title: 'VetERP',
-    sector: 'Salud / Operación',
-    status: 'Producto en pruebas',
-    summary: 'Sistema para agenda, pacientes, atención clínica, inventario, caja y operación veterinaria.',
-    verify: 'El caso permite revisar módulos, recorridos operativos y decisiones sin atribuir resultados comerciales no demostrados.',
-    image: veterpImg,
-    href: '/casos/veterp/',
+    title: 'Wasy',
+    sector: 'Comercio digital',
+    status: 'Catálogo web publicado · app móvil en beta privada',
+    summary: 'Catálogo web para explorar productos, usar carrito y continuar el pedido por WhatsApp.',
+    verify: 'El caso documenta el catálogo público y sus límites; desde allí se puede abrir wasy.store.',
+    image: wasyImg,
+    imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
+    href: '/casos/wasy/',
     action: 'Revisar caso',
   },
   {
@@ -36,6 +39,7 @@ const proofItems = [
     summary: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
     verify: 'Se puede abrir la plataforma publicada y comprobar directamente su experiencia de búsqueda y consulta territorial.',
     image: lisaImg,
+    imageSrcSet: undefined,
     href: 'https://www.localisa.pe/',
     action: 'Abrir plataforma',
     external: true,
@@ -48,6 +52,7 @@ const proofItems = [
     summary: 'Landing comercial B2B para explicar servicios, propuesta de valor y canales de contacto.',
     verify: 'Se puede revisar el sitio publicado como evidencia de diseño y desarrollo de una superficie comercial B2B.',
     image: perulogImg,
+    imageSrcSet: undefined,
     href: 'https://perulogpallets.com.pe/',
     action: 'Abrir sitio',
     external: true,
@@ -93,12 +98,14 @@ export default function ProofHubPage() {
               <span className="proofEyebrow">Selección / 04</span>
               <h2>Cuatro formas distintas de convertir una necesidad en software o presencia digital.</h2>
             </div>
-            <p>La selección cubre operación interna, salud, información territorial y presencia comercial B2B.</p>
+            <p>La selección cubre operación interna, comercio digital, información territorial y presencia comercial B2B.</p>
           </header>
           <div className="proofList">
             {proofItems.map((item) => (
               <article className="proofItem" key={item.title}>
-                <div className="proofItemMedia"><img src={item.image} alt={`Vista de ${item.title}`} loading="lazy" width={640} height={360} decoding="async" /></div>
+                <div className={`proofItemMedia${item.title === 'Wasy' ? ' proofItemMedia--wasy' : ''}`}>
+                  <img src={item.image} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 920px) 100vw, 48vw' : undefined} alt={item.title === 'Wasy' ? 'Captura del catálogo público de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360} decoding="async" />
+                </div>
                 <div className="proofItemBody">
                   <div className="proofItemMeta"><span>{item.index}</span><span>{item.sector}</span></div>
                   <h3>{item.title}</h3>

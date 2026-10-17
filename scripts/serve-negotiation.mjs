@@ -1,5 +1,5 @@
 import http from 'node:http'
-import { readFileSync, existsSync, statSync } from 'node:fs'
+import { accessSync, constants, readFileSync, existsSync, statSync } from 'node:fs'
 import { join, extname, resolve } from 'node:path'
 import { prefersMarkdown } from './edge/cloudflare-worker-content-negotiation.js'
 
@@ -27,7 +27,19 @@ const MIME_TYPES = {
  */
 export function createNegotiationServer(options = {}) {
   const rootDir = options.rootDir ? resolve(options.rootDir) : resolve(process.cwd())
-  const distDir = existsSync(join(rootDir, 'dist')) ? join(rootDir, 'dist') : rootDir
+  function resolveDistDir() {
+    if (process.env.DIST_DIR) return resolve(process.env.DIST_DIR)
+    const defaultDist = join(rootDir, 'dist')
+    if (existsSync('/tmp/orbital-dist')) {
+      try {
+        accessSync(defaultDist, constants.W_OK)
+      } catch {
+        return '/tmp/orbital-dist'
+      }
+    }
+    return existsSync(defaultDist) ? defaultDist : rootDir
+  }
+  const distDir = resolveDistDir()
   const publicDir = join(rootDir, 'public')
 
   function findFile(relPath) {

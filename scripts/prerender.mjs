@@ -28,7 +28,7 @@ const pages = [
     title: 'Orbital Frameworks | Desarrollo de software en Perú',
     description: 'Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales. Construye productos, sistemas web y herramientas para problemas concretos de negocio.',
     canonical: 'https://orbitalframeworks.qzz.io/',
-    dateModified: '2026-10-15',
+    dateModified: '2026-10-16',
   },
   {
     pathname: '/privacy',
@@ -67,7 +67,7 @@ const pages = [
     description: 'Qué es Orbital Frameworks: empresa peruana de desarrollo de software y soluciones digitales, su equipo, capacidades, método y proyectos públicos.',
     canonical: 'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
     schemaType: 'about',
-    dateModified: '2026-10-15',
+    dateModified: '2026-10-16',
   },
   {
     pathname: '/evidencia/',
@@ -76,7 +76,7 @@ const pages = [
     description: 'Productos, casos y superficies públicas de Orbital Frameworks que pueden revisarse antes de una conversación comercial.',
     canonical: 'https://orbitalframeworks.qzz.io/evidencia/',
     schemaType: 'proof',
-    dateModified: '2026-10-15',
+    dateModified: '2026-10-16',
   },
   {
     pathname: '/casos/checkio/',
@@ -88,13 +88,13 @@ const pages = [
     dateModified: '2026-08-15',
   },
   {
-    pathname: '/casos/veterp/',
-    output: 'dist/casos/veterp/index.html',
-    title: 'VetERP: caso de gestión veterinaria | Orbital Frameworks',
-    description: 'Caso VetERP: sistema para agenda, pacientes, atención clínica, hospitalización, inventario, caja y operación veterinaria.',
-    canonical: 'https://orbitalframeworks.qzz.io/casos/veterp/',
+    pathname: '/casos/wasy/',
+    output: 'dist/casos/wasy/index.html',
+    title: 'Wasy: caso de comercio digital | Orbital Frameworks',
+    description: 'Caso Wasy: catálogo web para explorar productos, usar carrito y continuar pedidos por WhatsApp; la app móvil está en beta privada.',
+    canonical: 'https://orbitalframeworks.qzz.io/casos/wasy/',
     schemaType: 'case',
-    dateModified: '2026-08-30',
+    dateModified: '2026-10-16',
   },
   {
     pathname: '/casos/localisa/',

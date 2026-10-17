@@ -22,7 +22,7 @@ Sitio público y posicionamiento oficial de Orbital Frameworks como empresa de d
 ## Reglas críticas
 
 - No inventar clientes, logos, partners, métricas, testimonios, integraciones ni casos.
-- VetERP se presenta como demo o producto en pruebas según estado real.
+- Wasy se presenta con catálogo web publicado en https://wasy.store/, pedido por WhatsApp y app móvil en beta privada.
 - Orbital Frameworks debe ser visible sin apropiarse de la identidad de cada producto.
 - El copy público no expone arquitectura ni procesos internos innecesarios.
 

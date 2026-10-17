@@ -1,11 +1,12 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync, mkdirSync } from 'node:fs'
+import { readFileSync, cpSync, rmSync, writeFileSync, mkdtempSync, mkdirSync, existsSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { execSync, spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
 
 const root = resolve(process.cwd())
+const builtDist = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : join(root, 'dist')
 
 // Load files
 const indexPath = join(root, 'index.html')
@@ -66,7 +67,7 @@ test('1. Organization JSON-LD completeness & truthfulness', () => {
 
   // dateModified synchronization check
   assert.ok(webpage, 'WebPage entity must exist in JSON-LD')
-  assert.equal(webpage.dateModified, '2026-10-15', 'dateModified in index.html must match release date 2026-10-15')
+  assert.equal(webpage.dateModified, '2026-10-16', 'dateModified in index.html must match release date 2026-10-16')
 })
 
 test('2. Agent instructions & when-to-use in public/llms.txt', () => {
@@ -103,7 +104,7 @@ test('3. Markdown representation for Home (public/index.md)', () => {
   assert.ok(indexMd.includes('Landing pages'), 'Must list services')
   assert.ok(indexMd.includes('Sistemas empresariales de gestión'), 'Must list ERP services')
   assert.ok(indexMd.includes('Checkio'), 'Must list verified projects')
-  assert.ok(indexMd.includes('VetERP'), 'Must list verified projects')
+  assert.ok(indexMd.includes('Wasy'), 'Must list verified projects')
   assert.ok(indexMd.includes('Localisa'), 'Must list verified projects')
   assert.ok(indexMd.includes('PeruLog Pallets'), 'Must list verified projects')
   assert.ok(indexMd.includes('contact.orbitalframeworks@gmail.com'), 'Must list contact email')
@@ -254,14 +255,14 @@ test('7. Brand search consistency & dateModified synchronization across assets',
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>'))
 
   // dateModified / lastmod coherence (F5)
-  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/</loc>\n    <lastmod>2026-10-15</lastmod>'))
-  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/</loc>\n    <lastmod>2026-10-15</lastmod>'))
-  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>\n    <lastmod>2026-10-15</lastmod>'))
+  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/</loc>\n    <lastmod>2026-10-16</lastmod>'))
+  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/</loc>\n    <lastmod>2026-10-16</lastmod>'))
+  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>\n    <lastmod>2026-10-16</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>\n    <lastmod>2026-10-16</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/terms</loc>\n    <lastmod>2026-08-28</lastmod>'))
 
   // Case studies consistency
-  for (const caseName of ['checkio', 'veterp', 'localisa', 'perulog-pallets']) {
+  for (const caseName of ['checkio', 'wasy', 'localisa', 'perulog-pallets']) {
     assert.ok(sitemapXml.includes(`/casos/${caseName}/`), `Sitemap must list case ${caseName}`)
     assert.ok(llmsTxt.includes(`/casos/${caseName}/`), `llms.txt must list case ${caseName}`)
     assert.ok(indexMd.includes(`/casos/${caseName}/`), `index.md must list case ${caseName}`)
@@ -300,20 +301,41 @@ test('8. Cloudflare Worker prefersMarkdown RFC 9110 strict q-value negotiation',
 })
 
 test('9. verify-build strictly requires index.md and 404.md in dist without silent fallbacks', () => {
-  const testDist = mkdtempSync(join(tmpdir(), 'orbital-test-dist-'))
+  const tmpBase = existsSync('/tmp') ? '/tmp' : tmpdir()
+  const testDist = mkdtempSync(join(tmpBase, 'orbital-test-dist-'))
 
   try {
     // Copy all dist baseline files to test directory
-    cpSync(join(root, 'dist'), testDist, { recursive: true })
-    // Ensure updated llms.txt is present
+    cpSync(builtDist, testDist, { recursive: true })
+    // Ensure updated llms.txt and sitemap.xml are present
     writeFileSync(join(testDist, 'llms.txt'), readFileSync(join(root, 'public/llms.txt')))
-    // Ensure testDist index.html has updated country-only schema and dateModified.
+    writeFileSync(join(testDist, 'sitemap.xml'), readFileSync(join(root, 'public/sitemap.xml')))
+
+    // Retire VetERP and add Wasy case to testDist fixture
+    rmSync(join(testDist, 'casos/veterp'), { recursive: true, force: true })
+    mkdirSync(join(testDist, 'casos/wasy'), { recursive: true })
+    const checkioCaseHtml = readFileSync(join(testDist, 'casos/checkio/index.html'), 'utf8')
+    const wasyCaseHtml = checkioCaseHtml
+      .replaceAll('https://orbitalframeworks.qzz.io/casos/checkio/', 'https://orbitalframeworks.qzz.io/casos/wasy/')
+      .replaceAll('https://checkio-frontend.onrender.com/landing', 'https://wasy.store/')
+      .replaceAll('Checkio', 'Wasy')
+      .replaceAll('VetERP', 'Wasy')
+      .replaceAll('/casos/veterp/', '/casos/wasy/')
+      .replaceAll('https://veterp.qzz.io/', 'https://wasy.store/')
+    writeFileSync(join(testDist, 'casos/wasy/index.html'), wasyCaseHtml)
+
+    // Ensure testDist index.html has updated country-only schema, dateModified, and no VetERP.
     const baseHtml = readFileSync(join(testDist, 'index.html'), 'utf8')
+      .replaceAll('VetERP', 'Wasy')
+      .replaceAll('/casos/veterp/', '/casos/wasy/')
+      .replaceAll('https://veterp.qzz.io/', 'https://wasy.store/')
     const sourceIndexHtml = readFileSync(join(root, 'index.html'), 'utf8')
     const sourceLdJson = sourceIndexHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1]
     if (sourceLdJson) {
       const updatedTestHtml = baseHtml.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, `<script type="application/ld+json">${sourceLdJson}</script>`)
       writeFileSync(join(testDist, 'index.html'), updatedTestHtml)
+    } else {
+      writeFileSync(join(testDist, 'index.html'), baseHtml)
     }
 
     // Ensure testDist has prerendered 404.html and 404/index.html required by verify-build
@@ -331,6 +353,8 @@ test('9. verify-build strictly requires index.md and 404.md in dist without sile
     mkdirSync(join(testDist, 'portfolio'), { recursive: true })
     writeFileSync(join(testDist, 'portfolio/astro-480.webp'), 'fixture')
     writeFileSync(join(testDist, 'portfolio/astro-720.webp'), 'fixture')
+    writeFileSync(join(testDist, 'portfolio/wasy-640.webp'), 'fixture')
+    writeFileSync(join(testDist, 'portfolio/wasy-960.webp'), 'fixture')
 
     // Case A: Missing 404.md -> must fail strictly with non-zero exit code
     rmSync(join(testDist, '404.md'), { force: true })
@@ -465,7 +489,7 @@ test('12. Deployment pipelines produce dist before artifact-dependent tests', ()
     'Production build must not silently discard artifacts in an ephemeral directory',
   )
   for (const file of ['index.html', 'index.md', '404.md', 'llms.txt', 'sitemap.xml']) {
-    assert.ok(readFileSync(join(root, 'dist', file)).length > 0, `Missing deployment asset: ${file}`)
+    assert.ok(readFileSync(join(builtDist, file)).length > 0, `Missing deployment asset: ${file}`)
   }
 })
 
@@ -540,14 +564,14 @@ test('15. Core Web Vitals (CWV) & Accessibility: explicit image dimensions, anim
 
   // 1. CLS: Explicit width and height attributes on key images
   assert.ok(appSrc.includes('width={200} height={20}'), 'Logo must have explicit width and height in App.tsx')
-  assert.ok(appSrc.includes('width={640} height={360}'), 'WorkCard preview image must have explicit width and height')
+  assert.ok(appSrc.includes('width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360}'), 'WorkCard preview image must reserve the selected asset dimensions')
   assert.ok(appSrc.includes('width={600} height={806}'), 'Portfolio robot image must have explicit width and height')
   assert.ok(appSrc.includes('/portfolio/astro-480.webp') && appSrc.includes('/portfolio/astro-720.webp'), 'Portfolio robot must use generated responsive WebP assets instead of the source PNG')
   assert.match(appCss, /\.portfolioRobot picture\s*\{[^}]*width:\s*min\(370px,\s*100%\);[^}]*aspect-ratio:\s*600\s*\/\s*806/s,
     'The portfolio picture itself must reserve visible dimensions, not collapse to 0x0 before lazy image load')
   assert.match(appCss, /\.portfolioRobot picture \.portfolioRobotImg\s*\{[^}]*width:\s*100%;[^}]*height:\s*auto/s,
     'The image must fill its layout-stable picture container without distortion')
-  assert.ok(caseStudySrc.includes('width={960} height={540}'), 'Case study hero image must have explicit width and height')
+  assert.ok(caseStudySrc.includes("width={960} height={slug === 'wasy' ? 704 : 540}"), 'Case study hero image must reserve the selected asset dimensions')
 
   // 2. INP / Performance: Hero 3D animation loop pauses with IntersectionObserver when off-screen
   assert.ok(appSrc.includes('IntersectionObserver'), 'Hero component must use IntersectionObserver to throttle animation loop')
@@ -590,6 +614,7 @@ test('16. GA4 remains consent-gated and tracks only aggregate navigation intents
   assert.ok(!analytics.includes("gtag('event', 'generate_lead'"), 'Do not count a mailto or clipboard interaction as a generated lead')
   assert.ok(analytics.includes("'copy_email'"), 'Email copy action must be supported in contact intent tracking')
   assert.ok(appSrc.includes("trackContactIntent('copy_email')"), 'App.tsx must invoke trackContactIntent on email copy')
+  assert.ok(appSrc.includes('execCommand'), 'App.tsx must provide a clipboard fallback for restricted browser environments')
   assert.ok(!analytics.includes("link.relList.contains('noopener')"), 'Opening a social link must not be miscounted as a product click')
   assert.ok(!analytics.includes("button.dataset.analyticsAction === 'copy_email'"), 'Copied email must not fire twice through button and delegated click handlers')
   assert.ok(analytics.includes("'view_item'"), 'Case navigation must be measured')
@@ -619,7 +644,7 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
     'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
     'https://orbitalframeworks.qzz.io/evidencia/',
     'https://orbitalframeworks.qzz.io/casos/checkio/',
-    'https://orbitalframeworks.qzz.io/casos/veterp/',
+    'https://orbitalframeworks.qzz.io/casos/wasy/',
     'https://orbitalframeworks.qzz.io/casos/localisa/',
     'https://orbitalframeworks.qzz.io/casos/perulog-pallets/',
   ]

@@ -1,8 +1,20 @@
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { accessSync, constants, existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
 
 const root = process.cwd()
-const dist = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : join(root, 'dist')
+function resolveDistDir() {
+  if (process.env.DIST_DIR) return resolve(root, process.env.DIST_DIR)
+  const defaultDist = join(root, 'dist')
+  if (existsSync('/tmp/orbital-dist')) {
+    try {
+      accessSync(defaultDist, constants.W_OK)
+    } catch {
+      return '/tmp/orbital-dist'
+    }
+  }
+  return defaultDist
+}
+const dist = resolveDistDir()
 const failures = []
 
 function check(label, condition, detail = '') {
@@ -26,7 +38,7 @@ requireFile('terms/index.html')
 const aboutPath = requireFile('sobre-orbital-frameworks/index.html')
 const proofPath = requireFile('evidencia/index.html')
 const checkioCasePath = requireFile('casos/checkio/index.html')
-const veterpCasePath = requireFile('casos/veterp/index.html')
+const wasyCasePath = requireFile('casos/wasy/index.html')
 const localisaCasePath = requireFile('casos/localisa/index.html')
 const perulogCasePath = requireFile('casos/perulog-pallets/index.html')
 const robotsPath = requireFile('robots.txt')
@@ -39,8 +51,8 @@ const gscTokenPath = requireFile('google466769daa2952733.html')
 for (const file of [
   'portfolio/checkio-640.webp',
   'portfolio/checkio-960.webp',
-  'portfolio/veterp-640.webp',
-  'portfolio/veterp-960.webp',
+  'portfolio/wasy-640.webp',
+  'portfolio/wasy-960.webp',
   'portfolio/localisa-640.webp',
   'portfolio/localisa-960.webp',
   'portfolio/perulog-pallets-640.webp',
@@ -61,7 +73,7 @@ const oauthApp = existsSync(oauthAppPath) ? readFileSync(oauthAppPath, 'utf8') :
 const about = existsSync(aboutPath) ? readFileSync(aboutPath, 'utf8') : ''
 const proof = existsSync(proofPath) ? readFileSync(proofPath, 'utf8') : ''
 const checkioCase = existsSync(checkioCasePath) ? readFileSync(checkioCasePath, 'utf8') : ''
-const veterpCase = existsSync(veterpCasePath) ? readFileSync(veterpCasePath, 'utf8') : ''
+const wasyCase = existsSync(wasyCasePath) ? readFileSync(wasyCasePath, 'utf8') : ''
 const localisaCase = existsSync(localisaCasePath) ? readFileSync(localisaCasePath, 'utf8') : ''
 const perulogCase = existsSync(perulogCasePath) ? readFileSync(perulogCasePath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
@@ -79,7 +91,7 @@ check('Sitemap contains canonical URL', sitemap.includes('<loc>https://orbitalfr
 check('Sitemap contains legal pages', sitemap.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>') && sitemap.includes('<loc>https://orbitalframeworks.qzz.io/terms</loc>'))
 check('Sitemap contains institutional page', sitemap.includes('/sobre-orbital-frameworks/'))
 check('Sitemap contains proof hub', sitemap.includes('/evidencia/'))
-check('Sitemap contains case studies', ['/casos/checkio/', '/casos/veterp/', '/casos/localisa/', '/casos/perulog-pallets/'].every((path) => sitemap.includes(path)))
+check('Sitemap contains case studies', ['/casos/checkio/', '/casos/wasy/', '/casos/localisa/', '/casos/perulog-pallets/'].every((path) => sitemap.includes(path)))
 check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
 check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
 check('Privacy and Terms are different documents', privacy !== terms)
@@ -89,10 +101,11 @@ check('Home links visibly to legal pages', html.includes('href="/privacy"') && h
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Proof hub is prerendered', proof.includes('Trabajo que se puede revisar antes de conversar.') && proof.includes('https://orbitalframeworks.qzz.io/evidencia/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
-check('VetERP case is prerendered', veterpCase.includes('Qué existe dentro del producto.') && veterpCase.includes('https://orbitalframeworks.qzz.io/casos/veterp/'))
+check('Wasy case is prerendered', wasyCase.includes('Qué existe dentro del producto.') && wasyCase.includes('https://orbitalframeworks.qzz.io/casos/wasy/') && wasyCase.includes('https://wasy.store/'))
 check('Localisa case is prerendered', localisaCase.includes('Qué existe dentro del producto.') && localisaCase.includes('https://orbitalframeworks.qzz.io/casos/localisa/'))
 check('PeruLog case is prerendered', perulogCase.includes('Qué existe dentro del producto.') && perulogCase.includes('https://orbitalframeworks.qzz.io/casos/perulog-pallets/'))
-check('Case pages expose primary product CTA', [checkioCase, veterpCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
+check('Case pages expose primary product CTA', [checkioCase, wasyCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))
+check('Retired VetERP is absent from built public content', !html.includes('VetERP') && !sitemap.includes('/casos/veterp/') && !wasyCase.includes('VetERP'))
 check('Institutional and conversion sections are prerendered', html.includes('Cómo trabajamos / Primera conversación') && html.includes('Quiénes somos / Orbital Frameworks') && html.includes('Qué incluir en el mensaje'))
 
 const notFoundPath = requireFile('404.html')

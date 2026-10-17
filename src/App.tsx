@@ -3,7 +3,8 @@ import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import perulogImg from './assets/PerulogPallets.png'
 import lisaImg from './assets/lisa.png'
 import checkioImg from './assets/checkio.png'
-import veterpSisImg from './assets/veterp_sis.png'
+import wasyImg640 from './assets/wasy-catalog-2026-10-16-640.webp'
+import wasyImg from './assets/wasy-catalog-2026-10-16-960.webp'
 import { trackContactIntent } from './analytics'
 import './App.css'
 
@@ -352,7 +353,8 @@ function ServicesSection() {
 type WorkItem = {
   title: string
   kind: string
-  imageSrc: string
+  imageSrc?: string
+  imageSrcSet?: string
   url: string
   external?: boolean
   description: string
@@ -379,17 +381,18 @@ const workItems: WorkItem[] = [
     impact: 'Operación diaria con trazabilidad y control de asistencia.',
   },
   {
-    title: 'VetERP — Gestión veterinaria',
-    kind: 'App',
-    imageSrc: veterpSisImg,
-    url: '/casos/veterp/',
-    description: 'Sistema ERP para agenda, pacientes, inventario y operación interna de clínicas veterinarias.',
-    tags: ['ERP', 'Veterinaria', 'En pruebas'],
+    title: 'Wasy — Comercio digital',
+    kind: 'Web',
+    url: '/casos/wasy/',
+    imageSrc: wasyImg,
+    imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
+    description: 'Catálogo web para explorar productos, usar carrito y continuar el pedido por WhatsApp.',
+    tags: ['Catálogo web', 'Pedido por WhatsApp', 'App móvil en beta privada'],
     featured: true,
     tone: 'teal',
-    sector: 'Salud operativa',
-    status: 'Producto en pruebas',
-    impact: 'Centraliza agenda, pacientes e inventario en un mismo flujo.',
+    sector: 'Comercio digital',
+    status: 'Catálogo web publicado',
+    impact: 'Conecta la exploración de productos con un pedido por WhatsApp.',
   },
   {
     title: 'Localisa',
@@ -438,7 +441,7 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       data-index={String(index + 1).padStart(2, '0')}
     >
       <div className="workMedia">
-        <img src={item.imageSrc} alt={`Vista de ${item.title}`} loading="lazy" width={640} height={360} decoding="async" />
+        <img src={item.imageSrc} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 640px) 100vw, 50vw' : undefined} alt={item.title.startsWith('Wasy') ? 'Captura del catálogo web de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360} decoding="async" />
         <div className="workMediaOverlay">
           <div className="workMediaEyebrow">{cardLabel}</div>
           <div className="workMediaTitle">{item.title}</div>
@@ -476,7 +479,7 @@ function PortfolioSection() {
             <h2 className="portfolioTitle">Casos donde la forma, el flujo y la operación responden a una misma idea.</h2>
             <p className="portfolioSub">Cada pieza resuelve una necesidad concreta de negocio, experiencia u operación.</p>
           </div>
-          <p className="portfolioSummary">Cuatro productos publicados o verificables en RRHH, salud, información territorial y presencia comercial.</p>
+          <p className="portfolioSummary">Cuatro productos publicados o verificables en RRHH, comercio digital, información territorial y presencia comercial.</p>
         </header>
 
         <div className="portfolioSplit">
@@ -506,7 +509,7 @@ function PortfolioSection() {
           <div className="portfolioCtaActions">
             <a className="btn btnGhost" href="/evidencia/">Ver evidencia</a>
             <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
-            <a className="btn btnGhost" href="/casos/veterp/">Caso VetERP</a>
+            <a className="btn btnGhost" href="/casos/wasy/">Caso Wasy</a>
             <a className="btn btnGhost" href="/casos/localisa/">Caso Localisa</a>
             <a className="btn btnGhost" href="/casos/perulog-pallets/">Caso PeruLog</a>
             <a className="btn btnPrimary" href="#contacto">Plantear un caso</a>
@@ -659,10 +662,35 @@ function ContactSection() {
   const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks&body=Negocio%3A%0A%0ASituaci%C3%B3n%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText('contact.orbitalframeworks@gmail.com')
-    setEmailCopied(true)
-    trackContactIntent('copy_email')
-    window.setTimeout(() => setEmailCopied(false), 2200)
+    let copied = false
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText('contact.orbitalframeworks@gmail.com')
+        copied = true
+      }
+    } catch {
+      // Fallback for environments where clipboard write permission is restricted
+    }
+    if (!copied) {
+      try {
+        const textarea = document.createElement('textarea')
+        textarea.value = 'contact.orbitalframeworks@gmail.com'
+        textarea.style.position = 'fixed'
+        textarea.style.opacity = '0'
+        document.body.appendChild(textarea)
+        textarea.focus()
+        textarea.select()
+        copied = document.execCommand('copy')
+        document.body.removeChild(textarea)
+      } catch {
+        // Fallback failed
+      }
+    }
+    if (copied) {
+      setEmailCopied(true)
+      trackContactIntent('copy_email')
+      window.setTimeout(() => setEmailCopied(false), 2200)
+    }
   }
 
   return (

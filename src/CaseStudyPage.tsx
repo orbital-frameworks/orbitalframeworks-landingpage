@@ -1,5 +1,6 @@
 import checkioImg from './assets/checkio.png'
-import veterpImg from './assets/veterp_sis.png'
+import wasyImg640 from './assets/wasy-catalog-2026-10-16-640.webp'
+import wasyImg from './assets/wasy-catalog-2026-10-16-960.webp'
 import lisaImg from './assets/lisa.png'
 import perulogImg from './assets/PerulogPallets.png'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
@@ -8,7 +9,7 @@ import './CaseStudyPage.css'
 
 const images: Record<CaseStudySlug, string> = {
   checkio: checkioImg,
-  veterp: veterpImg,
+  wasy: wasyImg,
   localisa: lisaImg,
   'perulog-pallets': perulogImg,
 }
@@ -46,8 +47,8 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
               <span>Producto verificable en web</span>
             </div>
           </div>
-          <div className="caseHeroMedia">
-            <img src={images[slug]} alt={`Vista del producto ${study.title}`} width={960} height={540} loading="eager" decoding="async" />
+          <div className={`caseHeroMedia${slug === 'wasy' ? ' caseHeroMedia--wasy' : ''}`}>
+            <img src={images[slug]} srcSet={slug === 'wasy' ? `${wasyImg640} 640w, ${wasyImg} 960w` : undefined} sizes={slug === 'wasy' ? '(max-width: 980px) 100vw, 55vw' : undefined} alt={slug === 'wasy' ? 'Captura del catálogo público de Wasy con productos y carrito' : `Vista del producto ${study.title}`} width={960} height={slug === 'wasy' ? 704 : 540} loading="eager" decoding="async" />
           </div>
         </section>
 

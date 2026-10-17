@@ -24,6 +24,8 @@
 .proofItem { padding: 34px 0; display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.05fr); gap: clamp(28px,5vw,72px); border-bottom: 1px solid rgba(245,245,245,.12); }
 .proofItemMedia { min-width: 0; align-self: start; overflow: clip; border: 1px solid rgba(245,245,245,.1); background: rgba(255,255,255,.025); }
 .proofItemMedia img { width: 100%; aspect-ratio: 16/10; display: block; object-fit: cover; transition: transform 220ms ease; }
+.proofItemMedia--wasy { block-size: fit-content; aspect-ratio: 960 / 704; }
+.proofItemMedia--wasy img { height: 100%; aspect-ratio: 960 / 704; object-fit: contain; }
 .proofItem:hover .proofItemMedia img { transform: scale(1.015); }
 .proofItemBody { min-width: 0; padding: 8px 0; }
 .proofItemMeta { display: flex; justify-content: space-between; gap: 18px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--orbital-teal); }

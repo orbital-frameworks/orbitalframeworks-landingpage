@@ -35,9 +35,9 @@ Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales
 - **Checkio**: Plataforma de gestión de personal y asistencia con marcaciones, geolocalización, historial y flujos de RRHH.
   - Caso Orbital: https://orbitalframeworks.qzz.io/casos/checkio/
   - Producto público: https://checkio-frontend.onrender.com/landing
-- **VetERP**: Sistema de gestión para operación veterinaria (agenda, pacientes, atención clínica, hospitalización, inventario y caja), actualmente en pruebas.
-  - Caso Orbital: https://orbitalframeworks.qzz.io/casos/veterp/
-  - Producto público: https://veterp.qzz.io/
+- **Wasy**: Catálogo web para explorar productos, usar carrito y continuar pedidos por WhatsApp. La app móvil permanece en beta privada.
+  - Caso Orbital: https://orbitalframeworks.qzz.io/casos/wasy/
+  - Catálogo público: https://wasy.store/
 - **Localisa**: Plataforma pública para explorar plazas SERUMS en Perú mediante mapa, filtros y herramientas de comparación.
   - Caso Orbital: https://orbitalframeworks.qzz.io/casos/localisa/
   - Producto público: https://www.localisa.pe/

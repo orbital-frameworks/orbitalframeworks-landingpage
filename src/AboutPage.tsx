@@ -24,10 +24,10 @@ const projects = [
     href: '/casos/checkio/',
   },
   {
-    name: 'VetERP',
-    category: 'Gestión veterinaria',
-    state: 'Producto en pruebas',
-    href: '/casos/veterp/',
+    name: 'Wasy',
+    category: 'Comercio digital',
+    state: 'Catálogo web publicado · app móvil en beta privada',
+    href: '/casos/wasy/',
   },
   {
     name: 'Localisa',

@@ -9,7 +9,7 @@ mkdirSync(outputDir, { recursive: true })
 
 const images = [
   ['checkio', join(root, 'src', 'assets', 'checkio.png')],
-  ['veterp', join(root, 'src', 'assets', 'veterp_sis.png')],
+  ['wasy', join(root, 'src', 'assets', 'wasy-catalog-2026-10-16.png')],
   ['localisa', join(root, 'src', 'assets', 'lisa.png')],
   ['perulog-pallets', join(root, 'src', 'assets', 'PerulogPallets.png')],
 ]

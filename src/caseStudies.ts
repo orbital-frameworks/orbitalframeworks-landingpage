@@ -1,4 +1,4 @@
-export type CaseStudySlug = 'checkio' | 'veterp' | 'localisa' | 'perulog-pallets'
+export type CaseStudySlug = 'checkio' | 'wasy' | 'localisa' | 'perulog-pallets'
 
 export type CaseStudy = {
   slug: CaseStudySlug
@@ -42,29 +42,29 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
     evidence: ['Landing pública disponible.', 'Frontend React + Vite con rutas para empleado, administración e historial.', 'Backend Node.js, Express y Prisma con servicios de asistencia, empleados, notificaciones y cambios de horario.', 'Pruebas de contrato específicas para la landing.'],
     limits: ['No se publican cifras de usuarios ni resultados comerciales sin evidencia verificable.', 'El producto se presenta como beta y no como una operación empresarial consolidada.'],
   },
-  veterp: {
-    slug: 'veterp',
-    title: 'VetERP',
-    eyebrow: 'Caso 02 / Operación veterinaria',
-    status: 'Producto en pruebas',
-    summary: 'Un sistema operativo para clínicas veterinarias que conecta agenda, recepción, pacientes, atención clínica, hospitalización, inventario, caja y grooming.',
-    publicUrl: 'https://veterp.qzz.io/',
-    problem: 'La operación de una clínica veterinaria combina atención clínica, agenda, inventario, cobros y seguimiento. Cuando cada área trabaja por separado, se pierde contexto del paciente y aumenta la fricción entre recepción, consulta y administración.',
-    approach: 'VetERP organiza el recorrido desde la cita hasta la atención y el seguimiento, manteniendo conectados clientes, mascotas, historia clínica, órdenes, productos y movimientos operativos.',
-    outcome: 'El repositorio contiene módulos funcionales y una landing pública que permiten revisar el alcance real del producto. Se mantiene presentado como producto en pruebas.',
-    capabilities: ['Agenda y estados de citas', 'Recepción, turnos y colas', 'Clientes, mascotas e historia clínica', 'Atenciones, signos vitales y adjuntos', 'Hospitalización y tratamientos', 'Inventario, movimientos y kardex', 'Caja, ventas y cortes', 'Grooming y servicios asociados', 'Recordatorios, vacunas y seguimientos', 'Configuración de clínica, personal y proveedores'],
+  wasy: {
+    slug: 'wasy',
+    title: 'Wasy',
+    eyebrow: 'Caso 02 / Comercio digital',
+    status: 'Catálogo web publicado · app móvil en beta privada',
+    summary: 'Un catálogo web para explorar productos, armar un pedido y continuarlo por WhatsApp; la app móvil sigue en beta privada.',
+    publicUrl: 'https://wasy.store/',
+    problem: 'Un catálogo digital necesita permitir revisar productos y preparar un pedido sin presentar como público un flujo móvil que todavía está en beta privada.',
+    approach: 'Wasy publica un catálogo web por categorías, permite usar el carrito y dirige el pedido a WhatsApp. La experiencia móvil se comunica con su estado real: beta privada.',
+    outcome: 'El catálogo web y el pedido por WhatsApp se pueden revisar en wasy.store. No se presenta la app móvil como disponible para descarga pública ni se atribuyen resultados comerciales.',
+    capabilities: ['Catálogo web por categorías', 'Exploración de productos', 'Carrito de compra', 'Pedido continuado por WhatsApp', 'Navegación pública desde wasy.store'],
     flows: [
-      { title: 'Recepción', text: 'Agenda, confirma y deriva citas hacia los flujos de atención o grooming.' },
-      { title: 'Equipo clínico', text: 'Consulta contexto reciente, registra signos vitales, entradas clínicas, tratamientos y seguimientos.' },
-      { title: 'Operación', text: 'Inventario, caja, ventas y hospitalización se conectan con el trabajo diario de la clínica.' },
+      { title: 'Explorar', text: 'La persona recorre categorías y productos desde el catálogo web público.' },
+      { title: 'Preparar', text: 'El carrito permite reunir el pedido antes de continuar la conversación.' },
+      { title: 'Pedir', text: 'El pedido se deriva a WhatsApp como canal operativo del catálogo publicado.' },
     ],
     decisions: [
-      { title: 'Paciente como eje', text: 'La historia y el contexto de la mascota articulan agenda, consulta, hospitalización y seguimiento.' },
-      { title: 'Estados explícitos', text: 'Citas, órdenes, grooming y hospitalizaciones usan estados para evitar transiciones ambiguas.' },
-      { title: 'Separación por permisos', text: 'Determinadas áreas se restringen según el rol operativo.' },
+      { title: 'Web pública, móvil acotado', text: 'El sitio describe el catálogo publicado y distingue explícitamente la app móvil, que permanece en beta privada.' },
+      { title: 'Pedido por WhatsApp', text: 'El recorrido público termina en WhatsApp en lugar de afirmar una compra cerrada dentro de la web.' },
+      { title: 'Catálogo como punto de entrada', text: 'Categorías, productos y carrito sostienen la exploración antes de iniciar el pedido.' },
     ],
-    evidence: ['Landing pública disponible.', 'Aplicación Next.js con rutas funcionales para agenda, atención, pacientes, hospitalización, inventario, caja y grooming.', 'Integración con Supabase y acciones de servidor para operaciones clínicas y administrativas.', 'Pruebas de contrato para flujos sensibles de agenda y áreas visuales.'],
-    limits: ['No se presenta como caso de éxito de una clínica ni se atribuyen resultados comerciales.', 'El estado público es producto en pruebas; algunas fases futuras siguen indicadas dentro del propio sistema.'],
+    evidence: ['Sitio público disponible en wasy.store.', 'El catálogo web publica categorías, productos, carrito y pedido por WhatsApp.', 'La app móvil se mantiene indicada como beta privada.'],
+    limits: ['No se publican métricas de conversión, ventas, clientes ni resultados de uso.', 'No se presenta la app móvil como disponible al público ni en tiendas.'],
   },
   localisa: {
     slug: 'localisa',
@@ -117,5 +117,5 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
 }
 
 export function isCaseStudySlug(value: string): value is CaseStudySlug {
-  return value === 'checkio' || value === 'veterp' || value === 'localisa' || value === 'perulog-pallets'
+  return value === 'checkio' || value === 'wasy' || value === 'localisa' || value === 'perulog-pallets'
 }
