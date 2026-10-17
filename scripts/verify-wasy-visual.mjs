@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -16,9 +16,10 @@ if (!origin) {
   await new Promise((resolve) => localServer.listen(0, '127.0.0.1', resolve))
   origin = `http://127.0.0.1:${localServer.address().port}`
 }
-const root = resolve(process.cwd())
 const tmpBase = existsSync('/tmp') ? '/tmp' : tmpdir()
 const profile = mkdtempSync(join(tmpBase, 'orbital-wasy-visual-chrome-'))
+const screenshotDirectory = resolve(process.env.QA_SCREENSHOT_DIR || join(tmpBase, 'orbital-landing-visual-qa'))
+mkdirSync(screenshotDirectory, { recursive: true })
 const cdpPort = await new Promise((resolvePort, reject) => {
   const probe = createServer()
   probe.once('error', reject)
@@ -199,6 +200,40 @@ try {
       assert.equal(result.expectedLink, true, `${route.name}/${viewport.name}: expected CTA must exist`)
       assert.equal(result.bodyHasExpected, true, `${route.name}/${viewport.name}: expected copy must be visible`)
 
+      if (route.name === 'evidence') {
+        const images = await evaluate(`(async () => {
+          const pictures = [...document.querySelectorAll('.proofItemMedia img')];
+          await Promise.all(pictures.map(async (img) => {
+            img.loading = 'eager';
+            try { await img.decode(); } catch {}
+          }));
+          return pictures.map(img => {
+            const r = img.getBoundingClientRect();
+            return {
+              alt: img.alt,
+              naturalWidth: img.naturalWidth,
+              naturalHeight: img.naturalHeight,
+              renderedWidth: r.width,
+              renderedHeight: r.height,
+              fit: getComputedStyle(img).objectFit,
+              height: getComputedStyle(img).height
+            };
+          });
+        })()`)
+        assert.equal(images.length, 4, `Evidence must contain all four project screenshots at ${viewport.name}`)
+        for (const image of images) {
+          assert.ok(image.naturalWidth > 0 && image.naturalHeight > 0, `${viewport.name}: screenshot ${image.alt} must load`)
+          assert.ok(image.renderedWidth > 0 && image.renderedHeight > 0, `${viewport.name}: screenshot ${image.alt} must have layout dimensions`)
+          const naturalRatio = image.naturalWidth / image.naturalHeight
+          const renderedRatio = image.renderedWidth / image.renderedHeight
+          assert.ok(Math.abs(naturalRatio - renderedRatio) < 0.025, `${viewport.name}: screenshot ${image.alt} must retain native aspect ratio, got ${renderedRatio} vs ${naturalRatio}`)
+          assert.equal(image.fit, 'contain', `${viewport.name}: ${image.alt} must not use object-fit: cover`)
+        }
+        const contactHref = await evaluate(`document.querySelector('.proofCta > a')?.href || ''`)
+        assert.ok(contactHref.startsWith('https://mail.google.com/mail/?view=cm'), `${viewport.name}: evidence contact must use the Gmail compose flow`)
+        assert.ok(contactHref.includes('contact.orbitalframeworks%40gmail.com'), `${viewport.name}: evidence contact must preserve the official address`)
+      }
+
       if (route.name === 'home') {
         assert.equal(result.wasyOverlayPresent, true, `${route.name}/${viewport.name}: Wasy must display the same image title overlay as other projects`)
         assert.equal(result.hasOtherMediaOverlay, true, `${route.name}/${viewport.name}: non-Wasy cards must retain .workMediaOverlay`)
@@ -215,7 +250,7 @@ try {
 
       if (viewport.capture && (route.name === 'home' || route.name === 'case' || route.name === 'evidence')) {
         const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true })
-        const output = join(root, 'docs', `qa-wasy-${route.name}-${viewport.name}-2026-10-16.png`)
+        const output = join(screenshotDirectory, `qa-wasy-${route.name}-${viewport.name}.png`)
         writeFileSync(output, Buffer.from(capture.data, 'base64'))
       }
       console.log(`PASS ${route.name}/${viewport.name} ${result.naturalWidth}x${result.naturalHeight} ${result.currentSrc}`)
@@ -224,6 +259,7 @@ try {
 
   assert.deepEqual(consoleErrors, [], `Browser exceptions: ${consoleErrors.join('; ')}`)
   console.log('WASY_VISUAL_QA_PASS')
+  console.log('QA_SCREENSHOT_DIR', screenshotDirectory)
 } finally {
   if (ws) ws.close()
   chrome.kill()

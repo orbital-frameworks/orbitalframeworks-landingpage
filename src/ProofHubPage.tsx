@@ -16,6 +16,8 @@ const proofItems = [
     verify: 'Se puede abrir la plataforma publicada y comprobar directamente su experiencia de búsqueda y consulta territorial.',
     image: lisaImg,
     imageSrcSet: undefined,
+    imageWidth: 1905,
+    imageHeight: 852,
     href: 'https://www.localisa.pe/',
     action: 'Abrir plataforma',
     external: true,
@@ -29,6 +31,8 @@ const proofItems = [
     verify: 'El caso documenta el catálogo y el recorrido del pedido; desde allí se puede abrir wasy.store.',
     image: wasyImg,
     imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
+    imageWidth: 960,
+    imageHeight: 704,
     href: '/casos/wasy/',
     action: 'Revisar caso',
   },
@@ -41,6 +45,8 @@ const proofItems = [
     verify: 'Se puede revisar el producto y un caso que documenta el problema, el alcance y sus flujos.',
     image: checkioImg,
     imageSrcSet: undefined,
+    imageWidth: 1917,
+    imageHeight: 904,
     href: '/casos/checkio/',
     action: 'Revisar caso',
   },
@@ -53,11 +59,15 @@ const proofItems = [
     verify: 'Se puede revisar el sitio publicado como evidencia de diseño y desarrollo de una superficie comercial B2B.',
     image: perulogImg,
     imageSrcSet: undefined,
+    imageWidth: 1336,
+    imageHeight: 601,
     href: 'https://perulogpallets.com.pe/',
     action: 'Abrir sitio',
     external: true,
   },
 ]
+
+const evidenceEmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=${encodeURIComponent('Revisar una situación - Orbital Frameworks')}&body=${encodeURIComponent('Hola, equipo de Orbital Frameworks.\n\nEmpresa / actividad:\nSituación o proceso a revisar:\nObjetivo o resultado esperado:\n\nGracias.')}`
 
 export default function ProofHubPage() {
   return (
@@ -104,7 +114,7 @@ export default function ProofHubPage() {
             {proofItems.map((item) => (
               <article className="proofItem" key={item.title}>
                 <div className="proofItemMedia">
-                  <img src={item.image} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 920px) 100vw, 48vw' : undefined} alt={item.title === 'Wasy' ? 'Captura del catálogo público de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360} decoding="async" />
+                  <img src={item.image} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 920px) 100vw, 48vw' : undefined} alt={item.title === 'Wasy' ? 'Captura del catálogo público de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageWidth} height={item.imageHeight} decoding="async" />
                 </div>
                 <div className="proofItemBody">
                   <div className="proofItemMeta"><span>{item.index}</span><span>{item.sector}</span></div>
@@ -137,7 +147,7 @@ export default function ProofHubPage() {
             <h2>Si hay una fricción concreta, se puede revisar antes de decidir qué construir.</h2>
             <p>Describe el negocio, la situación observada y el cambio que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
           </div>
-          <a className="btn btnPrimary" href="mailto:contact.orbitalframeworks@gmail.com?subject=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks">Plantear una situación</a>
+          <a className="btn btnPrimary" href={evidenceEmailUrl} target="_blank" rel="noopener noreferrer">Plantear una situación</a>
         </section>
       </main>
     </div>
