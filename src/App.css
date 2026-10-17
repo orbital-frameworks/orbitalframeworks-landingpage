@@ -1620,30 +1620,6 @@
   font-size: 44px;
 }
 
-.workCard--wasy .workMedia {
-  background: #07111b;
-}
-
-.workCard--wasy .workMedia::before {
-  display: none;
-}
-
-.workCard--wasy .workMedia::after {
-  background: linear-gradient(180deg, transparent 72%, rgba(7, 17, 27, 0.45));
-  opacity: 0.5;
-}
-
-.workCard--wasy .workMedia img {
-  object-fit: cover;
-  object-position: top center;
-  filter: none;
-  transform: none;
-}
-
-.workCard--wasy:hover .workMedia img {
-  transform: scale(1.02);
-}
-
 .btn {
   border-radius: 0;
   padding: 14px 18px;

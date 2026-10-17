@@ -434,14 +434,14 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
 
   return (
     <a
-      className={`workCard ${item.featured ? 'isFeatured' : ''} ${isWasy ? 'workCard--wasy' : ''}`}
+      className={`workCard ${item.featured ? 'isFeatured' : ''}`}
       style={tone}
       href={item.url}
       target={item.external ? '_blank' : undefined}
       rel={item.external ? 'noopener noreferrer' : undefined}
       data-index={String(index + 1).padStart(2, '0')}
     >
-      <div className={`workMedia ${isWasy ? 'workMedia--wasy' : ''}`}>
+      <div className="workMedia">
         <img
           src={item.imageSrc}
           srcSet={item.imageSrcSet}
@@ -451,13 +451,11 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360}
           decoding="async"
         />
-        {!isWasy && (
-          <div className="workMediaOverlay">
-            <div className="workMediaEyebrow">{cardLabel}</div>
-            <div className="workMediaTitle">{item.title}</div>
-            <div className="workMediaSub">{item.status}</div>
-          </div>
-        )}
+        <div className="workMediaOverlay">
+          <div className="workMediaEyebrow">{cardLabel}</div>
+          <div className="workMediaTitle">{item.title}</div>
+          <div className="workMediaSub">{item.status}</div>
+        </div>
         <div className="workTop">
           <div className="workMeta"><span className="workKind">{item.kind}</span></div>
           <div className="workGlow" aria-hidden="true" />

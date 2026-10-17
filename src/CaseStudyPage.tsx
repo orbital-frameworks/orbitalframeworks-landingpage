@@ -14,8 +14,32 @@ const images: Record<CaseStudySlug, string> = {
   'perulog-pallets': perulogImg,
 }
 
+const visitCopy: Record<CaseStudySlug, { headline: string; description: string; action: string }> = {
+  checkio: {
+    headline: 'Conoce Checkio.',
+    description: 'Descubre cómo se presenta una solución para asistencia y gestión de personal.',
+    action: 'Conocer Checkio',
+  },
+  wasy: {
+    headline: 'Haz tu pedido en Wasy.',
+    description: 'Explora el catálogo, prepara tu carrito y continúa el pedido por WhatsApp.',
+    action: 'Ir al catálogo Wasy',
+  },
+  localisa: {
+    headline: 'Explora las plazas en el mapa.',
+    description: 'Recorre las plazas SERUMS y compara alternativas con filtros y datos territoriales.',
+    action: 'Explorar Localisa',
+  },
+  'perulog-pallets': {
+    headline: 'Encuentra el pallet que necesitas.',
+    description: 'Consulta los productos y las especificaciones, y solicita una cotización.',
+    action: 'Ver productos y cotizar',
+  },
+}
+
 export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
   const study = caseStudies[slug]
+  const visit = visitCopy[slug]
   const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20un%20caso%20-%20Orbital%20Frameworks&body=Proyecto%20o%20negocio%3A%0A%0AProblema%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
 
   return (
@@ -132,12 +156,12 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
             <ul className="caseEvidenceList">{study.evidence.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
           <aside className="caseEvidenceVisit">
-            <div className="caseSectionLabel">Revisión directa</div>
-            <h3>Explora el producto.</h3>
-            <p>Abre la versión pública y revisa la experiencia por tu cuenta.</p>
+            <div className="caseSectionLabel">Míralo tú mismo</div>
+            <h3>{visit.headline}</h3>
+            <p>{visit.description}</p>
             <div className="caseEvidenceVisitBottom">
               <span className="caseEvidenceStatus">{study.status}</span>
-              <a href={study.publicUrl} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${study.title} en una pestaña nueva`}>Abrir producto público <span aria-hidden="true">↗</span></a>
+              <a href={study.publicUrl} target="_blank" rel="noopener noreferrer" aria-label={`${visit.action} en una pestaña nueva`}>{visit.action} <span aria-hidden="true">↗</span></a>
             </div>
           </aside>
         </section>

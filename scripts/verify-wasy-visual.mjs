@@ -146,8 +146,8 @@ try {
             const rect = step.getBoundingClientRect();
             return rect.left >= -1 && rect.right <= window.innerWidth + 1;
           }),
-          wasyOverlayAbsent: !document.querySelector('.workCard--wasy .workMediaOverlay'),
-          hasOtherMediaOverlay: Boolean(document.querySelector('.workCard:not(.workCard--wasy) .workMediaOverlay')),
+          wasyOverlayPresent: [...document.querySelectorAll('.workCard')].some((card) => card.getAttribute('href') === '/casos/wasy/' && Boolean(card.querySelector('.workMediaOverlay .workMediaTitle'))),
+          hasOtherMediaOverlay: [...document.querySelectorAll('.workCard')].some((card) => card.getAttribute('href') !== '/casos/wasy/' && Boolean(card.querySelector('.workMediaOverlay'))),
         };
       })()`)
       await new Promise((resolveWait) => setTimeout(resolveWait, 250))
@@ -187,8 +187,8 @@ try {
             const rect = step.getBoundingClientRect();
             return rect.left >= -1 && rect.right <= window.innerWidth + 1;
           }),
-          wasyOverlayAbsent: !document.querySelector('.workCard--wasy .workMediaOverlay'),
-          hasOtherMediaOverlay: Boolean(document.querySelector('.workCard:not(.workCard--wasy) .workMediaOverlay')),
+          wasyOverlayPresent: [...document.querySelectorAll('.workCard')].some((card) => card.getAttribute('href') === '/casos/wasy/' && Boolean(card.querySelector('.workMediaOverlay .workMediaTitle'))),
+          hasOtherMediaOverlay: [...document.querySelectorAll('.workCard')].some((card) => card.getAttribute('href') !== '/casos/wasy/' && Boolean(card.querySelector('.workMediaOverlay'))),
         };
       })()`)
 
@@ -200,7 +200,7 @@ try {
       assert.equal(result.bodyHasExpected, true, `${route.name}/${viewport.name}: expected copy must be visible`)
 
       if (route.name === 'home') {
-        assert.equal(result.wasyOverlayAbsent, true, `${route.name}/${viewport.name}: Wasy .workMediaOverlay must be absent`)
+        assert.equal(result.wasyOverlayPresent, true, `${route.name}/${viewport.name}: Wasy must display the same image title overlay as other projects`)
         assert.equal(result.hasOtherMediaOverlay, true, `${route.name}/${viewport.name}: non-Wasy cards must retain .workMediaOverlay`)
       }
       if (route.name === 'case') {
