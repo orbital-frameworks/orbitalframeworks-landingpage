@@ -18,10 +18,11 @@ const people = [
 
 const projects = [
   {
-    name: 'Checkio',
-    category: 'Gestión de personal',
-    state: 'Producto publicado',
-    href: '/casos/checkio/',
+    name: 'Localisa',
+    category: 'Información territorial',
+    state: 'Plataforma publicada',
+    href: 'https://www.localisa.pe/',
+    external: true,
   },
   {
     name: 'Wasy',
@@ -30,11 +31,10 @@ const projects = [
     href: '/casos/wasy/',
   },
   {
-    name: 'Localisa',
-    category: 'Información territorial',
-    state: 'Plataforma publicada',
-    href: 'https://www.localisa.pe/',
-    external: true,
+    name: 'Checkio',
+    category: 'Gestión de personal',
+    state: 'Producto publicado',
+    href: '/casos/checkio/',
   },
   {
     name: 'PeruLog Pallets',

@@ -100,6 +100,13 @@ check('OAuth app homepage is excluded from search indexing', oauthApp.includes('
 check('Home links visibly to legal pages', html.includes('href="/privacy"') && html.includes('href="/terms"') && html.includes('Orbital Leads'))
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Proof hub is prerendered', proof.includes('Trabajo que se puede revisar antes de conversar.') && proof.includes('https://orbitalframeworks.qzz.io/evidencia/'))
+const expectedPortfolioOrder = ['/casos/localisa/', '/casos/wasy/', '/casos/checkio/', '/casos/perulog-pallets/']
+const portfolioMarkup = html.slice(html.indexOf('class="workGrid"'), html.indexOf('class="portfolioCta"'))
+const actualPortfolioOrder = [...portfolioMarkup.matchAll(/<a class="workCard[^"]*"[^>]*href="([^"]+)"/g)].map((match) => match[1])
+check('Project cards follow approved priority', JSON.stringify(actualPortfolioOrder) === JSON.stringify(expectedPortfolioOrder), actualPortfolioOrder.join(' → '))
+const proofMarkup = proof.slice(proof.indexOf('class="proofList"'), proof.indexOf('class="proofCriteria"'))
+const actualProofOrder = [...proofMarkup.matchAll(/<article class="proofItem">[\s\S]*?<h3>([^<]+)<\/h3>/g)].map((match) => match[1])
+check('Proof hub follows approved project priority', JSON.stringify(actualProofOrder) === JSON.stringify(['Localisa', 'Wasy', 'Checkio', 'PeruLog Pallets']), actualProofOrder.join(' → '))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
 check('Wasy case is prerendered', !wasyCase.includes('caseCapabilities') && wasyCase.includes('Cómo se conecta el trabajo.') && wasyCase.includes('https://orbitalframeworks.qzz.io/casos/wasy/') && wasyCase.includes('https://wasy.store/'))
 check('Localisa case is prerendered', localisaCase.includes('Qué existe dentro del producto.') && localisaCase.includes('https://orbitalframeworks.qzz.io/casos/localisa/'))
@@ -126,6 +133,8 @@ try {
 }
 
 const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
+const portfolioList = structuredData?.['@graph']?.find((item) => item['@type'] === 'ItemList' && item['@id'] === 'https://orbitalframeworks.qzz.io/#portfolio')
+check('SEO project list follows approved priority', JSON.stringify(portfolioList?.itemListElement?.map((item) => item.name)) === JSON.stringify(['Localisa', 'Wasy', 'Checkio', 'PeruLog Pallets']))
 check('Structured data graph is complete', ['Organization', 'WebSite', 'WebPage', 'ItemList', 'Service', 'Person'].every((type) => structuredTypes.includes(type)), structuredTypes.join(', '))
 check('Identity metadata is explicit', html.includes('<meta name="application-name" content="Orbital Frameworks"') && html.includes('"alternateName": [') && html.includes('Orbital Frameworks Perú'))
 check('Team entities are structured', html.includes('"name": "Angel Reaño"') && html.includes('"name": "Mathias Javier Murillo"'))

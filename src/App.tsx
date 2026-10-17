@@ -368,17 +368,16 @@ type WorkItem = {
 
 const workItems: WorkItem[] = [
   {
-    title: 'Checkio — Gestión de personal',
-    kind: 'App',
-    imageSrc: checkioImg,
-    url: '/casos/checkio/',
-    description: 'Plataforma para gestionar personal, asistencia, ausencias y marcaciones con geolocalización.',
-    tags: ['Producto publicado', 'Gestión de personal', 'SaaS'],
-    featured: true,
-    tone: 'teal',
-    sector: 'Tecnología RRHH',
-    status: 'Producto publicado',
-    impact: 'Operación diaria con trazabilidad y control de asistencia.',
+    title: 'Localisa',
+    kind: 'Web',
+    url: '/casos/localisa/',
+    imageSrc: lisaImg,
+    description: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
+    tags: ['Mapa interactivo', 'SERUMS', 'Plataforma pública'],
+    tone: 'red',
+    sector: 'Información geográfica',
+    status: 'Plataforma publicada',
+    impact: 'Facilita la búsqueda y comparación de plazas mediante información territorial.',
   },
   {
     title: 'Wasy — Comercio digital',
@@ -395,16 +394,17 @@ const workItems: WorkItem[] = [
     impact: '',
   },
   {
-    title: 'Localisa',
-    kind: 'Web',
-    url: '/casos/localisa/',
-    imageSrc: lisaImg,
-    description: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
-    tags: ['Mapa interactivo', 'SERUMS', 'Plataforma pública'],
-    tone: 'red',
-    sector: 'Información geográfica',
-    status: 'Plataforma publicada',
-    impact: 'Facilita la búsqueda y comparación de plazas mediante información territorial.',
+    title: 'Checkio — Gestión de personal',
+    kind: 'App',
+    imageSrc: checkioImg,
+    url: '/casos/checkio/',
+    description: 'Plataforma para gestionar personal, asistencia, ausencias y marcaciones con geolocalización.',
+    tags: ['Producto publicado', 'Gestión de personal', 'SaaS'],
+    featured: true,
+    tone: 'teal',
+    sector: 'Tecnología RRHH',
+    status: 'Producto publicado',
+    impact: 'Operación diaria con trazabilidad y control de asistencia.',
   },
   {
     title: 'PeruLog Pallets',
@@ -517,9 +517,9 @@ function PortfolioSection() {
           </div>
           <div className="portfolioCtaActions">
             <a className="btn btnGhost" href="/evidencia/">Ver evidencia</a>
-            <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
-            <a className="btn btnGhost" href="/casos/wasy/">Caso Wasy</a>
             <a className="btn btnGhost" href="/casos/localisa/">Caso Localisa</a>
+            <a className="btn btnGhost" href="/casos/wasy/">Caso Wasy</a>
+            <a className="btn btnGhost" href="/casos/checkio/">Caso Checkio</a>
             <a className="btn btnGhost" href="/casos/perulog-pallets/">Caso PeruLog</a>
             <a className="btn btnPrimary" href="#contacto">Plantear un caso</a>
           </div>
