@@ -12,10 +12,6 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
     .filter((s) => s !== slug)
     .map((s) => servicesData[s])
 
-  const mailtoUrl = `mailto:contact.orbitalframeworks@gmail.com?subject=${encodeURIComponent(
-    service.cta.subject,
-  )}&body=${encodeURIComponent(service.cta.body)}`
-
   const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=${encodeURIComponent(
     service.cta.subject,
   )}&body=${encodeURIComponent(service.cta.body)}`
@@ -96,17 +92,11 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
             <div className="serviceHeroActions">
               <a
                 className="servicePrimaryCta"
-                href={mailtoUrl}
-              >
-                Consultar por correo oficial
-              </a>
-              <a
-                className="serviceSecondaryCta"
                 href={gmailComposeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Abrir en Gmail ↗
+                Consultar por correo ↗
               </a>
             </div>
 
@@ -283,24 +273,17 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
               </div>
 
               <div className="serviceCtaActionsBox">
-                <span className="serviceCtaChannelLabel">Canal directo oficial:</span>
+                <span className="serviceCtaChannelLabel">Escríbenos:</span>
                 <a
                   className="serviceCtaPrimaryBtn"
-                  href={mailtoUrl}
+                  href={gmailComposeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Enviar correo a contact.orbitalframeworks@gmail.com
+                  Consultar por correo ↗
                 </a>
 
                 <div className="serviceCtaSubActions">
-                  <a
-                    className="serviceCtaSecondaryBtn"
-                    href={gmailComposeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Abrir borrador en Gmail ↗
-                  </a>
-
                   <button
                     type="button"
                     className="serviceCtaCopyBtn"
@@ -311,7 +294,7 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
                 </div>
 
                 <div className="serviceCtaAssurance">
-                  <span>Respuesta habitual: 24 a 48 horas hábiles.</span>
+                  <span>Cuéntanos el contexto para evaluar el siguiente paso.</span>
                   <span>Evaluación técnica directa sin presión comercial.</span>
                 </div>
               </div>

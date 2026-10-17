@@ -1,9 +1,22 @@
+import { useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { blogPosts, blogPostSlugs } from './blogData'
 import './Blog.css'
 
 export default function BlogIndexPage() {
   const posts = blogPostSlugs.map((slug) => blogPosts[slug])
+  const [feedCopied, setFeedCopied] = useState(false)
+
+  const copyFeedUrl = async () => {
+    const url = 'https://orbitalframeworks.qzz.io/feed.xml'
+    try {
+      await navigator.clipboard.writeText(url)
+      setFeedCopied(true)
+    } catch {
+      // Present the URL for manual copying if Clipboard API is unavailable.
+      window.prompt('Copia este enlace en tu lector RSS:', url)
+    }
+  }
 
   return (
     <div className="blogPage">
@@ -44,8 +57,8 @@ export default function BlogIndexPage() {
               Artículos técnicos, marcos de decisión y evaluaciones de arquitectura elaborados por el equipo de Orbital Frameworks para directores y líderes de operaciones en Perú. Sin testimonios inventados, métricas infladas ni promesas vacías.
             </p>
             <div className="blogHeroActions">
-              <a href="/feed.xml" className="blogRssLink" title="Feed RSS de Orbital Insights">
-                <span aria-hidden="true">📡</span> Suscribirse vía RSS (feed.xml)
+              <a href="#articulos" className="blogRssLink">
+                Leer artículos ↓
               </a>
               <a href="/servicios/desarrollo-software-medida/" className="blogRssLink">
                 Ver servicios de desarrollo ↗
@@ -54,7 +67,7 @@ export default function BlogIndexPage() {
           </div>
         </section>
 
-        <section className="blogIndexMain">
+        <section className="blogIndexMain" id="articulos">
           <header className="blogSectionHeader">
             <h2>Artículos y análisis técnicos</h2>
             <p>Evaluaciones fundamentadas en experiencias reales de desarrollo y arquitectura de sistemas.</p>
@@ -63,29 +76,31 @@ export default function BlogIndexPage() {
           <div className="blogPostsGrid">
             {posts.map((post) => (
               <article key={post.slug} className="blogPostCard">
-                <div className="blogPostCardTop">
-                  <div className="blogPostCardBadges">
-                    <span className="blogPostCardEyebrow">{post.eyebrow}</span>
-                    {post.status === 'DRAFT_NO_PUBLICABLE' && (
-                      <span className="blogDraftBadge">{post.statusLabel}</span>
-                    )}
+                <a href={post.route} className="blogPostCardSurface" aria-label={`Leer artículo: ${post.title}`}>
+                  <div className="blogPostCardTop">
+                    <div className="blogPostCardBadges">
+                      <span className="blogPostCardEyebrow">{post.eyebrow}</span>
+                      {post.status === 'DRAFT_NO_PUBLICABLE' && (
+                        <span className="blogDraftBadge">{post.statusLabel}</span>
+                      )}
+                    </div>
+                    <h3 className="blogPostCardTitle">{post.title}</h3>
+                    <p className="blogPostCardSummary">{post.metaDescription}</p>
                   </div>
-                  <h3 className="blogPostCardTitle">
-                    <a href={post.route}>{post.title}</a>
-                  </h3>
-                  <p className="blogPostCardSummary">{post.metaDescription}</p>
-                </div>
 
-                <div className="blogPostCardBottom">
-                  <span>
-                    {post.datePublished} · {post.readingTime}
-                  </span>
-                  <a href={post.route} className="blogPostCardReadLink">
-                    Leer análisis <span aria-hidden="true">→</span>
-                  </a>
-                </div>
+                  <div className="blogPostCardBottom">
+                    <span>{post.datePublished} · {post.readingTime}</span>
+                    <span className="blogPostCardReadLink">Leer análisis <span aria-hidden="true">→</span></span>
+                  </div>
+                </a>
               </article>
             ))}
+          </div>
+          <div className="blogFeedNote">
+            <span>¿Utilizas un lector RSS?</span>
+            <button className="blogRssLink" type="button" onClick={copyFeedUrl}>
+              {feedCopied ? 'Enlace RSS copiado' : 'Copiar enlace RSS'}
+            </button>
           </div>
         </section>
       </main>

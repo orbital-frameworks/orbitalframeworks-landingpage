@@ -321,7 +321,13 @@ function ServicesSection() {
 
           <div className="servicesGrid">
             {serviceOfferings.map((service, index) => (
-              <article key={service.id} className="serviceCard" data-variant={String(index + 1)}>
+              <a
+                key={service.id}
+                className="serviceCard"
+                data-variant={String(index + 1)}
+                href={service.href ?? '#contacto'}
+                aria-label={service.href ? `Ver servicio: ${service.title}` : 'Consultar por sistemas y servicios internos'}
+              >
                 <div className="serviceCardTop">
                   <span className="serviceCardIndex">{service.index}</span>
                   <span className="serviceCardEyebrow">{service.eyebrow}</span>
@@ -337,13 +343,11 @@ function ServicesSection() {
                   <div className="serviceCardTags">
                     {service.bullets.map((bullet) => <span key={bullet} className="serviceCardTag">{bullet}</span>)}
                   </div>
-                  {service.href && (
-                    <a className="serviceCardLink" href={service.href}>
-                      Ver página del servicio →
-                    </a>
-                  )}
+                  <span className="serviceCardLink">
+                    {service.href ? 'Ver página del servicio →' : 'Consultar por sistemas internos →'}
+                  </span>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
@@ -745,7 +749,7 @@ function ContactSection() {
             <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn de Orbital Frameworks</a>
           </div>
           <div className="contactActions">
-            <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir por Gmail ↗</a>
+            <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Consultar por correo ↗</a>
             <button className="btn btnGhost" type="button" data-analytics-action="copy_email" onClick={copyEmail}>{emailCopied ? 'Correo copiado' : 'Copiar correo'}</button>
             <a className="btn btnGhost" href="#proyectos">Revisar proyectos</a>
           </div>

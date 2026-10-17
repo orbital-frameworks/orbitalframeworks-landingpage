@@ -119,6 +119,16 @@ try {
           const isPost = window.location.pathname.includes('software-a-medida');
           const draftBanner = document.querySelector('.blogDraftBanner');
           const matrix = document.querySelector('.blogMatrixTable');
+          const card = document.querySelector('.blogPostCard');
+          const cardLink = card?.querySelector('.blogPostCardSurface');
+          const cardRect = card?.getBoundingClientRect();
+          const linkRect = cardLink?.getBoundingClientRect();
+          const cardLinkInset = cardRect && linkRect ? {
+            x: Math.abs(cardRect.width - linkRect.width),
+            y: Math.abs(cardRect.height - linkRect.height)
+          } : null;
+          const rssCopy = document.querySelector('.blogFeedNote button');
+          const articleEmail = document.querySelector('.blogCtaActions a[href^="https://mail.google.com/"]');
           const scrollWidth = document.documentElement.scrollWidth;
           const innerWidth = window.innerWidth;
           return {
@@ -126,6 +136,10 @@ try {
             hasBreadcrumb: Boolean(breadcrumb),
             hasDraftBanner: Boolean(draftBanner),
             hasMatrix: Boolean(matrix),
+            cardLinkInset,
+            hasRssCopy: Boolean(rssCopy),
+            hasArticleEmail: Boolean(articleEmail),
+            hasRawRssHeroLink: Boolean(document.querySelector('.blogHeroActions a[href="/feed.xml"]')),
             isPost,
             noOverflow: scrollWidth <= innerWidth + 1,
             scrollWidth,
@@ -141,6 +155,10 @@ try {
       if (info.isPost) {
         assert.ok(!info.hasDraftBanner, `Published article must not show an unpublishable draft banner on ${route} @ ${vp.width}px`)
         assert.ok(info.hasMatrix, `Decision matrix must exist on ${route} @ ${vp.width}px`)
+        assert.ok(info.hasArticleEmail, `Article must expose the single Gmail compose CTA on ${route} @ ${vp.width}px`)
+      } else {
+        assert.ok(info.hasRssCopy && !info.hasRawRssHeroLink, `Blog index must explain RSS rather than open raw XML by default on ${route} @ ${vp.width}px`)
+        assert.ok(info.cardLinkInset && info.cardLinkInset.x <= 3 && info.cardLinkInset.y <= 3, `Full article card must be clickable except for its decorative border on ${route} @ ${vp.width}px; inset: ${JSON.stringify(info.cardLinkInset)}`)
       }
       assert.ok(
         info.noOverflow,

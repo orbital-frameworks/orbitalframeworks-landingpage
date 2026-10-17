@@ -8,10 +8,6 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
   const post = blogPosts[slug]
   const [copied, setCopied] = useState(false)
 
-  const mailtoUrl = `mailto:contact.orbitalframeworks@gmail.com?subject=${encodeURIComponent(
-    post.cta.subject,
-  )}&body=${encodeURIComponent(post.cta.body)}`
-
   const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=${encodeURIComponent(
     post.cta.subject,
   )}&body=${encodeURIComponent(post.cta.body)}`
@@ -140,17 +136,11 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
               <div className="blogCtaActions">
                 <a
                   className="blogPrimaryBtn"
-                  href={mailtoUrl}
-                >
-                  Consultar por correo oficial
-                </a>
-                <a
-                  className="blogGhostBtn"
                   href={gmailComposeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Consultar por Gmail ↗
+                  Consultar por correo ↗
                 </a>
                 <button
                   type="button"

@@ -384,8 +384,8 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
     // 9d. Click contact CTA on service page (service -> contact intent)
     const beforeServiceContactLen = interceptedGCollect.length
     await evalInPage(`
-      const serviceMailto = document.querySelector('.serviceHeroActions a[href^="mailto:"]')
-      serviceMailto?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
+      const serviceEmail = document.querySelector('.serviceHeroActions a[href^="https://mail.google.com/"]')
+      serviceEmail?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
     `)
     await new Promise((r) => setTimeout(r, 400))
 
@@ -412,21 +412,21 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
 
     const beforeDirectArticleContactLen = interceptedGCollect.length
     await evalInPage(`
-      const mailtoLink = document.querySelector('.blogCtaActions a[href^="mailto:"]')
-      mailtoLink?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
+      const emailLink = document.querySelector('.blogCtaActions a[href^="https://mail.google.com/"]')
+      emailLink?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
     `)
     await new Promise((r) => setTimeout(r, 400))
 
     const directArticleToContactCollect = interceptedGCollect.slice(beforeDirectArticleContactLen).find(
       (u) => u.includes('en=article_intent') && u.includes('ep.intent_type=article_to_contact')
     )
-    assert.ok(directArticleToContactCollect, 'Must emit article_intent with intent_type=article_to_contact on article mailto click')
+    assert.ok(directArticleToContactCollect, 'Must emit article_intent with intent_type=article_to_contact on article email click')
 
     const directArticleContactIntentCollect = interceptedGCollect.slice(beforeDirectArticleContactLen).find(
       (u) => u.includes('en=contact_intent')
     )
     assert.ok(directArticleContactIntentCollect, 'Must emit contact_intent on direct article contact click')
-    assert.ok(directArticleContactIntentCollect.includes('ep.method=email'), 'contact_intent has method=email')
+    assert.ok(directArticleContactIntentCollect.includes('ep.method=gmail'), 'contact_intent has method=gmail')
 
     // 9e. Confirm generate_lead is NEVER emitted anywhere in the entire funnel
     const anyLeadInFunnel = interceptedGCollect.some((u) => u.includes('en=generate_lead'))

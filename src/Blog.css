@@ -272,12 +272,28 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 6px;
-  padding: 28px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.blogPostCardSurface {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 20px;
+  padding: 28px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.blogPostCardSurface:focus-visible {
+  outline: 2px solid var(--orbital-teal);
+  outline-offset: 3px;
 }
 
 .blogPostCard:hover {
@@ -314,10 +330,6 @@
   color: #fff;
 }
 
-.blogPostCardTitle a {
-  color: inherit;
-  text-decoration: none;
-}
 
 .blogPostCardSummary {
   margin: 0;
@@ -351,11 +363,36 @@
   text-decoration: underline;
 }
 
+.blogPostCard:hover .blogPostCardReadLink,
+.blogPostCard:focus-within .blogPostCardReadLink {
+  text-decoration: underline;
+}
+
+.blogFeedNote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  color: rgba(245, 245, 245, 0.65);
+  font-size: 13px;
+}
+
+.blogFeedNote button {
+  cursor: pointer;
+  font: inherit;
+}
+
 /* Single Post Page */
 .blogArticleMain {
   padding: 48px clamp(18px, 5vw, 72px) 80px;
-  max-width: 860px;
+  max-width: 1100px;
   margin: 0 auto;
+}
+
+.blogArticleMain .blogHeroLead,
+.blogArticleMain .blogSectionBlock p {
+  max-width: 82ch;
 }
 
 .blogArticleContent {
