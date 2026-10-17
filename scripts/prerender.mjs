@@ -90,7 +90,7 @@ const pages = [
   {
     pathname: '/casos/wasy/',
     output: 'dist/casos/wasy/index.html',
-    title: 'Wasy: caso de comercio digital | Orbital Frameworks',
+    title: 'Wasy: caso de mercado digital | Orbital Frameworks',
     description: 'Caso Wasy: catálogo web para explorar productos, usar carrito y continuar pedidos por WhatsApp; la app móvil está en beta privada.',
     canonical: 'https://orbitalframeworks.qzz.io/casos/wasy/',
     schemaType: 'case',

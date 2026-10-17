@@ -373,24 +373,24 @@ const workItems: WorkItem[] = [
     url: '/casos/localisa/',
     imageSrc: lisaImg,
     description: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
-    tags: ['Mapa interactivo', 'SERUMS', 'Plataforma pública'],
+    tags: ['Mapa interactivo', 'SERUMS', 'Información territorial'],
     tone: 'red',
     sector: 'Información geográfica',
-    status: 'Plataforma publicada',
+    status: 'Mapa interactivo',
     impact: 'Facilita la búsqueda y comparación de plazas mediante información territorial.',
   },
   {
-    title: 'Wasy — Comercio digital',
+    title: 'Wasy — Mercado digital',
     kind: 'Web',
     url: '/casos/wasy/',
     imageSrc: wasyImg,
     imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
     description: 'Catálogo público con carrito y continuación del pedido por WhatsApp.',
-    tags: ['Catálogo web', 'Pedido por WhatsApp', 'App móvil en beta privada'],
+    tags: ['Catálogo web', 'Pedido por WhatsApp', 'App móvil'],
     featured: true,
     tone: 'teal',
-    sector: 'Comercio digital',
-    status: 'Catálogo web publicado',
+    sector: 'Mercado digital',
+    status: 'Catálogo web',
     impact: '',
   },
   {
@@ -399,11 +399,11 @@ const workItems: WorkItem[] = [
     imageSrc: checkioImg,
     url: '/casos/checkio/',
     description: 'Plataforma para gestionar personal, asistencia, ausencias y marcaciones con geolocalización.',
-    tags: ['Producto publicado', 'Gestión de personal', 'SaaS'],
+    tags: ['Control de asistencia', 'Gestión de personal', 'SaaS'],
     featured: true,
     tone: 'teal',
     sector: 'Tecnología RRHH',
-    status: 'Producto publicado',
+    status: 'Gestión de RR. HH.',
     impact: 'Operación diaria con trazabilidad y control de asistencia.',
   },
   {
@@ -416,7 +416,7 @@ const workItems: WorkItem[] = [
     featured: true,
     tone: 'mix',
     sector: 'Crecimiento B2B',
-    status: 'Sitio publicado',
+    status: 'Soluciones B2B',
     impact: 'Presencia digital enfocada en captación y posicionamiento comercial.',
   },
 ]
@@ -488,7 +488,7 @@ function PortfolioSection() {
             <h2 className="portfolioTitle">Casos donde la forma, el flujo y la operación responden a una misma idea.</h2>
             <p className="portfolioSub">Cada pieza resuelve una necesidad concreta de negocio, experiencia u operación.</p>
           </div>
-          <p className="portfolioSummary">Cuatro productos publicados o verificables en RRHH, comercio digital, información territorial y presencia comercial.</p>
+          <p className="portfolioSummary">Cuatro proyectos en RRHH, mercado digital, información territorial y presencia comercial.</p>
         </header>
 
         <div className="portfolioSplit">

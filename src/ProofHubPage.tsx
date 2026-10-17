@@ -11,7 +11,7 @@ const proofItems = [
     index: '01',
     title: 'Localisa',
     sector: 'Información / Mapa',
-    status: 'Plataforma publicada',
+    status: 'Mapa interactivo',
     summary: 'Plataforma pública con mapa y filtros para consultar plazas SERUMS en distintas regiones del Perú.',
     verify: 'Se puede abrir la plataforma publicada y comprobar directamente su experiencia de búsqueda y consulta territorial.',
     image: lisaImg,
@@ -23,10 +23,10 @@ const proofItems = [
   {
     index: '02',
     title: 'Wasy',
-    sector: 'Comercio digital',
-    status: 'Catálogo web publicado · app móvil en beta privada',
+    sector: 'Mercado digital',
+    status: 'Catálogo web · App móvil',
     summary: 'Catálogo web para explorar productos, usar carrito y continuar el pedido por WhatsApp.',
-    verify: 'El caso documenta el catálogo público y sus límites; desde allí se puede abrir wasy.store.',
+    verify: 'El caso documenta el catálogo y el recorrido del pedido; desde allí se puede abrir wasy.store.',
     image: wasyImg,
     imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
     href: '/casos/wasy/',
@@ -36,9 +36,9 @@ const proofItems = [
     index: '03',
     title: 'Checkio',
     sector: 'RRHH / Operación',
-    status: 'Producto publicado · fase beta',
+    status: 'Plataforma de RR. HH.',
     summary: 'Plataforma para asistencia, incidencias y gestión operativa de colaboradores.',
-    verify: 'Se puede revisar el producto público y un caso que documenta problema, alcance, flujos y límites.',
+    verify: 'Se puede revisar el producto y un caso que documenta el problema, el alcance y sus flujos.',
     image: checkioImg,
     imageSrcSet: undefined,
     href: '/casos/checkio/',
@@ -48,7 +48,7 @@ const proofItems = [
     index: '04',
     title: 'PeruLog Pallets',
     sector: 'B2B / Presencia digital',
-    status: 'Sitio publicado',
+    status: 'Soluciones B2B',
     summary: 'Landing comercial B2B para explicar servicios, propuesta de valor y canales de contacto.',
     verify: 'Se puede revisar el sitio publicado como evidencia de diseño y desarrollo de una superficie comercial B2B.',
     image: perulogImg,
@@ -103,7 +103,7 @@ export default function ProofHubPage() {
           <div className="proofList">
             {proofItems.map((item) => (
               <article className="proofItem" key={item.title}>
-                <div className={`proofItemMedia${item.title === 'Wasy' ? ' proofItemMedia--wasy' : ''}`}>
+                <div className="proofItemMedia">
                   <img src={item.image} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 920px) 100vw, 48vw' : undefined} alt={item.title === 'Wasy' ? 'Captura del catálogo público de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360} decoding="async" />
                 </div>
                 <div className="proofItemBody">

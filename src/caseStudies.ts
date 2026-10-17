@@ -43,8 +43,8 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
   wasy: {
     slug: 'wasy',
     title: 'Wasy',
-    eyebrow: 'Caso 02 / Comercio digital',
-    status: 'Catálogo web publicado · app móvil en beta privada',
+    eyebrow: 'Caso 02 / Mercado digital',
+    status: 'Catálogo web · App móvil',
     summary: 'Un catálogo web para explorar productos, armar un pedido y continuarlo por WhatsApp; la app móvil sigue en beta privada.',
     publicUrl: 'https://wasy.store/',
     problem: 'Un catálogo digital necesita permitir revisar productos y preparar un pedido sin presentar como público un flujo móvil que todavía está en beta privada.',

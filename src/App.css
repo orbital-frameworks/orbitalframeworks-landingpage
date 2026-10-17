@@ -1613,11 +1613,11 @@
 }
 
 .workCard.isFeatured .workMedia {
-  aspect-ratio: 16 / 8.5;
+  aspect-ratio: 15 / 10;
 }
 
 .workCard.isFeatured .workTitle {
-  font-size: 44px;
+  font-size: 34px;
 }
 
 .btn {
@@ -1742,7 +1742,7 @@
   }
 
   .workCard.isFeatured .workTitle {
-    font-size: 34px;
+    font-size: 30px;
   }
 }
 
@@ -3435,6 +3435,42 @@
   padding-top: 15px;
   border-top: 1px solid rgba(245, 245, 245, 0.09);
   background: transparent;
+}
+
+/* Keep project cards in the same editorial grid regardless of featured status
+   and of whether their titles occupy one or two lines. */
+.portfolioProjects .workCard .workMedia,
+.portfolioProjects .workCard.isFeatured .workMedia {
+  aspect-ratio: 15 / 10;
+  flex-shrink: 0;
+}
+
+.portfolioProjects .workCard,
+.portfolioProjects .workCard.isFeatured {
+  min-height: 0;
+}
+
+.portfolioProjects .workBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolioProjects .workBody .workTitle,
+.portfolioProjects .workCard.isFeatured .workTitle {
+  font-size: 34px;
+  line-height: 1.05;
+  min-height: 2.1em;
+}
+
+.portfolioProjects .workBody .workTags {
+  margin-top: auto;
+}
+
+@media (max-width: 640px) {
+  .portfolioProjects .workBody .workTitle,
+  .portfolioProjects .workCard.isFeatured .workTitle {
+    font-size: 30px;
+  }
 }
 
 .workBody .workTag,
