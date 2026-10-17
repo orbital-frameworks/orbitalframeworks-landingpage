@@ -164,10 +164,24 @@
 .caseDecisionList h3 { color: #fff; }
 .caseDecisionList p { max-width: 760px; color: rgba(245,245,245,.66); }
 
-.caseEvidence { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; background: #09131e; }
-.caseEvidence > div, .caseEvidence aside { padding: 34px; border: 1px solid rgba(245,245,245,.1); }
-.caseEvidence aside { background: rgba(255,42,42,.05); }
-.caseEvidence ul { margin: 34px 0 0; padding-left: 22px; display: grid; gap: 14px; line-height: 1.7; }
+.caseEvidence { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); align-items: stretch; gap: 22px; background: #09131e; }
+.caseEvidenceMain, .caseEvidenceVisit { min-width: 0; padding: clamp(28px, 3vw, 46px); border: 1px solid rgba(245,245,245,.12); }
+.caseEvidenceMain { background: #0b1723; }
+.caseEvidenceHead .caseSectionLabel { display: block; margin-bottom: 24px; }
+.caseEvidence .caseEvidenceHead h2 { max-width: 15ch; font-size: clamp(38px, 4vw, 60px); line-height: 1.04; letter-spacing: .015em; }
+.caseEvidenceHead p { margin: 20px 0 0; max-width: 44ch; font-size: 17px; line-height: 1.6; color: rgba(245,245,245,.65); }
+.caseEvidenceList { margin: 36px 0 0; padding: 0; list-style: none; border-top: 1px solid rgba(245,245,245,.12); }
+.caseEvidenceList li { display: grid; grid-template-columns: 7px minmax(0, 1fr); gap: 16px; align-items: start; padding: 17px 0; border-bottom: 1px solid rgba(245,245,245,.1); color: rgba(245,245,245,.8); font-size: 16px; line-height: 1.65; }
+.caseEvidenceList li::before { content: ''; width: 6px; height: 6px; margin-top: 11px; background: var(--orbital-teal); }
+.caseEvidenceVisit { display: flex; flex-direction: column; align-items: flex-start; background: #101923; }
+.caseEvidenceVisit .caseSectionLabel { display: block; margin-bottom: 38px; }
+.caseEvidenceVisit h3 { margin: 0; max-width: 13ch; font-family: var(--font-display); font-size: clamp(32px, 3.1vw, 48px); font-weight: 700; line-height: 1.04; letter-spacing: .02em; text-transform: uppercase; color: #fff; }
+.caseEvidenceVisit > p { max-width: 32ch; margin: 20px 0 0; font-size: 17px; line-height: 1.65; color: rgba(245,245,245,.68); }
+.caseEvidenceVisitBottom { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; width: 100%; margin-top: auto; padding-top: 48px; }
+.caseEvidenceStatus { font-family: var(--font-mono); font-size: 11px; letter-spacing: .09em; text-transform: uppercase; line-height: 1.6; color: rgba(245,245,245,.55); }
+.caseEvidenceVisitBottom a { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 48px; padding-bottom: 9px; border-bottom: 1px solid var(--orbital-teal); font-weight: 700; text-decoration: none; color: var(--orbital-teal); }
+.caseEvidenceVisitBottom a:hover { color: #fff; border-bottom-color: #fff; }
+.caseEvidenceVisitBottom a:focus-visible { outline: 2px solid var(--orbital-teal); outline-offset: 5px; }
 
 .caseCta { padding: 96px clamp(18px, 5vw, 72px); display: flex; align-items: end; justify-content: space-between; gap: 40px; background: linear-gradient(120deg, rgba(0,210,211,.13), rgba(255,42,42,.08)), #07111b; }
 .caseCta > div { max-width: 850px; }
@@ -191,4 +205,10 @@
   .caseCapabilityGrid { grid-template-columns: 1fr; }
   .caseDecisionList article { grid-template-columns: 48px 1fr; }
   .caseCapabilities, .caseFlows, .caseDecisions, .caseEvidence { padding-top: 82px; padding-bottom: 82px; }
+  .caseEvidence { gap: 16px; }
+  .caseEvidenceMain, .caseEvidenceVisit { padding: 24px; }
+  .caseEvidenceHead .caseSectionLabel { margin-bottom: 20px; }
+  .caseEvidenceList { margin-top: 26px; }
+  .caseEvidenceVisit .caseSectionLabel { margin-bottom: 22px; }
+  .caseEvidenceVisitBottom { padding-top: 34px; }
 }

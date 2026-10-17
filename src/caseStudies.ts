@@ -14,7 +14,6 @@ export type CaseStudy = {
   flows: { title: string; text: string }[]
   decisions: { title: string; text: string }[]
   evidence: string[]
-  limits: string[]
 }
 
 export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
@@ -40,7 +39,6 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
       { title: 'Revisión antes que automatización', text: 'Las correcciones mantienen intervención humana para evitar cambios opacos.' },
     ],
     evidence: ['Landing pública disponible.', 'Frontend React + Vite con rutas para empleado, administración e historial.', 'Backend Node.js, Express y Prisma con servicios de asistencia, empleados, notificaciones y cambios de horario.', 'Pruebas de contrato específicas para la landing.'],
-    limits: ['No se publican cifras de usuarios ni resultados comerciales sin evidencia verificable.', 'El producto se presenta como beta y no como una operación empresarial consolidada.'],
   },
   wasy: {
     slug: 'wasy',
@@ -64,7 +62,6 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
       { title: 'Catálogo como punto de entrada', text: 'Categorías, productos y carrito sostienen la exploración antes de iniciar el pedido.' },
     ],
     evidence: ['Sitio público disponible en wasy.store.', 'El catálogo web publica categorías, productos, carrito y pedido por WhatsApp.', 'La app móvil se mantiene indicada como beta privada.'],
-    limits: ['No se publican métricas de conversión, ventas, clientes ni resultados de uso.', 'No se presenta la app móvil como disponible al público ni en tiendas.'],
   },
   localisa: {
     slug: 'localisa',
@@ -88,7 +85,6 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
       { title: 'Transparencia de datos', text: 'Las limitaciones de fuentes y precisión tienen una sección visible para evitar una falsa sensación de certeza.' },
     ],
     evidence: ['Landing y plataforma públicas en localisa.pe.', 'La interfaz pública ofrece mapa, filtros, favoritos, simulación de puntaje y datos enriquecidos.', 'El sitio incluye una sección específica sobre fuentes, precisión y reporte de mejoras.', 'El equipo y la finalidad del producto se presentan públicamente en la propia landing.'],
-    limits: ['No se publican aquí métricas de impacto, conversión o resultados de usuarios.', 'La información puede depender de fuentes externas y debe contrastarse cuando una decisión requiera precisión oficial.'],
   },
   'perulog-pallets': {
     slug: 'perulog-pallets',
@@ -112,7 +108,6 @@ export const caseStudies: Record<CaseStudySlug, CaseStudy> = {
       { title: 'Narrativa operativa', text: 'La propuesta conecta producto, abastecimiento y continuidad logística para explicar el valor más allá de una pieza aislada.' },
     ],
     evidence: ['Sitio público disponible en perulogpallets.com.pe.', 'La web publica catálogo de pallets, especificaciones técnicas y servicios.', 'La página incluye llamadas visibles a solicitar cotización.', 'La propuesta pública describe venta, alquiler, asesoría y abastecimiento continuo.'],
-    limits: ['No se publican métricas de leads, ventas o mejora de conversión sin evidencia verificable.', 'Este caso describe la presencia digital pública; no implica que Orbital opere la logística interna de PeruLog.'],
   },
 }
 

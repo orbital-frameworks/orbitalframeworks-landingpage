@@ -122,15 +122,23 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
           </div>
         </section>
 
-        <section className="caseEvidence">
-          <div>
-            <div className="caseSectionLabel">Evidencia revisada</div>
-            <h2>Qué respalda este caso.</h2>
-            <ul>{study.evidence.map((item) => <li key={item}>{item}</li>)}</ul>
+        <section className="caseEvidence" aria-label="Evidencia pública y revisión del producto">
+          <div className="caseEvidenceMain">
+            <header className="caseEvidenceHead">
+              <div className="caseSectionLabel">Evidencia pública</div>
+              <h2>Lo que puedes comprobar.</h2>
+              <p>Referencias concretas para explorar el trabajo realizado.</p>
+            </header>
+            <ul className="caseEvidenceList">{study.evidence.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
-          <aside>
-            <div className="caseSectionLabel">Límites del caso</div>
-            <ul>{study.limits.map((item) => <li key={item}>{item}</li>)}</ul>
+          <aside className="caseEvidenceVisit">
+            <div className="caseSectionLabel">Revisión directa</div>
+            <h3>Explora el producto.</h3>
+            <p>Abre la versión pública y revisa la experiencia por tu cuenta.</p>
+            <div className="caseEvidenceVisitBottom">
+              <span className="caseEvidenceStatus">{study.status}</span>
+              <a href={study.publicUrl} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${study.title} en una pestaña nueva`}>Abrir producto público <span aria-hidden="true">↗</span></a>
+            </div>
           </aside>
         </section>
 
