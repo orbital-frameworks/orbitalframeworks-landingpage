@@ -41,30 +41,42 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
     '--headless=new',
     '--no-sandbox',
     '--disable-gpu',
+    '--disable-dev-shm-usage',
     '--disable-breakpad',
     '--disable-crash-reporter',
+    '--no-first-run',
+    '--no-default-browser-check',
     `--user-data-dir=${chromeProfile}`,
     `--remote-debugging-port=${cdpPort}`,
     `${origin}/`,
-  ], { stdio: 'ignore' })
+  ], { stdio: ['ignore', 'ignore', 'pipe'] })
+  let chromeStderr = ''
+  chrome.stderr.on('data', (chunk) => {
+    chromeStderr = (chromeStderr + String(chunk)).slice(-4000)
+  })
 
   let ws
   try {
     // Wait for CDP to become ready
     let targetPage = null
-    for (let i = 0; i < 20; i++) {
-      await new Promise((r) => setTimeout(r, 150))
+    // GitHub-hosted runners can need several seconds to start Chrome/CDP
+    // after installing dependencies. Wait for the actual browser target.
+    for (let i = 0; i < 80; i++) {
+      await new Promise((r) => setTimeout(r, 200))
       try {
         const res = await fetch(`http://127.0.0.1:${cdpPort}/json/list`)
         const pages = await res.json()
-        targetPage = pages.find((p) => p.url.includes(String(serverPort)))
+        targetPage = pages.find((p) => p.type === 'page'
+          && p.webSocketDebuggerUrl && p.url.includes(String(serverPort)))
         if (targetPage?.webSocketDebuggerUrl) break
       } catch {
         // Retry
       }
+      if (chrome.exitCode !== null) break
     }
 
-    assert.ok(targetPage?.webSocketDebuggerUrl, 'Chrome page target must be reachable via CDP')
+    assert.ok(targetPage?.webSocketDebuggerUrl,
+      `Chrome page target must be reachable via CDP (exit=${chrome.exitCode ?? 'running'}; stderr=${chromeStderr})`)
 
     ws = new WebSocket(targetPage.webSocketDebuggerUrl)
     await new Promise((resolve, reject) => {
