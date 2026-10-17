@@ -92,6 +92,9 @@ try {
     { name: 'home', path: '/', expectedHref: '/casos/wasy/' },
     { name: 'case', path: '/casos/wasy/', expectedHref: 'https://wasy.store/' },
     { name: 'evidence', path: '/evidencia/', expectedHref: '/casos/wasy/' },
+    { name: 'checkio', path: '/casos/checkio/', expectedHref: 'https://checkio-frontend.onrender.com/landing', checkCapabilities: true },
+    { name: 'localisa', path: '/casos/localisa/', expectedHref: 'https://www.localisa.pe/', checkCapabilities: true },
+    { name: 'perulog', path: '/casos/perulog-pallets/', expectedHref: 'https://perulogpallets.com.pe/', checkCapabilities: true },
   ]
   const viewports = [
     { name: 'mobile-320', width: 320, height: 760, mobile: true },
@@ -116,7 +119,7 @@ try {
       await evaluate("localStorage.setItem('orbital-analytics-consent', 'denied')")
       await evaluate(`(async () => {
         document.documentElement.style.scrollBehavior = 'auto';
-        const image = [...document.images].find((candidate) => candidate.alt.includes('Wasy'));
+        const image = [...document.images].find((candidate) => candidate.alt.toLowerCase().includes(${JSON.stringify(route.checkCapabilities ? route.name : 'wasy')}));
         if (!image) return { found: false };
         image.scrollIntoView({ block: 'center', behavior: 'instant' });
         if (!image.complete) await new Promise((resolveImage) => image.addEventListener('load', resolveImage, { once: true }));
@@ -136,13 +139,21 @@ try {
             .slice(0, 5)
             .map((element) => ({ tag: element.tagName, className: element.className, right: Math.round(element.getBoundingClientRect().right) })),
           expectedLink: links.includes(${JSON.stringify(route.expectedHref)}),
-          bodyHasWasy: document.body.innerText.toLowerCase().includes('wasy'),
+          bodyHasExpected: ${Boolean(route.checkCapabilities)} ? true : document.body.innerText.toLowerCase().includes('wasy'),
+          hasCapabilities: Boolean(document.querySelector('.caseCapabilities')),
+          flowStepsCount: document.querySelectorAll('.caseFlowGrid article').length,
+          flowStepsFitViewport: [...document.querySelectorAll('.caseFlowStep')].every((step) => {
+            const rect = step.getBoundingClientRect();
+            return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+          }),
+          wasyOverlayAbsent: !document.querySelector('.workCard--wasy .workMediaOverlay'),
+          hasOtherMediaOverlay: Boolean(document.querySelector('.workCard:not(.workCard--wasy) .workMediaOverlay')),
         };
       })()`)
       await new Promise((resolveWait) => setTimeout(resolveWait, 250))
       const result = await evaluate(`window.__unused ?? (async () => {
         document.documentElement.style.scrollBehavior = 'auto';
-        const image = [...document.images].find((candidate) => candidate.alt.includes('Wasy'));
+        const image = [...document.images].find((candidate) => candidate.alt.toLowerCase().includes(${JSON.stringify(route.checkCapabilities ? route.name : 'wasy')}));
         if (image) {
           const initialRect = image.getBoundingClientRect();
           const absoluteTop = window.scrollY + initialRect.top;
@@ -169,18 +180,40 @@ try {
             .slice(0, 5)
             .map((element) => ({ tag: element.tagName, className: element.className, right: Math.round(element.getBoundingClientRect().right) })),
           expectedLink: links.includes(${JSON.stringify(route.expectedHref)}),
-          bodyHasWasy: document.body.innerText.toLowerCase().includes('wasy'),
+          bodyHasExpected: ${Boolean(route.checkCapabilities)} ? true : document.body.innerText.toLowerCase().includes('wasy'),
+          hasCapabilities: Boolean(document.querySelector('.caseCapabilities')),
+          flowStepsCount: document.querySelectorAll('.caseFlowGrid article').length,
+          flowStepsFitViewport: [...document.querySelectorAll('.caseFlowStep')].every((step) => {
+            const rect = step.getBoundingClientRect();
+            return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+          }),
+          wasyOverlayAbsent: !document.querySelector('.workCard--wasy .workMediaOverlay'),
+          hasOtherMediaOverlay: Boolean(document.querySelector('.workCard:not(.workCard--wasy) .workMediaOverlay')),
         };
       })()`)
 
-      assert.equal(result.found, true, `${route.name}/${viewport.name}: Wasy screenshot must be present`)
-      assert.equal(result.decoded, true, `${route.name}/${viewport.name}: Wasy screenshot must decode`)
-      assert.equal(result.imageInViewport, true, `${route.name}/${viewport.name}: Wasy screenshot must be visible in captured viewport (${JSON.stringify(result)})`)
+      assert.equal(result.found, true, `${route.name}/${viewport.name}: hero/card image must be present`)
+      assert.equal(result.decoded, true, `${route.name}/${viewport.name}: hero/card image must decode`)
+      assert.equal(result.imageInViewport, true, `${route.name}/${viewport.name}: image must be visible in captured viewport (${JSON.stringify(result)})`)
       assert.equal(result.overflow, false, `${route.name}/${viewport.name}: no horizontal overflow (${JSON.stringify(result)})`)
       assert.equal(result.expectedLink, true, `${route.name}/${viewport.name}: expected CTA must exist`)
-      assert.equal(result.bodyHasWasy, true, `${route.name}/${viewport.name}: Wasy copy must be visible`)
+      assert.equal(result.bodyHasExpected, true, `${route.name}/${viewport.name}: expected copy must be visible`)
 
-      if (viewport.capture) {
+      if (route.name === 'home') {
+        assert.equal(result.wasyOverlayAbsent, true, `${route.name}/${viewport.name}: Wasy .workMediaOverlay must be absent`)
+        assert.equal(result.hasOtherMediaOverlay, true, `${route.name}/${viewport.name}: non-Wasy cards must retain .workMediaOverlay`)
+      }
+      if (route.name === 'case') {
+        assert.equal(result.hasCapabilities, false, `${route.name}/${viewport.name}: .caseCapabilities must not exist for Wasy`)
+        assert.equal(result.flowStepsCount, 3, `${route.name}/${viewport.name}: .caseFlowGrid must have exactly 3 steps`)
+        assert.equal(result.flowStepsFitViewport, true, `${route.name}/${viewport.name}: three Wasy flow cards must fit horizontally without clipping`)
+      }
+      if (route.checkCapabilities) {
+        assert.equal(result.hasCapabilities, true, `${route.name}/${viewport.name}: .caseCapabilities must exist for ${route.name}`)
+        assert.equal(result.flowStepsCount, 3, `${route.name}/${viewport.name}: .caseFlowGrid must have 3 steps for ${route.name}`)
+      }
+
+      if (viewport.capture && (route.name === 'home' || route.name === 'case' || route.name === 'evidence')) {
         const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true })
         const output = join(root, 'docs', `qa-wasy-${route.name}-${viewport.name}-2026-10-16.png`)
         writeFileSync(output, Buffer.from(capture.data, 'base64'))

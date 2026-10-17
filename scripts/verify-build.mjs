@@ -101,7 +101,7 @@ check('Home links visibly to legal pages', html.includes('href="/privacy"') && h
 check('About page is prerendered', about.includes('Qué es Orbital Frameworks.') && about.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.') && about.includes('https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'))
 check('Proof hub is prerendered', proof.includes('Trabajo que se puede revisar antes de conversar.') && proof.includes('https://orbitalframeworks.qzz.io/evidencia/'))
 check('Checkio case is prerendered', checkioCase.includes('Qué existe dentro del producto.') && checkioCase.includes('https://orbitalframeworks.qzz.io/casos/checkio/'))
-check('Wasy case is prerendered', wasyCase.includes('Qué existe dentro del producto.') && wasyCase.includes('https://orbitalframeworks.qzz.io/casos/wasy/') && wasyCase.includes('https://wasy.store/'))
+check('Wasy case is prerendered', !wasyCase.includes('caseCapabilities') && wasyCase.includes('Cómo se conecta el trabajo.') && wasyCase.includes('https://orbitalframeworks.qzz.io/casos/wasy/') && wasyCase.includes('https://wasy.store/'))
 check('Localisa case is prerendered', localisaCase.includes('Qué existe dentro del producto.') && localisaCase.includes('https://orbitalframeworks.qzz.io/casos/localisa/'))
 check('PeruLog case is prerendered', perulogCase.includes('Qué existe dentro del producto.') && perulogCase.includes('https://orbitalframeworks.qzz.io/casos/perulog-pallets/'))
 check('Case pages expose primary product CTA', [checkioCase, wasyCase, localisaCase, perulogCase].every((page) => page.includes('Abrir producto público')))

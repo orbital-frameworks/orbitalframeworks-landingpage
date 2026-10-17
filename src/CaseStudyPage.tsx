@@ -52,7 +52,7 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
           </div>
         </section>
 
-        <section className="caseNarrative">
+        <section className={`caseNarrative${slug === 'wasy' ? ' caseNarrative--wasy' : ''}`}>
           <article>
             <span>01 / Problema</span>
             <p>{study.problem}</p>
@@ -67,29 +67,36 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
           </article>
         </section>
 
-        <section className="caseCapabilities">
-          <header>
-            <div className="caseSectionLabel">Alcance funcional</div>
-            <h2>Qué existe dentro del producto.</h2>
-          </header>
-          <div className="caseCapabilityGrid">
-            {study.capabilities.map((capability, index) => (
-              <div key={capability} className="caseCapability">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <strong>{capability}</strong>
-              </div>
-            ))}
-          </div>
-        </section>
+        {slug !== 'wasy' && study.capabilities.length > 0 && (
+          <section className="caseCapabilities">
+            <header>
+              <div className="caseSectionLabel">Alcance funcional</div>
+              <h2>Qué existe dentro del producto.</h2>
+            </header>
+            <div className="caseCapabilityGrid">
+              {study.capabilities.map((capability, index) => (
+                <div key={capability} className="caseCapability">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{capability}</strong>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-        <section className="caseFlows">
-          <header>
+        <section className={`caseFlows${slug === 'wasy' ? ' caseFlows--wasy' : ''}`}>
+          <header className={slug === 'wasy' ? 'caseFlowsHeader--wasy' : undefined}>
             <div className="caseSectionLabel">Recorrido operativo</div>
             <h2>Cómo se conecta el trabajo.</h2>
           </header>
           <div className="caseFlowGrid">
-            {study.flows.map((flow) => (
-              <article key={flow.title}>
+            {study.flows.map((flow, index) => (
+              <article key={flow.title} className={slug === 'wasy' ? 'caseFlowStep' : undefined}>
+                {slug === 'wasy' && (
+                  <div className="caseFlowStepMeta">
+                    <span className="caseFlowStepNumber">{String(index + 1).padStart(2, '0')}</span>
+                  </div>
+                )}
                 <h3>{flow.title}</h3>
                 <p>{flow.text}</p>
               </article>

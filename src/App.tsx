@@ -386,13 +386,13 @@ const workItems: WorkItem[] = [
     url: '/casos/wasy/',
     imageSrc: wasyImg,
     imageSrcSet: `${wasyImg640} 640w, ${wasyImg} 960w`,
-    description: 'Catálogo web para explorar productos, usar carrito y continuar el pedido por WhatsApp.',
+    description: 'Catálogo público con carrito y continuación del pedido por WhatsApp.',
     tags: ['Catálogo web', 'Pedido por WhatsApp', 'App móvil en beta privada'],
     featured: true,
     tone: 'teal',
     sector: 'Comercio digital',
     status: 'Catálogo web publicado',
-    impact: 'Conecta la exploración de productos con un pedido por WhatsApp.',
+    impact: '',
   },
   {
     title: 'Localisa',
@@ -422,6 +422,7 @@ const workItems: WorkItem[] = [
 ]
 
 function WorkCard({ item, index }: { item: WorkItem; index: number }) {
+  const isWasy = item.url === '/casos/wasy/'
   const tone = item.tone === 'red'
     ? { ['--g1' as never]: 'rgba(255,42,42,0.95)', ['--g2' as never]: 'rgba(16,42,67,0.2)' }
     : item.tone === 'teal'
@@ -433,20 +434,30 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
 
   return (
     <a
-      className={`workCard ${item.featured ? 'isFeatured' : ''}`}
+      className={`workCard ${item.featured ? 'isFeatured' : ''} ${isWasy ? 'workCard--wasy' : ''}`}
       style={tone}
       href={item.url}
       target={item.external ? '_blank' : undefined}
       rel={item.external ? 'noopener noreferrer' : undefined}
       data-index={String(index + 1).padStart(2, '0')}
     >
-      <div className="workMedia">
-        <img src={item.imageSrc} srcSet={item.imageSrcSet} sizes={item.imageSrcSet ? '(max-width: 640px) 100vw, 50vw' : undefined} alt={item.title.startsWith('Wasy') ? 'Captura del catálogo web de Wasy con productos y carrito' : `Vista de ${item.title}`} loading="lazy" width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360} decoding="async" />
-        <div className="workMediaOverlay">
-          <div className="workMediaEyebrow">{cardLabel}</div>
-          <div className="workMediaTitle">{item.title}</div>
-          <div className="workMediaSub">{item.status}</div>
-        </div>
+      <div className={`workMedia ${isWasy ? 'workMedia--wasy' : ''}`}>
+        <img
+          src={item.imageSrc}
+          srcSet={item.imageSrcSet}
+          sizes={item.imageSrcSet ? '(max-width: 640px) 100vw, 50vw' : undefined}
+          alt={item.title.startsWith('Wasy') ? 'Captura del catálogo web de Wasy con productos y carrito' : `Vista de ${item.title}`}
+          loading="lazy"
+          width={item.imageSrcSet ? 960 : 640} height={item.imageSrcSet ? 704 : 360}
+          decoding="async"
+        />
+        {!isWasy && (
+          <div className="workMediaOverlay">
+            <div className="workMediaEyebrow">{cardLabel}</div>
+            <div className="workMediaTitle">{item.title}</div>
+            <div className="workMediaSub">{item.status}</div>
+          </div>
+        )}
         <div className="workTop">
           <div className="workMeta"><span className="workKind">{item.kind}</span></div>
           <div className="workGlow" aria-hidden="true" />
@@ -457,7 +468,7 @@ function WorkCard({ item, index }: { item: WorkItem; index: number }) {
         <div className="workIndex">{cardLabel}</div>
         <h3 className="workTitle">{item.title}</h3>
         <p className="workDesc">{item.description}</p>
-        <p className="workImpact">{item.impact}</p>
+        {!isWasy && item.impact && <p className="workImpact">{item.impact}</p>}
         <div className="workTags">
           {item.tags.map((tag) => (
             <span key={tag} className="workTag">{tag}</span>

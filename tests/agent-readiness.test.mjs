@@ -314,14 +314,17 @@ test('9. verify-build strictly requires index.md and 404.md in dist without sile
     // Retire VetERP and add Wasy case to testDist fixture
     rmSync(join(testDist, 'casos/veterp'), { recursive: true, force: true })
     mkdirSync(join(testDist, 'casos/wasy'), { recursive: true })
-    const checkioCaseHtml = readFileSync(join(testDist, 'casos/checkio/index.html'), 'utf8')
-    const wasyCaseHtml = checkioCaseHtml
-      .replaceAll('https://orbitalframeworks.qzz.io/casos/checkio/', 'https://orbitalframeworks.qzz.io/casos/wasy/')
-      .replaceAll('https://checkio-frontend.onrender.com/landing', 'https://wasy.store/')
-      .replaceAll('Checkio', 'Wasy')
-      .replaceAll('VetERP', 'Wasy')
-      .replaceAll('/casos/veterp/', '/casos/wasy/')
-      .replaceAll('https://veterp.qzz.io/', 'https://wasy.store/')
+    const realWasyPath = join(builtDist, 'casos/wasy/index.html')
+    const wasyCaseHtml = existsSync(realWasyPath)
+      ? readFileSync(realWasyPath, 'utf8')
+      : checkioCaseHtml
+          .replaceAll('https://orbitalframeworks.qzz.io/casos/checkio/', 'https://orbitalframeworks.qzz.io/casos/wasy/')
+          .replaceAll('https://checkio-frontend.onrender.com/landing', 'https://wasy.store/')
+          .replaceAll('Checkio', 'Wasy')
+          .replaceAll('VetERP', 'Wasy')
+          .replaceAll('/casos/veterp/', '/casos/wasy/')
+          .replaceAll('https://veterp.qzz.io/', 'https://wasy.store/')
+          .replace(/<section class="caseCapabilities">[\s\S]*?<\/section>/, '')
     writeFileSync(join(testDist, 'casos/wasy/index.html'), wasyCaseHtml)
 
     // Ensure testDist index.html has updated country-only schema, dateModified, and no VetERP.
