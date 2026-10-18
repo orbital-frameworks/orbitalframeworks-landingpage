@@ -95,7 +95,7 @@ const gscToken = existsSync(gscTokenPath) ? readFileSync(gscTokenPath, 'utf8') :
 check('GSC verification token has canonical content', gscToken.trim() === 'google-site-verification: google466769daa2952733.html')
 
 check('Prerendered root is not empty', !html.includes('<div id="root"></div>'))
-check('Primary B2B heading is prerendered', html.includes('class="heroTitle"') && ['SOFTWARE', 'PARA', 'TU'].every((word) => html.includes(`>${word}<`)) && html.includes('>EMPRESA'))
+check('Primary B2B heading is prerendered', html.includes('class="heroTitle"') && ['SOFTWARE', 'PARA TU'].every((word) => html.includes(`>${word}<`)) && html.includes('>EMPRESA'))
 check('Canonical URL is present', html.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/"'))
 check('Search crawlers are allowed', robots.includes('User-agent: *') && robots.includes('Allow: /'))
 check('Sitemap is declared in robots', robots.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))

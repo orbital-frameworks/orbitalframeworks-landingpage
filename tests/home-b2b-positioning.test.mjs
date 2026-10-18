@@ -8,6 +8,7 @@ const indexMd = readFileSync(new URL('../public/index.md', import.meta.url), 'ut
 
 test('corporate home explains software for companies before presenting its portfolio', () => {
   assert.match(html, /class="heroTitle"/)
+  assert.match(html, /aria-label="Software para tu empresa"/)
   assert.ok(html.includes('>SOFTWARE<') && html.includes('>EMPRESA'), 'H1 must explain the category of service')
   assert.match(html, /digitalizar procesos/)
   assert.match(html, /IA realmente aportan valor/)

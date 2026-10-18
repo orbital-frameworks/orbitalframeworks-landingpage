@@ -909,8 +909,8 @@ function Hero() {
       <div className="heroInner">
         <div className="heroCopy">
           <p className="heroKicker">Software a medida · Automatización · IA aplicada / Perú</p>
-          <h1 className="heroTitle">
-            <span>SOFTWARE</span><span>PARA</span><span>TU</span><span>EMPRESA<span className="heroCursor" aria-hidden="true">._</span></span>
+          <h1 className="heroTitle" aria-label="Software para tu empresa">
+            <span>SOFTWARE</span><span>PARA TU</span><span>EMPRESA<span className="heroCursor" aria-hidden="true">._</span></span>
           </h1>
           <p className="heroLead">Desarrollamos sistemas para digitalizar procesos, conectar información y reducir trabajo repetitivo. También evaluamos cuándo la automatización o la IA realmente aportan valor.</p>
           <div className="heroActions">
