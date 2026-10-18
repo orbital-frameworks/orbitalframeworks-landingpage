@@ -31,10 +31,10 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
 
   const b2b02 = BACKLOG_TOPICS.find((t) => t.id === 'B2B-02')
   assert.ok(b2b02, 'B2B-02 topic must exist')
-  assert.equal(b2b02.status, 'PUBLISHED', 'B2B-02 topic must be in PUBLISHED status')
+  assert.equal(b2b02.status, 'DRAFT_NO_PUBLICABLE', 'B2B-02 must remain embargoed until the coordinated launch')
   assert.equal(b2b02.campaign, 'camp_excel_vs_automation', 'B2B-02 campaign UTM must be camp_excel_vs_automation')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => t.id !== 'B2B-01' && t.id !== 'B2B-02')
+  const drafts = BACKLOG_TOPICS.filter((t) => t.id !== 'B2B-01')
   for (const draft of drafts) {
     assert.equal(
       draft.status,
@@ -473,10 +473,9 @@ test('13. Local-only gate cannot make an article eligible for external distribut
       localOnly: true,
       dryRun: false,
     })
-    assert.equal(result.ok, true)
-    assert.equal(result.verdict, 'LOCAL_ONLY')
-    assert.equal(result.externalDistributionAuthorized, false)
-    assert.equal(result.packPath, null)
+    assert.equal(result.ok, false)
+    assert.equal(result.verdict, 'FAIL')
+    assert.equal(result.errorCode, 'ERR_ARTICLE_IN_DRAFT')
     assert.equal(existsSync(manifestPath), false)
     assert.equal(readFileSync(packPath, 'utf8'), originalPack)
   } finally {

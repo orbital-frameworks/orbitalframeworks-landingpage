@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "project": "orbitalframeworks-landingpage",
-  "lastUpdated": "2026-10-18T01:35:10.901Z",
+  "lastUpdated": "2026-10-18T01:53:26.090Z",
   "policy": {
     "autopostAllowed": false,
     "duplicatePolicy": "BLOCK_DUPLICATE_DISTRIBUTION",
@@ -37,9 +37,9 @@
       "campaign": "camp_excel_vs_automation",
       "utmUrl": "https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_excel_vs_automation",
       "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/",
-      "status": "LOCAL_ONLY_NOT_PUBLIC",
-      "gateVerdict": "LOCAL_ONLY",
-      "lastCheckedAt": "2026-10-18T01:35:10.901Z",
+      "status": "DRAFT_NO_PUBLICABLE",
+      "gateVerdict": "NOT_PUBLIC",
+      "lastCheckedAt": "2026-10-18T01:53:26.090Z",
       "packPath": "docs/linkedin-automatizacion-procesos-vs-excel-riesgo-operativo-handoff.md",
       "autopostAuthorized": false,
       "failedChecks": []

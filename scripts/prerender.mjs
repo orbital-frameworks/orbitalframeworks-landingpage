@@ -168,17 +168,6 @@ const pages = [
     dateModified: '2026-10-17',
   },
   {
-    pathname: '/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
-    output: 'dist/blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html',
-    title: 'Automatización vs Excel: cuándo las hojas de cálculo son un riesgo | Orbital Insights',
-    description: 'Criterios operativos y técnicos para evaluar cuándo una hoja de cálculo pone en riesgo la operación de tu empresa y qué alternativas graduales existen.',
-    canonical: 'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
-    schemaType: 'article',
-    articleHeadline: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
-    datePublished: '2026-10-17',
-    dateModified: '2026-10-17',
-  },
-  {
     pathname: '/404',
     output: 'dist/404.html',
     extraOutputs: ['dist/404/index.html'],

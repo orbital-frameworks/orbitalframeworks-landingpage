@@ -182,9 +182,9 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
     datePublished: '2026-10-17',
     dateModified: '2026-10-17',
     readingTime: '7 min de lectura técnica',
-    status: 'PUBLISHED',
-    statusLabel: '',
-    statusNotice: '',
+    status: 'DRAFT_NO_PUBLICABLE',
+    statusLabel: 'Pendiente de publicación coordinada',
+    statusNotice: 'Artículo preparado para revisión; no debe distribuirse hasta que se confirme la fecha y hora de publicación.',
     prioritizedOwnerQuestion: '¿Qué caso específico de un cliente o proyecto interno requirió migrar un flujo manual basado en hojas de cálculo hacia una base de datos relacional y qué validaciones evitaron errores humanos?',
     author: {
       name: 'Orbital Frameworks',
@@ -310,8 +310,12 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
   },
 }
 
-export const blogPostSlugs = Object.keys(blogPosts) as BlogPostSlug[]
+// Only published articles appear in the public blog and route resolver.
+// Scheduled/editorial drafts stay in source for review, never in the live index.
+export const blogPostSlugs = (Object.keys(blogPosts) as BlogPostSlug[]).filter(
+  (slug) => blogPosts[slug].status === 'PUBLISHED',
+)
 
 export function isBlogPostSlug(slug: string): slug is BlogPostSlug {
-  return Object.prototype.hasOwnProperty.call(blogPosts, slug)
+  return blogPostSlugs.includes(slug as BlogPostSlug)
 }

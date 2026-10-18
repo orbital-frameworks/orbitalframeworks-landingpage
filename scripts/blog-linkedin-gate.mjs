@@ -18,7 +18,7 @@ export const BACKLOG_TOPICS = [
     id: 'B2B-02',
     slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
     title: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
-    status: 'PUBLISHED',
+    status: 'DRAFT_NO_PUBLICABLE',
     campaign: 'camp_excel_vs_automation',
     service: 'Automatización de Procesos',
     caseStudy: 'Checkio / Wasy',
