@@ -199,11 +199,23 @@ export async function runCompanyPublication({ root = resolve(dirname(fileURLToPa
     // An on-disk pending receipt ensures a crash never retries a possibly sent post.
     atomicJson(journalPath, {phase:'SUBMISSION_PENDING',slug,digest,utmUrl:gate.utmUrl,at:new Date().toISOString()})
     await button.click({timeout:12000})
-    await page.waitForTimeout(2200)
-    await page.goto(`https://www.linkedin.com/company/${COMPANY_ID}/admin/page-posts/published`,{waitUntil:'domcontentloaded',timeout:24000})
-    await page.waitForTimeout(1700)
-    published = await recentCompanyPosts(page)
-    const post = published.find(x => x.text.includes(gate.utmUrl) && x.text.includes(firstLine))
+    // Do not navigate away while LinkedIn may still be submitting the form.
+    // The journal remains pending if LinkedIn does not acknowledge completion.
+    try {
+      await dialog.waitFor({state:'hidden',timeout:24000})
+    } catch {
+      throw new Error('SUBMISSION_UNCONFIRMED_COMPOSER_STILL_OPEN_DO_NOT_RETRY')
+    }
+    await page.waitForTimeout(2100)
+    let post = null
+    // The feed can lag behind a successful submission: these are read-only refreshes,
+    // never a second click of the publish button.
+    for (let attempt = 0; attempt < 3 && !post; attempt++) {
+      await page.goto(`https://www.linkedin.com/company/${COMPANY_ID}/admin/page-posts/published`,{waitUntil:'domcontentloaded',timeout:24000})
+      await page.waitForTimeout(1700 + attempt * 1800)
+      published = await recentCompanyPosts(page)
+      post = published.find(x => x.text.includes(gate.utmUrl) && x.text.includes(firstLine))
+    }
     if (!post) throw new Error('SUBMITTED_BUT_REMOTE_RECEIPT_MISSING_DO_NOT_RETRY')
     const publicUrl = livePostLink(post)
     const publicResp = await page.goto(publicUrl,{waitUntil:'domcontentloaded',timeout:24000})
