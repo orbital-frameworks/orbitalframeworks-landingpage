@@ -1,10 +1,26 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync, accessSync, constants } from 'node:fs'
+import { resolve, join } from 'node:path'
 import test from 'node:test'
 
-const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8')
-const source = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8')
-const indexMd = readFileSync(new URL('../public/index.md', import.meta.url), 'utf8')
+const root = resolve(process.cwd())
+function resolveDistDir() {
+  if (process.env.DIST_DIR) return resolve(root, process.env.DIST_DIR)
+  const defaultDist = join(root, 'dist')
+  if (existsSync('/tmp/orbital-dist')) {
+    try {
+      accessSync(defaultDist, constants.W_OK)
+    } catch {
+      return '/tmp/orbital-dist'
+    }
+  }
+  return defaultDist
+}
+
+const distDir = resolveDistDir()
+const html = readFileSync(join(distDir, 'index.html'), 'utf8')
+const source = readFileSync(join(root, 'src/App.tsx'), 'utf8')
+const indexMd = readFileSync(join(root, 'public/index.md'), 'utf8')
 
 test('corporate home explains software for companies before presenting its portfolio', () => {
   assert.match(html, /class="heroTitle"/)

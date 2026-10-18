@@ -22,7 +22,7 @@ Todos los temas están orientados a resolver problemas operativos y de rentabili
 | ID | Prioridad | Título Provisional | Slug Semántico | Perfil Decisor | Servicio B2B Vinculado | Caso de Apoyo | Estado Actual | Campaña UTM LinkedIn |
 | :---: | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :--- |
 | **B2B-01** | P1 (Piloto) | Software a medida o SaaS: cómo decidir según el proceso de tu empresa | `software-a-medida-o-saas-como-decidir` | Gerente de Operaciones / CEO | Desarrollo de Software a Medida | Checkio / Wasy | `PUBLISHED` | `pilot_saas_vs_custom` |
-| **B2B-02** | P1 | Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en riesgo operativo | `automatizacion-procesos-vs-excel-riesgo-operativo` | Gerente de Operaciones / Jefe de Finanzas | Automatización de Procesos | Checkio / Wasy | `DRAFT_NO_PUBLICABLE` | `camp_excel_vs_automation` |
+| **B2B-02** | P1 | Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo | `automatizacion-procesos-vs-excel-riesgo-operativo` | Gerente de Operaciones / Jefe de Finanzas | Automatización de Procesos | Checkio / Wasy | `PUBLISHED` | `camp_excel_vs_automation` |
 | **B2B-03** | P2 | Cuándo una landing page B2B técnica convierte mejor que un sitio web corporativo genérico | `landing-page-b2b-tecnica-vs-web-corporativa` | Director Comercial / Fundador B2B | Landing Pages B2B | PeruLog Pallets | `DRAFT_NO_PUBLICABLE` | `camp_b2b_landing_vs_corp` |
 | **B2B-04** | P2 | Costo total de propiedad (TCO): Licencias SaaS por asiento en dólares vs software propio | `costo-total-propiedad-licencias-saas-vs-software-a-medida` | Director de Finanzas (CFO) / TI | Desarrollo de Software a Medida | Checkio / Localisa | `DRAFT_NO_PUBLICABLE` | `camp_tco_saas_vs_custom` |
 | **B2B-05** | P3 | Integración de canales comerciales con operaciones: del pedido por WhatsApp al almacén | `integracion-pedidos-whatsapp-almacen-operaciones` | Gerente de Logística / Operaciones | Automatización de Procesos | Wasy | `DRAFT_NO_PUBLICABLE` | `camp_whatsapp_to_warehouse` |
@@ -53,14 +53,14 @@ Cada artículo en estado `DRAFT_NO_PUBLICABLE` requiere que el equipo o propieta
 
 ### Tema B2B-02
 - **Título**: Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo
-- **Ruta Prevista**: `/blog/automatizacion-procesos-vs-excel-riesgo-operativo/`
+- **Ruta y Canonical**: `https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/`
 - **Intención de Búsqueda**: Empresas donde la operación depende de múltiples libros de Excel compartidos por correo o carpetas locales, sufriendo desfases de inventario y errores de digitación.
 - **Problema de Negocio**: Falta de auditoría de cambios, fórmulas corrompidas por error humano y cuellos de botella en la consolidación manual de información.
 - **Servicios Conectados**: `/servicios/automatizacion-procesos/`, `/servicios/desarrollo-software-medida/`.
 - **Casos de Respaldo**: Checkio (reemplazo de planillas manuales de asistencia por marcaciones directas con roles).
 - **Pregunta Priorizada al Propietario**:
   > *«¿Qué caso específico de un cliente o proyecto interno requirió migrar un flujo manual basado en hojas de cálculo hacia una base de datos relacional y qué validaciones evitaron errores humanos?»*
-- **Estado**: `DRAFT_NO_PUBLICABLE`.
+- **Estado**: `PUBLISHED` (En producción viva).
 
 ---
 

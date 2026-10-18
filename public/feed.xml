@@ -5,8 +5,16 @@
     <link>https://orbitalframeworks.qzz.io/blog/</link>
     <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
     <language>es-PE</language>
-    <lastBuildDate>Sat, 17 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo</title>
+      <link>https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/</guid>
+      <pubDate>Sun, 18 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Criterios operativos y técnicos para evaluar cuándo una hoja de cálculo pone en riesgo la operación de tu empresa y qué alternativas graduales existen.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
     <item>
       <title>Software a medida o SaaS: cómo decidir según el proceso de tu empresa</title>
       <link>https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/</link>

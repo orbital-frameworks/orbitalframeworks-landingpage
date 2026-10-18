@@ -1,4 +1,4 @@
-import { accessSync, constants, existsSync, readFileSync } from 'node:fs'
+import { accessSync, constants, existsSync, readFileSync, statSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -17,8 +17,8 @@ export const BACKLOG_TOPICS = [
   {
     id: 'B2B-02',
     slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
-    title: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en riesgo operativo',
-    status: 'DRAFT_NO_PUBLICABLE',
+    title: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
+    status: 'PUBLISHED',
     campaign: 'camp_excel_vs_automation',
     service: 'Automatización de Procesos',
     caseStudy: 'Checkio / Wasy',
@@ -422,12 +422,9 @@ export function generateLinkedInPack(options) {
 
   const isApproved = gateVerdict === 'PASS'
   const statusLabel = isApproved ? 'LISTO_PARA_DISTRIBUCION_EXTERNA' : 'BLOQUEADO_POR_GATE'
-  if (slug !== 'software-a-medida-o-saas-como-decidir' && !customCopy?.trim())
-    throw new Error('EDITORIAL_COPY_REQUIRED: un artículo nuevo necesita copy propio revisado; no reutilizar la plantilla SaaS')
 
-  const bodyCopy =
-    customCopy ||
-    `Adoptar un SaaS comercial no siempre es la solución definitiva, pero construir software a medida tampoco debe ser el primer impulso.
+  const DEFAULT_EDITORIAL_COPIES = {
+    'software-a-medida-o-saas-como-decidir': `Adoptar un SaaS comercial no siempre es la solución definitiva, pero construir software a medida tampoco debe ser el primer impulso.
 
 En Orbital Frameworks evaluamos cuándo conviene cada alternativa según la madurez del proceso operativo:
 
@@ -435,7 +432,26 @@ En Orbital Frameworks evaluamos cuándo conviene cada alternativa según la madu
 2. Si el proceso clave de tu empresa te obliga a deformar tu flujo de trabajo o el costo recurrente por usuario en dólares limita tu escala, un desarrollo a medida brinda trazabilidad y control.
 
 Desglosamos la matriz de decisión y los puntos de evaluación operativa en nuestro nuevo artículo de Orbital Insights:
-${utmUrl}`
+${utmUrl}`,
+    'automatizacion-procesos-vs-excel-riesgo-operativo': `Excel puede funcionar muy bien para analizar datos, planificar y controlar operaciones pequeñas. El problema aparece cuando un proceso crítico depende de conciliar versiones, copiar registros o corregir fórmulas manualmente.
+
+Antes de reemplazar una hoja de cálculo, conviene revisar tres señales:
+
+1. ¿El equipo mantiene una fuente única o intercambia copias que luego debe conciliar?
+2. ¿Las validaciones y permisos existentes son suficientes para los errores y datos sensibles del proceso?
+3. ¿Cada registro debe sincronizarse con ventas, inventario u otros sistemas sin volver a digitarlos?
+
+Excel en Microsoft 365 dispone de coautoría, historial de versiones, protecciones y herramientas de integración. Si eso resuelve el problema, mantenerlo puede ser la decisión correcta. Cuando la operación exige controles transaccionales o integraciones más exigentes, vale la pena evaluar una automatización o un sistema web.
+
+En Orbital Insights explicamos cómo evaluar las alternativas de manera gradual, sin asumir que toda empresa necesita desarrollar software:
+${utmUrl}`,
+  }
+
+  const defaultCopy = DEFAULT_EDITORIAL_COPIES[slug]
+  if (!defaultCopy && !customCopy?.trim())
+    throw new Error('EDITORIAL_COPY_REQUIRED: un artículo nuevo necesita copy propio revisado; no reutilizar la plantilla SaaS')
+
+  const bodyCopy = customCopy || defaultCopy
 
   return `# Pack de Publicación LinkedIn — Orbital Insights
 
@@ -509,6 +525,7 @@ export async function runGateCheck(options = {}) {
   const slug = (options.slug || 'software-a-medida-o-saas-como-decidir').trim()
   const force = Boolean(options.force)
   const dryRun = Boolean(options.dryRun)
+  const localEvidenceOnly = Boolean(options.localOnly || options.fixturePath || options.htmlContent)
 
   const backlogTopic = BACKLOG_TOPICS.find((t) => t.slug === slug)
   const codePost = blogPosts[slug]
@@ -601,6 +618,9 @@ export async function runGateCheck(options = {}) {
   } else {
     // Real HTTPS fetch from live URL
     const targetUrl = options.targetUrl || expectedCanonical
+    if (targetUrl !== expectedCanonical || !expectedCanonical.startsWith('https://')) {
+      return {ok:false,slug,verdict:'FAIL',errorCode:'PUBLIC_CANONICAL_URL_REQUIRED',failedChecks:[{id:'public_url',passed:false}],packPath:null}
+    }
     const res = await fetchArticleHttp(targetUrl, {
       timeoutMs: options.timeoutMs || 8000,
     })
@@ -608,6 +628,9 @@ export async function runGateCheck(options = {}) {
     html = res.body
     if (!res.ok) {
       fetchError = res.error || `HTTP ${res.status}`
+    }
+    if (res.finalUrl !== expectedCanonical || !/^text\/html\b/i.test(res.headers['content-type'] || '')) {
+      return {ok:false,slug,verdict:'FAIL',errorCode:'PUBLIC_RESPONSE_IDENTITY_FAILED',reason:`URL final o Content-Type inesperado: ${res.finalUrl}, ${res.headers['content-type'] || 'missing'}`,failedChecks:[{id:'public_response_identity',passed:false}],packPath:null}
     }
   }
 
@@ -648,6 +671,13 @@ export async function runGateCheck(options = {}) {
     }
   }
 
+  // Local builds, fixtures and injected HTML establish structure, never
+  // authorization to distribute an external LinkedIn post.
+  if (localEvidenceOnly) {
+    return {ok:true,slug,title,verdict:'LOCAL_ONLY',externalDistributionAuthorized:false,
+      checks:validationResult.checks,failedChecks:[],packPath:null}
+  }
+
   // Generate UTM URL
   const utmUrl = generateUtmUrl(expectedCanonical, campaign)
 
@@ -668,6 +698,8 @@ export async function runGateCheck(options = {}) {
   const packPath = resolve(rootPath, packFileName)
 
   if (!dryRun) {
+    if (existsSync(packPath) && statSync(packPath).isDirectory())
+      throw new Error('PACK_PATH_IS_DIRECTORY: requiere un archivo Markdown canónico, no una carpeta .md')
     await writeFile(packPath, packContent, 'utf8')
 
     // Update manifest

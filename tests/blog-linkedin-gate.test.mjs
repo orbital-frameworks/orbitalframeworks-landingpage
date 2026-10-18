@@ -29,7 +29,12 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
   assert.equal(pilot.status, 'PUBLISHED', 'Pilot topic must be in PUBLISHED status')
   assert.equal(pilot.campaign, 'pilot_saas_vs_custom', 'Pilot campaign UTM must be pilot_saas_vs_custom')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => t.id !== 'B2B-01')
+  const b2b02 = BACKLOG_TOPICS.find((t) => t.id === 'B2B-02')
+  assert.ok(b2b02, 'B2B-02 topic must exist')
+  assert.equal(b2b02.status, 'PUBLISHED', 'B2B-02 topic must be in PUBLISHED status')
+  assert.equal(b2b02.campaign, 'camp_excel_vs_automation', 'B2B-02 campaign UTM must be camp_excel_vs_automation')
+
+  const drafts = BACKLOG_TOPICS.filter((t) => t.id !== 'B2B-01' && t.id !== 'B2B-02')
   for (const draft of drafts) {
     assert.equal(
       draft.status,
@@ -105,9 +110,9 @@ test('3. Positive Gate Verification on prerendered pilot article HTML', () => {
 })
 
 test('4. Gate Fail-Closed: Draft articles reject publication handoff', async () => {
-  // Test case A: Draft topic evaluated through runGateCheck
+  // Test case A: Draft topic evaluated through runGateCheck (B2B-03 is in draft)
   const draftResult = await runGateCheck({
-    slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
+    slug: 'landing-page-b2b-tecnica-vs-web-corporativa',
     rootPath: root,
     dryRun: true,
   })
@@ -354,7 +359,8 @@ test('9. HTTP Loopback Mock Server: verifies fetchArticleHttp success, errors an
 })
 
 test('10. Manifest and Duplicate Policy: preserves historic post and blocks duplicate distribution', async () => {
-  const tmpManifestPath = join(root, 'docs/test-temp-manifest.json')
+  const scratch = mkdtempSync(join(tmpdir(), 'orbital-linkedin-manifest-'))
+  const tmpManifestPath = join(scratch, 'test-temp-manifest.json')
 
   try {
     const manifest = {
@@ -403,7 +409,7 @@ test('10. Manifest and Duplicate Policy: preserves historic post and blocks dupl
     )
     assert.equal(forceCheck.allowed, true)
   } finally {
-    if (existsSync(tmpManifestPath)) unlinkSync(tmpManifestPath)
+    rmSync(scratch, { recursive: true, force: true })
   }
 })
 
@@ -432,4 +438,48 @@ test('11. LinkedIn Handoff Pack Generator: produces verified, zero-token markdow
   assert.ok(pack.includes('article_to_service'), 'Must mention article_to_service event')
   assert.ok(pack.includes('contact.orbitalframeworks@gmail.com'), 'Must mention official contact email')
   assert.ok(!pack.includes('generate_lead en el navegador'), 'Must forbid browser-side generate_lead')
+})
+
+test('12. B2B-02 LinkedIn Pack Generator: produces verified pack with approved copy', () => {
+  const utmUrl =
+    'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_excel_vs_automation'
+
+  const pack = generateLinkedInPack({
+    slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
+    title: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
+    utmUrl,
+    campaign: 'camp_excel_vs_automation',
+    gateVerdict: 'PASS',
+    date: '2026-10-18',
+  })
+
+  assert.ok(pack.includes('LISTO_PARA_DISTRIBUCION_EXTERNA'))
+  assert.ok(pack.includes('Autopost') && pack.includes('DESHABILITADO'))
+  assert.ok(pack.includes(utmUrl))
+  assert.ok(pack.includes('Excel puede funcionar muy bien para analizar datos'))
+  assert.ok(pack.includes('camp_excel_vs_automation'))
+})
+
+test('13. Local-only gate cannot make an article eligible for external distribution', async () => {
+  const scratch = mkdtempSync(join(tmpdir(), 'orbital-local-preflight-'))
+  const manifestPath = join(scratch, 'manifest.json')
+  const packPath = join(root, 'docs/linkedin-automatizacion-procesos-vs-excel-riesgo-operativo-handoff.md')
+  const originalPack = readFileSync(packPath, 'utf8')
+  try {
+    const result = await runGateCheck({
+      slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
+      rootPath: root,
+      manifestPath,
+      localOnly: true,
+      dryRun: false,
+    })
+    assert.equal(result.ok, true)
+    assert.equal(result.verdict, 'LOCAL_ONLY')
+    assert.equal(result.externalDistributionAuthorized, false)
+    assert.equal(result.packPath, null)
+    assert.equal(existsSync(manifestPath), false)
+    assert.equal(readFileSync(packPath, 'utf8'), originalPack)
+  } finally {
+    rmSync(scratch, {recursive: true, force: true})
+  }
 })

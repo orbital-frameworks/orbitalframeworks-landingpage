@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "project": "orbitalframeworks-landingpage",
-  "lastUpdated": "2026-10-17T21:46:34.676Z",
+  "lastUpdated": "2026-10-18T01:35:10.901Z",
   "policy": {
     "autopostAllowed": false,
     "duplicatePolicy": "BLOCK_DUPLICATE_DISTRIBUTION",
@@ -28,6 +28,19 @@
       "gateVerdict": "PASS",
       "lastCheckedAt": "2026-10-17T21:46:34.676Z",
       "packPath": "docs/linkedin-pilot-handoff-2026-10-17.md",
+      "autopostAuthorized": false,
+      "failedChecks": []
+    },
+    "automatizacion-procesos-vs-excel-riesgo-operativo": {
+      "slug": "automatizacion-procesos-vs-excel-riesgo-operativo",
+      "title": "Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo",
+      "campaign": "camp_excel_vs_automation",
+      "utmUrl": "https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_excel_vs_automation",
+      "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/",
+      "status": "LOCAL_ONLY_NOT_PUBLIC",
+      "gateVerdict": "LOCAL_ONLY",
+      "lastCheckedAt": "2026-10-18T01:35:10.901Z",
+      "packPath": "docs/linkedin-automatizacion-procesos-vs-excel-riesgo-operativo-handoff.md",
       "autopostAuthorized": false,
       "failedChecks": []
     }

@@ -85,22 +85,30 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
               {post.lead}
             </p>
 
-            {post.sections.map((section, idx) => (
+            {post.sections.map((section) => (
               <section key={section.heading} className="blogSectionBlock">
                 <h2>{section.heading}</h2>
                 {section.content.map((paragraph, pIdx) => (
                   <p key={pIdx}>{paragraph}</p>
                 ))}
 
-                {/* Render Decision Matrix within Section 5 */}
-                {idx === 4 && (
+                {/* Render Decision Matrix within the decision matrix section */}
+                {section.heading.includes('Matriz de decisión') && (
                   <div className="blogMatrixShell">
                     <table className="blogMatrixTable">
                       <thead>
                         <tr>
                           <th scope="col">Pregunta de diagnóstico operativo</th>
-                          <th scope="col">Señal favorable para SaaS estándar</th>
-                          <th scope="col">Señal favorable para Software a medida</th>
+                          <th scope="col">
+                            {post.slug === 'automatizacion-procesos-vs-excel-riesgo-operativo'
+                              ? 'Señal para mantener / optimizar hoja de cálculo'
+                              : 'Señal favorable para SaaS estándar'}
+                          </th>
+                          <th scope="col">
+                            {post.slug === 'automatizacion-procesos-vs-excel-riesgo-operativo'
+                              ? 'Señal para automatizar o migrar a sistema dedicado'
+                              : 'Señal favorable para Software a medida'}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>

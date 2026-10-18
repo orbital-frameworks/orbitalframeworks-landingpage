@@ -1,4 +1,7 @@
-export type BlogPostSlug = 'software-a-medida-o-saas-como-decidir'
+export type BlogPostSlug =
+  | 'software-a-medida-o-saas-como-decidir'
+  | 'automatizacion-procesos-vs-excel-riesgo-operativo'
+
 
 export type BlogSection = {
   heading: string
@@ -166,6 +169,143 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
       description: 'Conversemos sobre el problema operativo antes de decidir una arquitectura o contratar licencias.',
       subject: 'Consulta técnica sobre software a medida vs SaaS - Orbital Insights',
       body: 'Hola Orbital Frameworks,\n\nLeí su artículo sobre SaaS vs software a medida y quisiera evaluar una situación en mi empresa:\n\n1. Proceso operativo actual:\n2. Software o herramientas que usamos hoy:\n3. Punto de fricción o costo observado:\n4. Resultado que tendría valor alcanzar:\n',
+    },
+  },
+  'automatizacion-procesos-vs-excel-riesgo-operativo': {
+    slug: 'automatizacion-procesos-vs-excel-riesgo-operativo',
+    route: '/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
+    title: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
+    metaTitle: 'Automatización vs Excel: cuándo las hojas de cálculo son un riesgo | Orbital Insights',
+    metaDescription: 'Criterios operativos y técnicos para evaluar cuándo una hoja de cálculo pone en riesgo la operación de tu empresa y qué alternativas graduales existen.',
+    eyebrow: 'Orbital Insights / Operaciones y Automatización',
+    datePublished: '2026-10-17',
+    dateModified: '2026-10-17',
+    readingTime: '7 min de lectura técnica',
+    status: 'PUBLISHED',
+    statusLabel: '',
+    statusNotice: '',
+    prioritizedOwnerQuestion: '¿Qué caso específico de un cliente o proyecto interno requirió migrar un flujo manual basado en hojas de cálculo hacia una base de datos relacional y qué validaciones evitaron errores humanos?',
+    author: {
+      name: 'Orbital Frameworks',
+      type: 'Organization',
+      url: 'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
+    },
+    lead: 'Las hojas de cálculo son herramientas flexibles para organizar datos y responder a necesidades operativas sin desarrollar un sistema desde cero. Sin embargo, cuando una organización depende de múltiples copias, consolidaciones manuales o controles insuficientes para procesos críticos, pueden aparecer errores, desfases y trabajo adicional.',
+    sections: [
+      {
+        heading: '1. Síntomas concretos de que la hoja de cálculo ha llegado a su límite',
+        content: [
+          'El deterioro de un proceso basado en hojas de cálculo no ocurre de golpe; es una degradación gradual marcada por fricciones que el equipo termina normalizando.',
+          'Consolidación manual de datos: múltiples personas o sucursales llenan libros individuales que un coordinador debe unificar al final del día mediante copiar y pegar, asumiendo el riesgo de omitir registros o duplicar datos.',
+          'Múltiples versiones en circulación: copias locales y archivos adjuntos por correo generan discrepancias constantes sobre cuál contiene los datos válidos para tomar decisiones.',
+          'Fórmulas rotas por digitación manual: una celda sobreescrita por descuido o una fila eliminada distorsiona los totales sin generar alertas visibles, comprometiendo decisiones de compras o despacho.',
+          'Permisos y privacidad insuficientes para ciertos flujos: aunque Excel y las plataformas colaborativas ofrecen protecciones y controles de acceso, puede resultar difícil separar qué datos ve y edita cada rol dentro de un mismo proceso.',
+          'Conflictos de edición y concurrencia: si se intercambian copias locales o adjuntos, varios operadores pueden terminar trabajando sobre versiones distintas. En plataformas con coautoría bien configurada, este problema puede mitigarse.',
+          'Trazabilidad insuficiente para decisiones críticas: el historial de versiones y los cambios registrados son útiles, pero pueden no capturar la justificación y la secuencia exacta que exige una auditoría por operación.',
+          'Integraciones manuales: cuando el equipo exporta, copia y pega datos entre hojas, inventarios y facturación, aparecen oportunidades de automatizar. Power Query y conectores existentes pueden resolver algunos casos sin desarrollar una aplicación.',
+        ],
+      },
+      {
+        heading: '2. Cuándo Excel SÍ es la herramienta adecuada',
+        content: [
+          'La honestidad técnica exige reconocer las fortalezas indiscutibles de las hojas de cálculo. Excel, Google Sheets y herramientas afines son idóneas para análisis exploratorios, modelado financiero ad-hoc y simulaciones de escenarios para uso exclusivo de la dirección.',
+          'También pueden ser una alternativa razonable para procesos individuales de bajo volumen a cargo de un responsable, cuando el nivel de control requerido es compatible con la configuración disponible.',
+          'Las versiones modernas de Excel en Microsoft 365 incorporan coautoría en la nube, historial de versiones y motores robustos como Power Query. El problema operativo no reside en las funciones de la herramienta, sino en forzar un modelo de archivo plano como si fuera un motor transaccional multiusuario.',
+        ],
+      },
+      {
+        heading: '3. La escala gradual de soluciones: de la optimización a la sistematización',
+        content: [
+          'Sistematizar un flujo no es una decisión binaria entre resignarse a Excel o implementar un ERP costoso. Existen tres niveles progresivos de madurez:',
+          'Nivel 1: Estandarización en la hoja de cálculo. Bloquear rangos de fórmulas, aplicar validación de datos estricta en entradas, usar Power Query para vincular fuentes y alojar los libros en almacenamiento corporativo seguro.',
+          'Nivel 2: Automatización de flujos e integraciones. Conectar formularios digitales estructurados que eviten manipular tablas directamente, y configurar scripts o webhooks para sincronizar registros y disparar alertas de forma desasistida.',
+          'Nivel 3: Base de datos relacional y sistema web a medida. Implementar un modelo relacional con transacciones ACID, perfiles de usuario con permisos por rol, auditoría automática de cada cambio e integración por API con otros sistemas de la empresa.',
+        ],
+      },
+      {
+        heading: '4. Matriz de decisión operativa para gerentes',
+        content: [
+          'Antes de invertir en software o continuar acumulando hojas de cálculo, conviene diagnosticar el flujo mediante cinco preguntas operativas clave:',
+        ],
+      },
+      {
+        heading: '5. Checklist de autodiagnóstico: ¿Tu hoja de cálculo es un riesgo operativo?',
+        content: [
+          'Este listado sirve para abrir un diagnóstico, no para asignar automáticamente un nivel de riesgo ni calcular un retorno de inversión:',
+          '• El equipo dedica tiempo recurrente a consolidar libros o cruzar datos manualmente entre archivos.',
+          '• Se han presentado discrepancias de inventario, precio o saldo asociadas a errores de registro.',
+          '• Hay más personas editando fórmulas o registros críticos de las que permite supervisar el proceso con confianza.',
+          '• Existen dudas periódicas sobre cuál es la versión vigente de un archivo de control operativo.',
+          '• La información de un cliente o pedido debe ingresarse manualmente en más de un lugar.',
+          '• Si la persona que creó la plantilla no está presente, nadie más sabe corregir una fórmula rota.',
+          '• La configuración actual de permisos no separa adecuadamente los datos sensibles de quienes solo necesitan capturar registros.',
+        ],
+      },
+      {
+        heading: '6. Casos de referencia y límites honestos de sistematización',
+        content: [
+          'Sistematizar no exige crear plataformas desproporcionadas. Conviene comenzar por el proceso concreto: sus responsables, errores observados, reglas de validación y fuentes de datos.',
+          'Una alternativa gradual es conservar Excel para análisis y reportes, y usar formularios o flujos automatizados para la captura de datos operativos. Si los requisitos lo justifican, puede evaluarse después un sistema con base de datos, roles e integraciones.',
+          'Esta guía presenta criterios de decisión generales, no una historia documentada de migración desde hojas de cálculo ni un resultado comercial atribuido a clientes de Orbital Frameworks.',
+          'El objetivo de la sistematización no es erradicar las hojas de cálculo, sino devolverlas a su función natural de análisis y prototipado, protegiendo los flujos transaccionales críticos en sistemas robustos.',
+        ],
+      },
+    ],
+    decisionMatrix: [
+      {
+        question: '¿Cuántas personas interactúan simultáneamente con el registro?',
+        saasOption: 'Una o dos personas con roles separados en el tiempo (mantener/optimizar hoja de cálculo).',
+        customOption: 'Múltiples operadores, turnos rotativos o sucursales concurrentes (automatizar o migrar a sistema).',
+      },
+      {
+        question: '¿Cuál es el impacto operativo de un error en una fórmula o celda?',
+        saasOption: 'Menor; se detecta y corrige en la misma revisión interna sin daño a terceros.',
+        customOption: 'Crítico; genera compras erróneas, desabastecimiento o pérdidas financieras directas.',
+      },
+      {
+        question: '¿Se requiere trazabilidad histórica y auditoría de cambios por usuario?',
+        saasOption: 'El historial general de versiones del archivo en la nube es suficiente.',
+        customOption: 'Indispensable conocer con precisión quién modificó qué dato, cuándo y bajo qué motivo.',
+      },
+      {
+        question: '¿El flujo exige permisos de acceso diferenciados según el cargo?',
+        saasOption: 'Todos los colaboradores involucrados pueden ver y editar la totalidad de los datos.',
+        customOption: 'Ciertos roles solo deben ingresar datos sin ver costos, márgenes ni reportes globales.',
+      },
+      {
+        question: '¿El proceso necesita comunicarse en tiempo real con otros sistemas?',
+        saasOption: 'Exportar o importar archivos CSV manualmente de forma periódica es viable.',
+        customOption: 'Requiere integración inmediata por API con almacén, facturación electrónica o canales de venta.',
+      },
+    ],
+    internalLinks: [
+      {
+        anchor: 'Automatización de procesos operativos',
+        url: '/servicios/automatizacion-procesos/',
+        label: 'Integración de flujos de trabajo, eliminación de tareas manuales y control asistido.',
+      },
+      {
+        anchor: 'Desarrollo de software a medida',
+        url: '/servicios/desarrollo-software-medida/',
+        label: 'Sistemas web y bases de datos transaccionales diseñadas para tu modelo operativo.',
+      },
+      {
+        anchor: 'Caso de gestión de personal Checkio',
+        url: '/casos/checkio/',
+        label: 'Referencia funcional de plataforma web para registro de asistencia y trazabilidad.',
+      },
+      {
+        anchor: 'Caso de catálogo digital Wasy',
+        url: '/casos/wasy/',
+        label: 'Estructuración digital de catálogo y pedidos comerciales conectados a canales de atención.',
+      },
+    ],
+    cta: {
+      headline: '¿Tu equipo pierde tiempo valioso consolidando hojas de cálculo operativas?',
+      description: 'Evaluemos si tu proceso actual puede optimizarse con flujos automatizados o requiere un sistema web a medida antes de comprometer horas de desarrollo.',
+      subject: 'Consulta técnica sobre automatización de procesos vs Excel - Orbital Insights',
+      body: 'Hola Orbital Frameworks,\n\nLeí su artículo sobre automatización de procesos vs hojas de cálculo y quisiera evaluar un caso en mi empresa:\n\n1. Proceso operativo que hoy gestionamos en Excel:\n2. Número de personas que interactúan con el archivo:\n3. Principal problema o fricción observada (desfases, versiones, errores):\n4. Resultado que nos gustaría alcanzar:\n',
     },
   },
 }
