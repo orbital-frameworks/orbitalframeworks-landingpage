@@ -22,7 +22,7 @@ lead_policy: "Intent-only (Cero generate_lead en cliente)"
 Esta guía describe el procedimiento operativo estándar para convertir artículos técnicos publicados en el blog nativo de **Orbital Frameworks** (`https://orbitalframeworks.qzz.io/blog/`) en paquetes de distribución social verificados para **LinkedIn Orgánico**.
 
 ### 1.1 Principios Rectores
-1. **Desacoplamiento Absoluto:** Prohibido el uso de tokens, APIs de redes sociales o scripts de publicación autónoma (*autoposting*). Toda publicación en redes requiere revisión humana y acción explícita del operador.
+1. **Desacoplamiento y aprobación por pieza:** No se incorporan tokens ni APIs privadas de LinkedIn al repositorio. El autopost masivo sigue deshabilitado. Una pieza con artículo público verificado y texto aprobado exactamente puede distribuirse mediante la sesión empresarial de la VPS usando `scripts/linkedin-company-publisher.mjs`; nunca se envía automáticamente por generar el pack.
 2. **Fail-Closed Estricto:** Si una sola verificación técnica o editorial falla (HTTP no 200, canonical rota, título ausente, plantilla SPA en blanco, robots noindex, o artículo en borrador), el runtime bloquea la generación del paquete social y emite dictamen `BLOQUEADO_POR_GATE`.
 3. **Cero Alucinaciones:** Cero testimonios, clientes, cifras o casos no existentes en el repositorio. La única evidencia comercial admitida son los 4 proyectos reales (`Checkio`, `Wasy`, `Localisa`, `PeruLog Pallets`) y los canales oficiales (`contact.orbitalframeworks@gmail.com`).
 
@@ -96,7 +96,7 @@ Para evitar publicaciones redundantes o dispersión de tráfico:
    - **URN:** `urn:li:share:7516883410074836992`
    - **Política:** `IMMUTABLE_PRESERVE` (Prohibido modificar, borrar o replicar).
 3. **Bloqueo de Duplicados:** Si un artículo ya figura con estado `DISTRIBUTED`, el gate bloquea la ejecución con `DUPLICATE_DISTRIBUTION_BLOCKED`, requiriendo la bandera `--force` para autorizar una actualización deliberada.
-4. **Bandera Autopost:** El atributo `autopostAuthorized` permanece invariablemente en `false`.
+4. **Bandera Autopost:** `autopostAuthorized` permanece en `false` para impedir envíos sin aprobación individual. El publicador por sesión empresarial exige un hash SHA-256 del texto exacto más la opción explícita `--publish`. Véase `docs/LINKEDIN_COMPANY_PUBLISHER.md`.
 
 ---
 
@@ -117,7 +117,7 @@ Se establece una ventana mínima y recomendada entre el despliegue del artículo
 [Ejecución de Preflight Gate: node scripts/blog-linkedin-gate.mjs]
                      │
                      ▼ (PASS)
-[Publicación Manual en LinkedIn por Operador Autorizado]
+[Publicación aprobada en LinkedIn por operador o por sesión empresarial verificada]
 ```
 
 - **Mito técnico desmentido:** No existen "penalizaciones algorítmicas" por colocar enlaces en el cuerpo de la publicación. La ventana de 2 a 4 horas responde a los tiempos de propagación de caché y generación del preview (`og:image`) por los servidores de LinkedIn. Colocar enlaces en el primer comentario deteriora la experiencia y rompe la trazabilidad UTM.

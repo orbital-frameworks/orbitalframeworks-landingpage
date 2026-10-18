@@ -422,6 +422,8 @@ export function generateLinkedInPack(options) {
 
   const isApproved = gateVerdict === 'PASS'
   const statusLabel = isApproved ? 'LISTO_PARA_DISTRIBUCION_EXTERNA' : 'BLOQUEADO_POR_GATE'
+  if (slug !== 'software-a-medida-o-saas-como-decidir' && !customCopy?.trim())
+    throw new Error('EDITORIAL_COPY_REQUIRED: un artículo nuevo necesita copy propio revisado; no reutilizar la plantilla SaaS')
 
   const bodyCopy =
     customCopy ||
@@ -656,6 +658,7 @@ export async function runGateCheck(options = {}) {
     utmUrl,
     campaign,
     gateVerdict: validationResult.verdict,
+    customCopy: options.customCopy,
   })
 
   const packFileName =
@@ -718,14 +721,25 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   if (fixIdx !== -1 && args[fixIdx + 1]) {
     fixturePath = args[fixIdx + 1]
   }
+  const copyIdx = args.indexOf('--copy-file')
+  const copyFile = copyIdx >= 0 ? args[copyIdx + 1] : null
 
   try {
+    const customCopy = copyFile
+      ? (await readFile(resolve(process.cwd(), copyFile), 'utf8')).trim()
+      : null
     const result = await runGateCheck({
       slug,
       force,
       dryRun,
       localOnly,
       fixturePath,
+      customCopy: customCopy?.replaceAll('{{UTM_URL}}',
+        generateUtmUrl(
+          blogPosts[slug]?.canonical || `https://orbitalframeworks.qzz.io/blog/${slug}/`,
+          BACKLOG_TOPICS.find(t => t.slug === slug)?.campaign || `camp_${slug.replace(/-/g, '_')}`,
+        ),
+      ),
     })
 
     if (isJson) {
