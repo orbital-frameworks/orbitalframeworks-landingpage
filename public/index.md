@@ -2,7 +2,7 @@
 
 > Empresa peruana de desarrollo de software y soluciones digitales.
 
-Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales con dirección visual fuerte y lógica operativa clara. Construimos productos, mejoramos herramientas existentes y resolvemos problemas concretos de operación o presencia digital para organizaciones.
+Desarrollamos software para digitalizar procesos empresariales, conectar información y reducir trabajo repetitivo. Evaluamos si conviene crear sistemas a medida, integrar herramientas existentes, automatizar tareas o incorporar IA con supervisión. También diseñamos webs comerciales y landing pages. Comenzamos por entender el problema, no por recomendar tecnología sin diagnóstico.
 
 ---
 
@@ -22,7 +22,7 @@ Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales
 
 ### 3. Automatización y bots
 - **Enfoque**: Bots / Automatización / Mensajería.
-- **Descripción**: Creamos automatizaciones y asistentes para atención, seguimiento y tareas repetitivas conectadas a flujos reales de atención, ventas o soporte.
+- **Descripción**: Evaluamos qué tareas conviene automatizar y dónde una integración o IA aplicada puede ayudar, con atención a los datos disponibles, las excepciones y la supervisión humana.
 - **Página del servicio**: https://orbitalframeworks.qzz.io/servicios/automatizacion-procesos/
 - **Entregable**: Automatizaciones e integraciones para ganar tiempo y consistencia operativa.
 

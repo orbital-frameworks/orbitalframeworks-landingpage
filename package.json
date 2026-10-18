@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "preview:negotiated": "node scripts/serve-negotiation.mjs",
     "verify:build": "node scripts/verify-build.mjs",
-    "verify:visual": "node scripts/verify-wasy-visual.mjs && node scripts/verify-proof-layout.mjs",
+    "verify:visual": "node scripts/verify-wasy-visual.mjs && node scripts/verify-proof-layout.mjs && node scripts/verify-home-b2b-visual.mjs",
     "verify:production": "node scripts/verify-production.mjs",
     "verify:agents": "node scripts/verify-agent-production.mjs"
   },

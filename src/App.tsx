@@ -201,16 +201,16 @@ type ServiceOffering = {
 
 const servicePrinciples: ServicePrinciple[] = [
   {
-    label: 'Narrativa primero',
-    description: 'Cada sección nace de una intención comercial concreta: posicionar, explicar, convertir o cerrar.',
+    label: 'Información dispersa',
+    description: 'Cuando hojas de cálculo, mensajes y herramientas aisladas dificultan consultar o seguir una operación.',
   },
   {
-    label: 'Diseño con estructura',
-    description: 'La estética no se separa de la lógica. Tipografía, layout y sistema visual nacen junto a la arquitectura.',
+    label: 'Tareas repetitivas',
+    description: 'Cuando el equipo dedica tiempo a copiar datos, responder lo mismo o coordinar pasos manuales.',
   },
   {
-    label: 'Construcción operativa',
-    description: 'Pensamos en equipos, procesos y escalabilidad desde el día uno, no después del primer lanzamiento.',
+    label: 'Software que no encaja',
+    description: 'Cuando las herramientas disponibles no se adaptan a los roles, aprobaciones o flujos del negocio.',
   },
 ]
 
@@ -218,49 +218,49 @@ const serviceOfferings: ServiceOffering[] = [
   {
     id: 'landing-pages',
     index: '01',
-    eyebrow: 'Marketing / Conversión / Presencia',
-    title: 'Landing pages',
-    summary: 'Diseñamos y desarrollamos landing pages enfocadas en claridad, presencia de marca y captación.',
+    eyebrow: 'Web comercial / Captación',
+    title: 'Webs y landing pages para vender',
+    summary: 'Explica lo que ofreces y facilita que un posible cliente te contacte.',
     detail:
-      'Trabajamos estructura comercial, jerarquía visual, responsive y velocidad para que la página no solo se vea bien, sino que también explique y convierta mejor.',
-    deliverable: 'Landing page lista para campañas, posicionamiento o captación comercial.',
-    bullets: ['Diseño visual', 'Conversión', 'Responsive'],
+      'Organizamos el mensaje, las páginas y los llamados a la acción. Cuidamos el diseño, la lectura móvil y la base técnica para buscadores.',
+    deliverable: 'Página comercial con propuesta de valor, servicios y contacto claro.',
+    bullets: ['Diseño', 'SEO técnico', 'Contacto'],
     href: '/servicios/landing-pages-b2b/',
   },
   {
     id: 'erp',
     index: '02',
-    eyebrow: 'ERP / Operaciones / Gestión',
-    title: 'Sistemas empresariales de gestión',
-    summary: 'Construimos sistemas para ordenar procesos, centralizar información y mejorar la operación diaria.',
+    eyebrow: 'Software a medida / Operaciones',
+    title: 'Software para tus procesos',
+    summary: 'Reúne información y tareas de tu empresa en un sistema pensado para tu operación.',
     detail:
-      'Desarrollamos módulos, paneles administrativos, flujos internos y herramientas de control pensadas para crecimiento, trazabilidad y eficiencia.',
-    deliverable: 'Sistema de gestión adaptado a la operación real del negocio.',
-    bullets: ['ERP', 'Paneles', 'Control operativo'],
+      'Diseñamos paneles, registros, roles y flujos de aprobación cuando una herramienta estándar no cubre lo que el negocio necesita.',
+    deliverable: 'Sistema web con funciones y permisos definidos según el alcance.',
+    bullets: ['Sistemas web', 'Gestión', 'Integraciones'],
     href: '/servicios/desarrollo-software-medida/',
   },
   {
     id: 'bots',
     index: '03',
-    eyebrow: 'Bots / Automatización / Mensajería',
-    title: 'Automatización y bots',
-    summary: 'Creamos automatizaciones y asistentes para atención, seguimiento y tareas repetitivas.',
+    eyebrow: 'Automatización / Integración / IA',
+    title: 'Automatización e IA aplicada',
+    summary: 'Detecta tareas repetitivas y evalúa dónde una automatización o la IA puede ayudar.',
     detail:
-      'Automatizamos respuestas, captación, seguimiento y procesos repetitivos para que el negocio gane tiempo, consistencia y capacidad operativa.',
-    deliverable: 'Automatizaciones conectadas a flujos reales de atención, ventas o soporte.',
-    bullets: ['WhatsApp', 'Integraciones', 'Procesos'],
+      'Partimos del proceso, sus datos y sus excepciones. Luego definimos si conviene integrar herramientas, crear un flujo automatizado o incorporar IA con supervisión.',
+    deliverable: 'Flujo de automatización o diagnóstico de integración según el caso.',
+    bullets: ['Procesos', 'Integraciones', 'IA evaluada'],
     href: '/servicios/automatizacion-procesos/',
   },
   {
     id: 'internal-systems',
     index: '04',
-    eyebrow: 'Interno / Empresa / Soporte',
-    title: 'Sistemas y servicios internos',
-    summary: 'Diseñamos soluciones internas para empresas que necesitan ordenar procesos, equipos, seguimiento o servicios operativos.',
+    eyebrow: 'Mejora de sistemas / Continuidad',
+    title: 'Mejora de herramientas existentes',
+    summary: 'No siempre hace falta construir desde cero: también podemos revisar lo que ya utilizas.',
     detail:
-      'También apoyamos en mejoras, ampliaciones o mantenimiento de sistemas existentes cuando la operación necesita continuidad y soporte técnico.',
-    deliverable: 'Herramientas internas y soporte evolutivo alineados a la empresa.',
-    bullets: ['Intranet', 'Soporte', 'Mantenimiento'],
+      'Evaluamos sistemas internos, integraciones y necesidades de ampliación para decidir qué mantener, adaptar o desarrollar.',
+    deliverable: 'Alcance de mejora, integración o soporte según la necesidad.',
+    bullets: ['Diagnóstico', 'Mejoras', 'Soporte'],
   },
 ]
 
@@ -277,28 +277,28 @@ function ServicesSection() {
       <div className="servicesShell">
         <header className="servicesHero">
           <div className="servicesHeroCopy">
-            <div className="servicesKicker">Stack de servicios Orbital</div>
-            <h2 className="servicesTitle">Servicios construidos como sistemas claros, visuales y operativos.</h2>
+            <div className="servicesKicker">Qué podemos resolver / Orbital</div>
+            <h2 className="servicesTitle">¿Qué necesita mejorar tu empresa?</h2>
           </div>
 
           <div className="servicesHeroMeta">
             <p className="servicesLead">
-              Desarrollamos soluciones digitales para captación, gestión empresarial, automatización y operación interna.
+              Desde una web que explique mejor tu oferta hasta un proceso interno que necesite menos trabajo manual.
             </p>
 
             <aside className="servicesManifesto">
-              <span className="servicesManifestoLabel">Manifiesto</span>
+              <span className="servicesManifestoLabel">Nuestro criterio</span>
               <p className="servicesManifestoText">
-                No separamos diseño y desarrollo. Construimos productos con presencia visual y lógica operativa clara.
+                No recomendamos una herramienta sin entender primero el problema. A veces basta con mejorar lo que ya existe.
               </p>
               <div className="servicesManifestoMeta">
                 <div>
-                  <span>FORMATO</span>
-                  <strong>Landing pages, sistemas empresariales, automatización y herramientas internas</strong>
+                  <span>SOLUCIONES</span>
+                  <strong>Webs comerciales, software a medida, automatizaciones e integraciones</strong>
                 </div>
                 <div>
-                  <span>FIRMA</span>
-                  <strong>Soluciones claras, funcionales y con presencia visual</strong>
+                  <span>PRIMER PASO</span>
+                  <strong>Cuéntanos el proceso y qué resultado necesitas conseguir</strong>
                 </div>
               </div>
             </aside>
@@ -307,7 +307,7 @@ function ServicesSection() {
 
         <div className="servicesBody">
           <aside className="servicesRail">
-            <div className="servicesRailLabel">Cómo pensamos</div>
+            <div className="servicesRailLabel">Señales de que podemos ayudar</div>
             <div className="servicesRailList">
               {servicePrinciples.map((principle) => (
                 <article key={principle.label} className="servicesRailItem">
@@ -316,7 +316,7 @@ function ServicesSection() {
                 </article>
               ))}
             </div>
-            <a className="servicesPrimaryLink" href="#proyectos">Ver proyectos seleccionados</a>
+            <a className="servicesPrimaryLink" href="#proyectos">Ver ejemplos de lo que construimos</a>
           </aside>
 
           <div className="servicesGrid">
@@ -581,8 +581,8 @@ function ProcessSection() {
       <div className="processInner">
         <header className="processIntro">
           <div className="processKicker">Cómo trabajamos / Primera conversación</div>
-          <h2 className="processTitle">Primero se entiende el problema. Después se decide si construir tiene sentido.</h2>
-          <p className="processLead">La primera conversación no parte de una solución cerrada ni de un rediseño completo. Parte de una situación concreta y de un resultado que tendría valor para el negocio.</p>
+          <h2 className="processTitle">Del problema a una solución con alcance claro.</h2>
+          <p className="processLead">Nos cuentas qué tarea o proceso necesitas mejorar. Revisamos el contexto y evaluamos si conviene adaptar una herramienta, automatizar un paso o desarrollar software.</p>
         </header>
 
         <div className="processGrid">
@@ -730,8 +730,8 @@ function ContactSection() {
       <div className="contactInner">
         <div className="contactIntro">
           <div className="contactKicker">Contacto / Orbital Frameworks</div>
-          <h2 className="contactTitle">Hagamos que tu producto se vea más claro, opere mejor y se sienta imposible de ignorar.</h2>
-          <p className="contactLead">Cuéntanos qué está ocurriendo hoy, por qué importa y qué resultado tendría valor. Revisaremos el contexto antes de recomendar una llamada, una mejora o un proyecto.</p>
+          <h2 className="contactTitle">Cuéntanos qué proceso necesita mejorar tu empresa.</h2>
+          <p className="contactLead">¿Usan demasiadas hojas de cálculo? ¿Hay tareas manuales que se repiten? ¿Necesitan un sistema, una web comercial o evaluar una integración con IA? Describe la situación y revisaremos por dónde empezar.</p>
         </div>
 
         <div className="contactPanel">
@@ -908,24 +908,24 @@ function Hero() {
 
       <div className="heroInner">
         <div className="heroCopy">
-          <p className="heroKicker">Orbital Frameworks / Desarrollo de software en Perú.</p>
+          <p className="heroKicker">Software a medida · Automatización · IA aplicada / Perú</p>
           <h1 className="heroTitle">
-            <span>SISTEMAS</span><span>DIGITALES</span><span>CON</span><span>PRESENCIA<span className="heroCursor" aria-hidden="true">._</span></span>
+            <span>SOFTWARE</span><span>PARA</span><span>TU</span><span>EMPRESA<span className="heroCursor" aria-hidden="true">._</span></span>
           </h1>
-          <p className="heroLead">Diseñamos y desarrollamos software, sistemas web, apps y experiencias digitales con dirección visual fuerte y lógica operativa clara.</p>
+          <p className="heroLead">Desarrollamos sistemas para digitalizar procesos, conectar información y reducir trabajo repetitivo. También evaluamos cuándo la automatización o la IA realmente aportan valor.</p>
           <div className="heroActions">
-            <a className="btn btnGhost" href="#servicios">Explorar servicios</a>
-            <a className="btn btnPrimary" href="#proyectos">Ver casos seleccionados</a>
+            <a className="btn btnPrimary" href="#contacto">Cuéntanos qué necesitas resolver</a>
+            <a className="btn btnGhost" href="#proyectos">Ver proyectos reales</a>
           </div>
         </div>
 
         <aside className="heroPanel">
-          <div className="heroPanelLabel">Manifiesto / Orbital</div>
-          <p className="heroPanelText">Buscamos que presencia, claridad y control operativo formen parte de una misma solución.</p>
+          <div className="heroPanelLabel">¿Por dónde empezamos?</div>
+          <p className="heroPanelText">Entendemos cómo funciona tu empresa antes de decidir qué tecnología necesitas.</p>
           <div className="heroPanelList">
-            <div><span>SECTORES</span><strong>RRHH / Salud / B2B / Servicios</strong></div>
-            <div><span>FORMATO</span><strong>Landing pages, SaaS, ERP, portales y automatización</strong></div>
-            <div><span>ESTILO</span><strong>Diseño fuerte, software claro y operación real</strong></div>
+            <div><span>SI NECESITAS</span><strong>Ordenar tareas, información o procesos internos</strong></div>
+            <div><span>PODEMOS EVALUAR</span><strong>Software propio, integraciones, automatización e IA</strong></div>
+            <div><span>PRIMER CONTACTO</span><strong>Cuéntanos el problema y el resultado que buscas</strong></div>
           </div>
         </aside>
 

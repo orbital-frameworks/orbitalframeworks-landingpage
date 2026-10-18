@@ -42,7 +42,7 @@ const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\
 const structuredData = structuredDataMatch ? JSON.parse(structuredDataMatch[1]) : null
 const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
 
-check('Expected production title', html.includes('<title>Orbital Frameworks | Desarrollo de software en Perú</title>'))
+check('Expected production title', html.includes('<title>Software a medida y automatización para empresas | Orbital Frameworks</title>'))
 check('Prerendered visual heading', html.includes('class="heroTitle"') && ['SISTEMAS', 'DIGITALES', 'PRESENCIA'].every((word) => html.includes(`>${word}<`)))
 check('Checkio public link', checkioCase.includes('https://checkio-frontend.onrender.com/landing'))
 check('Wasy public link', wasyCase.includes('https://wasy.store/'))

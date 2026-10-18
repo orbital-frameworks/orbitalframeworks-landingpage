@@ -25,10 +25,10 @@ const pages = [
   {
     pathname: '/',
     output: 'dist/index.html',
-    title: 'Orbital Frameworks | Desarrollo de software en Perú',
-    description: 'Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales. Construye productos, sistemas web y herramientas para problemas concretos de negocio.',
+    title: 'Software a medida y automatización para empresas | Orbital Frameworks',
+    description: 'Software a medida, automatización de procesos y soluciones web para empresas en Perú. Cuéntanos qué necesitas digitalizar, integrar o mejorar.',
     canonical: 'https://orbitalframeworks.qzz.io/',
-    dateModified: '2026-10-16',
+    dateModified: '2026-10-17',
   },
   {
     pathname: '/privacy',

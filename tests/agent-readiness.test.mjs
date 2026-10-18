@@ -79,7 +79,7 @@ test('1. Organization JSON-LD completeness & truthfulness', () => {
 
   // dateModified synchronization check
   assert.ok(webpage, 'WebPage entity must exist in JSON-LD')
-  assert.equal(webpage.dateModified, '2026-10-16', 'dateModified in index.html must match release date 2026-10-16')
+  assert.equal(webpage.dateModified, '2026-10-17', 'dateModified in index.html must match home update date 2026-10-17')
 })
 
 test('2. Agent instructions & when-to-use in public/llms.txt', () => {
@@ -255,10 +255,10 @@ test('6. Cloudflare Worker simulation (scripts/edge/cloudflare-worker-content-ne
 
 test('7. Brand search consistency & dateModified synchronization across assets', () => {
   // Title and descriptions match
-  assert.ok(indexHtml.includes('<title>Orbital Frameworks | Desarrollo de software en Perú</title>'))
-  assert.ok(indexHtml.includes('Orbital Frameworks es una empresa peruana de desarrollo de software y soluciones digitales.'))
+  assert.ok(indexHtml.includes('<title>Software a medida y automatización para empresas | Orbital Frameworks</title>'))
+  assert.ok(indexHtml.includes('Software a medida, automatización de procesos y soluciones web para empresas en Perú.'))
   const homepageSource = readFileSync(join(root, 'src/App.tsx'), 'utf8')
-  assert.ok(homepageSource.includes('Orbital Frameworks / Desarrollo de software en Perú.'), 'Brand and service must appear together in the visible home hero')
+  assert.ok(homepageSource.includes('Software a medida · Automatización · IA aplicada / Perú'), 'Brand services must be visible in the home hero')
 
   // Robots & Sitemap match
   assert.ok(robotsTxt.includes('Sitemap: https://orbitalframeworks.qzz.io/sitemap.xml'))
@@ -267,7 +267,7 @@ test('7. Brand search consistency & dateModified synchronization across assets',
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>'))
 
   // dateModified / lastmod coherence (F5)
-  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/</loc>\n    <lastmod>2026-10-16</lastmod>'))
+  assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/</loc>\n    <lastmod>2026-10-17</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/</loc>\n    <lastmod>2026-10-16</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/evidencia/</loc>\n    <lastmod>2026-10-16</lastmod>'))
   assert.ok(sitemapXml.includes('<loc>https://orbitalframeworks.qzz.io/privacy</loc>\n    <lastmod>2026-10-16</lastmod>'))
