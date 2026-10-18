@@ -43,7 +43,7 @@ const structuredData = structuredDataMatch ? JSON.parse(structuredDataMatch[1]) 
 const structuredTypes = structuredData?.['@graph']?.map((item) => item['@type']) ?? []
 
 check('Expected production title', html.includes('<title>Software a medida y automatización para empresas | Orbital Frameworks</title>'))
-check('Prerendered visual heading', html.includes('class="heroTitle"') && ['SISTEMAS', 'DIGITALES', 'PRESENCIA'].every((word) => html.includes(`>${word}<`)))
+check('Prerendered commercial heading', html.includes('class="heroTitle"') && ['SOFTWARE', 'PARA', 'TU'].every((word) => html.includes(`>${word}<`)) && html.includes('>EMPRESA'))
 check('Checkio public link', checkioCase.includes('https://checkio-frontend.onrender.com/landing'))
 check('Wasy public link', wasyCase.includes('https://wasy.store/'))
 check('Localisa public link', localisaCase.includes('https://www.localisa.pe/'))
