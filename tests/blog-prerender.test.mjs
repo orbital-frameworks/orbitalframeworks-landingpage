@@ -34,8 +34,11 @@ test('1. Blog index and pilot article are prerendered in dist', () => {
   assert.ok(articleHtml.includes('Software a medida o SaaS'), 'Article must include headline')
 
   const b2b02Path = join(distDir, 'blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html')
-  assert.equal(existsSync(b2b02Path), false, 'Embargoed B2B-02 must not be prerendered')
-  assert.ok(!blogHtml.includes('automatizacion-procesos-vs-excel-riesgo-operativo'), 'Embargoed article must not be in the blog index')
+  assert.ok(existsSync(b2b02Path), 'Published B2B-02 must be prerendered')
+  const b2b02Html = readFileSync(b2b02Path, 'utf8')
+  assert.ok(b2b02Html.length > 5000)
+  assert.ok(b2b02Html.includes('Automatización de procesos vs hojas de cálculo'))
+  assert.ok(blogHtml.includes('automatizacion-procesos-vs-excel-riesgo-operativo'), 'Published article must be in the blog index')
 })
 
 test('2. Canonical, hreflang, and RSS metadata in blog pages', () => {
@@ -48,7 +51,9 @@ test('2. Canonical, hreflang, and RSS metadata in blog pages', () => {
   assert.ok(articleHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/" />'))
   assert.ok(articleHtml.includes('<link rel="alternate" hreflang="es-PE" href="https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/" />'))
   assert.ok(articleHtml.includes('<meta property="og:type" content="article" />'))
-
+  const b2b02Html = readFileSync(join(distDir, 'blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html'), 'utf8')
+  assert.ok(b2b02Html.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/" />'))
+  assert.ok(b2b02Html.includes('<meta property="og:type" content="article" />'))
 })
 
 test('3. Blog and Article Schema.org JSON-LD structured data', () => {
@@ -77,8 +82,13 @@ test('3. Blog and Article Schema.org JSON-LD structured data', () => {
   assert.equal(breadcrumb.itemListElement[1].name, 'Blog')
   assert.equal(breadcrumb.itemListElement[2].item, 'https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/')
 
-  assert.equal(existsSync(join(distDir, 'blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html')), false,
-    'Embargoed article must not have a publicly served BlogPosting document')
+  const b2b02Html = readFileSync(join(distDir, 'blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html'), 'utf8')
+  const b2b02LdMatch = b2b02Html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
+  assert.ok(b2b02LdMatch, 'B2B-02 must include BlogPosting schema')
+  const b2b02Ld = JSON.parse(b2b02LdMatch[1])
+  const b2b02Entity = b2b02Ld['@graph'].find((item) => item['@type'] === 'BlogPosting')
+  assert.equal(b2b02Entity.url, 'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/')
+  assert.equal(b2b02Entity.datePublished, '2026-10-20')
 })
 
 test('4. Editorial publication guardrails and verified links', () => {
@@ -103,6 +113,12 @@ test('4. Editorial publication guardrails and verified links', () => {
   assert.ok(articleHtml.includes('contact.orbitalframeworks@gmail.com'), 'Must contain official email')
   assert.ok(!articleHtml.includes('+51 9'), 'Must not contain fake phone numbers')
 
+  const b2b02Html = readFileSync(join(distDir, 'blog/automatizacion-procesos-vs-excel-riesgo-operativo/index.html'), 'utf8')
+  assert.ok(!b2b02Html.includes('blogDraftBanner'))
+  assert.ok(b2b02Html.includes('Pregunta de diagnóstico operativo'))
+  assert.ok(b2b02Html.includes('/servicios/automatizacion-procesos/'))
+  assert.ok(b2b02Html.includes('contact.orbitalframeworks@gmail.com'))
+
 })
 
 test('5. RSS feed.xml is published, valid XML, and contains pilot article', () => {
@@ -113,8 +129,7 @@ test('5. RSS feed.xml is published, valid XML, and contains pilot article', () =
   assert.ok(feedXml.includes('<rss version="2.0"'))
   assert.ok(feedXml.includes('<title>Orbital Insights | Orbital Frameworks</title>'))
   assert.ok(feedXml.includes('https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/'))
-  assert.ok(!feedXml.includes('https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/'),
-    'Embargoed article must not be published in RSS')
+  assert.ok(feedXml.includes('https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/'))
 })
 
 test('6. Discovery, sitemap, llms.txt, and LinkedIn handoff pack', () => {
@@ -124,8 +139,7 @@ test('6. Discovery, sitemap, llms.txt, and LinkedIn handoff pack', () => {
   const sitemap = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   assert.ok(sitemap.includes('https://orbitalframeworks.qzz.io/blog/'))
   assert.ok(sitemap.includes('https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/'))
-  assert.ok(!sitemap.includes('https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/'),
-    'Embargoed article must not be discoverable in sitemap')
+  assert.ok(sitemap.includes('https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/'))
 
   const llms = readFileSync(join(root, 'public/llms.txt'), 'utf8')
   assert.ok(llms.includes('https://orbitalframeworks.qzz.io/blog/'))
