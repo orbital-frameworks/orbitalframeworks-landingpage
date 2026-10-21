@@ -18,6 +18,7 @@
 * **Placeholders:** Los textos y datos de relleno estan permitidos unicamente si son estrictamente necesarios para una maqueta visual y estan marcados explicitamente como `[PLACEHOLDER]`.
 * **Claridad Comercial:** Mantener el copy publico claro, directo y verificable. Evitar promesas absolutas, garantismos vacios o lenguaje de ventas excesivamente inflado ("el mejor del mundo", "crecimiento garantizado 1000x").
 * **Branding:** No cambiar la paleta de colores, el logotipo ni la identidad visual del sitio (tonos oscuros, glassmorphism, tipografia mono/sans de IBM Plex) sin instruccion explicita.
+* **LinkedIn — media obligatorio (desde 20/10/2026):** Toda NUEVA publicación orgánica de Orbital Frameworks debe llevar al menos una imagen, carrusel PDF, video u otro recurso visual informativo realmente adjunto. Un post de solo texto o una tarjeta OG hipotética no cumple. Exigir preview legible de feed móvil y escritorio, copy/visual aprobados juntos y verificación del adjunto antes del envío. La fuente operativa es `docs/BLOG_TO_LINKEDIN_OPERATING_SYSTEM.md` (§2.3) y la checklist está en `docs/BLOG_LINKEDIN_OPERATOR_GUIDE.md` (§8). El publicador actual fue construido para texto + enlace y **no debe usarse para nuevos posts de solo texto** hasta implementar y validar adjuntos; bloquear, no publicar degradado.
 * **Archivos Intocables:** Los archivos marcados como no trackeados (ej. scripts de auditoria locales) son intocables salvo instruccion explicita.
 
 ## 4. Reglas de SEO

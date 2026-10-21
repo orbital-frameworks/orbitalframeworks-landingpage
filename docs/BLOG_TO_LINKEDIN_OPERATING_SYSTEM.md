@@ -42,6 +42,8 @@ El sistema operativo editorial de **Orbital Frameworks** articula un recorrido c
                     ▼ (Solo si el Gate pasa al 100%)
 [Publicación en LinkedIn con Enlace y Parámetros UTM Limpios]
    • Copia desacoplada en repo (`docs/linkedin-*.md`)
+   • Activo visual obligatorio por publicación: imagen, carrusel PDF u otro recurso visual realmente adjunto
+   • Preview y QA en feed móvil y escritorio antes de aprobar
    • Ventana recomendada: Día anterior / Mínimo 2-4 horas tras deploy
                     │
                     ▼
@@ -84,7 +86,21 @@ Para evitar la publicación de enlaces rotos, páginas en borrador o metadatos i
 | :--- | :--- | :--- |
 | `BORRADOR_LOCAL_DESACOPLADO` | El texto para LinkedIn está redactado en Markdown local. No contiene credenciales ni automatizaciones activas. | Solo revisión interna y de copy. Prohibido programar o difundir. |
 | `BLOQUEADO_POR_GATE` | El artículo referenciado está en `DRAFT_NO_PUBLICABLE`, no ha sido desplegado, devuelve HTTP no 200, presenta fallback SPA en lugar de HTML prerenderizado, o la canonical es errónea. | **Fail-Closed**: Queda estrictamente vetada la entrega o publicación del post. |
-| `LISTO_PARA_DISTRIBUCION_EXTERNA` | La URL pública fue inspeccionada externamente y superó todas las validaciones del Gate de Preflight. | El texto plano y la URL con UTM quedan autorizados para que el operador humano o la sesión autorizada los publique. |
+| `LISTO_PARA_DISTRIBUCION_EXTERNA` | La URL pública superó el preflight **y** la pieza social tiene un activo visual real adjuntable, preview móvil/escritorio revisado y copy/visual aprobados. | Publicación individual con el activo visual verificado, copy aprobado y URL UTM. |
+
+### 2.3 Norma visual obligatoria para NUEVAS publicaciones (vigente desde 20/10/2026)
+
+**No se publicarán nuevas piezas de Orbital Frameworks en LinkedIn como posts de solo texto.** Cada publicación debe incorporar **al menos un recurso visual pertinente** que sea parte efectiva de la publicación (no basta con el logo de perfil, el banner empresarial ni con presumir que LinkedIn generará una tarjeta Open Graph).
+
+- **Formatos admitidos:** una imagen editorial con idea central, gráfico/infografía, captura de producto verificable, carrusel educativo en documento PDF con varias láminas, o video pertinente. Se elige el formato por valor para el lector, **no se obliga a usar carrusel en todos los casos**.
+- **Fidelidad editorial:** la pieza visual aporta información o demuestra un punto concreto, no es decoración genérica sin relación con el tema. Un carrusel debe contar algo útil y legible; los claims, imágenes y marcas de terceros requieren sustento y autorización. Nunca inventar casos, métricas, capturas ni testimonios.
+- **Identidad:** respetar marca de Orbital, contraste, tipografía, paleta y márgenes seguros. Conservar el original vectorial/editable cuando exista; exportar el medio adecuado para LinkedIn sin deformaciones y con calidad suficiente. Las portadas de empresa y las creatividades de posts son superficies distintas.
+- **Primer impacto móvil:** comprobar el área visible al hacer scroll **antes de «ver más»**. El titular inicial y la composición visual deben comunicar el tema de inmediato. Revisar también feed de escritorio, recortes, legibilidad, relación de aspecto y posibles solapamientos.
+- **Handoff mínimo por pieza:** copy final, URL UTM, formato seleccionado, archivo(s) visual(es) y fuente editable cuando exista, justificación del formato, previews móvil/escritorio y aprobación exacta del conjunto `copy + medio`. Si falta alguno de estos elementos, permanece **NO LISTO**, aunque la web haya pasado 15/15 checks.
+- **Publicación real:** comprobar que el medio quedó **adjunto realmente** al compositor correcto y que el post público lo muestra. El archivo en un repositorio o una vista previa local **no equivalen** a adjuntarlo en LinkedIn.
+- **Política de fallos:** ausencia de activo, vista previa ilegible, media no cargado o dudas sobre qué se enviará → **bloquear antes del clic** y corregir o pedir revisión. No degradar silenciosamente a texto solo por un fallo del cargador.
+
+**Implementación existente:** `scripts/blog-linkedin-gate.mjs` cubre la URL/artículo; el publicador `scripts/linkedin-company-publisher.mjs` fue creado para **texto + enlace** y **no tiene todavía un flujo probado de adjuntos visuales**. Su preflight 15/15 no certifica el QA visual del post. Hasta ampliar y validar la carga de medios, no se debe presentar esa ruta como apta para nuevas publicaciones bajo esta política ni ejecutar `--publish` para una pieza que perdería su imagen/carrusel. Esta norma no exige borrar ni duplicar publicaciones históricas.
 
 ---
 

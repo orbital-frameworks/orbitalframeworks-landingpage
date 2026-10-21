@@ -25,6 +25,7 @@ Esta guía describe el procedimiento operativo estándar para convertir artícul
 1. **Desacoplamiento y aprobación por pieza:** No se incorporan tokens ni APIs privadas de LinkedIn al repositorio. El autopost masivo sigue deshabilitado. Una pieza con artículo público verificado y texto aprobado exactamente puede distribuirse mediante la sesión empresarial de la VPS usando `scripts/linkedin-company-publisher.mjs`; nunca se envía automáticamente por generar el pack.
 2. **Fail-Closed Estricto:** Si una sola verificación técnica o editorial falla (HTTP no 200, canonical rota, título ausente, plantilla SPA en blanco, robots noindex, o artículo en borrador), el runtime bloquea la generación del paquete social y emite dictamen `BLOQUEADO_POR_GATE`.
 3. **Cero Alucinaciones:** Cero testimonios, clientes, cifras o casos no existentes en el repositorio. La única evidencia comercial admitida son los 4 proyectos reales (`Checkio`, `Wasy`, `Localisa`, `PeruLog Pallets`) y los canales oficiales (`contact.orbitalframeworks@gmail.com`).
+4. **Visual obligatorio en LinkedIn desde 20/10/2026:** Ningún post nuevo se entrega como solo texto. Se exige imagen, carrusel PDF, infografía, video u otro recurso pertinente, realmente adjunto y revisado en móvil/escritorio. La tarjeta automática del enlace y el banner de perfil no cumplen este requisito. Contrato propietario: `docs/BLOG_TO_LINKEDIN_OPERATING_SYSTEM.md` §2.3.
 
 ---
 
@@ -154,7 +155,9 @@ Se establece una ventana mínima y recomendada entre el despliegue del artículo
 - [ ] 4. Verificar la página publicada sin escribir archivos: `node scripts/blog-linkedin-gate.mjs --dry-run`. Ejecutar sin `--dry-run` únicamente cuando esté lista la revisión del pack; reservar `--force` para una excepción deliberada a la política de duplicados.
 - [ ] 5. Confirmar que el veredicto sea `✅ PASS` (15/15 checks superados).
 - [ ] 6. Abrir el archivo de entrega `docs/linkedin-[slug]-handoff.md` o `docs/linkedin-pilot-handoff-2026-10-17.md`.
-- [ ] 7. Copiar el texto de publicación y la URL con UTM limpio hacia la interfaz de publicación de LinkedIn de la empresa.
-- [ ] 8. Comprobar que LinkedIn genere la previsualización de Open Graph correctamente.
-- [ ] 9. Publicar manualmente la pieza.
-- [ ] 10. Monitorear eventos en tiempo real en GA4 Realtime Report durante los primeros 30 minutos.
+- [ ] 7. Elegir el formato visual que mejor explique el tema; disponer del archivo final real, fuente editable si existe y referencia de la pieza aprobada. **No se permite solo texto**.
+- [ ] 8. Revisar el copy y la URL UTM junto con el recurso visual. Generar y presentar **preview de feed móvil** (incluida la parte visible antes de «ver más») y **preview de escritorio**. Corregir solapamientos, recortes, tamaño de letra, branding y contenido del medio hasta aprobar ambos.
+- [ ] 9. Entregar el paquete para aprobación con copy, formato (imagen/carrusel/video), archivos reales, previews y enlace. Registrar la aprobación sobre **el conjunto exacto**, no únicamente el hash del texto.
+- [ ] 10. En el compositor empresarial, confirmar autor, copy, URL y **adjunto cargado**. Si el canal automatizado solo permite texto, **DETENER** y utilizar una ruta autorizada capaz de adjuntar el medio, previa validación; no publicar el copy sin el recurso.
+- [ ] 11. Publicar una sola vez tras gate público y aprobación; verificar el permalink del post y que el medio sea visible en la publicación real. No reintentar en caso de resultado ambiguo.
+- [ ] 12. Monitorear los eventos GA4 pertinentes y evaluar después impresiones, clics y calidad del tráfico para aprender qué formatos funcionan, sin inferir leads a partir de clics.
