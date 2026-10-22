@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Orbital Frameworks — B2B-05 | Del chat al despacho</title>
+<style>
+@font-face{font-family:Big;src:url('../../../../public/fonts/big-shoulders-display-latin.woff2')}@font-face{font-family:Plex;src:url('../../../../public/fonts/ibm-plex-sans-latin.woff2')}@font-face{font-family:Mono;src:url('../../../../public/fonts/ibm-plex-mono-400-latin.woff2')}
+:root{--ink:#111d29;--dark:#101c27;--paper:#f2f1e9;--acid:#b8e077;--mint:#c9eee1;--coral:#e78662;--grey:#54616c}
+*{box-sizing:border-box} html,body{margin:0;background:#d8dbd7;font-family:Plex,Arial;color:var(--ink)}
+.page{position:relative;display:block;width:1080px;height:1350px;overflow:hidden;break-after:page;page-break-after:always;background:var(--paper);isolation:isolate}
+.page:last-child{break-after:auto}
+.brand{position:absolute;top:60px;left:72px;right:72px;display:flex;gap:15px;align-items:center;justify-content:space-between;height:53px;z-index:20}
+.brandgroup{display:flex;align-items:center;gap:13px}.brand img{width:46px;height:46px;object-fit:contain}.brandname{font:600 22px Plex,Arial;letter-spacing:.12em;white-space:nowrap}.brandmark{font:16px Mono,monospace;letter-spacing:.06em;opacity:.7}
+.dark .brand,.dark .pagecounter{color:#f0f0e6}.dark .brand img{filter:brightness(0) invert(1)}
+.pagecounter{position:absolute;bottom:64px;left:74px;right:75px;display:flex;align-items:center;justify-content:space-between;font:16px Mono,monospace;letter-spacing:.02em;z-index:10}
+.label{font:18px Mono,monospace;letter-spacing:.12em;text-transform:uppercase}
+h1,h2,h3,p{margin:0} h1,h2,.huge{font-family:Big,Impact,sans-serif;font-weight:900;line-height:.94;letter-spacing:-.017em;text-wrap:balance}
+.page1{background:var(--dark);color:#f6f1e5}.page1::before{content:"";position:absolute;right:-330px;top:110px;width:780px;height:780px;border:1px solid #43565b;border-radius:50%;opacity:.65}
+.page1 .eyebrow{position:absolute;top:179px;left:78px;color:var(--acid);font-size:19px}
+.page1 h1{position:absolute;left:72px;top:255px;width:926px;font-size:107px}.page1 h1 em{color:var(--acid);font-style:normal}
+.page1 .desc{position:absolute;left:78px;top:706px;width:862px;font-size:29px;line-height:1.35;color:#cad3d0}
+.handoff{position:absolute;left:78px;top:945px;width:924px;height:255px;display:flex;align-items:center;justify-content:space-between}
+.handoff .pane{width:398px;height:200px;border:1px solid #60727a;border-radius:18px;background:#172936;padding:26px 30px}
+.handoff .pane h3{font:17px Mono;color:#cad5cc;letter-spacing:.11em;margin-bottom:20px}
+.handoff .pane p{font:600 30px Plex;color:white}.handoff .pane.right{background:var(--acid);border-color:var(--acid);color:var(--ink)}.handoff .pane.right h3,.handoff .pane.right p{color:var(--ink)}
+.handoff .disconnected{width:120px;display:flex;align-items:center;gap:5px;justify-content:center;color:var(--coral);font:42px Big}.handoff .disconnected span{width:14px;height:3px;background:var(--coral);transform:rotate(-30deg)}.handoff .disconnected b{font:30px Big}
+.page2{background:var(--paper)}
+.page2 h2{position:absolute;left:72px;top:177px;font-size:98px;width:900px}.page2 h2 span{color:#2b7b75}
+.page2 .deck{position:absolute;left:76px;top:400px;width:826px;font-size:27px;line-height:1.35;color:var(--grey)}
+.chatbox{position:absolute;left:76px;top:620px;width:380px;height:460px;border:2px solid #a4afaa;border-radius:23px;background:#e8e8df;padding:29px;transform:rotate(-4deg)}
+.chatbox .small{font:15px Mono;color:#617072;margin-bottom:26px}.bubble{max-width:275px;background:#d2eadd;border-radius:14px 14px 4px 14px;padding:20px 18px;font:23px Plex;margin-bottom:23px}.bubble.light{background:#fffef9;border-radius:14px 14px 14px 4px}
+.ticket{position:absolute;left:493px;top:556px;width:500px;height:595px;background:#fffefa;border:3px solid var(--ink);border-radius:19px;box-shadow:17px 20px 0 #b6c8bb;padding:38px 35px}
+.ticket .tickethead{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #d8dfd8;padding-bottom:24px;font:700 25px Plex}.ticket .tag{font:14px Mono;background:#d6edbf;padding:11px;border-radius:7px}
+.ticket .line{padding:23px 0;border-bottom:1px solid #d8dfd8;display:flex;justify-content:space-between;gap:25px;font:19px Mono}.ticket .line strong{font:600 23px Plex}.ticket .ok{margin-top:35px;background:#174f47;color:#e4f7e9;padding:19px 24px;border-radius:11px;font:600 24px Plex}
+.page2 .inlinecall{position:absolute;top:1174px;left:81px;font:24px Plex;color:#405555}
+.page3{background:#152331;color:white}
+.page3 h2{position:absolute;top:177px;left:73px;font-size:105px;width:937px}.page3 h2 span{color:var(--acid)}
+.page3 .deck{position:absolute;left:77px;top:386px;width:880px;font:26px Plex;color:#c4d4d7;line-height:1.33}
+.flowline{position:absolute;left:155px;top:569px;width:7px;height:522px;background:#9ed59d;border-radius:4px}
+.flow{position:absolute;left:111px;top:540px;right:90px;display:flex;flex-direction:column;gap:0}
+.frow{display:flex;align-items:center;height:111px;gap:47px}.node{flex:none;width:94px;height:94px;border:6px solid #9ed59d;border-radius:50%;background:#152331;display:flex;align-items:center;justify-content:center;font:30px Big;z-index:2;color:#c3eba5}
+.ftxt{flex:1;height:100px;border-bottom:1px solid #486273;display:flex;flex-direction:column;justify-content:center}.ftxt h3{font:600 32px Plex;color:#f8faf7}.ftxt p{font:21px Plex;color:#b8c5c8;margin-top:5px}
+.page3 .flowfinal{position:absolute;left:91px;top:1150px;background:#284e45;color:#d0f3df;border-radius:12px;padding:16px 21px;font:20px Plex}
+.page4{background:#e9ede2}
+.page4 h2{position:absolute;left:74px;top:186px;width:935px;font-size:101px}.page4 .deck{position:absolute;left:77px;top:398px;width:846px;font:28px Plex;color:#445962;line-height:1.34}
+.tiers{position:absolute;left:76px;right:78px;top:596px;display:flex;flex-direction:column;gap:20px}
+.tier{height:171px;border-radius:18px;display:flex;align-items:center;gap:30px;padding:28px 35px;background:#fdfcf5;border:2px solid #bfcbc3}
+.tier .index{height:100px;width:90px;flex:none;display:flex;align-items:center;justify-content:center;background:#dce9ce;border-radius:13px;font:54px Big}.tier .copy h3{font:700 32px Plex}.tier .copy p{font:23px Plex;margin-top:10px;color:#52646a}
+.tier.t3{background:#203b3a;color:#fafbf7;border-color:#203b3a}.tier.t3 .index{background:var(--acid);color:#1b3130}.tier.t3 .copy p{color:#cce0db}
+.page4 .footerthought{position:absolute;left:80px;top:1191px;width:880px;color:#31534c;font:600 27px Plex}
+.page5{background:var(--acid);color:var(--ink)}
+.page5 .eyebrow{position:absolute;left:80px;top:168px;color:#315b43}
+.page5 h2{position:absolute;left:73px;top:247px;width:925px;font-size:103px}
+.page5 .intro{position:absolute;left:78px;top:482px;width:840px;font:28px Plex;line-height:1.35;color:#29433b}
+.checks{position:absolute;top:651px;left:77px;right:83px;display:flex;flex-direction:column;gap:16px}
+.check{height:102px;background:#f2f5e6;border-radius:13px;display:flex;gap:22px;align-items:center;padding:20px 27px;font:600 29px Plex}.check b{font:38px Big;color:#236156;width:44px}
+.cta{position:absolute;left:77px;right:81px;bottom:173px;background:#122431;color:#fff;border-radius:18px;padding:32px 35px;display:flex;align-items:center;justify-content:space-between}
+.cta .tag{font:15px Mono;color:#bbdbd4;margin-bottom:12px}.cta strong{font:700 34px Plex}.cta .arrow{height:68px;width:68px;border-radius:50%;background:var(--acid);display:flex;align-items:center;justify-content:center;color:#12372e;font:55px Big}
+.page h1,.page h2{line-height:1.03}
+.page1 h1{font-size:100px}
+.page4 .deck{top:424px}
+.page5 h2{font-size:89px;top:238px}
+.page5 .intro{top:533px}
+.page5 .checks{top:678px}
+@page{size:1080px 1350px;margin:0}@media print{html,body{background:transparent}.page{page-break-after:always;break-after:page}.page:last-child{break-after:auto}}
+/* B2B05 V2: única intervención, integrar Orbi sin alterar copy ni diagrama */
+.orbi-b2b05{position:absolute;display:block;object-fit:contain;z-index:5;pointer-events:none;user-select:none}
+.page1 .handoff{top:1025px}
+.page1 .orbi-b2b05{left:395px;top:760px;width:290px;height:290px}
+.page3 .orbi-b2b05{left:761px;top:1007px;width:270px;height:270px}
+.page5 .cta .arrow{opacity:0}
+.page5 .orbi-b2b05{left:764px;top:970px;width:260px;height:260px}
+/* V3: Move only the final Orbi into the green guide space beside the introduction. */
+.page5 .intro{width:645px}
+.page5 .orbi-b2b05{left:748px;top:448px;width:305px;height:305px}
+.page5 .cta .arrow{opacity:1}
+</style></head><body>
+<section class="page page1 dark" data-slide="1">
+<img class="orbi-b2b05" src="assets/orbi-confused.png" alt="" aria-hidden="true" data-orbi="11_confused.png">
+  <div class="brand"><div class="brandgroup"><img src="../../../../public/Logo_favicon.png" alt=""><span class="brandname">ORBITAL FRAMEWORKS</span></div><span class="brandmark">FIELD NOTES / 05</span></div>
+  <div class="eyebrow label">EL PUNTO CIEGO DE LOS PEDIDOS</div>
+  <h1>EL PEDIDO LLEGÓ POR <em>WHATSAPP.</em><br>¿EL ALMACÉN YA SE ENTERÓ?</h1>
+  <p class="desc">Una conversación puede cerrar una venta. Pero no siempre deja una instrucción clara para quienes deben prepararla.</p>
+  <div class="handoff"><div class="pane"><h3>VENTAS / CHAT</h3><p>«Confirmado,<br>son 12 unidades.»</p></div><div class="disconnected"><span></span><b>?</b><span></span></div><div class="pane right"><h3>OPERACIONES</h3><p>¿Qué versión<br>preparamos?</p></div></div>
+  <div class="pagecounter"><span>ORBITAL INSIGHTS · OPERACIONES</span><span>01 / 05</span></div>
+</section>
+<section class="page page2" data-slide="2">
+  <div class="brand"><div class="brandgroup"><img src="../../../../public/Logo_favicon.png" alt=""><span class="brandname">ORBITAL FRAMEWORKS</span></div><span class="brandmark">EL DATO</span></div>
+  <h2>UN PEDIDO NO ES <span>SOLO UN MENSAJE.</span></h2>
+  <p class="deck">El chat conserva contexto. La operación necesita una versión estructurada y confirmada.</p>
+  <div class="chatbox"><div class="small">CONVERSACIÓN / EJEMPLO</div><div class="bubble">Quería 10 unidades…</div><div class="bubble light">¿De qué presentación?</div><div class="bubble">Mejor 12 de la otra.</div></div>
+  <div class="ticket"><div class="tickethead"><span>ORDEN #024</span><span class="tag">EJEMPLO</span></div>
+    <div class="line"><span>PRODUCTO</span><strong>SKU / PRESENTACIÓN</strong></div>
+    <div class="line"><span>CANTIDAD</span><strong>12 unidades</strong></div>
+    <div class="line"><span>DISPONIBILIDAD</span><strong>Por validar</strong></div>
+    <div class="line"><span>RESPONSABLE</span><strong>Operaciones</strong></div>
+    <div class="ok">Versión vigente identificable</div></div>
+  <p class="inlinecall">Menos interpretación. Más continuidad entre áreas.</p>
+  <div class="pagecounter"><span>DATOS QUE VIAJAN CON EL PEDIDO</span><span>02 / 05</span></div>
+</section>
+<section class="page page3 dark" data-slide="3">
+<img class="orbi-b2b05" src="assets/orbi-presenting.png" alt="" aria-hidden="true" data-orbi="17_presenting.png">
+  <div class="brand"><div class="brandgroup"><img src="../../../../public/Logo_favicon.png" alt=""><span class="brandname">ORBITAL FRAMEWORKS</span></div><span class="brandmark">EL FLUJO</span></div>
+  <h2>DEL CHAT <span>AL DESPACHO.</span></h2>
+  <p class="deck">La clave es que cada transición deje una instrucción y un responsable reconocibles.</p>
+  <div class="flowline"></div><div class="flow">
+    <div class="frow"><div class="node">01</div><div class="ftxt"><h3>Recibir</h3><p>La solicitud entra por el canal comercial</p></div></div>
+    <div class="frow"><div class="node">02</div><div class="ftxt"><h3>Registrar</h3><p>Se identifica una única orden vigente</p></div></div>
+    <div class="frow"><div class="node">03</div><div class="ftxt"><h3>Validar</h3><p>Precio, disponibilidad y condiciones</p></div></div>
+    <div class="frow"><div class="node">04</div><div class="ftxt"><h3>Preparar</h3><p>Almacén recibe instrucciones claras</p></div></div>
+    <div class="frow"><div class="node">05</div><div class="ftxt"><h3>Despachar y cerrar</h3><p>Seguimiento visible para ventas y operación</p></div></div>
+  </div><div class="flowfinal">Modelo conceptual: los controles reales dependen de cada negocio.</div>
+  <div class="pagecounter"><span>UN ESTADO · UN RESPONSABLE · UN SIGUIENTE PASO</span><span>03 / 05</span></div>
+</section>
+<section class="page page4" data-slide="4">
+  <div class="brand"><div class="brandgroup"><img src="../../../../public/Logo_favicon.png" alt=""><span class="brandname">ORBITAL FRAMEWORKS</span></div><span class="brandmark">LA DECISIÓN</span></div>
+  <h2>NO EMPIECES POR AUTOMATIZARLO TODO.</h2>
+  <p class="deck">Hay tres formas de mejorar el flujo. Elegir depende de la fricción real, no de la complejidad disponible.</p>
+  <div class="tiers">
+   <div class="tier"><div class="index">01</div><div class="copy"><h3>Ordenar el registro</h3><p>Formato único, estados, responsables y control manual</p></div></div>
+   <div class="tier"><div class="index">02</div><div class="copy"><h3>Automatizar traspasos</h3><p>Alertas, asignaciones y menos copias repetitivas</p></div></div>
+   <div class="tier t3"><div class="index">03</div><div class="copy"><h3>Integrar sistemas</h3><p>Inventario, pedidos y trazabilidad si el caso lo exige</p></div></div>
+  </div>
+  <p class="footerthought">Primero claridad operativa. Después tecnología adecuada.</p>
+  <div class="pagecounter"><span>TRES NIVELES / SIN SOBREINGENIERÍA</span><span>04 / 05</span></div>
+</section>
+<section class="page page5" data-slide="5">
+<img class="orbi-b2b05" src="assets/orbi-pointing.png" alt="" aria-hidden="true" data-orbi="10_pointing.png">
+  <div class="brand"><div class="brandgroup"><img src="../../../../public/Logo_favicon.png" alt=""><span class="brandname">ORBITAL FRAMEWORKS</span></div><span class="brandmark">GUÍA PRÁCTICA</span></div>
+  <div class="eyebrow label">ANTES DE PEDIR UNA COTIZACIÓN</div><h2>¿DÓNDE SE PIERDE EL CONTROL DE TUS PEDIDOS?</h2>
+  <p class="intro">Revisa estas señales antes de elegir una automatización o desarrollar un sistema.</p>
+  <div class="checks"><div class="check"><b>01</b> ¿Se registra dos veces lo mismo?</div><div class="check"><b>02</b> ¿Quién confirma el stock?</div><div class="check"><b>03</b> ¿Qué versión prepara el almacén?</div></div>
+  <div class="cta"><div><div class="tag">SIGUIENTE PASO / ORBITAL INSIGHTS</div><strong>Lee la guía completa.</strong></div><div class="arrow">→</div></div>
+  <div class="pagecounter"><span>DEL MENSAJE AL PROCESO</span><span>05 / 05</span></div>
+</section>
+</body></html>

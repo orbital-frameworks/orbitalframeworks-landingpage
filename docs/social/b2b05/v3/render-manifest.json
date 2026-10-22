@@ -1,0 +1,157 @@
+{
+  "schema": "orbital.b2b05.carousel.v3",
+  "status": "REVIEW_NOT_PUBLISHED",
+  "createdAt": "2026-10-22T17:26:12.837Z",
+  "derivedFrom": "docs/social/b2b05/v2/source.html",
+  "correction": "Orbi in green guide space on slide 05 only",
+  "changes": [
+    {
+      "slide": 1,
+      "changed": false,
+      "shaV2": "76623c0ec6739ef7b1daa732454b2619c176f4e1269822547036f56727e48064",
+      "shaV3": "76623c0ec6739ef7b1daa732454b2619c176f4e1269822547036f56727e48064"
+    },
+    {
+      "slide": 2,
+      "changed": false,
+      "shaV2": "6f52c630fb260443881635ece94766b64180545b99bf10bbb47b2a8aabdadd48",
+      "shaV3": "6f52c630fb260443881635ece94766b64180545b99bf10bbb47b2a8aabdadd48"
+    },
+    {
+      "slide": 3,
+      "changed": false,
+      "shaV2": "17821c655f45524231f89adaadf3c7174f8115b39b9ff436942b9e6b9f22eb52",
+      "shaV3": "17821c655f45524231f89adaadf3c7174f8115b39b9ff436942b9e6b9f22eb52"
+    },
+    {
+      "slide": 4,
+      "changed": false,
+      "shaV2": "f9c2b2c152b31590a819666fbc184da914bd36c2224bb466661e8ddc780667d8",
+      "shaV3": "f9c2b2c152b31590a819666fbc184da914bd36c2224bb466661e8ddc780667d8"
+    },
+    {
+      "slide": 5,
+      "changed": true,
+      "shaV2": "d0fbb642d889287694c8c971541431b0c6559b07dbfeb373ea2cd821192e988b",
+      "shaV3": "030d1ca8b4f91e2ccf48be308b3792152912d839be66ecf39a297a02609d65ee"
+    }
+  ],
+  "layout": [
+    {
+      "slide": 1,
+      "width": 1080,
+      "height": 1350,
+      "overflow": [],
+      "mascot": {
+        "loaded": true,
+        "x": 395,
+        "y": 760,
+        "w": 290,
+        "h": 290
+      },
+      "hashText": "543f4e11c3661330469f6a8d7155625e5e9df8392a6ea88993765ce943ec32ce"
+    },
+    {
+      "slide": 2,
+      "width": 1080,
+      "height": 1350,
+      "overflow": [],
+      "mascot": null,
+      "hashText": "da8b7b8d1ff21a99572af4f8d815d42d031d7b9fc72a3aa8a5280cbe03f6560d"
+    },
+    {
+      "slide": 3,
+      "width": 1080,
+      "height": 1350,
+      "overflow": [],
+      "mascot": {
+        "loaded": true,
+        "x": 761,
+        "y": 1007,
+        "w": 270,
+        "h": 270
+      },
+      "hashText": "4889bf461dc2ee4e7d40a710a6491de9644b633015026e6285ceaef428d347b8"
+    },
+    {
+      "slide": 4,
+      "width": 1080,
+      "height": 1350,
+      "overflow": [],
+      "mascot": null,
+      "hashText": "04627b59c800b5b6a461a105ea18e77334bdcf13c690a56cca7a0a4a6ade263c"
+    },
+    {
+      "slide": 5,
+      "width": 1080,
+      "height": 1350,
+      "overflow": [],
+      "mascot": {
+        "loaded": true,
+        "x": 748,
+        "y": 448,
+        "w": 305,
+        "h": 305
+      },
+      "hashText": "358bf17fab18b8142c9b6b17468a0a2b48fc0eb07ee4535dda01400fbd44bf72"
+    }
+  ],
+  "spatial": {
+    "intro": {
+      "x": 78,
+      "y": 533,
+      "right": 723,
+      "bottom": 608.59375
+    },
+    "mascot": {
+      "x": 748,
+      "y": 448,
+      "right": 1053,
+      "bottom": 753
+    },
+    "firstCheck": {
+      "x": 77,
+      "y": 678,
+      "right": 997,
+      "bottom": 780
+    },
+    "cta": {
+      "x": 77,
+      "y": 1038,
+      "right": 999,
+      "bottom": 1177
+    }
+  },
+  "outputs": [
+    {
+      "file": "slide-01.png",
+      "sha256": "76623c0ec6739ef7b1daa732454b2619c176f4e1269822547036f56727e48064",
+      "bytes": 128781
+    },
+    {
+      "file": "slide-02.png",
+      "sha256": "6f52c630fb260443881635ece94766b64180545b99bf10bbb47b2a8aabdadd48",
+      "bytes": 137116
+    },
+    {
+      "file": "slide-03.png",
+      "sha256": "17821c655f45524231f89adaadf3c7174f8115b39b9ff436942b9e6b9f22eb52",
+      "bytes": 134549
+    },
+    {
+      "file": "slide-04.png",
+      "sha256": "f9c2b2c152b31590a819666fbc184da914bd36c2224bb466661e8ddc780667d8",
+      "bytes": 124372
+    },
+    {
+      "file": "slide-05.png",
+      "sha256": "030d1ca8b4f91e2ccf48be308b3792152912d839be66ecf39a297a02609d65ee",
+      "bytes": 119115
+    },
+    {
+      "file": "orbital-b2b05-carousel-v3.pdf",
+      "sha256": "134de8e5f671a2a0195ce778a18dc8bfbfb23368fc0d36cd7262af227074a96a",
+      "bytes": 729209
+    }
+  ]
+}

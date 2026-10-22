@@ -1,0 +1,54 @@
+{
+  "schema": "orbital.b2b05.v3.delivery",
+  "state": "DELIVERED_FOR_REVIEW",
+  "entries": [
+    {
+      "key": "explanation",
+      "sha": [],
+      "ids": [
+        1263
+      ],
+      "confirmedAt": "2026-10-22T17:27:52.282Z"
+    },
+    {
+      "key": "updated-slide",
+      "sha": [
+        {
+          "file": "slide-05.png",
+          "sha256": "030d1ca8b4f91e2ccf48be308b3792152912d839be66ecf39a297a02609d65ee"
+        }
+      ],
+      "ids": [
+        1264
+      ],
+      "confirmedAt": "2026-10-22T17:27:54.873Z"
+    },
+    {
+      "key": "new-pdf",
+      "sha": [
+        {
+          "file": "orbital-b2b05-carousel-v3.pdf",
+          "sha256": "134de8e5f671a2a0195ce778a18dc8bfbfb23368fc0d36cd7262af227074a96a"
+        }
+      ],
+      "ids": [
+        1265
+      ],
+      "confirmedAt": "2026-10-22T17:27:56.403Z"
+    },
+    {
+      "key": "source-package",
+      "sha": [
+        {
+          "file": "orbital-b2b05-carousel-v3-review.zip",
+          "sha256": "a5b22fb47aab06bf80777635d4a1cc7c38fc56873cb20055773ca50fe3e76b37"
+        }
+      ],
+      "ids": [
+        1266
+      ],
+      "confirmedAt": "2026-10-22T17:27:57.648Z"
+    }
+  ],
+  "completedAt": "2026-10-22T17:27:57.649Z"
+}
