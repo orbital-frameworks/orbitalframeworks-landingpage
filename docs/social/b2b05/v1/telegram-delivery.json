@@ -1,0 +1,61 @@
+{
+  "schema": "orbital.b2b05.v1.review.delivery",
+  "status": "DELIVERED_FOR_REVIEW",
+  "createdAt": "2026-10-22T17:02:04.743Z",
+  "items": [
+    {
+      "key": "introduction",
+      "method": "introduction",
+      "ids": [
+        1239
+      ],
+      "confirmedAt": "2026-10-22T17:02:05.241Z"
+    },
+    {
+      "key": "five-slides",
+      "method": "five-slides",
+      "ids": [
+        1240,
+        1241,
+        1242,
+        1243,
+        1244
+      ],
+      "confirmedAt": "2026-10-22T17:02:23.049Z"
+    },
+    {
+      "key": "carousel-pdf",
+      "method": "carousel-pdf",
+      "ids": [
+        1245
+      ],
+      "confirmedAt": "2026-10-22T17:02:26.389Z"
+    },
+    {
+      "key": "article-pdf",
+      "method": "article-pdf",
+      "ids": [
+        1246
+      ],
+      "confirmedAt": "2026-10-22T17:02:27.155Z"
+    },
+    {
+      "key": "two-previews",
+      "method": "two-previews",
+      "ids": [
+        1247,
+        1248
+      ],
+      "confirmedAt": "2026-10-22T17:02:27.947Z"
+    },
+    {
+      "key": "source-zip",
+      "method": "source-zip",
+      "ids": [
+        1249
+      ],
+      "confirmedAt": "2026-10-22T17:02:29.231Z"
+    }
+  ],
+  "completedAt": "2026-10-22T17:02:29.231Z"
+}

@@ -1,0 +1,114 @@
+{
+  "schema": "orbital.b2b05.v1",
+  "status": "READY_FOR_OWNER_REVIEW_NOT_PUBLISHED",
+  "createdAt": "2026-10-22T16:57:45.453Z",
+  "campaign": "camp_whatsapp_to_warehouse",
+  "article": "docs/social/b2b05/v1/article.md",
+  "htmlSource": "docs/social/b2b05/v1/source.html",
+  "copyPlaceholder": "docs/social/b2b05/v1/linkedin-copy.txt",
+  "copyPreviewSha256": "44ae68c1c134ee907440e2ec86065d6a0611b7e76cddd531824d0b99cf6ac77f",
+  "utmUrl": "https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_whatsapp_to_warehouse",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "pages": 5
+  },
+  "slideQA": [
+    {
+      "slide": 1,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 365,
+      "overflow": []
+    },
+    {
+      "slide": 2,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 476,
+      "overflow": []
+    },
+    {
+      "slide": 3,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 532,
+      "overflow": []
+    },
+    {
+      "slide": 4,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 508,
+      "overflow": []
+    },
+    {
+      "slide": 5,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 380,
+      "overflow": []
+    }
+  ],
+  "geometry": {
+    "lineCenterX": 158.5,
+    "nodeCenters": [
+      158,
+      158,
+      158,
+      158,
+      158
+    ],
+    "lineStart": 3269,
+    "lineEnd": 3791,
+    "firstCenterY": 3295.5,
+    "lastCenterY": 3739.5
+  },
+  "outputs": [
+    {
+      "file": "slide-01.png",
+      "bytes": 113964,
+      "sha256": "684a29f74978af285607a2b9cd1fa13fd983263a4a3f04e5d0df4fd0e5693ad7"
+    },
+    {
+      "file": "slide-02.png",
+      "bytes": 137116,
+      "sha256": "6f52c630fb260443881635ece94766b64180545b99bf10bbb47b2a8aabdadd48"
+    },
+    {
+      "file": "slide-03.png",
+      "bytes": 121127,
+      "sha256": "f27170d26672bcee4958387839cf9f81b84581e2249f4c5cba4e2b22dbb7af81"
+    },
+    {
+      "file": "slide-04.png",
+      "bytes": 124372,
+      "sha256": "f9c2b2c152b31590a819666fbc184da914bd36c2224bb466661e8ddc780667d8"
+    },
+    {
+      "file": "slide-05.png",
+      "bytes": 101715,
+      "sha256": "016d929108866de710e6b49836acb127a194798ee1c981dd37c9cff1ce320d8e"
+    },
+    {
+      "file": "orbital-b2b05-carousel-v1.pdf",
+      "bytes": 501265,
+      "sha256": "9512834929f1523f5b30c6561da836bd3f5e18b2717d3aaa2239f798544c714f"
+    },
+    {
+      "file": "mobile-preview.png",
+      "bytes": 79545,
+      "sha256": "514ca60cc2cb7cd455cab6c81e7086f2d45058994bda2a7b7bf722698a2d2372"
+    },
+    {
+      "file": "desktop-preview.png",
+      "bytes": 97007,
+      "sha256": "326c683e50df25631308faba4e5c79a1e179b3c941c8e116ff5328c3da0ebad5"
+    },
+    {
+      "file": "orbital-b2b05-article-review.pdf",
+      "bytes": 184565,
+      "sha256": "6552bf10ed22986e1eba4664580c5a4a2f81664a5a453d2d32072daec66a65f3"
+    }
+  ]
+}
