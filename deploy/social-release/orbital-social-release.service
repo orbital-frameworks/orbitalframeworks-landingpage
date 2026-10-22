@@ -1,0 +1,12 @@
+[Unit]
+Description=Orbital Frameworks reviewed LinkedIn document release (owner only)
+Documentation=file:///srv/orbital/workspaces/orbitalframeworks-landingpage/docs/social/SOCIAL_RELEASE_OPERATIONS.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/orbital/runtimes/private/social-release
+Environment=SOCIAL_RELEASE_HOME=/srv/orbital/runtimes/private/social-release
+ExecStart=/usr/local/bin/node /srv/orbital/runtimes/private/social-release/bin/social-release-runner.mjs --run-due
+UMask=0077
+NoNewPrivileges=yes
+TimeoutStartSec=420

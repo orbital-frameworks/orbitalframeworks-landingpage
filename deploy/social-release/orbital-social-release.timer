@@ -1,0 +1,11 @@
+[Unit]
+Description=Check only explicitly approved Orbital LinkedIn document releases
+
+[Timer]
+OnCalendar=*:0/1
+Persistent=true
+AccuracySec=30s
+Unit=orbital-social-release.service
+
+[Install]
+WantedBy=timers.target
