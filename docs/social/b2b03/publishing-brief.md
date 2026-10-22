@@ -1,8 +1,8 @@
 # B2B-03 · Publicación coordinada · Jueves 22/10/2026
 
-Estado: **V1 y V2 rechazadas; V3 requiere corregir mapa. V4 CORREGIDA Y EN REVISIÓN — NO PUBLICAR TODAVÍA.**
+Estado: **V4 APROBADA PARA LANZAMIENTO DEL 22/10/2026; V1–V3 RECHAZADAS**. Autorización explícita del propietario el 21/10/2026. Contrato y hash: `docs/social/b2b03/v4/APPROVED_RELEASE_20261021.md`.
 
-La V4 corregida está en docs/social/b2b03/v4/: cinco PNG, PDF, HTML editable, logo auténtico, Orbi transparente y mapa conectado sin huecos. Ver v4/REVIEW_AND_QA.md. Solo V4 es candidata a aprobación; V1–V3 permanecen como antecedentes. Las tareas de lanzamiento siguen desactivadas.
+El carrusel V4 aprobado está en `docs/social/b2b03/v4/`: cinco PNG, PDF de cinco páginas, HTML/CSS editable, logo auténtico, Orbi transparente y mapa sin huecos. Documentación y QA: `v4/APPROVED_RELEASE_20261021.md` y `v4/REVIEW_AND_QA.md`. No usar V1–V3. El calendario aprobado es jueves 22/10 a las 07:00 blog y 09:00 LinkedIn.
 
 Tema: Landing page B2B o web corporativa: cuál necesita realmente tu empresa.
 
@@ -10,11 +10,11 @@ Tema: Landing page B2B o web corporativa: cuál necesita realmente tu empresa.
 - Blog previsto: 07:00 America/Lima; dominio oficial \`https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/\`.
 - LinkedIn previsto: 09:00 America/Lima, página empresa \`134014070\`.
 - Campaña: \`camp_b2b_landing_vs_corp\`; medio \`organic_social\`, fuente \`linkedin\`.
-- Activo visual obligatorio: \`docs/social/b2b03/orbital-b2b03-carousel.pdf\`, **5 páginas PDF verticales**, source HTML editable, cinco PNG \`slide-01\`…\`slide-05\`, cada una de 1080×1350.
+- Activo visual aprobado (no regenerar/sustituir): `docs/social/b2b03/v4/orbital-b2b03-carousel-v4.pdf`, **cinco páginas de 1080×1350**, SHA256 `721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f`; los cinco PNG y la fuente están en esa misma carpeta.
 - El PDF se adjunta como DOCUMENTO a la publicación empresarial. Una tarjeta OG automática **no cuenta**.
 - Prohibido publicar si el archivo no aparece adjunto correctamente, si falla el preview o hay duplicado.
 
-## Copy LinkedIn (borrador final para revisión)
+## Copy LinkedIn (aprobación de campaña B2B-03 y carrusel V4; pendiente de publicación)
 
 ```text
 Una web puede verse bien y aun así no explicar claramente qué ofrece tu empresa.

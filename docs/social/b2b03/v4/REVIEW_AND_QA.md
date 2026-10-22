@@ -1,6 +1,6 @@
 # B2B-03 — Carrusel V4 (corrección quirúrgica de página 3)
 
-**Estado:** PREVIEW PARA APROBACIÓN · NO PUBLICADO · tareas automáticas desactivadas.
+**Estado de QA histórico:** PREVIEW ENTREGADO. **Estado actual:** V4 APROBADA explícitamente el 21/10/2026 para publicar el 22/10/2026 con el artículo B2B-03. Aprobación, hash y controles de release en `APPROVED_RELEASE_20261021.md`. No implica que ya esté publicada en LinkedIn.
 
 ## Único cambio de diseño
 La V3 separaba la barra horizontal y las tres ramas verticales debido a que el contenedor reservaba **101 píxeles** y situaba la barra en el píxel **49**, dejando **52 píxeles** de aire donde debía haber conexión.

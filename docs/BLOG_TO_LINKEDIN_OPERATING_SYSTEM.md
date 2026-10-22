@@ -90,6 +90,8 @@ Para evitar la publicación de enlaces rotos, páginas en borrador o metadatos i
 
 ### 2.3 Norma visual obligatoria para NUEVAS publicaciones (vigente desde 20/10/2026)
 
+**Método creativo y de QA reproducible:** `docs/social/CAROUSEL_PRODUCTION_METHOD.md`. Describe el recorrido B2B-03 V1→V4, recuperación de logo y Orbi oficiales, estructura narrativa sin plantillas, diseño HTML/CSS, exportación, geometría, hashes, preview móvil, Telegram y publicación real. Se reutiliza **el método de calidad, no una composición fija**.
+
 **No se publicarán nuevas piezas de Orbital Frameworks en LinkedIn como posts de solo texto.** Cada publicación debe incorporar **al menos un recurso visual pertinente** que sea parte efectiva de la publicación (no basta con el logo de perfil, el banner empresarial ni con presumir que LinkedIn generará una tarjeta Open Graph).
 
 - **Formatos admitidos:** una imagen editorial con idea central, gráfico/infografía, captura de producto verificable, carrusel educativo en documento PDF con varias láminas, o video pertinente. Se elige el formato por valor para el lector, **no se obliga a usar carrusel en todos los casos**.
