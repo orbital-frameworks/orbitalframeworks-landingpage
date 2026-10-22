@@ -46,6 +46,7 @@ const autoProcesosPath = requireFile('servicios/automatizacion-procesos/index.ht
 const landingB2bPath = requireFile('servicios/landing-pages-b2b/index.html')
 const blogPath = requireFile('blog/index.html')
 const pilotArticlePath = requireFile('blog/software-a-medida-o-saas-como-decidir/index.html')
+const b2b03ArticlePath = requireFile('blog/landing-page-b2b-tecnica-vs-web-corporativa/index.html')
 const feedPath = requireFile('feed.xml')
 const robotsPath = requireFile('robots.txt')
 const sitemapPath = requireFile('sitemap.xml')
@@ -87,6 +88,7 @@ const autoProcesos = existsSync(autoProcesosPath) ? readFileSync(autoProcesosPat
 const landingB2b = existsSync(landingB2bPath) ? readFileSync(landingB2bPath, 'utf8') : ''
 const blog = existsSync(blogPath) ? readFileSync(blogPath, 'utf8') : ''
 const pilotArticle = existsSync(pilotArticlePath) ? readFileSync(pilotArticlePath, 'utf8') : ''
+const b2b03Article = existsSync(b2b03ArticlePath) ? readFileSync(b2b03ArticlePath, 'utf8') : ''
 const feed = existsSync(feedPath) ? readFileSync(feedPath, 'utf8') : ''
 const robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : ''
 const sitemap = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
@@ -107,6 +109,7 @@ check('Sitemap contains case studies', ['/casos/checkio/', '/casos/wasy/', '/cas
 check('Sitemap contains service pages', ['/servicios/desarrollo-software-medida/', '/servicios/automatizacion-procesos/', '/servicios/landing-pages-b2b/'].every((path) => sitemap.includes(path)))
 check('Sitemap contains blog index', sitemap.includes('/blog/'))
 check('Sitemap contains pilot article', sitemap.includes('/blog/software-a-medida-o-saas-como-decidir/'))
+check('Sitemap contains B2B-03 article', sitemap.includes('/blog/landing-page-b2b-tecnica-vs-web-corporativa/'))
 check('Privacy page is prerendered and distinct', privacy.includes('Política de privacidad') && privacy.includes('Google API Services User Data Policy') && privacy.includes('Limited Use') && privacy.includes('https://orbitalframeworks.qzz.io/privacy') && !privacy.includes('class="heroTitle"'))
 check('Terms page is prerendered and distinct', terms.includes('Términos de uso') && terms.includes('Orbital Leads') && terms.includes('https://orbitalframeworks.qzz.io/terms') && !terms.includes('class="heroTitle"'))
 check('Privacy and Terms are different documents', privacy !== terms)
@@ -154,6 +157,8 @@ check('Pilot article is approved for publication, without false draft banner or 
 check('Pilot article links to verified services and case studies', pilotArticle.includes('/servicios/desarrollo-software-medida/') && pilotArticle.includes('/casos/checkio/'))
 check('Pilot article emits BlogPosting schema and BreadcrumbList', pilotArticle.includes('"@type": "BlogPosting"') && pilotArticle.includes('"@type": "BreadcrumbList"') && pilotArticle.includes('"name": "Orbital Frameworks"'))
 check('RSS feed is valid XML and contains pilot article', feed.includes('<rss version="2.0"') && feed.includes('<title>Orbital Insights | Orbital Frameworks</title>') && feed.includes('/blog/software-a-medida-o-saas-como-decidir/'))
+check('B2B-03 is published with SSR, canonical, indexability and structured data', b2b03Article.includes('Landing page B2B o web corporativa: cuál necesita realmente tu empresa') && !b2b03Article.includes('<div id="root"></div>') && !b2b03Article.includes('BORRADOR EN REVISIÓN EDITORIAL [NO PUBLICABLE]') && b2b03Article.includes('https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/') && b2b03Article.includes('"@type": "BlogPosting"') && b2b03Article.includes('"@type": "BreadcrumbList"') && !b2b03Article.includes('noindex'))
+check('B2B-03 is discoverable from blog and RSS', blog.includes('landing-page-b2b-tecnica-vs-web-corporativa') && feed.includes('/blog/landing-page-b2b-tecnica-vs-web-corporativa/'))
 
 const notFoundPath = requireFile('404.html')
 requireFile('404/index.html')

@@ -154,7 +154,7 @@ const pages = [
     description: 'Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización elaborados por Orbital Frameworks.',
     canonical: 'https://orbitalframeworks.qzz.io/blog/',
     schemaType: 'blog',
-    dateModified: '2026-10-18',
+    dateModified: '2026-10-22',
   },
   {
     pathname: '/blog/software-a-medida-o-saas-como-decidir/',
@@ -177,6 +177,17 @@ const pages = [
     articleHeadline: 'Automatización de procesos vs hojas de cálculo: cuándo Excel se convierte en un riesgo operativo',
     datePublished: '2026-10-20',
     dateModified: '2026-10-20',
+  },
+  {
+    pathname: '/blog/landing-page-b2b-tecnica-vs-web-corporativa/',
+    output: 'dist/blog/landing-page-b2b-tecnica-vs-web-corporativa/index.html',
+    title: 'Landing page B2B vs web corporativa: cómo elegir | Orbital Insights',
+    description: 'Cuándo conviene una landing enfocada en captar consultas B2B y cuándo necesitas un sitio corporativo completo. Criterios de decisión sin promesas de conversión.',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/',
+    schemaType: 'article',
+    articleHeadline: 'Landing page B2B o web corporativa: cuál necesita realmente tu empresa',
+    datePublished: '2026-10-22',
+    dateModified: '2026-10-22',
   },
   {
     pathname: '/404',

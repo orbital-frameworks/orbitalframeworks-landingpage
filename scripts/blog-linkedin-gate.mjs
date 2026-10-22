@@ -27,7 +27,7 @@ export const BACKLOG_TOPICS = [
     id: 'B2B-03',
     slug: 'landing-page-b2b-tecnica-vs-web-corporativa',
     title: 'Landing page B2B o web corporativa: cuál necesita realmente tu empresa',
-    status: 'DRAFT_NO_PUBLICABLE',
+    status: 'PUBLISHED',
     campaign: 'camp_b2b_landing_vs_corp',
     service: 'Landing Pages B2B',
     caseStudy: 'PeruLog Pallets',

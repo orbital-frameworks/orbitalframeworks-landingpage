@@ -34,7 +34,11 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
   assert.equal(b2b02.status, 'PUBLISHED', 'B2B-02 approved for publication on 20/10/2026')
   assert.equal(b2b02.campaign, 'camp_excel_vs_automation', 'B2B-02 campaign UTM must be camp_excel_vs_automation')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => t.id !== 'B2B-01' && t.id !== 'B2B-02')
+  const b2b03 = BACKLOG_TOPICS.find((t) => t.id === 'B2B-03')
+  assert.equal(b2b03?.status, 'PUBLISHED', 'B2B-03 approved for publication on 22/10/2026')
+  assert.equal(b2b03?.campaign, 'camp_b2b_landing_vs_corp')
+
+  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03'].includes(t.id))
   for (const draft of drafts) {
     assert.equal(
       draft.status,
@@ -110,9 +114,9 @@ test('3. Positive Gate Verification on prerendered pilot article HTML', () => {
 })
 
 test('4. Gate Fail-Closed: Draft articles reject publication handoff', async () => {
-  // Test case A: Draft topic evaluated through runGateCheck (B2B-03 is in draft)
+  // Test case A: an unapproved backlog topic must remain blocked.
   const draftResult = await runGateCheck({
-    slug: 'landing-page-b2b-tecnica-vs-web-corporativa',
+    slug: 'costo-total-propiedad-licencias-saas-vs-software-a-medida',
     rootPath: root,
     dryRun: true,
   })

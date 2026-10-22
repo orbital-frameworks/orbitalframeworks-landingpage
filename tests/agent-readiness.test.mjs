@@ -647,10 +647,10 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
   assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
 
-  // Verify all 15 public sitemap canonical routes are properly formed
+  // Verify all 16 public sitemap canonical routes are properly formed
   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz.io[^<]*)<\/loc>/g)].map(m => m[1])
-  assert.equal(locMatches.length, 15, 'Sitemap must contain exactly 15 canonical routes')
+  assert.equal(locMatches.length, 16, 'Sitemap must contain exactly 16 canonical routes')
 
   const expectedUrls = [
     'https://orbitalframeworks.qzz.io/',
