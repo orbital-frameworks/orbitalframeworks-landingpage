@@ -320,8 +320,17 @@ export function validateArticleHtml(html, options = {}) {
   )
 
   // 11. Internal Cross-Linking to Services and Cases
-  const linksToServices = html.includes('/servicios/desarrollo-software-medida/') || html.includes('/servicios/automatizacion-procesos/')
-  const linksToCases = html.includes('/casos/checkio/') || html.includes('/casos/wasy/') || html.includes('/casos/localisa/')
+  const linksToServices = [
+    '/servicios/desarrollo-software-medida/',
+    '/servicios/automatizacion-procesos/',
+    '/servicios/landing-pages-b2b/',
+  ].some((route) => html.includes(route))
+  const linksToCases = [
+    '/casos/checkio/',
+    '/casos/wasy/',
+    '/casos/localisa/',
+    '/casos/perulog-pallets/',
+  ].some((route) => html.includes(route))
   addCheck(
     'internal_navigation',
     'Article must contain internal links to verified services and portfolio cases',

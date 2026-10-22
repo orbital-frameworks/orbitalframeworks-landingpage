@@ -113,6 +113,22 @@ test('3. Positive Gate Verification on prerendered pilot article HTML', () => {
   assert.ok(checkIds.includes('sitemap_inclusion'))
 })
 
+test('3b. B2B-03 accepts verified PeruLog case and landing-page service links', () => {
+  const slug = 'landing-page-b2b-tecnica-vs-web-corporativa'
+  const html = readFileSync(join(distDir, 'blog', slug, 'index.html'), 'utf8')
+  const result = validateArticleHtml(html, {
+    slug,
+    expectedTitle: 'Landing page B2B o web corporativa: cuál necesita realmente tu empresa',
+    expectedCanonical: 'https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/',
+    sitemapXml: readFileSync(join(root, 'public/sitemap.xml'), 'utf8'),
+    httpStatus: 200,
+  })
+  assert.ok(html.includes('/casos/perulog-pallets/'), 'B2B-03 must link to verified PeruLog case')
+  assert.ok(html.includes('/servicios/landing-pages-b2b/'), 'B2B-03 must link to landing-page service')
+  assert.equal(result.checks.find((c) => c.id === 'internal_navigation')?.passed, true)
+  assert.equal(result.verdict, 'PASS')
+})
+
 test('4. Gate Fail-Closed: Draft articles reject publication handoff', async () => {
   // Test case A: an unapproved backlog topic must remain blocked.
   const draftResult = await runGateCheck({
