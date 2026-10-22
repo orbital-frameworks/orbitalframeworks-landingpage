@@ -1,0 +1,168 @@
+{
+  "schema": "orbital.b2b03.carousel.v3",
+  "createdAt": "2026-10-22T04:31:58.113Z",
+  "title": "Tu web se ve bien. ¿Y después?",
+  "status": "PREVIEW_NOT_APPROVED_NOT_PUBLISHED",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "count": 5
+  },
+  "provenance": [
+    {
+      "output": "assets/logo-original.png",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/src/assets/Orbital Frameworks (1).png",
+      "sha256": "f35906126fea3aef714d07f5e5e6e9071f1d6bdaa3fc5d9b6d00f065b7b4c271"
+    },
+    {
+      "output": "assets/logo-symbol.png",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/Logo_favicon.png",
+      "sha256": "a6b8ec541f81fb91d0c66af7eb2b0da293f3add8d59a9fdca641908d384af881"
+    },
+    {
+      "output": "assets/orbi-thinking.png",
+      "source": "/srv/orbital/workspaces/Content-Factory/projects/orbital-frameworks/brand/mascot/exports/03_thinking.png",
+      "sha256": "8ea0d488bb6ce5626d3e66bbc65a8afb61c927c13fb6454d6f498c5c2a44997a"
+    },
+    {
+      "output": "assets/orbi-pointing.png",
+      "source": "/srv/orbital/workspaces/Content-Factory/projects/orbital-frameworks/brand/mascot/exports/10_pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "output": "assets/big-shoulders.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/big-shoulders-display-latin.woff2",
+      "sha256": "698f9960927e7b5a0c38e5bf388cd0a6e42d855062fe70366cf5057664e39401"
+    },
+    {
+      "output": "assets/plex-sans.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-sans-latin.woff2",
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    },
+    {
+      "output": "assets/plex-mono.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-mono-400-latin.woff2",
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "slide-01.png",
+      "sha256": "741c34e0ab0ed230dfca48cf46d42dd8c92f24948c3a477a2fe6a811314b1476",
+      "bytes": 109415
+    },
+    {
+      "file": "slide-02.png",
+      "sha256": "a5466d45011ffab59698826dcfbba87de543137f5c7d90bce4db37b11ee8e489",
+      "bytes": 85793
+    },
+    {
+      "file": "slide-03.png",
+      "sha256": "320003ef96aefa8d29334002cefe01777b7c282c36c5e59472f2d1d775bd7202",
+      "bytes": 89659
+    },
+    {
+      "file": "slide-04.png",
+      "sha256": "d4ae5eaf6419749dbee8820db82a478ee48da915ce0828591e21ee84656393f8",
+      "bytes": 107838
+    },
+    {
+      "file": "slide-05.png",
+      "sha256": "78fadf93e5dbe601df97f2b243a866fce5dd25fc589bb723e94d39aadcee321a",
+      "bytes": 94404
+    },
+    {
+      "file": "orbital-b2b03-carousel-v3.pdf",
+      "sha256": "8cf04e6850db39752c9e09d1fa5c92ca5e9e4219f802bc9b3951678b17d41e47",
+      "bytes": 465152
+    },
+    {
+      "file": "mobile-preview.png",
+      "sha256": "a700be84bbbfd8c0572167b6bb76f83c894201be76cdca82268e9c5424d92975",
+      "bytes": 78150
+    },
+    {
+      "file": "desktop-preview.png",
+      "sha256": "05326c9f7cc844b8be255ff0e2984fe27e1422e2dd46035000da236eb72eb1ef",
+      "bytes": 91300
+    }
+  ],
+  "layout": [
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 245,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 272,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 287,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 322,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 256,
+      "overflows": []
+    }
+  ],
+  "semanticQA": {
+    "brandReady": true,
+    "artificialMascotDiscs": 0,
+    "visualDisclaimerCount": 0,
+    "tree": {
+      "hubCenter": 540,
+      "stemCenter": 540,
+      "nodeCenters": [
+        249,
+        540,
+        831
+      ],
+      "nodeTops": [
+        3531.734375,
+        3531.734375,
+        3531.734375
+      ],
+      "treeBottom": 3531.734375,
+      "hubBottom": 3430.734375,
+      "horizontalStart": 248.984,
+      "horizontalEnd": 831.016,
+      "diagram": {
+        "x": 72,
+        "y": 3295.734375,
+        "w": 936,
+        "h": 540,
+        "cx": 540,
+        "top": 3295.734375,
+        "bottom": 3835.734375
+      }
+    },
+    "alpha": [
+      {
+        "name": "orbi-thinking.png",
+        "alphaAtCorner": 0,
+        "transparentRatio": 0.7872393689986282
+      },
+      {
+        "name": "orbi-pointing.png",
+        "alphaAtCorner": 0,
+        "transparentRatio": 0.7882707475994513
+      }
+    ]
+  },
+  "source": "docs/social/b2b03/v3/source.html",
+  "renderer": "scripts/render-b2b03-carousel-v3.mjs"
+}
