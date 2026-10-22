@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "project": "orbitalframeworks-landingpage",
-  "lastUpdated": "2026-10-18T01:53:26.090Z",
+  "lastUpdated": "2026-10-22T15:16:20.658Z",
   "policy": {
     "autopostAllowed": false,
     "duplicatePolicy": "BLOCK_DUPLICATE_DISTRIBUTION",
@@ -42,6 +42,26 @@
       "lastCheckedAt": "2026-10-20T12:12:31.000Z",
       "packPath": "docs/linkedin-automatizacion-procesos-vs-excel-riesgo-operativo-handoff.md",
       "autopostAuthorized": false,
+      "failedChecks": []
+    },
+    "landing-page-b2b-tecnica-vs-web-corporativa": {
+      "slug": "landing-page-b2b-tecnica-vs-web-corporativa",
+      "title": "Landing page B2B o web corporativa: cuál necesita realmente tu empresa",
+      "campaign": "camp_b2b_landing_vs_corp",
+      "utmUrl": "https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_b2b_landing_vs_corp",
+      "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/",
+      "status": "DISTRIBUTED",
+      "gateVerdict": "PASS",
+      "autopostAuthorized": false,
+      "approvedCopySha256": "04e52f18ca35e47d80d631da023bba731c536f7de4a812d480be45344a4e5892",
+      "approvedPdfSha256": "721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f",
+      "linkedinPostUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7519053996737585153?actorCompanyId=134014070",
+      "linkedinPostUrn": "urn:li:activity:7519053996737585153",
+      "publishedAt": "2026-10-22T15:16:20.658Z",
+      "documentPagesVerified": 5,
+      "verificationSource": "LINKEDIN_PUBLIC_POST_AND_DOCUMENT_QA_20261022",
+      "receiptPath": "docs/social/b2b03/v4/LINKEDIN_RELEASE_20261022.json",
+      "telegramMessageId": 1228,
       "failedChecks": []
     }
   }
