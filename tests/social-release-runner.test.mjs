@@ -15,7 +15,7 @@ function homeFixture(fn) {
 }
 function run(home) {
   const output=execFileSync(process.execPath,[cli,'--dry-run'],{
-    env:{...process.env,SOCIAL_RELEASE_HOME:home},encoding:'utf8',timeout:15000})
+    env:{...process.env,SOCIAL_RELEASE_HOME:home,SOCIAL_RELEASE_PROJECT_ROOT:root},encoding:'utf8',timeout:15000})
   return output.trim().split('\n').filter(Boolean).map(JSON.parse)
 }
 test('empty owner queue cannot submit anything',()=>homeFixture(home=>{

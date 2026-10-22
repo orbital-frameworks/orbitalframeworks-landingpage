@@ -7,11 +7,15 @@ import { assertSafeRelativePath, nextReleaseAction, slugPattern, validateCampaig
 import { checkLiveBlog, publishDocumentOnce, reconcileSubmitted } from './social-release-publisher.mjs'
 
 const HOME = process.env.SOCIAL_RELEASE_HOME || '/srv/orbital/runtimes/private/social-release'
-const PROJECT = '/srv/orbital/workspaces/orbitalframeworks-landingpage'
+const dryRun = process.argv.includes('--dry-run')
+// The only root override is for *read-only* test mode on GitHub runners.
+// Live publication and reconciliation always use the fixed VPS project.
+const PROJECT = dryRun && process.env.SOCIAL_RELEASE_PROJECT_ROOT
+  ? resolve(process.env.SOCIAL_RELEASE_PROJECT_ROOT)
+  : '/srv/orbital/workspaces/orbitalframeworks-landingpage'
 const JOURNAL = '/srv/orbital/runtimes/private/linkedin-company-admin-browser/publication-journal'
 const OPS_RELAY = '/srv/orbital/workspaces/orbital-operations/tools/orbital-relay/scripts/relayctl.mjs'
 const RELAY_ENV = '/srv/orbital/secrets/private/orbital-relay.env'
-const dryRun = process.argv.includes('--dry-run')
 const emit = x => process.stdout.write(JSON.stringify(x)+'\n')
 const readJson = file => JSON.parse(readFileSync(file,'utf8'))
 const atomicJson = (file, value) => {
@@ -153,7 +157,7 @@ async function processJob(job, now, manifest) {
 }
 
 export async function runDue({now=new Date()}={}) {
-  for(const folder of [HOME,join(HOME,'queue'),join(HOME,'state'),JOURNAL])
+  for(const folder of [HOME,join(HOME,'queue'),join(HOME,'state'),...(dryRun?[]:[JOURNAL])])
     mkdirSync(folder,{recursive:true,mode:0o700})
   const files=readdirSync(join(HOME,'queue')).filter(x=>x.endsWith('.json')).sort()
   if(files.length===0)return emit({status:'NO_APPROVED_RELEASES',publisherClicks:0})
