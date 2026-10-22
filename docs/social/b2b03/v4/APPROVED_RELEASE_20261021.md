@@ -22,4 +22,8 @@
 
 **Copy:** utilizar el texto editorial del brief `docs/social/b2b03/publishing-brief.md` con UTM `utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_b2b_landing_vs_corp`. Evitar cambios creativos sustanciales después de la aprobación.
 
+**Huella del copy preparado:** el bloque `text` del brief sustituyendo `{{UTM_URL}}` por la URL de campaña completa tiene SHA-256 `04e52f18ca35e47d80d631da023bba731c536f7de4a812d480be45344a4e5892`. No cambiarlo silenciosamente al entregar la publicación.
+
+**Compositor PDF (evidencia previa):** `LINKEDIN_DOCUMENT_PREFLIGHT_20261021.md` recoge una carga real del PDF como borrador en LinkedIn empresarial y el título permitido de 50 caracteres. No se pulsó publicar; todavía debe validarse su previsualización final antes del envío.
+
 **Estado al registrar esta instrucción:** V4 y contenido aprobados, pero artículo aún `DRAFT_NO_PUBLICABLE` y el publicador heredado no tiene demostrada la función de adjuntar PDF. La aprobación no prueba que ya se publicaron.
