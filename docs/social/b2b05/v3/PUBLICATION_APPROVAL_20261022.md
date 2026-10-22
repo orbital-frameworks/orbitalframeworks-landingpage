@@ -11,7 +11,7 @@ Autorización explícita: «Perfecto, ahora sí queda completamente autorizada l
   - SHA-256: 134de8e5f671a2a0195ce778a18dc8bfbfb23368fc0d36cd7262af227074a96a
 - Copy de LinkedIn y UTM: docs/social/b2b05/v1/linkedin-copy-preview.txt
   - SHA-256 del archivo: 8340639775e563a9e9000e815c6a80e1fbc108b44350a7ba4e696519b437925c
-  - SHA-256 del contenido aprobado sin salto final: calculado por el scheduler.
+  - SHA-256 del contenido aprobado sin salto final: 44ae68c1c134ee907440e2ec86065d6a0611b7e76cddd531824d0b99cf6ac77f
 
 ## Calendario aprobado (America/Lima)
 

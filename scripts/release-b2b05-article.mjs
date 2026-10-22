@@ -45,6 +45,11 @@ const run=(cmd,args,{cwd=ROOT,input}={})=>{
   if(r.error||r.status!==0)throw Error('COMMAND_FAILED:'+cmd+' '+args.slice(0,4).join(' ')+' '+String(r.stderr||r.error||'').slice(-330))
   return r.stdout.trim()
 }
+const assertStagedOnly=allowed=>{
+  const paths=run('git',['diff','--cached','--name-only']).split('\n').filter(Boolean)
+  if(paths.some(x=>!allowed.includes(x)))throw Error('OTHER_WORK_STAGED_DO_NOT_COMMIT')
+  return paths
+}
 const notify=(event,message)=>{
   // This is an owner snapshot: the Telegram token is loaded only by relay child.
   const script='set -a; source "$1"; set +a; exec /usr/local/bin/node "$2" emit orbital-landing "$3" "$4" personal "$5"'
@@ -60,7 +65,8 @@ function preflight(){
   }
   const approval=read(APPROVAL)
   if(!approval.includes('APROBADO') || !approval.includes(approved.article) ||
-    !approval.includes(approved.pdf) || !approval.includes(approved.copyFile))
+    !approval.includes(approved.pdf) || !approval.includes(approved.copyFile) ||
+    !approval.includes('44ae68c1c134ee907440e2ec86065d6a0611b7e76cddd531824d0b99cf6ac77f'))
     throw Error('EXPLICIT_APPROVAL_RECORD_INCOMPLETE')
   const copy=read(COPY).trim()
   if(!copy.includes(utm))throw Error('UTM_NOT_APPROVED')
@@ -68,10 +74,18 @@ function preflight(){
 }
 function prepareReleaseFiles(){
   const sensitive=['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml']
+  if(run('git',['diff','--cached','--name-only']))throw Error('OTHER_WORK_ALREADY_STAGED')
   if(run('git',['status','--porcelain','--',...sensitive]))throw Error('RELEASE_SOURCES_HAVE_UNCOMMITTED_CHANGES')
   const head=run('git',['rev-parse','HEAD'])
   const upstream=run('git',['ls-remote','origin','refs/heads/main']).split(/\s+/)[0]
-  if(head!==upstream)throw Error('REMOTE_MAIN_CHANGED_RECONCILE_BEFORE_RELEASE')
+  if(head!==upstream){
+    // Recover a harmless intervening push via an ordinary fast-forward.
+    // Git aborts rather than overwrite any unrelated local work.
+    run('git',['fetch','origin','main'])
+    run('git',['merge','--ff-only','origin/main'])
+    if(run('git',['rev-parse','HEAD'])!==upstream)throw Error('REMOTE_HEAD_NOT_RECONCILED')
+    if(run('git',['status','--porcelain','--',...sensitive]))throw Error('RELEASE_SOURCES_CHANGED_ON_FAST_FORWARD')
+  }
   const source='src/blogData.ts'
   const content=read(source)
   const start=content.indexOf("  'integracion-pedidos-whatsapp-almacen-operaciones': {")
@@ -131,6 +145,7 @@ async function verifyPublic(){
 }
 function reconcileManifest(){
   const file='docs/blog-linkedin-manifest.json'
+  if(run('git',['diff','--cached','--name-only']))throw Error('OTHER_WORK_STAGED_BEFORE_MANIFEST')
   const original=JSON.parse(read(file))
   if(original.publications?.[SLUG]?.status==='DISTRIBUTED')throw Error('ALREADY_LINKEDIN_DISTRIBUTED')
   const copyHash=createHash('sha256').update(read(COPY).trim()).digest('hex')
@@ -147,6 +162,7 @@ function reconcileManifest(){
   const generated=JSON.stringify(base,null,2)+'\n'
   const blob=run('git',['hash-object','-w','--stdin'],{input:generated})
   run('git',['update-index','--add','--cacheinfo','100644',blob,file])
+  assertStagedOnly([file])
   original.publications[SLUG]=entry
   writeFileSync(join(ROOT,file),JSON.stringify(original,null,2)+'\n')
   run('git',['diff','--cached','--check'])
@@ -196,6 +212,7 @@ async function main(){
       const draftPath=join(ROOT,'dist/blog',SLUG,'index.html')
       if(!existsSync(draftPath))throw Error('B2B05_PRERENDER_NOT_GENERATED')
       run('git',['add','--','src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml'])
+      assertStagedOnly(['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml'])
       run('git',['diff','--cached','--check'])
       run('git',['commit','-m','release(blog): publish B2B05 on authorized 27 Oct window'])
       const pushedSha=run('git',['rev-parse','HEAD'])
