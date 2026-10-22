@@ -1,0 +1,111 @@
+{
+  "schema": "orbital.b2b05.carousel.v2.telegram",
+  "status": "DELIVERED_FOR_REVIEW",
+  "createdAt": "2026-10-22T17:18:15.308Z",
+  "deliveries": [
+    {
+      "key": "announcement",
+      "files": [],
+      "hashes": [],
+      "ids": [
+        1252
+      ],
+      "at": "2026-10-22T17:18:15.776Z"
+    },
+    {
+      "key": "slides-v2",
+      "files": [
+        "slide-01.png",
+        "slide-02.png",
+        "slide-03.png",
+        "slide-04.png",
+        "slide-05.png"
+      ],
+      "hashes": [
+        {
+          "file": "slide-01.png",
+          "sha256": "76623c0ec6739ef7b1daa732454b2619c176f4e1269822547036f56727e48064"
+        },
+        {
+          "file": "slide-02.png",
+          "sha256": "6f52c630fb260443881635ece94766b64180545b99bf10bbb47b2a8aabdadd48"
+        },
+        {
+          "file": "slide-03.png",
+          "sha256": "17821c655f45524231f89adaadf3c7174f8115b39b9ff436942b9e6b9f22eb52"
+        },
+        {
+          "file": "slide-04.png",
+          "sha256": "f9c2b2c152b31590a819666fbc184da914bd36c2224bb466661e8ddc780667d8"
+        },
+        {
+          "file": "slide-05.png",
+          "sha256": "d0fbb642d889287694c8c971541431b0c6559b07dbfeb373ea2cd821192e988b"
+        }
+      ],
+      "ids": [
+        1253,
+        1254,
+        1255,
+        1256,
+        1257
+      ],
+      "at": "2026-10-22T17:18:17.374Z"
+    },
+    {
+      "key": "carousel-v2-pdf",
+      "files": [
+        "orbital-b2b05-carousel-v2.pdf"
+      ],
+      "hashes": [
+        {
+          "file": "orbital-b2b05-carousel-v2.pdf",
+          "sha256": "036c5a7c545fee378f9ab8e4e9db491e69d52746d128e142387fe61f6fef1a89"
+        }
+      ],
+      "ids": [
+        1258
+      ],
+      "at": "2026-10-22T17:18:18.616Z"
+    },
+    {
+      "key": "previews-v2",
+      "files": [
+        "mobile-preview.png",
+        "desktop-preview.png"
+      ],
+      "hashes": [
+        {
+          "file": "mobile-preview.png",
+          "sha256": "d4f8bebcae203dc2481a16fc653894c61008d7f62913f3825459137769cc9c46"
+        },
+        {
+          "file": "desktop-preview.png",
+          "sha256": "1eb8297176244239c39806e5e1878d9ae7a9b49c23db926e07a5aba95f1fa6e8"
+        }
+      ],
+      "ids": [
+        1259,
+        1260
+      ],
+      "at": "2026-10-22T17:18:19.404Z"
+    },
+    {
+      "key": "review-zip-v2",
+      "files": [
+        "orbital-b2b05-carousel-v2-review.zip"
+      ],
+      "hashes": [
+        {
+          "file": "orbital-b2b05-carousel-v2-review.zip",
+          "sha256": "25b3460d42b8fb31c798aa5e5a707b23915bedbc04ff192369d4cb4a602fb763"
+        }
+      ],
+      "ids": [
+        1261
+      ],
+      "at": "2026-10-22T17:18:20.815Z"
+    }
+  ],
+  "completedAt": "2026-10-22T17:18:20.816Z"
+}
