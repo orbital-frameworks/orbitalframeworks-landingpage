@@ -1,0 +1,11 @@
+[Unit]
+Description=Orbital B2B05 explicitly approved single-article release
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/orbital/workspaces/orbitalframeworks-landingpage
+Environment=PATH=/opt/node-v24.18.0-linux-x64/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/node /srv/orbital/runtimes/private/social-release/bin/release-b2b05-article.mjs --publish
+UMask=0077
+NoNewPrivileges=yes
+TimeoutStartSec=1800

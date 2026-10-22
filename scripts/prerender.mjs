@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
 import { dirname, resolve } from 'node:path'
+import { blogPosts } from '../src/blogData.ts'
 
 const root = resolve(process.cwd())
 const distDir = process.env.DIST_DIR ? resolve(root, process.env.DIST_DIR) : resolve(root, 'dist')
@@ -200,6 +201,21 @@ const pages = [
     noindex: true,
   },
 ]
+
+// A reviewed article can exist in the repository before release while still
+// being absent from SSR, sitemap and RSS. It only enters prerender when its
+// explicit source status is changed on the approved release date.
+const b2b05=blogPosts['integracion-pedidos-whatsapp-almacen-operaciones']
+if(b2b05.status==='PUBLISHED'){
+  const anchor=pages.findIndex(p=>p.pathname==='/404')
+  if(anchor<0)throw Error('B2B05_PRERENDER_INSERT_ANCHOR_MISSING')
+  pages.splice(anchor,0,{
+    pathname:b2b05.route,output:'dist/blog/'+b2b05.slug+'/index.html',
+    title:b2b05.metaTitle,description:b2b05.metaDescription,
+    canonical:b2b05.canonical,schemaType:'article',articleHeadline:b2b05.title,
+    datePublished:b2b05.datePublished,dateModified:b2b05.dateModified
+  })
+}
 
 function schemaForPage(page) {
   if (page.schemaType === '404') return null

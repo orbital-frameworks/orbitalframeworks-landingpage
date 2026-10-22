@@ -1,3 +1,14 @@
+.blogB2B05Prose{font-size:1rem;line-height:1.72}
+.blogB2B05Prose h2{margin:2rem 0 1rem;font-size:clamp(1.45rem,2.5vw,1.9rem);line-height:1.3}
+.blogB2B05Prose h3{margin:1.65rem 0 .7rem;font-size:1.25rem}
+.blogB2B05Prose p,.blogB2B05Prose ul,.blogB2B05Prose ol{margin:0 0 1.35rem}
+.blogB2B05Prose li{margin:.4rem 0}
+.blogB2B05Prose table{border-collapse:collapse;width:100%;margin:1.1rem 0 1.8rem;font-size:.91rem}
+.blogB2B05Prose th,.blogB2B05Prose td{border:1px solid #afc2c0;padding:.75rem;text-align:left;vertical-align:top}
+.blogB2B05Prose th{background:#e9f2ef;color:#17352f}
+.blogB2B05Prose a{color:#086d70;text-decoration:underline}
+.blogB2B05Prose hr{border:0;border-top:1px solid #d5dddc;margin:1.7rem 0}
+@media(max-width:640px){.blogB2B05Prose table{display:block;overflow-x:auto}}
 .blogPage {
   min-height: 100vh;
   color: rgba(245, 245, 245, 0.88);

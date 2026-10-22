@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { blogPosts, type BlogPostSlug } from './blogData'
+import { b2b05ArticleHtml } from './blogB2B05Html'
 import { trackContactIntent, trackArticleIntent } from './analytics'
 import './Blog.css'
 
@@ -81,11 +82,14 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
           </header>
 
           <div className="blogArticleContent">
-            <p className="blogHeroLead" style={{ marginTop: '24px' }}>
-              {post.lead}
-            </p>
-
-            {post.sections.map((section) => (
+            {slug === 'integracion-pedidos-whatsapp-almacen-operaciones' ? (
+              <div className="blogB2B05Prose" dangerouslySetInnerHTML={{ __html: b2b05ArticleHtml }} />
+            ) : (
+              <>
+              <p className="blogHeroLead" style={{ marginTop: '24px' }}>
+                {post.lead}
+              </p>
+              {post.sections.map((section) => (
               <section key={section.heading} className="blogSectionBlock">
                 <h2>{section.heading}</h2>
                 {section.content.map((paragraph, pIdx) => (
@@ -124,7 +128,9 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
                   </div>
                 )}
               </section>
-            ))}
+              ))}
+              </>
+            )}
 
             <div className="blogLinksBox">
               <h3>Servicios y referencias verificadas</h3>

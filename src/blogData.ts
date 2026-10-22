@@ -2,6 +2,7 @@ export type BlogPostSlug =
   | 'software-a-medida-o-saas-como-decidir'
   | 'automatizacion-procesos-vs-excel-riesgo-operativo'
   | 'landing-page-b2b-tecnica-vs-web-corporativa'
+  | 'integracion-pedidos-whatsapp-almacen-operaciones'
 
 
 export type BlogSection = {
@@ -52,6 +53,36 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'integracion-pedidos-whatsapp-almacen-operaciones': {
+    slug: 'integracion-pedidos-whatsapp-almacen-operaciones',
+    route: '/blog/integracion-pedidos-whatsapp-almacen-operaciones/',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/',
+    title: 'Del pedido por WhatsApp al almacén: cómo conectar ventas, inventario y operaciones sin duplicar datos',
+    metaTitle: 'Del pedido por WhatsApp al almacén | Orbital Insights',
+    metaDescription: 'Cómo transformar pedidos recibidos por WhatsApp en un flujo estructurado de ventas, validación, preparación y despacho sin duplicar datos.',
+    eyebrow: 'Orbital Insights · Automatización de procesos',
+    datePublished: '2026-10-27',
+    dateModified: '2026-10-27',
+    readingTime: '8 min de lectura',
+    status: 'DRAFT_NO_PUBLICABLE',
+    statusLabel: 'Programado para el 27 de octubre de 2026',
+    statusNotice: 'Artículo y recursos aprobados. No visible ni publicable antes de su fecha de lanzamiento.',
+    prioritizedOwnerQuestion: '¿Está validado el recorrido de pedido y la fuente pública del ejemplo Wasy?',
+    author: {name: 'Orbital Frameworks',type:'Organization',url:'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/'},
+    lead: 'Un cliente escribe por WhatsApp para confirmar una compra. Alguien anota los productos, consulta si hay stock, reenvía un mensaje al almacén y vuelve al chat para aclarar la dirección. Más tarde, otra persona pregunta si el pedido está listo. Cada paso parece pequeño, pero el trabajo de coordinar todos puede convertirse en un problema.',
+    sections: [],
+    decisionMatrix: [],
+    internalLinks: [
+      {anchor:'Automatización de procesos',url:'/servicios/automatizacion-procesos/',label:'Evaluar un flujo comercial y operativo antes de decidir el grado de automatización.'},
+      {anchor:'Caso público Wasy',url:'/casos/wasy/',label:'Catálogo web con carrito y continuación del pedido por WhatsApp, sin afirmar integración de almacén.'},
+    ],
+    cta: {
+      headline: '¿Tu empresa recibe pedidos por WhatsApp, pero los coordina manualmente?',
+      description: 'Revisemos dónde pasa un pedido de ventas a operaciones, qué información se pierde y qué nivel de solución conviene evaluar.',
+      subject: 'Consulta sobre integración de pedidos y operaciones',
+      body: 'Hola Orbital Frameworks,\n\nLeí su artículo sobre pedidos por WhatsApp y quisiera evaluar cómo se gestionan en mi empresa.\n\nCómo recibimos hoy los pedidos:\nQué equipo interviene después:\nDónde aparece retrabajo:\nQué resultado operativo buscamos mejorar:\n',
+    },
+  },
   'software-a-medida-o-saas-como-decidir': {
     slug: 'software-a-medida-o-saas-como-decidir',
     route: '/blog/software-a-medida-o-saas-como-decidir/',
