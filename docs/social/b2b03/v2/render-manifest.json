@@ -1,0 +1,119 @@
+{
+  "schema": "orbital.b2b03.carousel.v2",
+  "createdAt": "2026-10-22T04:11:50.765Z",
+  "title": "Tu web se ve bien. ¿Pero lleva a algún lugar?",
+  "status": "PREVIEW_NOT_APPROVED_NOT_PUBLISHED",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "count": 5
+  },
+  "provenance": [
+    {
+      "output": "assets/logo-original.png",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/src/assets/Orbital Frameworks (1).png",
+      "sha256": "f35906126fea3aef714d07f5e5e6e9071f1d6bdaa3fc5d9b6d00f065b7b4c271"
+    },
+    {
+      "output": "assets/orbi-thinking.png",
+      "source": "/srv/orbital/workspaces/Content-Factory/projects/orbital-frameworks/brand/mascot/exports/03_thinking.png",
+      "sha256": "8ea0d488bb6ce5626d3e66bbc65a8afb61c927c13fb6454d6f498c5c2a44997a"
+    },
+    {
+      "output": "assets/orbi-pointing.png",
+      "source": "/srv/orbital/workspaces/Content-Factory/projects/orbital-frameworks/brand/mascot/exports/10_pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "output": "assets/big-shoulders.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/big-shoulders-display-latin.woff2",
+      "sha256": "698f9960927e7b5a0c38e5bf388cd0a6e42d855062fe70366cf5057664e39401"
+    },
+    {
+      "output": "assets/plex-sans.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-sans-latin.woff2",
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    },
+    {
+      "output": "assets/plex-mono.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-mono-400-latin.woff2",
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "slide-01.png",
+      "sha256": "c968e1d60ca92b61d8f2d8f97e4724c586e0e464397f7282262bced2bfb0e000",
+      "bytes": 128798
+    },
+    {
+      "file": "slide-02.png",
+      "sha256": "9fd5a99ea7dabf24ddc6bfe6c4fc8ae4f08a7376268f00c4678b8b96070498c0",
+      "bytes": 109817
+    },
+    {
+      "file": "slide-03.png",
+      "sha256": "5052c7b0cd076eb4462becb8cf3ade085c6f7ad4de8f19546387980c4c7e2efb",
+      "bytes": 104616
+    },
+    {
+      "file": "slide-04.png",
+      "sha256": "4ccd41d030f74f16b601d372493be3a881d152c7efe9ab560bb758af4cd519dc",
+      "bytes": 122230
+    },
+    {
+      "file": "slide-05.png",
+      "sha256": "42f856ffc1bf9c9f44e7f6051d6b81ad7fedaec2681c06dd8903ba0e58fcfae4",
+      "bytes": 96318
+    },
+    {
+      "file": "orbital-b2b03-carousel-v2.pdf",
+      "sha256": "03aba644ad545642c2b8f1d4c67ed9279e1eb6a619f3dc9366a9b7cffc6e932e",
+      "bytes": 484063
+    },
+    {
+      "file": "mobile-preview.png",
+      "sha256": "3a95ee671ad66396d39f008eedbdbfef296b5dc13b34ab08ee5d30737a512dbd",
+      "bytes": 90392
+    },
+    {
+      "file": "desktop-preview.png",
+      "sha256": "67a19afb1f688f2f737526a015d19142f48c847a399e0fbea8687629625c0548",
+      "bytes": 108766
+    }
+  ],
+  "layout": [
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 315,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 415,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 388,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 353,
+      "overflows": []
+    },
+    {
+      "width": 1080,
+      "height": 1350,
+      "textLength": 310,
+      "overflows": []
+    }
+  ],
+  "source": "docs/social/b2b03/v2/source.html",
+  "renderer": "scripts/render-b2b03-carousel-v2.mjs"
+}

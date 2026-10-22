@@ -1,6 +1,8 @@
 # B2B-03 · Publicación coordinada · Jueves 22/10/2026
 
-Estado: **PREPARADO PARA QA Y APROBACIÓN — NO PUBLICADO**.
+Estado: **V1 RECHAZADA POR EL PROPIETARIO — NO PUBLICAR. V2 EN REVISIÓN, NO PUBLICADA.**
+
+El carrusel anterior docs/social/b2b03/orbital-b2b03-carousel.pdf no está aprobado. El V2, pendiente de aprobación, está en docs/social/b2b03/v2/: cinco PNG, PDF, código HTML editable y activos de marca auténticos. Ver v2/REVIEW_AND_QA.md. No publicar V1 ni V2 sin el visto bueno sobre los recursos exactos.
 
 Tema: Landing page B2B o web corporativa: cuál necesita realmente tu empresa.
 

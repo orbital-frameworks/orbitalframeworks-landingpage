@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Orbital Frameworks · B2B-03 · Carrusel V2</title>
+<style>
+@font-face{font-family:Big;src:url(assets/big-shoulders.woff2)}
+@font-face{font-family:Plex;src:url(assets/plex-sans.woff2)}
+@font-face{font-family:Mono;src:url(assets/plex-mono.woff2)}
+:root{--ink:#101d2b;--paper:#f6f4ef;--cyan:#128ba0;--red:#d84c4b;--line:#c5c9c9;--muted:#566773}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#d7d8d7;color:var(--ink)}
+body{font-family:Plex,Arial,sans-serif}
+@page{size:1080px 1350px;margin:0}
+.page{position:relative;overflow:hidden;width:1080px;height:1350px;page-break-after:always;padding:66px 72px 63px;display:flex;flex-direction:column;justify-content:space-between}
+.page:last-child{page-break-after:auto}
+.page.dark{background:var(--ink);color:var(--paper)}
+.page.light{background:var(--paper);color:var(--ink)}
+.top{position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center;height:45px}
+.logo-pill{height:48px;display:flex;align-items:center}
+.logo-pill img{width:291px;height:auto;display:block}
+.light .logo-pill{background:var(--ink);padding:10px 14px;border-radius:9px;height:51px}
+.light .logo-pill img{width:245px}
+.topmeta{font:17px Mono,monospace;letter-spacing:1.5px;opacity:.7}
+.bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;font:17px Mono,monospace;letter-spacing:.5px;position:relative;z-index:5;border-top:1px solid rgba(124,150,156,.46);padding-top:26px;min-height:62px}
+.bottom .topic{font-family:Plex,Arial,sans-serif;font-weight:700}
+.cyan{color:var(--cyan)}
+.dark .cyan{color:#53cbd2}
+.big{font-family:Big,"Arial Narrow",Impact,sans-serif;font-weight:850;line-height:1.02;letter-spacing:.25px;margin:0}
+.eyebrow{font:18px Mono,monospace;text-transform:uppercase;letter-spacing:1.6px;color:var(--cyan)}
+.dark .eyebrow{color:#60c8cf}
+.line-red{width:78px;height:6px;background:var(--red);margin-top:27px}
+.sub{font-size:29px;line-height:1.38;color:var(--muted)}
+.dark .sub{color:#d6dede}
+.orbi{display:block;object-fit:contain}
+.tag{font:16px Mono,monospace;text-transform:uppercase;letter-spacing:.4px}
+.s1 .hero{margin-top:75px;z-index:3;position:relative}
+.s1 .hero h1{font-size:112px;max-width:900px}
+.s1 .hero h1 span{display:block}
+.s1 .hero .sub{max-width:680px;margin:27px 0 0}
+.s1 .scene{position:relative;height:470px;z-index:2}
+.s1 .scene .path-board{position:absolute;left:4px;top:78px;width:654px;height:342px;border:2px solid #54707c;border-radius:24px;padding:34px 38px;background:#182a39}
+.s1 .mini-head{display:flex;gap:8px;align-items:center}
+.s1 .dot{border-radius:50%;width:11px;height:11px;background:#78949c}
+.s1 .fake-nav{border-bottom:1px solid #46606b;padding:24px 0;color:#d6e0e4;font:22px Mono,monospace}
+.s1 .flow{display:flex;align-items:center;gap:12px;margin-top:28px}
+.s1 .step{border-radius:10px;padding:18px 17px;background:#f3f1eb;color:var(--ink);font-size:21px;font-weight:750;line-height:1.14;min-width:167px;text-align:center}
+.s1 .step.last{background:#71c7cb;min-width:157px}
+.s1 .arrow{font-size:31px;color:#74ccd2;font-weight:700}
+.s1 .orbi-disc{position:absolute;right:12px;top:27px;width:321px;height:321px;border-radius:50%;background:#eeeae0;display:flex;align-items:center;justify-content:center;border:2px solid #f2eeea}
+.s1 .orbi{width:300px;height:300px}
+.s1 .scene-label{position:absolute;right:13px;bottom:60px;background:var(--red);padding:14px 20px;color:#fff;font:19px Mono,monospace;border-radius:4px;transform:rotate(2deg)}
+.s2 .heading{margin-top:75px}
+.s2 h2{font-size:110px;max-width:825px}
+.s2 .lead{font-size:29px;line-height:1.35;max-width:830px;margin:28px 0 0}
+.s2 .illustration{position:relative;background:white;border:2px solid #d3d8d5;border-radius:25px;padding:35px 37px 35px;min-height:515px;display:flex;gap:36px;align-items:stretch}
+.s2 .browser{border:2px solid #c5ced0;border-radius:18px;width:554px;overflow:hidden;background:#f9faf8;box-shadow:11px 12px 0 #dae1df}
+.s2 .browserbar{height:48px;border-bottom:2px solid #ccd3d2;display:flex;gap:9px;align-items:center;padding-left:21px}
+.s2 .browserbar i{width:9px;height:9px;background:#abb7b7;border-radius:50%}
+.s2 .mock{padding:42px 39px}
+.s2 .mocktitle{font:64px Big,sans-serif;line-height:1.03}
+.s2 .mockdescription{margin-top:23px;height:12px;background:#cdd6d5;border-radius:6px;width:90%}
+.s2 .mockdescription.short{width:65%;margin-top:13px}
+.s2 .mock-cta{margin-top:44px;border-radius:9px;background:var(--cyan);color:white;padding:19px 20px;font-size:24px;text-align:center;font-weight:700}
+.s2 .rail{display:flex;flex-direction:column;justify-content:center;width:254px;gap:18px}
+.s2 .rail .yes{border-left:6px solid var(--cyan);padding-left:19px;font-size:26px;line-height:1.23;font-weight:750}
+.s2 .rail p{font-size:22px;line-height:1.35;color:#4a5f67;margin:3px 0}
+.s2 .caption{font:16px Mono,monospace;color:#66777c;margin-top:20px}
+.s3 .heading{margin-top:60px}
+.s3 h2{font-size:102px;max-width:960px}
+.s3 .diagram{margin-top:52px;position:relative;height:540px;border-radius:22px;background:#fff;border:2px solid #d6dbd7;padding:40px}
+.s3 .box{border:2px solid #bec9c8;border-radius:12px;background:#f8f9f7;padding:23px 25px;font-size:27px;font-weight:700;text-align:center}
+.s3 .hub{width:415px;margin:auto;background:var(--ink);color:white;border-color:var(--ink);font-size:33px}
+.s3 .vert{width:2px;height:45px;background:#8a9ca0;margin:auto}
+.s3 .connector{height:2px;background:#8a9ca0;width:72%;margin:auto}
+.s3 .nodes{display:grid;grid-template-columns:repeat(3,1fr);gap:21px;margin-top:30px}
+.s3 .node{display:flex;flex-direction:column;align-items:center;gap:10px}
+.s3 .node i{background:#8a9ca0;width:2px;height:26px}
+.s3 .node .box{width:100%;font-size:26px;min-height:103px;display:flex;align-items:center;justify-content:center}
+.s3 .footnote{font-size:23px;color:#455e66;line-height:1.36;max-width:870px;margin:27px auto 0;text-align:center}
+.s3 .highlight{margin:37px 0 0;font-size:31px;font-weight:750;color:var(--cyan)}
+.s4 .heading{margin-top:65px}
+.s4 h2{font-size:110px;max-width:930px}
+.s4 .note{font-size:32px;line-height:1.32;color:#d7e1e2;margin:25px 0 0;max-width:850px}
+.s4 .flowcase{display:flex;gap:25px;align-items:center;justify-content:flex-start;margin-top:45px;height:440px;position:relative}
+.s4 .site{background:#ebeee8;border:2px solid #e0e7e0;color:var(--ink);border-radius:19px;width:280px;height:232px;padding:26px;display:flex;flex-direction:column;justify-content:center}
+.s4 .site strong{font:45px Big,Impact;line-height:1.04}
+.s4 .site span{font-size:19px;color:#405f68;margin-top:12px}
+.s4 .mid-arrow{font-size:65px;color:#65cbd1}
+.s4 .branches{display:flex;flex-direction:column;gap:18px;width:260px}
+.s4 .branch{border:2px solid #78cbd0;border-radius:13px;padding:20px 19px;background:#1a3a48;font-size:22px;font-weight:700}
+.s4 .orbi-disc{position:absolute;right:8px;bottom:0;background:#edeae1;border-radius:50%;width:263px;height:263px}
+.s4 .orbi{width:270px;height:270px;margin-left:-4px;margin-top:-2px}
+.s4 .takeaway{color:#d9eeee;font-size:26px;font-weight:600;margin-top:30px;border-top:1px solid #547280;padding-top:26px}
+.s5 .heading{margin-top:60px}
+.s5 h2{font-size:94px;line-height:1.03;max-width:920px}
+.s5 .question-list{display:flex;flex-direction:column;gap:18px;margin-top:52px}
+.s5 .question{display:flex;align-items:center;gap:26px;padding:28px 30px;background:white;border:2px solid #d9deda;border-radius:15px;min-height:125px}
+.s5 .qno{font:64px Big,Impact;color:var(--cyan);width:85px;flex-shrink:0}
+.s5 .qtext{font-size:35px;font-weight:770;line-height:1.2}
+.s5 .last{margin-top:36px;border-left:7px solid var(--red);padding-left:22px}
+.s5 .last strong{font:42px Big,Impact;display:block;line-height:1.06}
+.s5 .last p{font-size:25px;color:#52656d;line-height:1.3;margin:12px 0 0}
+</style>
+</head>
+<body>
+<section class="page dark s1" data-slide="1">
+  <header class="top"><div class="logo-pill"><img src="assets/logo-original.png" alt="Orbital Frameworks"></div><span class="topmeta">ORBITAL INSIGHTS / 01</span></header>
+  <div class="hero"><div class="eyebrow">Una pregunta antes de rediseñar</div><h1 class="big"><span>Tu web se ve bien.</span><span class="cyan">¿Pero lleva a</span><span class="cyan">algún lugar?</span></h1><div class="line-red"></div><p class="sub">Una web atractiva no basta si el comprador no sabe cuál es el siguiente paso.</p></div>
+  <div class="scene">
+    <div class="path-board"><div class="mini-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div><div class="fake-nav">Del interés a la conversación</div><div class="flow"><div class="step">Entiende la oferta</div><span class="arrow">→</span><div class="step">Encuentra evidencia</div><span class="arrow">→</span><div class="step last">Contacta</div></div></div>
+    <div class="orbi-disc"><img class="orbi" src="assets/orbi-thinking.png" alt="Orbi pensando"></div>
+    <div class="scene-label">Desliza para decidir →</div>
+  </div>
+  <footer class="bottom"><span class="topic">Diseño web que orienta</span><span>01 / 05</span></footer>
+</section>
+<section class="page light s2" data-slide="2">
+  <header class="top"><div class="logo-pill"><img src="assets/logo-original.png" alt="Orbital Frameworks"></div><span class="topmeta">02 / UNA SOLA OFERTA</span></header>
+  <div class="heading"><div class="eyebrow">Si vendes algo específico</div><h2 class="big">Una landing elimina<br><span class="cyan">los rodeos.</span></h2><p class="lead">Ideal cuando el visitante llega con una necesidad concreta y necesita saber qué hacer después.</p></div>
+  <div><div class="illustration">
+    <div class="browser"><div class="browserbar"><i></i><i></i><i></i></div><div class="mock"><div class="mocktitle">Un problema.<br>Una solución.</div><div class="mockdescription"></div><div class="mockdescription short"></div><div class="mock-cta">Solicitar propuesta →</div></div></div>
+    <aside class="rail"><div class="yes">Oferta clara</div><div class="yes">Público definido</div><div class="yes">Siguiente paso visible</div><p>Menos distracciones, no menos información útil.</p></aside>
+  </div><div class="caption">Ejemplo editorial de estructura, no captura de un sitio real.</div></div>
+  <footer class="bottom"><span class="topic">Landing = enfoque</span><span>02 / 05</span></footer>
+</section>
+<section class="page light s3" data-slide="3">
+  <header class="top"><div class="logo-pill"><img src="assets/logo-original.png" alt="Orbital Frameworks"></div><span class="topmeta">03 / VARIOS SERVICIOS</span></header>
+  <div class="heading"><div class="eyebrow">Si tu comprador necesita investigar</div><h2 class="big">No le escondas<br><span class="cyan">el mapa.</span></h2><p class="sub">Una web corporativa organiza lo que distintos decisores necesitan conocer.</p></div>
+  <div><div class="diagram">
+    <div class="box hub">WEB CORPORATIVA</div><div class="vert"></div><div class="connector"></div>
+    <div class="nodes">
+      <div class="node"><i></i><div class="box">Servicios</div></div>
+      <div class="node"><i></i><div class="box">Casos y evidencia</div></div>
+      <div class="node"><i></i><div class="box">Quiénes somos</div></div>
+    </div>
+    <p class="footnote">Cada sección responde una pregunta distinta sin obligar a contactar para entender la empresa.</p>
+  </div><p class="highlight">Más contexto. No páginas por llenar.</p></div>
+  <footer class="bottom"><span class="topic">Web corporativa = exploración</span><span>03 / 05</span></footer>
+</section>
+<section class="page dark s4" data-slide="4">
+  <header class="top"><div class="logo-pill"><img src="assets/logo-original.png" alt="Orbital Frameworks"></div><span class="topmeta">04 / LA CONEXIÓN</span></header>
+  <div class="heading"><div class="eyebrow">La respuesta puede ser ambas</div><h2 class="big">No compiten.<br><span class="cyan">Se conectan.</span></h2><p class="note">La web genera contexto. Las landings profundizan en ofertas específicas.</p></div>
+  <div><div class="flowcase">
+    <div class="site"><strong>Web<br>corporativa</strong><span>Visión completa</span></div>
+    <div class="mid-arrow">→</div>
+    <div class="branches"><div class="branch">Landing de servicio A</div><div class="branch">Landing de servicio B</div><div class="branch">Landing de campaña</div></div>
+    <div class="orbi-disc"><img class="orbi" src="assets/orbi-pointing.png" alt="Orbi señalando las landings"></div>
+  </div><p class="takeaway">El objetivo no es sumar pantallas. Es facilitar la decisión.</p></div>
+  <footer class="bottom"><span class="topic">Arquitectura al servicio del recorrido</span><span>04 / 05</span></footer>
+</section>
+<section class="page light s5" data-slide="5">
+  <header class="top"><div class="logo-pill"><img src="assets/logo-original.png" alt="Orbital Frameworks"></div><span class="topmeta">05 / PARA LLEVAR</span></header>
+  <div class="heading"><div class="eyebrow">Antes de pedir un diseño</div><h2 class="big">Hazte estas<br><span class="cyan">3 preguntas.</span></h2></div>
+  <div><div class="question-list">
+    <div class="question"><span class="qno">01</span><span class="qtext">¿Qué ofreces exactamente?</span></div>
+    <div class="question"><span class="qno">02</span><span class="qtext">¿Quién llega a tu página?</span></div>
+    <div class="question"><span class="qno">03</span><span class="qtext">¿Qué debe hacer después?</span></div>
+  </div><div class="last"><strong>Primero el recorrido.<br>Después el diseño.</strong><p>La guía completa está en Orbital Insights. Encuentra el enlace en la publicación.</p></div></div>
+  <footer class="bottom"><span class="topic">orbitalframeworks.qzz.io</span><span>05 / 05</span></footer>
+</section>
+</body>
+</html>

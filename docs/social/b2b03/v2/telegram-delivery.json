@@ -1,0 +1,49 @@
+{
+  "status": "DELIVERED",
+  "project": "orbital-landing",
+  "artifact": "b2b03-v2",
+  "approvalRequired": true,
+  "receipts": [
+    {
+      "method": "sendMediaGroup",
+      "count": 5,
+      "messageIds": [
+        1171,
+        1172,
+        1173,
+        1174,
+        1175
+      ],
+      "at": "2026-10-22T04:15:15.417Z",
+      "ok": true
+    },
+    {
+      "method": "sendDocument",
+      "count": 1,
+      "messageIds": [
+        1176
+      ],
+      "at": "2026-10-22T04:15:16.632Z",
+      "ok": true
+    },
+    {
+      "method": "sendMediaGroup",
+      "count": 2,
+      "messageIds": [
+        1177,
+        1178
+      ],
+      "at": "2026-10-22T04:15:17.560Z",
+      "ok": true
+    },
+    {
+      "method": "sendDocument",
+      "count": 1,
+      "messageIds": [
+        1179
+      ],
+      "at": "2026-10-22T04:15:18.728Z",
+      "ok": true
+    }
+  ]
+}
