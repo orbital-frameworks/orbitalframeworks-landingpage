@@ -59,24 +59,29 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
   try {
     // Wait for CDP to become ready
     let targetPage = null
+    let lastCdpTargets = 'no CDP response'
+    let lastCdpError = ''
     // GitHub-hosted runners can need several seconds to start Chrome/CDP
-    // after installing dependencies. Wait for the actual browser target.
-    for (let i = 0; i < 80; i++) {
-      await new Promise((r) => setTimeout(r, 200))
+    // after installing dependencies. A 16s cap caused a real CI-only failure
+    // on 22 Oct 2026 while Chrome was still running without stderr. Allow up
+    // to 60s, but keep the same strict browser target/CDP assertion.
+    for (let i = 0; i < 240; i++) {
+      await new Promise((r) => setTimeout(r, 250))
       try {
-        const res = await fetch(`http://127.0.0.1:${cdpPort}/json/list`)
+        const res = await fetch(`http://127.0.0.1:${cdpPort}/json/list`, { signal: AbortSignal.timeout(1200) })
         const pages = await res.json()
+        lastCdpTargets = pages.map(p => ({ type: p.type, url: p.url })).slice(0, 4)
         targetPage = pages.find((p) => p.type === 'page'
           && p.webSocketDebuggerUrl && p.url.includes(String(serverPort)))
         if (targetPage?.webSocketDebuggerUrl) break
-      } catch {
-        // Retry
+      } catch (error) {
+        lastCdpError = String(error.message || error).slice(0, 120)
       }
       if (chrome.exitCode !== null) break
     }
 
     assert.ok(targetPage?.webSocketDebuggerUrl,
-      `Chrome page target must be reachable via CDP (exit=${chrome.exitCode ?? 'running'}; stderr=${chromeStderr})`)
+      `Chrome page target must be reachable via CDP (exit=${chrome.exitCode ?? 'running'}; lastTargets=${JSON.stringify(lastCdpTargets)}; lastError=${lastCdpError}; stderr=${chromeStderr})`)
 
     ws = new WebSocket(targetPage.webSocketDebuggerUrl)
     await new Promise((resolve, reject) => {

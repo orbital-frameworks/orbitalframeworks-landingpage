@@ -32,3 +32,7 @@ La tarea programada de ChatGPT del 22/10 a las 10:10 marcó una ejecución, pero
 - La preparación y el `git push` del artículo siguen bajo una superficie autorizada de Git, separada del worker sandbox. El runner social bloquea enlaces 404 y no repara automáticamente despliegues.
 - El manifiesto Git es el registro editorial que requiere integración versionada tras una distribución nueva; el ledger privado conserva la verdad operacional inmediata para evitar duplicados, sin que el publicador haga commits automáticos que mezclen trabajo ajeno.
 - Metricool no tiene red social conectada en la cuenta probada y no es fallback operativo. No es necesario para esta vía independiente.
+
+## Incidencia adicional de CI detectada
+
+El workflow `Deploy GitHub Pages` del SHA `e6a0399`, run `39805290589`, falló en `tests/ga4-runtime.test.mjs` al no encontrar el target de Chrome/CDP en los 16 segundos originales, aunque Chrome seguía corriendo sin error capturado. No fue un fallo de B2B-03 ni evidencia de que GA4 de producción estuviese roto. Se amplió **solo el tiempo de espera de inicio** del navegador hasta aproximadamente 60 segundos, con timeout de cada fetch y diagnósticos del último target/error para futuras fallas. Se mantuvieron todas las aserciones funcionales de analytics, consentimiento y CDP; la prueba focalizada de navegador pasó localmente tras el cambio. Esta corrección requiere nueva ejecución de CI para confirmar su comportamiento en GitHub-hosted runners; no confundir un PASS local con cierre remoto.
