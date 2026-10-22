@@ -1,20 +1,20 @@
 # B2B-03 · Publicación coordinada · Jueves 22/10/2026
 
-Estado: **V4 APROBADA PARA LANZAMIENTO DEL 22/10/2026; V1–V3 RECHAZADAS**. Autorización explícita del propietario el 21/10/2026. Contrato y hash: `docs/social/b2b03/v4/APPROVED_RELEASE_20261021.md`.
+Estado final: **ARTÍCULO Y LINKEDIN PUBLICADOS Y VERIFICADOS EL 22/10/2026; V4 APROBADA, V1–V3 RECHAZADAS**. Autorización explícita del propietario el 21/10/2026. Contrato y hash: `docs/social/b2b03/v4/APPROVED_RELEASE_20261021.md`. Evidencia terminal: `v4/LINKEDIN_RELEASE_20261022.json` e incidente `v4/AUTOMATION_INCIDENT_20261022.md`.
 
-El carrusel V4 aprobado está en `docs/social/b2b03/v4/`: cinco PNG, PDF de cinco páginas, HTML/CSS editable, logo auténtico, Orbi transparente y mapa sin huecos. Documentación y QA: `v4/APPROVED_RELEASE_20261021.md` y `v4/REVIEW_AND_QA.md`. No usar V1–V3. El calendario aprobado es jueves 22/10 a las 07:00 blog y 09:00 LinkedIn.
+El carrusel V4 aprobado está en `docs/social/b2b03/v4/`: cinco PNG, PDF de cinco páginas, HTML/CSS editable, logo auténtico, Orbi transparente y mapa sin huecos. Documentación y QA: `v4/APPROVED_RELEASE_20261021.md` y `v4/REVIEW_AND_QA.md`. No usar V1–V3. El calendario **original** aprobado fue jueves 22/10 a las 07:00 blog y 09:00 LinkedIn; ambos envíos requirieron recuperación, y LinkedIn se publicó finalmente a las **10:16 America/Lima**.
 
 Tema: Landing page B2B o web corporativa: cuál necesita realmente tu empresa.
 
-- Artículo: \`src/blogData.ts\`, slug \`landing-page-b2b-tecnica-vs-web-corporativa\`, actualmente DRAFT_NO_PUBLICABLE.
+- Artículo: `src/blogData.ts`, slug `landing-page-b2b-tecnica-vs-web-corporativa`, **PUBLISHED** en dominio oficial desde la recuperación del 22/10/2026.
 - Blog previsto: 07:00 America/Lima; dominio oficial \`https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/\`.
-- LinkedIn previsto: 09:00 America/Lima, página empresa \`134014070\`.
+- LinkedIn: empresa `134014070`, post verificado `https://www.linkedin.com/feed/update/urn:li:activity:7519053996737585153?actorCompanyId=134014070` (22/10/2026, 10:16 America/Lima).
 - Campaña: \`camp_b2b_landing_vs_corp\`; medio \`organic_social\`, fuente \`linkedin\`.
 - Activo visual aprobado (no regenerar/sustituir): `docs/social/b2b03/v4/orbital-b2b03-carousel-v4.pdf`, **cinco páginas de 1080×1350**, SHA256 `721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f`; los cinco PNG y la fuente están en esa misma carpeta.
 - El PDF se adjunta como DOCUMENTO a la publicación empresarial. Una tarjeta OG automática **no cuenta**.
 - Prohibido publicar si el archivo no aparece adjunto correctamente, si falla el preview o hay duplicado.
 
-## Copy LinkedIn (aprobación de campaña B2B-03 y carrusel V4; pendiente de publicación)
+## Copy LinkedIn (texto exacto aprobado y ya publicado con el carrusel V4)
 
 ```text
 Una web puede verse bien y aun así no explicar claramente qué ofrece tu empresa.
@@ -33,7 +33,7 @@ Preparamos este carrusel con criterios de decisión y una guía completa en Orbi
 
 Texto original: sin promesas de conversiones, porcentajes, clientes ficticios ni comparaciones experimentales inexistentes.
 
-## Secuencia de control
+## Secuencia de control original (registro histórico; ejecutada con recuperación)
 
 **21/10 noche:** preparar copia, 5 imágenes, PDF, revisar visual móvil/escritorio y enviar preview al propietario. No publicar blog ni post.
 
