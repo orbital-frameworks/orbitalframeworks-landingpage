@@ -1,8 +1,8 @@
 # B2B-03 · Publicación coordinada · Jueves 22/10/2026
 
-Estado: **V1 y V2 RECHAZADAS POR EL PROPIETARIO. V3 GENERADA PARA APROBACIÓN — NO PUBLICAR TODAVÍA.**
+Estado: **V1 y V2 rechazadas; V3 requiere corregir mapa. V4 CORREGIDA Y EN REVISIÓN — NO PUBLICAR TODAVÍA.**
 
-La nueva V3 está en docs/social/b2b03/v3/: cinco PNG, PDF, HTML editable, logo auténtico, Orbi transparente y controles de legibilidad/conexiones. Ver v3/REVIEW_AND_QA.md. No publicar V1, V2 ni V3 sin el visto bueno sobre los recursos exactos. La V2 queda conservada solo como antecedente rechazado.
+La V4 corregida está en docs/social/b2b03/v4/: cinco PNG, PDF, HTML editable, logo auténtico, Orbi transparente y mapa conectado sin huecos. Ver v4/REVIEW_AND_QA.md. Solo V4 es candidata a aprobación; V1–V3 permanecen como antecedentes. Las tareas de lanzamiento siguen desactivadas.
 
 Tema: Landing page B2B o web corporativa: cuál necesita realmente tu empresa.
 

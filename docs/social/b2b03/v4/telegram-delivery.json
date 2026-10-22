@@ -1,0 +1,48 @@
+{
+  "status": "DELIVERED",
+  "version": "V4",
+  "approvalRequired": true,
+  "noLinkedInPublication": true,
+  "deliveries": [
+    {
+      "method": "sendMediaGroup",
+      "ids": [
+        1196,
+        1197,
+        1198,
+        1199,
+        1200
+      ],
+      "at": "2026-10-22T04:50:46.542Z"
+    },
+    {
+      "method": "sendDocument",
+      "ids": [
+        1201
+      ],
+      "at": "2026-10-22T04:50:47.874Z"
+    },
+    {
+      "method": "sendMediaGroup",
+      "ids": [
+        1202,
+        1203
+      ],
+      "at": "2026-10-22T04:50:48.431Z"
+    },
+    {
+      "method": "sendDocument",
+      "ids": [
+        1205
+      ],
+      "at": "2026-10-22T04:50:49.530Z"
+    }
+  ],
+  "replacedArchive": {
+    "oldMessageId": 1204,
+    "oldDeleted": true,
+    "newMessageId": 1205,
+    "at": "2026-10-22T04:52:02.138Z",
+    "packageHasStandaloneFonts": false
+  }
+}
