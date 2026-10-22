@@ -152,7 +152,7 @@ Se establece una ventana mínima y recomendada entre el despliegue del artículo
 - [ ] 1. Verificar que el artículo en `src/blogData.ts` esté en estado `PUBLISHED`.
 - [ ] 2. Ejecutar `npm run build && npm test` localmente para garantizar SSR limpio.
 - [ ] 3. Tras el despliegue en producción viva, esperar al menos 2 horas.
-- [ ] 4. Verificar la página publicada sin escribir archivos: `node scripts/blog-linkedin-gate.mjs --dry-run`. Ejecutar sin `--dry-run` únicamente cuando esté lista la revisión del pack; reservar `--force` para una excepción deliberada a la política de duplicados.
+- [ ] 4. Verificar la **URL del artículo concreto** sin escribir archivos: ejecutar el gate con `--dry-run --slug <slug>` y el **copy original aprobado** (`--copy-file <ruta-del-copy-plano>` cuando esté preparado). Invocar el CLI sin `--slug` revisa el piloto histórico en lugar de la campaña solicitada; omitir el copy de un artículo nuevo provoca `EDITORIAL_COPY_REQUIRED` aunque el HTML público sea correcto. También se puede llamar `runGateCheck({slug,dryRun:true,customCopy})` extrayendo el copy del brief vigente y sustituyendo `{{UTM_URL}}` con el generador determinista. Ejecutar sin `--dry-run` únicamente cuando proceda guardar el pack; reservar `--force` para una excepción deliberada a la política de duplicados.
 - [ ] 5. Confirmar que el veredicto sea `✅ PASS` (15/15 checks superados).
 - [ ] 6. Abrir el archivo de entrega `docs/linkedin-[slug]-handoff.md` o `docs/linkedin-pilot-handoff-2026-10-17.md`.
 - [ ] 7. Elegir el formato visual que mejor explique el tema; disponer del archivo final real, fuente editable si existe y referencia de la pieza aprobada. **No se permite solo texto**.
@@ -161,3 +161,12 @@ Se establece una ventana mínima y recomendada entre el despliegue del artículo
 - [ ] 10. En el compositor empresarial, confirmar autor, copy, URL y **adjunto cargado**. Si el canal automatizado solo permite texto, **DETENER** y utilizar una ruta autorizada capaz de adjuntar el medio, previa validación; no publicar el copy sin el recurso.
 - [ ] 11. Publicar una sola vez tras gate público y aprobación; verificar el permalink del post y que el medio sea visible en la publicación real. No reintentar en caso de resultado ambiguo.
 - [ ] 12. Monitorear los eventos GA4 pertinentes y evaluar después impresiones, clics y calidad del tráfico para aprender qué formatos funcionan, sin inferir leads a partir de clics.
+
+### Recuperación operativa tras B2B-03 (22/10/2026)
+
+- No confundir una automatización programada consumida/desactivada con una publicación completada. El estado terminal se demuestra con **permalink + medio visible + enlace correcto + acuse de entrega**, no con `last_run_time`.
+- Para documentos PDF en el compositor empresarial, la secuencia verificada fue **adjuntar PDF V4 → título → «Hecho» → esperar «Tu documento ha terminado de cargarse» → insertar copy/UTM → confirmar autor y multimedia → un único clic**. Pegar primero el enlace provocó en una prueba que desapareciera el selector de archivo; no reintentar ciegamente.
+- Esperar a que el autor empresarial esté visible tras abrir el diálogo; un diálogo montado pero sin hidratar no confirma identidad.
+- Un enlace en un post puede convertirse en `lnkd.in`. La falta de la URL UTM larga dentro del texto del feed **no autoriza duplicar**: revisar el destino que ofrece LinkedIn y conservar el permalink/URN.
+- Enviar Telegram owner tanto si la publicación termina confirmada como si se bloquea o queda incierta; si puede haberse pulsado «Publicar», **conciliar solo en lectura** antes de considerar cualquier nueva acción.
+- Para campañas con horario crítico, el owner de la ejecución debe ser un job durable en una superficie autorizada, con registro preflight, checkpoint antes de submit, verificación externa, alertas y stop condition. Una tarea de ChatGPT que inicia una nueva conversación no sustituye ese controlador. El análisis de incidente concreto está en `docs/social/b2b03/v4/AUTOMATION_INCIDENT_20261022.md`. No instalar timers o cambiar el control plane como efecto incidental de un post.

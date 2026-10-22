@@ -74,6 +74,10 @@ async function main() {
     await page.getByRole('button', { name: /Crear publicación|Create a post/i }).first().click()
     let dialog = page.getByRole('dialog').last()
     await dialog.waitFor({ state: 'visible', timeout: 12000 })
+    // LinkedIn mounts an empty dialog before hydrating the corporate author.
+    // Wait for the actual author instead of rejecting the skeleton immediately.
+    await dialog.getByText('Orbital Frameworks', { exact: true }).first()
+      .waitFor({ state: 'visible', timeout: 12000 })
     assert((await dialog.innerText()).includes('Orbital Frameworks'), 'LINKEDIN_WRONG_AUTHOR')
     // The approved ordering matters: typing a URL before opening the document
     // picker can replace the upload surface with a link preview on LinkedIn.

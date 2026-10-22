@@ -1,0 +1,36 @@
+{
+  "status": "PUBLISHED_VERIFIED",
+  "slug": "landing-page-b2b-tecnica-vs-web-corporativa",
+  "url": "https://www.linkedin.com/feed/update/urn:li:activity:7519053996737585153?actorCompanyId=134014070",
+  "urn": "urn:li:activity:7519053996737585153",
+  "companyId": "134014070",
+  "pdfSha256": "721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f",
+  "pdfPages": 5,
+  "copySha256": "04e52f18ca35e47d80d631da023bba731c536f7de4a812d480be45344a4e5892",
+  "utmUrl": "https://orbitalframeworks.qzz.io/blog/landing-page-b2b-tecnica-vs-web-corporativa/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_b2b_landing_vs_corp",
+  "postTextVerified": true,
+  "postedAt": "2026-10-22T15:16:20.658Z",
+  "documentVisibleHint": true,
+  "independentPublicQa": {
+    "verdict": "PASS",
+    "publicHttpStatus": 200,
+    "verifiedAuthor": "Orbital Frameworks",
+    "documentTitleVisible": true,
+    "pageCountVisible": 5,
+    "pageNavigationAriaLabels": [
+      "Página 1 de 5",
+      "Página 2 de 5",
+      "Página 3 de 5",
+      "Página 4 de 5",
+      "Página 5 de 5"
+    ],
+    "linkedinShortlink": "https://lnkd.in/dNfcPkrS",
+    "linkedinShortlinkTargetMatchesExactUtm": true,
+    "method": "Playwright headless: publicly visible post, document navigation DOM, and LinkedIn outbound-link confirmation page"
+  },
+  "telegramReceipt": {
+    "confirmed": true,
+    "messageId": 1228,
+    "eventId": "e0ad543b-da49-4738-968c-9794d01f04ce"
+  }
+}

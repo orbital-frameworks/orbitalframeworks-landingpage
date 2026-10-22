@@ -31,3 +31,13 @@ Fecha: 22/10/2026, 07:13 America/Lima.
 - PDF V4 intacto: SHA-256 `721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f`.
 
 **Pendiente independiente:** distribuir una única publicación en LinkedIn empresarial **con documento PDF V4 adjunto** una vez conciliadas las ejecuciones de las 09:00, sin utilizar el publicador de solo texto; conservar permalink y recibo Telegram. La publicación del blog no demuestra la publicación social.
+
+## Cierre posterior de LinkedIn — 22/10/2026, 10:16 America/Lima
+
+- Publicación empresarial verificada: `https://www.linkedin.com/feed/update/urn:li:activity:7519053996737585153?actorCompanyId=134014070`.
+- Post exacto con PDF V4 aprobado (SHA-256 `721b83695e651ecf034700d847f17bdbb5d6828f2b544227c5d8f1dd54ea946f`), copy aprobado SHA-256 `04e52f18ca35e47d80d631da023bba731c536f7de4a812d480be45344a4e5892` y URL UTM oficial.
+- Recibo privado idempotente: `/srv/orbital/runtimes/private/linkedin-company-admin-browser/publication-journal/landing-page-b2b-tecnica-vs-web-corporativa.json`, fase `PUBLISHED_VERIFIED`.
+- Recibo del proyecto: `docs/social/b2b03/v4/LINKEDIN_RELEASE_20261022.json`.
+- QA independiente: permalink HTTP 200; autor empresarial; documento visible con cinco páginas y controles `Página 1 de 5` a `Página 5 de 5`; página de salida de `https://lnkd.in/dNfcPkrS` conserva la URL UTM exacta.
+- Orbital Relay confirmó el mensaje de finalización por Telegram owner: `messageId=1228`, `eventId=e0ad543b-da49-4738-968c-9794d01f04ce`.
+- La tarea ChatGPT de las 10:10 registró ejecución pero no publicación. La recuperación fue manual mediante `node scripts/publish-b2b03-v4-document.mjs --publish`, un solo clic y comprobación pública independiente. Consultar `AUTOMATION_INCIDENT_20261022.md`.
