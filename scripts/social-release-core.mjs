@@ -46,13 +46,27 @@ export function validateCampaign(job, { now = new Date(), root, manifest, checkF
   if (url.searchParams.get('utm_source') !== 'linkedin' || url.searchParams.get('utm_medium') !== 'organic_social' || url.searchParams.get('utm_campaign') !== job.campaign)
     throw new Error('UTM_CAMPAIGN_MISMATCH')
   if (url.searchParams.size !== 3) throw new Error('UTM_UNAPPROVED_PARAMS')
+  if (job.shortUrl !== undefined) {
+    let short
+    try { short = new URL(job.shortUrl) } catch { throw new Error('APPROVED_SHORTLINK_INVALID') }
+    if (short.origin !== 'https://orbitalframeworks.qzz.io' ||
+      !/^\/[a-z0-9-]{3,30}\/$/.test(short.pathname) ||
+      short.search || short.hash || short.href !== job.shortUrl)
+      throw new Error('APPROVED_SHORTLINK_INVALID')
+    // Only the reviewed brand alias is presently authorized. This isn't a
+    // generic user-supplied redirect or a new provider integration.
+    if (job.slug !== 'integracion-pedidos-whatsapp-almacen-operaciones' ||
+      job.shortUrl !== 'https://orbitalframeworks.qzz.io/pedidos/')
+      throw new Error('SHORTLINK_NOT_APPROVED_FOR_CAMPAIGN')
+  }
   if (!Number.isInteger(job.pdfPages) || job.pdfPages < 1 || job.pdfPages > 20)
     throw new Error('PDF_PAGE_COUNT_INVALID')
   const status = manifest?.publications?.[job.slug]
   if (status?.status === 'DISTRIBUTED' || status?.linkedinPostUrl || status?.linkedinPostUrn)
     throw new Error('ALREADY_DISTRIBUTED_NO_DUPLICATE')
   if (manifest && (status?.status !== 'LISTO_PARA_DISTRIBUCION_EXTERNA' ||
-    status.gateVerdict !== 'PASS' || status.campaign !== job.campaign || status.utmUrl !== job.utmUrl))
+    status.gateVerdict !== 'PASS' || status.campaign !== job.campaign || status.utmUrl !== job.utmUrl ||
+    (job.shortUrl && status.shortUrl !== job.shortUrl)))
     throw new Error('MANIFEST_NOT_READY_OR_CAMPAIGN_MISMATCH')
   if (checkFiles) {
     if (!root) throw new Error('WORKSPACE_REQUIRED')
@@ -61,7 +75,7 @@ export function validateCampaign(job, { now = new Date(), root, manifest, checkF
     if (sha256(readFileSync(pdf)) !== job.pdfSha256) throw new Error('APPROVED_PDF_SHA_MISMATCH')
     const text = readFileSync(copy, 'utf8').trim()
     if (sha256(text) !== job.copySha256) throw new Error('APPROVED_COPY_SHA_MISMATCH')
-    if (!text.includes(job.utmUrl)) throw new Error('APPROVED_COPY_UTM_NOT_PRESENT')
+    if (!text.includes(job.shortUrl || job.utmUrl)) throw new Error('APPROVED_COPY_LINK_NOT_PRESENT')
     const approval = readFileSync(assertSafeRelativePath(root,job.approval.reference),'utf8')
     if (!approval.includes(job.copySha256) || !approval.includes(job.pdfSha256) ||
       !/aprobado|aprobaci[oó]n|approved/i.test(approval))

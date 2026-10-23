@@ -1,0 +1,16 @@
+Un pedido puede llegar por WhatsApp en segundos.
+El problema aparece cuando ventas, inventario y almacén tienen versiones distintas de lo que se acordó.
+
+Antes de pensar en un ERP o una integración compleja, conviene hacerse tres preguntas:
+
+→ ¿Existe una única versión confirmada del pedido?
+→ ¿Quién valida la disponibilidad antes de prometer una entrega?
+→ ¿Puede el almacén saber qué preparar sin reconstruir el chat?
+
+La clave no es automatizarlo todo. Es evitar que la operación dependa de mensajes sueltos.
+
+En el artículo explicamos cómo estructurar el recorrido de un pedido, identificar los puntos de fricción y decidir cuándo realmente conviene conectar sistemas:
+
+https://orbitalframeworks.qzz.io/pedidos/
+
+#OrbitalFrameworks #AutomatizacionDeProcesos #Operaciones #TransformacionDigital

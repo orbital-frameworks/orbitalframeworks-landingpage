@@ -49,6 +49,8 @@ La referencia de aprobación debe ser un archivo real bajo `docs/social/` que re
 
 ## Secuencia automática
 
+**B2B-05 (aprobación del 23/10):** el post muestra https://orbitalframeworks.qzz.io/pedidos/ mientras conserva internamente el destino UTM exacto del artículo. Es una excepción concreta y revisada, no un acortador genérico. La URL corta aparece en el texto aprobado; el gate exige HTML público con meta refresh a la URL UTM y noindex. El archivo public/pedidos/index.html se crea únicamente durante el release autorizado del artículo el 27/10. No distribuir en LinkedIn si el alias devuelve 404 o apunta a un destino distinto.
+
 1. Timer consulta cola; si está vacía registra `NO_APPROVED_RELEASES` y **no abre LinkedIn**.
 2. Validación de ventana UTC, autorización, manifiesto, hashes, dominio, sitemap y feed públicos.
 3. Verificación de identidad empresarial y deduplicación por primera línea y feed.

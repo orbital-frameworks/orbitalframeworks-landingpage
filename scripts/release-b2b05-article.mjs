@@ -16,14 +16,18 @@ const SLUG='integracion-pedidos-whatsapp-almacen-operaciones'
 const CAMPAIGN='camp_whatsapp_to_warehouse'
 const APPROVAL='docs/social/b2b05/v3/PUBLICATION_APPROVAL_20261022.md'
 const PDF='docs/social/b2b05/v3/orbital-b2b05-carousel-v3.pdf'
-const COPY='docs/social/b2b05/v1/linkedin-copy-preview.txt'
+const COPY='docs/social/b2b05/v3/linkedin-copy-approved.txt'
+const SHORT_SOURCE='docs/social/b2b05/v3/redirect-pedidos.html'
+const SHORT_PUBLIC='public/pedidos/index.html'
+const shortUrl='https://orbitalframeworks.qzz.io/pedidos/'
 const ARTICLE='docs/social/b2b05/v1/article.md'
 const canonical='https://orbitalframeworks.qzz.io/blog/'+SLUG+'/'
 const utm=canonical+'?utm_source=linkedin&utm_medium=organic_social&utm_campaign='+CAMPAIGN
 const approved={
   article:'d727b141071da46d9f7cbf5f727746164bb60db746ef0cd0b1f1a86470be075f',
   pdf:'134de8e5f671a2a0195ce778a18dc8bfbfb23368fc0d36cd7262af227074a96a',
-  copyFile:'8340639775e563a9e9000e815c6a80e1fbc108b44350a7ba4e696519b437925c'
+  copyFile:'05efb6e30580925aa42e74eb6c0a026142b0ac8f165cd018f65bfc0525c1ada2',
+  shortSource:'42c147d1da5f7b13ede9eef1fe1f3fdeb354e061598d19cbd3918c01f4fa354e'
 }
 const due=Date.parse('2026-10-27T16:00:00Z')
 const expires=Date.parse('2026-10-27T18:00:00Z')
@@ -60,22 +64,30 @@ const notify=(event,message)=>{
 }
 function preflight(){
   if(run('id',['-un'])!=='orbital-private')throw Error('OWNER_ONLY_RELEASE')
-  for(const [name,file] of [['article',ARTICLE],['pdf',PDF],['copyFile',COPY]]){
+  for(const [name,file] of [['article',ARTICLE],['pdf',PDF],['copyFile',COPY],['shortSource',SHORT_SOURCE]]){
     if(hash(file)!==approved[name])throw Error('OWNER_APPROVED_HASH_MISMATCH:'+name)
   }
   const approval=read(APPROVAL)
   if(!approval.includes('APROBADO') || !approval.includes(approved.article) ||
     !approval.includes(approved.pdf) || !approval.includes(approved.copyFile) ||
-    !approval.includes('44ae68c1c134ee907440e2ec86065d6a0611b7e76cddd531824d0b99cf6ac77f'))
+    !approval.includes('32bd263a04fb3cef2f816eb5e39074c775cbc90056e05985b544aa7a72ad5131') ||
+    !approval.includes(approved.shortSource) || !approval.includes(shortUrl))
     throw Error('EXPLICIT_APPROVAL_RECORD_INCOMPLETE')
   const copy=read(COPY).trim()
-  if(!copy.includes(utm))throw Error('UTM_NOT_APPROVED')
+  if(!copy.includes(shortUrl) || copy.includes('utm_source=') ||
+    copy.includes('Preparamos también una guía práctica'))
+    throw Error('NEW_EDITORIAL_COPY_OR_BRANDED_LINK_NOT_APPROVED')
+  const redirect=read(SHORT_SOURCE)
+  if (!redirect.includes('http-equiv="refresh"') ||
+      !redirect.includes(utm.replaceAll('&','&amp;')))
+    throw Error('BRANDED_SHORTLINK_DOES_NOT_PRESERVE_APPROVED_UTM')
   return copy
 }
 function prepareReleaseFiles(){
-  const sensitive=['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml']
+  const sensitive=['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml',SHORT_PUBLIC]
   if(run('git',['diff','--cached','--name-only']))throw Error('OTHER_WORK_ALREADY_STAGED')
   if(run('git',['status','--porcelain','--',...sensitive]))throw Error('RELEASE_SOURCES_HAVE_UNCOMMITTED_CHANGES')
+  if(existsSync(join(ROOT,SHORT_PUBLIC)))throw Error('BRANDED_SHORTLINK_ALREADY_PUBLISHED')
   const head=run('git',['rev-parse','HEAD'])
   const upstream=run('git',['ls-remote','origin','refs/heads/main']).split(/\s+/)[0]
   if(head!==upstream){
@@ -126,6 +138,10 @@ function prepareReleaseFiles(){
     '<lastBuildDate>Tue, 27 Oct 2026 16:00:00 GMT</lastBuildDate>')
   if(updated===rss)throw Error('RSS_INSERT_FAILED')
   writeFileSync(join(ROOT,feed),updated)
+  // GitHub Pages/Amplify are static hosts. This reviewable noindex HTML
+  // redirect is activated only with the article on 27 Oct, not beforehand.
+  mkdirSync(join(ROOT,'public/pedidos'),{recursive:true})
+  writeFileSync(join(ROOT,SHORT_PUBLIC),read(SHORT_SOURCE),{flag:'wx'})
 }
 async function verifyPublic(){
   const timeout=AbortSignal.timeout(17000)
@@ -138,6 +154,12 @@ async function verifyPublic(){
   if(!html.includes('El pedido llegó') && !html.includes('Del pedido por WhatsApp'))throw Error('PUBLIC_ARTICLE_CONTENT_MISSING')
   if(!html.includes(canonical)||!html.includes('BlogPosting')||!xml.includes(canonical)||!feed.includes(canonical))
     throw Error('PUBLIC_ARTICLE_SEO_FEED_INCOMPLETE')
+  const short=await fetch(shortUrl,{signal:timeout,redirect:'manual'})
+  if(short.status!==200||short.url!==shortUrl)
+    throw Error('PUBLIC_BRANDED_SHORTLINK_NOT_LIVE')
+  const {approvedShortRedirectTarget}=await import('file://'+join(PRIVATE,'bin/social-release-publisher.mjs'))
+  if(approvedShortRedirectTarget(await short.text())!==utm)
+    throw Error('PUBLIC_BRANDED_SHORTLINK_TARGET_MISMATCH')
   const {runGateCheck}=await import('file://'+join(ROOT,'scripts/blog-linkedin-gate.mjs'))
   const verdict=await runGateCheck({rootPath:ROOT,slug:SLUG,dryRun:true,customCopy:read(COPY).trim()})
   if(!verdict.ok||verdict.verdict!=='PASS'||verdict.checks?.length!==15||
@@ -151,7 +173,7 @@ function reconcileManifest(){
   const copyHash=createHash('sha256').update(read(COPY).trim()).digest('hex')
   const entry={
     slug:SLUG,title:'Del pedido por WhatsApp al almacén: cómo conectar ventas, inventario y operaciones sin duplicar datos',
-    campaign:CAMPAIGN,utmUrl:utm,canonicalUrl:canonical,
+    campaign:CAMPAIGN,utmUrl:utm,shortUrl,canonicalUrl:canonical,
     status:'LISTO_PARA_DISTRIBUCION_EXTERNA',gateVerdict:'PASS',autopostAuthorized:true,
     approvalReference:APPROVAL,approvedPdfSha256:approved.pdf,approvedCopySha256:copyHash,
     blogPublishedAt:'2026-10-27T16:00:00Z',scheduledLinkedInAt:'2026-10-28T21:00:00Z',
@@ -176,7 +198,7 @@ async function scheduleLinkedIn(entry){
     schema:'orbital.social-release.v1',slug:SLUG,companyId:'134014070',
     approval:{explicit:true,reference:APPROVAL},campaign:CAMPAIGN,
     scheduledAt:'2026-10-28T21:00:00Z',expiresAt:'2026-10-28T22:00:00Z',
-    canonicalUrl:canonical,utmUrl:utm,pdfPath:PDF,pdfSha256:approved.pdf,
+    canonicalUrl:canonical,utmUrl:utm,shortUrl,pdfPath:PDF,pdfSha256:approved.pdf,
     copyPath:COPY,copySha256:entry.approvedCopySha256,pdfPages:5,
     documentTitle:'Del pedido al almacén | Orbital Frameworks'
   }
@@ -211,8 +233,11 @@ async function main(){
       run('npm',['run','build'])
       const draftPath=join(ROOT,'dist/blog',SLUG,'index.html')
       if(!existsSync(draftPath))throw Error('B2B05_PRERENDER_NOT_GENERATED')
-      run('git',['add','--','src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml'])
-      assertStagedOnly(['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml'])
+      if(!existsSync(join(ROOT,'dist/pedidos/index.html')))
+        throw Error('BRANDED_SHORTLINK_NOT_GENERATED_IN_DEPLOY_ARTIFACT')
+      const releasePaths=['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml',SHORT_PUBLIC]
+      run('git',['add','--',...releasePaths])
+      assertStagedOnly(releasePaths)
       run('git',['diff','--cached','--check'])
       run('git',['commit','-m','release(blog): publish B2B05 on authorized 27 Oct window'])
       const pushedSha=run('git',['rev-parse','HEAD'])
