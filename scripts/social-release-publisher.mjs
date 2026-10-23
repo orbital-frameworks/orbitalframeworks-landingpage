@@ -125,8 +125,10 @@ export async function verifyPublishedPost(page,job,urn) {
     const probe=await page.context().newPage()
     try {
       const result=await probe.goto(short,{waitUntil:'domcontentloaded',timeout:25000})
-      const destinations=await probe.locator('a[href]').evaluateAll(nodes=>nodes.map(x=>x.href))
-      if (result?.status()!==200 || !destinations.includes(job.shortUrl || job.utmUrl))
+      const destinations=outboundLinkTargets(await probe.locator('a[href]').evaluateAll(nodes=>
+        nodes.map(x=>({href:x.href,text:x.innerText.trim()}))))
+      const expected=[job.shortUrl || job.utmUrl,job.utmUrl]
+      if (result?.status()!==200 || !expected.some(x=>destinations.includes(x) || probe.url()===x))
         throw Error('LINKEDIN_SHORTLINK_TARGET_MISMATCH')
     } finally {await probe.close()}
   }

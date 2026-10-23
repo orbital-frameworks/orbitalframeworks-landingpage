@@ -76,6 +76,8 @@ node scripts/blog-linkedin-gate.mjs --json
 
 ## 3. Generador de Parámetros UTM y Política Anti-PII
 
+**Preferencia editorial aprobada el 23/10/2026:** cuando exista una URL corta de marca verificada, el copy visible de LinkedIn debe mostrar esa URL, no la cadena extensa de parámetros UTM. La página corta debe pertenecer al dominio oficial, resolverse al artículo exacto con UTM completo, usar noindex/canonical y superar HTTP/target QA antes de encolar la campaña. Nunca inventar una dirección corta sin crear y verificar su destino; no asumir que un acortador de terceros garantiza analítica o estabilidad. Para B2B-05: https://orbitalframeworks.qzz.io/pedidos/ (se activará junto con el artículo el 27/10).
+
 El gate genera URLs de campaña deterministas con la siguiente estructura:
 
 ```
