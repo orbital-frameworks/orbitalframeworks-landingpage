@@ -63,6 +63,23 @@
       "receiptPath": "docs/social/b2b03/v4/LINKEDIN_RELEASE_20261022.json",
       "telegramMessageId": 1228,
       "failedChecks": []
+    },
+    "integracion-pedidos-whatsapp-almacen-operaciones": {
+      "slug": "integracion-pedidos-whatsapp-almacen-operaciones",
+      "title": "Del pedido por WhatsApp al almacén: cómo conectar ventas, inventario y operaciones sin duplicar datos",
+      "campaign": "camp_whatsapp_to_warehouse",
+      "utmUrl": "https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_whatsapp_to_warehouse",
+      "shortUrl": "https://orbitalframeworks.qzz.io/pedidos/",
+      "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/",
+      "status": "LISTO_PARA_DISTRIBUCION_EXTERNA",
+      "gateVerdict": "PASS",
+      "autopostAuthorized": true,
+      "approvalReference": "docs/social/b2b05/v3/PUBLICATION_APPROVAL_20261022.md",
+      "approvedPdfSha256": "134de8e5f671a2a0195ce778a18dc8bfbfb23368fc0d36cd7262af227074a96a",
+      "approvedCopySha256": "32bd263a04fb3cef2f816eb5e39074c775cbc90056e05985b544aa7a72ad5131",
+      "blogPublishedAt": "2026-10-27T16:00:00Z",
+      "scheduledLinkedInAt": "2026-10-27T18:00:00Z",
+      "failedChecks": []
     }
   }
 }
