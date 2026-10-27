@@ -176,7 +176,7 @@ function reconcileManifest(){
     campaign:CAMPAIGN,utmUrl:utm,shortUrl,canonicalUrl:canonical,
     status:'LISTO_PARA_DISTRIBUCION_EXTERNA',gateVerdict:'PASS',autopostAuthorized:true,
     approvalReference:APPROVAL,approvedPdfSha256:approved.pdf,approvedCopySha256:copyHash,
-    blogPublishedAt:'2026-10-27T16:00:00Z',scheduledLinkedInAt:'2026-10-28T21:00:00Z',
+    blogPublishedAt:'2026-10-27T16:00:00Z',scheduledLinkedInAt:'2026-10-27T18:00:00Z',
     failedChecks:[]
   }
   const base=JSON.parse(run('git',['show','HEAD:'+file]))
@@ -197,7 +197,7 @@ async function scheduleLinkedIn(entry){
   const job={
     schema:'orbital.social-release.v1',slug:SLUG,companyId:'134014070',
     approval:{explicit:true,reference:APPROVAL},campaign:CAMPAIGN,
-    scheduledAt:'2026-10-28T21:00:00Z',expiresAt:'2026-10-28T22:00:00Z',
+    scheduledAt:'2026-10-27T18:00:00Z',expiresAt:'2026-10-27T19:00:00Z',
     canonicalUrl:canonical,utmUrl:utm,shortUrl,pdfPath:PDF,pdfSha256:approved.pdf,
     copyPath:COPY,copySha256:entry.approvedCopySha256,pdfPages:5,
     documentTitle:'Del pedido al almacén | Orbital Frameworks'
@@ -219,7 +219,7 @@ async function main(){
   preflight()
   if(process.argv.includes('--dry-run')){
     emit({status:'PREFLIGHT_READY',schedule:'2026-10-27T16:00:00Z',
-      linkedin:'2026-10-28T21:00:00Z',articleSha256:approved.article,pdfSha256:approved.pdf})
+      linkedin:'2026-10-27T18:00:00Z',articleSha256:approved.article,pdfSha256:approved.pdf})
     return
   }
   if(!process.argv.includes('--publish'))throw Error('EXPLICIT_PUBLISH_FLAG_REQUIRED')
@@ -267,9 +267,9 @@ async function main(){
     if(state.phase==='EDITORIAL_MANIFEST_READY'){
       const manifest=JSON.parse(read('docs/blog-linkedin-manifest.json'))
       await scheduleLinkedIn(manifest.publications[SLUG])
-      update('COMPLETE',{linkedInScheduledAt:'2026-10-28T21:00:00Z'})
+      update('COMPLETE',{linkedInScheduledAt:'2026-10-27T18:00:00Z'})
       const message='B2B05 artículo publicado y verificado: '+canonical+
-        ' · Gate 15/15. LinkedIn PDF V3 aprobado, programado para miércoles 28/10 16:00 Lima. No se ha publicado LinkedIn todavía.'
+        ' · Gate 15/15. LinkedIn PDF V3 aprobado, programado para martes 27/10 13:00 Lima. No se ha publicado LinkedIn todavía.'
       update('COMPLETE',{telegramDeliveryConfirmed:notify('WORK_RUN_COMPLETED',message)})
     }
   }catch(error){

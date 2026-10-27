@@ -25,14 +25,14 @@ La modificación de copy y el uso del enlace corto corresponden a la aprobación
 ## Calendario aprobado (America/Lima)
 
 - Artículo: martes **27/10/2026, 11:00** (16:00 UTC).
-- LinkedIn empresarial: miércoles **28/10/2026, 16:00** (21:00 UTC).
+- LinkedIn empresarial: **martes 27/10/2026, 13:00** (18:00 UTC), horario actualizado por autorización explícita posterior del propietario el 27/10 a las 10:52 (hora de Perú).
 
 ## Alcance y gates
 
 1. No publicar el artículo antes de su fecha: mantener DRAFT_NO_PUBLICABLE en Git.
 2. Publicar una vez, comprobar Git remoto + CI/deploy + canonical/SEO/HTTP 200/sitemap/RSS, avisar por Telegram.
 3. LinkedIn: adjuntar el documento PDF aprobado a la página empresarial Orbital Frameworks (ID 134014070). Nunca reemplazar el documento con texto solo.
-4. Ventana de publicación LinkedIn: 28/10/2026, 16:00–17:00 Lima. Fuera de ella bloquear y alertar.
+4. Ventana de publicación LinkedIn: 27/10/2026, 13:00–14:00 Lima. Fuera de ella bloquear y alertar.
 5. Estado durable antes y después del clic. No repetir envío ante resultado incierto. Notificaciones Telegram.
 
 **No autoriza:** otros posts, cambios de credenciales, permisos o políticas globales, gastos, métricas inventadas o adelantar las publicaciones.
