@@ -647,10 +647,11 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
   assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
 
-  // Verify all 16 public sitemap canonical routes are properly formed
+  // Verify all 17 approved public canonical routes, including B2B-05 released
+  // on 27 Oct. New releases must update both this guard and the URL list.
   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz.io[^<]*)<\/loc>/g)].map(m => m[1])
-  assert.equal(locMatches.length, 16, 'Sitemap must contain exactly 16 canonical routes')
+  assert.equal(locMatches.length, 17, 'Sitemap must contain exactly 17 canonical routes')
 
   const expectedUrls = [
     'https://orbitalframeworks.qzz.io/',
@@ -668,6 +669,7 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
     'https://orbitalframeworks.qzz.io/blog/',
     'https://orbitalframeworks.qzz.io/blog/software-a-medida-o-saas-como-decidir/',
     'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
+    'https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/',
   ]
   for (const expectedUrl of expectedUrls) {
     assert.ok(locMatches.includes(expectedUrl), `Sitemap must include ${expectedUrl}`)

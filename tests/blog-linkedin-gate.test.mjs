@@ -38,7 +38,11 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
   assert.equal(b2b03?.status, 'PUBLISHED', 'B2B-03 approved for publication on 22/10/2026')
   assert.equal(b2b03?.campaign, 'camp_b2b_landing_vs_corp')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03'].includes(t.id))
+  const b2b05 = BACKLOG_TOPICS.find((t) => t.id === 'B2B-05')
+  assert.equal(b2b05?.status, 'PUBLISHED', 'B2B-05 approved for publication on 27/10/2026')
+  assert.equal(b2b05?.campaign, 'camp_whatsapp_to_warehouse')
+
+  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05'].includes(t.id))
   for (const draft of drafts) {
     assert.equal(
       draft.status,
