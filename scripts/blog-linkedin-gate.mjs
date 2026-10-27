@@ -45,7 +45,7 @@ export const BACKLOG_TOPICS = [
     id: 'B2B-05',
     slug: 'integracion-pedidos-whatsapp-almacen-operaciones',
     title: 'Integración de canales comerciales con operaciones: del pedido por WhatsApp al almacén',
-    status: 'DRAFT_NO_PUBLICABLE',
+    status: 'PUBLISHED',
     campaign: 'camp_whatsapp_to_warehouse',
     service: 'Automatización de Procesos',
     caseStudy: 'Wasy',

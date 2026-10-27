@@ -5,8 +5,16 @@
     <link>https://orbitalframeworks.qzz.io/blog/</link>
     <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
     <language>es-PE</language>
-    <lastBuildDate>Thu, 22 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 16:00:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Del pedido por WhatsApp al almacén: cómo conectar ventas, inventario y operaciones sin duplicar datos</title>
+      <link>https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/</guid>
+      <pubDate>Tue, 27 Oct 2026 16:00:00 GMT</pubDate>
+      <description>Cómo estructurar y conectar pedidos recibidos por WhatsApp con ventas, inventario y operaciones.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
     <item>
       <title>Landing page B2B o web corporativa: cuál necesita realmente tu empresa</title>
       <description>Guía para elegir entre una landing y una web corporativa.</description>
