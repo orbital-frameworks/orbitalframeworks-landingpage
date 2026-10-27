@@ -46,7 +46,14 @@ const update=(phase,details={})=>{
 }
 const run=(cmd,args,{cwd=ROOT,input}={})=>{
   const r=spawnSync(cmd,args,{cwd,input,encoding:'utf8',timeout:240000,maxBuffer:5*1024*1024})
-  if(r.error||r.status!==0)throw Error('COMMAND_FAILED:'+cmd+' '+args.slice(0,4).join(' ')+' '+String(r.stderr||r.error||'').slice(-330))
+  if(r.error||r.status!==0) {
+    const stdout=String(r.stdout||'')
+    const stderr=String(r.stderr||r.error||'')
+    const diagnostic=stdout+'\n'+stderr
+    const primary=diagnostic.split('\n').filter(line=>/FAIL|requires ImageMagick|Error:|error TS|failed|ENOENT|EACCES/i.test(line)).slice(0,6).join(' | ')
+    throw Error('COMMAND_FAILED:'+cmd+' '+args.slice(0,4).join(' ')+
+      ' exit='+r.status+' cause='+primary.slice(0,420)+' tail='+diagnostic.slice(-250))
+  }
   return r.stdout.trim()
 }
 const assertStagedOnly=allowed=>{
@@ -82,6 +89,30 @@ function preflight(){
       !redirect.includes(utm.replaceAll('&','&amp;')))
     throw Error('BRANDED_SHORTLINK_DOES_NOT_PRESERVE_APPROVED_UTM')
   return copy
+}
+function preparedFromInterruptedRun(){
+  // An interrupted prior execution left exactly the four intended content
+  // edits plus the *new* shortlink file. Resume it, never clear it or
+  // overwrite unrelated changes to the checkout.
+  const expected=['public/feed.xml','public/sitemap.xml','scripts/blog-linkedin-gate.mjs','src/blogData.ts']
+  const modified=run('git',['diff','--name-only','--',...expected]).split('\n').filter(Boolean).sort()
+  if(modified.join('|')!==expected.join('|'))return false
+  const short=join(ROOT,SHORT_PUBLIC)
+  if(!existsSync(short)||createHash('sha256').update(readFileSync(short)).digest('hex')!==approved.shortSource)
+    return false
+  const data=read('src/blogData.ts')
+  const start=data.indexOf("  '"+SLUG+"': {")
+  const end=data.indexOf("  'software-a-medida-o-saas-como-decidir': {",start)
+  if(start<0||end<=start)return false
+  const block=data.slice(start,end)
+  if(!block.includes("status: 'PUBLISHED'")||block.includes('DRAFT_NO_PUBLICABLE'))return false
+  const gate=read('scripts/blog-linkedin-gate.mjs')
+  const index=gate.indexOf("slug: '"+SLUG+"'")
+  const endGate=gate.indexOf('},',index)
+  if(index<0||endGate<0||!gate.slice(index,endGate).includes("status: 'PUBLISHED'"))return false
+  if(!read('public/feed.xml').includes(canonical)||!read('public/sitemap.xml').includes(canonical))
+    return false
+  return true
 }
 function prepareReleaseFiles(){
   const sensitive=['src/blogData.ts','scripts/blog-linkedin-gate.mjs','public/sitemap.xml','public/feed.xml',SHORT_PUBLIC]
@@ -228,7 +259,14 @@ async function main(){
   try{
     if(state.phase==='COMPLETE')return emit({status:'ALREADY_COMPLETED'})
     if(state.phase==='NOT_RELEASED'){
-      prepareReleaseFiles()
+      if (preparedFromInterruptedRun()) {
+        emit({status:'RECOVERED_PREPARED_ARTICLE_FROM_INTERRUPTED_RUN'})
+      } else {
+        prepareReleaseFiles()
+      }
+      update('LOCAL_CONTENT_PREPARED')
+    }
+    if(state.phase==='LOCAL_CONTENT_PREPARED'){
       // Test built site before changing remote production.
       run('npm',['run','build'])
       const draftPath=join(ROOT,'dist/blog',SLUG,'index.html')
