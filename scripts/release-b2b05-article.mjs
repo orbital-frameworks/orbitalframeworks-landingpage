@@ -234,8 +234,13 @@ async function scheduleLinkedIn(entry){
     documentTitle:'Del pedido al almacén | Orbital Frameworks'
   }
   const manifest=JSON.parse(read('docs/blog-linkedin-manifest.json'))
-  const verdict=validateCampaign(job,{root:ROOT,manifest,now:new Date('2026-10-27T18:00:00Z')})
-  if(verdict!=='NOT_DUE')throw Error('SOCIAL_JOB_PREVALIDATION_FAILED')
+  // Validate against the actual clock. A fixed test timestamp became
+  // inaccurate when the owner moved LinkedIn from 28 Oct to 27 Oct at 13:00.
+  // Both NOT_DUE and DUE are valid *preflight* outcomes, whereas an expired
+  // or invalid approval still fails closed inside validateCampaign().
+  const verdict=validateCampaign(job,{root:ROOT,manifest,now:new Date()})
+  if(verdict!=='NOT_DUE'&&verdict!=='DUE')
+    throw Error('SOCIAL_JOB_PREVALIDATION_FAILED:'+String(verdict))
   // This installer copies the freshly published blogData gate into the owner
   // runtime. The shared Team checkout is never executed as a root service.
   run('/bin/bash',['deploy/social-release/install-owner.sh'])
