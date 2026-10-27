@@ -130,7 +130,9 @@ async function processJob(job, now, manifest) {
   try {
     validateCampaign(job,{now,root:PROJECT,manifest})
     if(existsSync(journalFile(slug)))throw Error('JOURNAL_EXISTS_NO_SECOND_CLICK')
-    await checkLiveBlog(job)
+    // The live gate reads the approved copy from the resolved private path.
+    // Passing the raw queue job omits _copyFile and crashes before any click.
+    await checkLiveBlog(prepared)
     const receipt=await publishDocumentOnce(prepared,{recordPending:async()=>{
       const pending={phase:'SUBMISSION_PENDING',slug,attempts,submittedAt:new Date().toISOString(),
         pdfSha256:job.pdfSha256,copySha256:job.copySha256}
@@ -144,6 +146,9 @@ async function processJob(job, now, manifest) {
     notifyTerminal({slug,state:final})
     return emit({slug,action:'PUBLISHED_VERIFIED',url:receipt.url})
   } catch(error) {
+    // Keep the complete private stack for root-cause diagnosis; notifications
+    // continue to contain only the redacted public reason.
+    process.stderr.write('SOCIAL_RELEASE_PREFLIGHT_STACK '+String(error?.stack || error)+'\n')
     const ambiguous=clickPossible || existsSync(journalFile(slug))
     const fatal=/APPROVAL|SHA_MISMATCH|INVALID_|EXPIRED|OUTSIDE_|DUPLICATE|ALREADY_|MANIFEST_|UTM_|JOURNAL_EXISTS|NOT_READY|NO_SECOND_CLICK/.test(redactReason(error))
     phase=ambiguous?'NEEDS_RECONCILIATION':fatal||attempts>=3?'BLOCKED':'PREFLIGHT_RETRYABLE'
