@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "project": "orbitalframeworks-landingpage",
-  "lastUpdated": "2026-10-22T15:16:20.658Z",
+  "lastUpdated": "2026-10-29T14:35:08.275Z",
   "policy": {
     "autopostAllowed": false,
     "duplicatePolicy": "BLOCK_DUPLICATE_DISTRIBUTION",
@@ -80,6 +80,26 @@
       "blogPublishedAt": "2026-10-27T16:00:00Z",
       "scheduledLinkedInAt": "2026-10-27T18:00:00Z",
       "failedChecks": []
+    },
+    "web-con-visitas-pero-sin-consultas": {
+      "slug": "web-con-visitas-pero-sin-consultas",
+      "title": "Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar",
+      "campaign": "camp_web_visitas_contactos",
+      "utmUrl": "https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_web_visitas_contactos",
+      "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/",
+      "status": "DISTRIBUTED",
+      "gateVerdict": "PASS",
+      "lastCheckedAt": "2026-10-29T14:35:08.275Z",
+      "packPath": "docs/social/b2b06/PUBLICATION_APPROVAL_20261029.md",
+      "autopostAuthorized": false,
+      "failedChecks": [],
+      "pdfSha256": "095608a79536219c6a3b48e5b3dc313f8ff2091a156f105b07d262676c3bb3ec",
+      "approvedCopySha256": "0099244bec76ccd5434e9f93dbea937738ba8839ba2c1033985ddfb6e8a23559",
+      "linkedinPostUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7521580080263999488?actorCompanyId=134014070",
+      "linkedinPostUrn": "urn:li:activity:7521580080263999488",
+      "documentPages": 5,
+      "verifiedAt": "2026-10-29T14:35:08.275Z",
+      "verificationSource": "LINKEDIN_BUSINESS_SESSION_PUBLIC_DOCUMENT_VERIFIED"
     }
   }
 }
