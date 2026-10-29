@@ -3,6 +3,7 @@ export type BlogPostSlug =
   | 'automatizacion-procesos-vs-excel-riesgo-operativo'
   | 'landing-page-b2b-tecnica-vs-web-corporativa'
   | 'integracion-pedidos-whatsapp-almacen-operaciones'
+  | 'web-con-visitas-pero-sin-consultas'
 
 
 export type BlogSection = {
@@ -53,6 +54,115 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'web-con-visitas-pero-sin-consultas': {
+  "slug": "web-con-visitas-pero-sin-consultas",
+  "route": "/blog/web-con-visitas-pero-sin-consultas/",
+  "canonical": "https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/",
+  "title": "Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar",
+  "metaTitle": "Tu web recibe visitas, pero no consultas | Orbital Insights",
+  "metaDescription": "Por qué una web B2B recibe visitas pero pocas consultas: diagnostica demanda, distribución, claridad de la propuesta y siguiente paso antes de rediseñar.",
+  "eyebrow": "Orbital Insights / Diagnóstico web y conversión B2B",
+  "datePublished": "2026-10-29",
+  "dateModified": "2026-10-29",
+  "readingTime": "7 min de lectura",
+  "status": "PUBLISHED",
+  "statusLabel": "",
+  "statusNotice": "",
+  "prioritizedOwnerQuestion": "¿En qué punto del recorrido se pierde la intención de un visitante antes de solicitar contacto?",
+  "author": {
+    "name": "Orbital Frameworks",
+    "type": "Organization",
+    "url": "https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/"
+  },
+  "lead": "Una empresa puede invertir en su sitio web, recibir visitas y aun así no conseguir nuevas conversaciones comerciales. La reacción habitual es cambiar el diseño, agregar formularios o comprar más tráfico. Pero antes conviene entender qué se rompe en el recorrido: la demanda, la expectativa con la que llega alguien o el siguiente paso que encuentra en la página.",
+  "sections": [
+    {
+      "heading": "1. Visitas no son oportunidades comerciales",
+      "content": [
+        "El número de visitas muestra actividad, no necesariamente interés de compra. Algunas personas investigan, otras comparan proveedores y muchas llegan por motivos que no coinciden con la oferta. Tratar todas las sesiones como prospectos puede llevar a conclusiones equivocadas.",
+        "El objetivo útil para una web B2B no es maximizar visitas a cualquier costo, sino facilitar que la persona adecuada comprenda una propuesta y pueda iniciar una conversación relevante. Un clic en «Contactar» tampoco equivale, por sí mismo, a un mensaje enviado o una oportunidad calificada.",
+        "Antes de hablar de una tasa de conversión hay que precisar el denominador y el evento medido: ¿sesiones? ¿usuarios? ¿formularios realmente enviados? ¿correos recibidos? No son métricas intercambiables."
+      ]
+    },
+    {
+      "heading": "2. Diagnostica primero la demanda y la distribución",
+      "content": [
+        "Pregunta uno: ¿hay una necesidad real y actual detrás de esas visitas? Alguien que busca inspiración de diseño puede no estar comparando proveedores para contratar ahora. Ningún botón corrige por completo una falta de demanda.",
+        "Pregunta dos: ¿la promesa del canal coincide con lo que encuentra al llegar? Si una publicación habla de automatizar pedidos, pero dirige a una portada genérica sobre transformación digital, la expectativa se rompe. La solución puede ser una página de servicio más específica, no necesariamente un rediseño general.",
+        "Para distinguir ambos casos, revisa las consultas de búsqueda disponibles, los mensajes de campañas, las páginas de entrada y las preguntas reales que llegan por correo. Evita inventar intenciones a partir de una cifra agregada de tráfico."
+      ]
+    },
+    {
+      "heading": "3. Una visita necesita entender tres cosas",
+      "content": [
+        "Reconocer: «Esto me importa». El encabezado inicial debe describir un problema o resultado comprensible para el visitante. Una lista genérica de capacidades técnicas puede demostrar amplitud, pero no siempre responde a su situación.",
+        "Entender: «Esto me sirve». Explica para quién es la solución, qué incluye, qué no incluye y cómo se aborda el trabajo. Cuando hay ejemplos públicos y autorizados, enlázalos sin convertirlos en promesas de resultados no medidos.",
+        "Actuar: «Esto es lo que hago». El siguiente paso debe ser concreto: enviar un breve caso, solicitar una evaluación o preguntar por el alcance. La acción debe ser visible, fácil de iniciar en móvil y coherente con el compromiso que se pide al visitante.",
+        "Si estas tres respuestas aparecen dispersas, se contradicen o exigen demasiada interpretación, un visitante interesado puede marcharse sin preguntar."
+      ]
+    },
+    {
+      "heading": "4. Cinco señales que conviene revisar antes de cambiar el diseño",
+      "content": [
+        "Primera: el titular habla de la empresa, pero no del problema que ayuda a resolver. Segunda: el enlace de origen promete algo que no se desarrolla en la página de llegada. Tercera: los servicios se describen mediante etiquetas amplias sin ejemplos de alcance.",
+        "Cuarta: la acción de contacto aparece tarde, no funciona bien en móvil o no explica qué ocurrirá después. Quinta: se mide el clic en el botón como si fuera una solicitud recibida, de modo que el equipo no sabe dónde se pierden contactos reales.",
+        "Ninguna señal demuestra por sí sola un problema de conversión. Son hipótesis que deben comprobarse con el recorrido real, una revisión móvil y conversaciones comerciales cuando existan."
+      ]
+    },
+    {
+      "heading": "5. Un orden práctico para diagnosticar sin sobredimensionar",
+      "content": [
+        "Empieza por demanda: identifica qué necesidad describe el visitante y si tu oferta corresponde a esa necesidad. Continúa por distribución: comprueba con qué promesa entró y qué encuentra primero. Termina por conversión: verifica si comprende la propuesta y dispone de un paso claro para contactar.",
+        "Cuando encuentres una fricción concreta, cambia solo esa parte: mejora un encabezado, aclara una oferta, conecta un enlace con una página específica o simplifica el contacto. Observa resultados antes de añadir funcionalidades.",
+        "Si todavía no tienes medición suficiente, plantea una prueba cualitativa simple: pide a una persona ajena al equipo que explique qué vendes, a quién ayudas y cómo te contactaría después de revisar la página en su teléfono."
+      ]
+    },
+    {
+      "heading": "6. Cuándo sí vale la pena rediseñar",
+      "content": [
+        "Un rediseño integral puede justificarse si la estructura impide encontrar servicios importantes, la página tiene fallos graves de accesibilidad o velocidad, o la oferta cambió y ya no puede explicarse con claridad en el sistema actual.",
+        "En cambio, una empresa con tráfico poco relevante o una promesa comercial confusa puede invertir en un sitio nuevo y seguir recibiendo pocas consultas. La forma debe servir al recorrido comercial, no sustituir el diagnóstico.",
+        "Antes de presupuestar, documenta el punto de fricción observado, la mejora esperada y cómo comprobarás que el siguiente paso realmente funciona. La decisión puede ser optimizar un bloque, crear una página de servicio o reformular el sitio completo."
+      ]
+    },
+    {
+      "heading": "Conclusión: de la visita a la conversación",
+      "content": [
+        "Una web efectiva no convierte automáticamente cada visita en cliente. Su tarea es hacer reconocible una necesidad, explicar una propuesta relevante y ofrecer una forma clara de iniciar el diálogo.",
+        "No empieces cambiándolo todo. Identifica primero dónde se pierde la intención: demanda, distribución o conversión. Después elige la intervención más pequeña que puedas comprobar."
+      ]
+    }
+  ],
+  "decisionMatrix": [],
+  "internalLinks": [
+    {
+      "anchor": "Landing pages comerciales B2B",
+      "url": "/servicios/landing-pages-b2b/",
+      "label": "Cómo planteamos páginas de entrada con una propuesta y un siguiente paso claros."
+    },
+    {
+      "anchor": "Landing B2B o web corporativa",
+      "url": "/blog/landing-page-b2b-tecnica-vs-web-corporativa/",
+      "label": "Cuándo conviene una página enfocada y cuándo una presencia institucional más amplia."
+    },
+    {
+      "anchor": "Referencia pública PeruLog Pallets",
+      "url": "/casos/perulog-pallets/",
+      "label": "Ejemplo público de presencia web empresarial, sin atribuirle resultados comerciales no medidos."
+    },
+    {
+      "anchor": "Conoce Orbital Frameworks",
+      "url": "/sobre-orbital-frameworks/",
+      "label": "Nuestro alcance y canales oficiales de conversación."
+    }
+  ],
+  "cta": {
+    "headline": "¿Tu sitio recibe visitas, pero no genera conversaciones útiles?",
+    "description": "Podemos revisar juntos el problema que quieres resolver, la promesa que ve el visitante y el siguiente paso comercial antes de plantear un rediseño.",
+    "subject": "Consulta sobre diagnóstico web y contactos B2B",
+    "body": "Hola Orbital Frameworks,\n\nLeí su artículo sobre visitas web y consultas comerciales. Me gustaría revisar mi caso.\n\nSitio actual:\nQué vendemos:\nA quién buscamos llegar:\nQué pasa cuando un visitante intenta contactarnos:\n"
+  }
+},
   'integracion-pedidos-whatsapp-almacen-operaciones': {
     slug: 'integracion-pedidos-whatsapp-almacen-operaciones',
     route: '/blog/integracion-pedidos-whatsapp-almacen-operaciones/',

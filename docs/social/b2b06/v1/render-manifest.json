@@ -1,0 +1,173 @@
+{
+  "schema": "orbital.b2b06.carousel.v1",
+  "status": "REVIEW_NOT_APPROVED_NOT_PUBLISHED",
+  "createdAt": "2026-10-29T02:16:33.501Z",
+  "title": "¿Tu web recibe visitas, pero casi nadie pregunta?",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "count": 5
+  },
+  "provenance": [
+    {
+      "output": "assets/logo-symbol.png",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/Logo_favicon.png",
+      "sha256": "a6b8ec541f81fb91d0c66af7eb2b0da293f3add8d59a9fdca641908d384af881"
+    },
+    {
+      "output": "assets/orbi-pointing.png",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/docs/social/b2b05/v3/assets/orbi-pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "output": "assets/big-shoulders.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/big-shoulders-display-latin.woff2",
+      "sha256": "698f9960927e7b5a0c38e5bf388cd0a6e42d855062fe70366cf5057664e39401"
+    },
+    {
+      "output": "assets/plex-sans.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-sans-latin.woff2",
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    },
+    {
+      "output": "assets/plex-mono.woff2",
+      "source": "/srv/orbital/workspaces/orbitalframeworks-landingpage/public/fonts/ibm-plex-mono-400-latin.woff2",
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    }
+  ],
+  "source": "docs/social/b2b06/**/v1/source.html",
+  "renderer": "docs/social/b2b06/**/v1/render.mjs",
+  "layout": [
+    {
+      "slide": 1,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 348,
+      "overflow": []
+    },
+    {
+      "slide": 2,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 491,
+      "overflow": []
+    },
+    {
+      "slide": 3,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 491,
+      "overflow": []
+    },
+    {
+      "slide": 4,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 498,
+      "overflow": []
+    },
+    {
+      "slide": 5,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 454,
+      "overflow": []
+    }
+  ],
+  "geometry": {
+    "stages": [
+      {
+        "x": 112,
+        "y": 697.5,
+        "right": 350.65625,
+        "bottom": 1017.5,
+        "w": 238.65625,
+        "h": 320
+      },
+      {
+        "x": 420.65625,
+        "y": 697.5,
+        "right": 659.328125,
+        "bottom": 1017.5,
+        "w": 238.671875,
+        "h": 320
+      },
+      {
+        "x": 729.328125,
+        "y": 697.5,
+        "right": 968,
+        "bottom": 1017.5,
+        "w": 238.671875,
+        "h": 320
+      }
+    ],
+    "connectors": [
+      {
+        "x": 350.65625,
+        "y": 856,
+        "right": 420.65625,
+        "bottom": 859,
+        "w": 70,
+        "h": 3
+      },
+      {
+        "x": 659.328125,
+        "y": 856,
+        "right": 729.328125,
+        "bottom": 859,
+        "w": 70,
+        "h": 3
+      }
+    ],
+    "mascot": {
+      "x": 762,
+      "y": 3103,
+      "right": 1042,
+      "bottom": 3383,
+      "w": 280,
+      "h": 280
+    },
+    "cta": {
+      "x": 72,
+      "y": 3779,
+      "right": 1008,
+      "bottom": 3915,
+      "w": 936,
+      "h": 136
+    },
+    "connected": true,
+    "mascotSeparate": true
+  },
+  "outputs": [
+    {
+      "file": "slide-01.png",
+      "sha256": "e9919709afebdc5f7255fd1bdbc751f9cea4a081c4906457ee28690b36d97390",
+      "bytes": 108959
+    },
+    {
+      "file": "slide-02.png",
+      "sha256": "aa37278a6979c644a377617bee9d01389aaa186ec87df430494b5604624a73ea",
+      "bytes": 111522
+    },
+    {
+      "file": "slide-03.png",
+      "sha256": "9d986e268e85770aaa896a64b09a319fb5407e49b4276bb312c786626b360dd0",
+      "bytes": 110376
+    },
+    {
+      "file": "slide-04.png",
+      "sha256": "0d8b6bfafa58e653c81d387d3cdf12101069221a16747ede4ede626a061971cd",
+      "bytes": 109853
+    },
+    {
+      "file": "slide-05.png",
+      "sha256": "cd0bfa4828ea42ec20f9dcc2d08cf18295c968288f2af80fcdd16fb25508982e",
+      "bytes": 130644
+    },
+    {
+      "file": "orbital-b2b06-carousel-v1.pdf",
+      "sha256": "095608a79536219c6a3b48e5b3dc313f8ff2091a156f105b07d262676c3bb3ec",
+      "bytes": 557871
+    }
+  ]
+}

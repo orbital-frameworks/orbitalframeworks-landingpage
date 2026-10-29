@@ -60,6 +60,15 @@ export const BACKLOG_TOPICS = [
     caseStudy: 'Checkio',
   },
   {
+    id: 'B2B-06-WEB',
+    slug: 'web-con-visitas-pero-sin-consultas',
+    title: 'Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar',
+    status: 'PUBLISHED',
+    campaign: 'camp_web_visitas_contactos',
+    service: 'Landing Pages B2B',
+    caseStudy: null,
+  },
+  {
     id: 'B2B-07',
     slug: 'deuda-tecnica-parches-sistemas-empresariales',
     title: 'Deuda técnica y parches en software empresarial: señales de que tu sistema interno necesita refactorización',

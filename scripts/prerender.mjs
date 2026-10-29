@@ -155,7 +155,7 @@ const pages = [
     description: 'Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización elaborados por Orbital Frameworks.',
     canonical: 'https://orbitalframeworks.qzz.io/blog/',
     schemaType: 'blog',
-    dateModified: '2026-10-22',
+    dateModified: '2026-10-29',
   },
   {
     pathname: '/blog/software-a-medida-o-saas-como-decidir/',
@@ -214,6 +214,19 @@ if(b2b05.status==='PUBLISHED'){
     title:b2b05.metaTitle,description:b2b05.metaDescription,
     canonical:b2b05.canonical,schemaType:'article',articleHeadline:b2b05.title,
     datePublished:b2b05.datePublished,dateModified:b2b05.dateModified
+  })
+}
+
+// B2B-06: publish only after the approved editorial source is live.
+const b2b06=blogPosts['web-con-visitas-pero-sin-consultas']
+if(b2b06.status==='PUBLISHED'){
+  const anchor=pages.findIndex(p=>p.pathname==='/404')
+  if(anchor<0)throw Error('B2B06_PRERENDER_INSERT_ANCHOR_MISSING')
+  pages.splice(anchor,0,{
+    pathname:b2b06.route,output:'dist/blog/'+b2b06.slug+'/index.html',
+    title:b2b06.metaTitle,description:b2b06.metaDescription,
+    canonical:b2b06.canonical,schemaType:'article',articleHeadline:b2b06.title,
+    datePublished:b2b06.datePublished,dateModified:b2b06.dateModified
   })
 }
 

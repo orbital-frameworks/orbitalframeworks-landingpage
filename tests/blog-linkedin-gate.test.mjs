@@ -23,7 +23,7 @@ const root = resolve(process.cwd())
 const distDir = resolveDistDir(root)
 
 test('1. Backlog topics and pilot article metadata alignment', () => {
-  assert.equal(BACKLOG_TOPICS.length, 8, 'Must declare exactly 8 B2B topics')
+  assert.equal(BACKLOG_TOPICS.length, 9, 'Must declare exactly 9 B2B topics')
   const pilot = BACKLOG_TOPICS.find((t) => t.id === 'B2B-01')
   assert.ok(pilot, 'B2B-01 pilot topic must exist')
   assert.equal(pilot.status, 'PUBLISHED', 'Pilot topic must be in PUBLISHED status')
@@ -42,7 +42,10 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
   assert.equal(b2b05?.status, 'PUBLISHED', 'B2B-05 approved for publication on 27/10/2026')
   assert.equal(b2b05?.campaign, 'camp_whatsapp_to_warehouse')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05'].includes(t.id))
+  const b2b06web = BACKLOG_TOPICS.find((t) => t.id === 'B2B-06-WEB')
+  assert.equal(b2b06web?.status, 'PUBLISHED', 'Web conversion article approved 29/10/2026')
+
+  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05', 'B2B-06-WEB'].includes(t.id))
   for (const draft of drafts) {
     assert.equal(
       draft.status,

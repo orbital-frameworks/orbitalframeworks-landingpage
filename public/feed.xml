@@ -5,8 +5,16 @@
     <link>https://orbitalframeworks.qzz.io/blog/</link>
     <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
     <language>es-PE</language>
-    <lastBuildDate>Tue, 27 Oct 2026 16:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 14:00:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar</title>
+      <link>https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/</guid>
+      <pubDate>Thu, 29 Oct 2026 14:00:00 GMT</pubDate>
+      <description>Por qué una web B2B recibe visitas pero pocas consultas: diagnostica demanda, distribución, claridad de la propuesta y siguiente paso antes de rediseñar.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
     <item>
       <title>Del pedido por WhatsApp al almacén: cómo conectar ventas, inventario y operaciones sin duplicar datos</title>
       <link>https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/</link>

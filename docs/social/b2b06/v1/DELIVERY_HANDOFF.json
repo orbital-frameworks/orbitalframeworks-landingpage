@@ -1,0 +1,177 @@
+{
+  "schema": "orbital.social.delivery-handoff.v1",
+  "status": "READY_FOR_OWNER_REVIEW_AFTER_INDEPENDENT_QA",
+  "target": {
+    "role": "owner",
+    "channel": "Nicolas Relay Telegram",
+    "deliveryStatus": "NOT_SENT"
+  },
+  "destination": {
+    "target": "owner",
+    "channel": "Nicolas Relay Telegram",
+    "deliveryStatus": "NOT_SENT"
+  },
+  "stagedArtifacts": {
+    "pdf": {
+      "fileName": "orbital-b2b06-carousel-v1.pdf",
+      "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1.pdf",
+      "sha256": "095608a79536219c6a3b48e5b3dc313f8ff2091a156f105b07d262676c3bb3ec",
+      "bytes": 557871
+    },
+    "packageZip": {
+      "fileName": "orbital-b2b06-carousel-v1-review.zip",
+      "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1-review.zip",
+      "sha256": "27ade151e567236f253531b5d58c904694293e90394001194de3805d1c18f0ef",
+      "bytes": 2224806
+    },
+    "slides": [
+      {
+        "fileName": "slide-01.png",
+        "relativePath": "docs/social/b2b06/v1/slide-01.png",
+        "sha256": "e9919709afebdc5f7255fd1bdbc751f9cea4a081c4906457ee28690b36d97390",
+        "bytes": 108959
+      },
+      {
+        "fileName": "slide-02.png",
+        "relativePath": "docs/social/b2b06/v1/slide-02.png",
+        "sha256": "aa37278a6979c644a377617bee9d01389aaa186ec87df430494b5604624a73ea",
+        "bytes": 111522
+      },
+      {
+        "fileName": "slide-03.png",
+        "relativePath": "docs/social/b2b06/v1/slide-03.png",
+        "sha256": "9d986e268e85770aaa896a64b09a319fb5407e49b4276bb312c786626b360dd0",
+        "bytes": 110376
+      },
+      {
+        "fileName": "slide-04.png",
+        "relativePath": "docs/social/b2b06/v1/slide-04.png",
+        "sha256": "0d8b6bfafa58e653c81d387d3cdf12101069221a16747ede4ede626a061971cd",
+        "bytes": 109853
+      },
+      {
+        "fileName": "slide-05.png",
+        "relativePath": "docs/social/b2b06/v1/slide-05.png",
+        "sha256": "cd0bfa4828ea42ec20f9dcc2d08cf18295c968288f2af80fcdd16fb25508982e",
+        "bytes": 130644
+      }
+    ],
+    "items": [
+      {
+        "kind": "pdf",
+        "fileName": "orbital-b2b06-carousel-v1.pdf",
+        "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1.pdf",
+        "sha256": "095608a79536219c6a3b48e5b3dc313f8ff2091a156f105b07d262676c3bb3ec",
+        "bytes": 557871
+      },
+      {
+        "kind": "review-package",
+        "fileName": "orbital-b2b06-carousel-v1-review.zip",
+        "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1-review.zip",
+        "sha256": "27ade151e567236f253531b5d58c904694293e90394001194de3805d1c18f0ef",
+        "bytes": 2224806
+      },
+      {
+        "kind": "slide",
+        "slideIndex": 1,
+        "fileName": "slide-01.png",
+        "relativePath": "docs/social/b2b06/v1/slide-01.png",
+        "sha256": "e9919709afebdc5f7255fd1bdbc751f9cea4a081c4906457ee28690b36d97390",
+        "bytes": 108959
+      },
+      {
+        "kind": "slide",
+        "slideIndex": 2,
+        "fileName": "slide-02.png",
+        "relativePath": "docs/social/b2b06/v1/slide-02.png",
+        "sha256": "aa37278a6979c644a377617bee9d01389aaa186ec87df430494b5604624a73ea",
+        "bytes": 111522
+      },
+      {
+        "kind": "slide",
+        "slideIndex": 3,
+        "fileName": "slide-03.png",
+        "relativePath": "docs/social/b2b06/v1/slide-03.png",
+        "sha256": "9d986e268e85770aaa896a64b09a319fb5407e49b4276bb312c786626b360dd0",
+        "bytes": 110376
+      },
+      {
+        "kind": "slide",
+        "slideIndex": 4,
+        "fileName": "slide-04.png",
+        "relativePath": "docs/social/b2b06/v1/slide-04.png",
+        "sha256": "0d8b6bfafa58e653c81d387d3cdf12101069221a16747ede4ede626a061971cd",
+        "bytes": 109853
+      },
+      {
+        "kind": "slide",
+        "slideIndex": 5,
+        "fileName": "slide-05.png",
+        "relativePath": "docs/social/b2b06/v1/slide-05.png",
+        "sha256": "cd0bfa4828ea42ec20f9dcc2d08cf18295c968288f2af80fcdd16fb25508982e",
+        "bytes": 130644
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "kind": "pdf",
+      "fileName": "orbital-b2b06-carousel-v1.pdf",
+      "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1.pdf",
+      "sha256": "095608a79536219c6a3b48e5b3dc313f8ff2091a156f105b07d262676c3bb3ec",
+      "bytes": 557871
+    },
+    {
+      "kind": "review-package",
+      "fileName": "orbital-b2b06-carousel-v1-review.zip",
+      "relativePath": "docs/social/b2b06/v1/orbital-b2b06-carousel-v1-review.zip",
+      "sha256": "27ade151e567236f253531b5d58c904694293e90394001194de3805d1c18f0ef",
+      "bytes": 2224806
+    },
+    {
+      "kind": "slide",
+      "slideIndex": 1,
+      "fileName": "slide-01.png",
+      "relativePath": "docs/social/b2b06/v1/slide-01.png",
+      "sha256": "e9919709afebdc5f7255fd1bdbc751f9cea4a081c4906457ee28690b36d97390",
+      "bytes": 108959
+    },
+    {
+      "kind": "slide",
+      "slideIndex": 2,
+      "fileName": "slide-02.png",
+      "relativePath": "docs/social/b2b06/v1/slide-02.png",
+      "sha256": "aa37278a6979c644a377617bee9d01389aaa186ec87df430494b5604624a73ea",
+      "bytes": 111522
+    },
+    {
+      "kind": "slide",
+      "slideIndex": 3,
+      "fileName": "slide-03.png",
+      "relativePath": "docs/social/b2b06/v1/slide-03.png",
+      "sha256": "9d986e268e85770aaa896a64b09a319fb5407e49b4276bb312c786626b360dd0",
+      "bytes": 110376
+    },
+    {
+      "kind": "slide",
+      "slideIndex": 4,
+      "fileName": "slide-04.png",
+      "relativePath": "docs/social/b2b06/v1/slide-04.png",
+      "sha256": "0d8b6bfafa58e653c81d387d3cdf12101069221a16747ede4ede626a061971cd",
+      "bytes": 109853
+    },
+    {
+      "kind": "slide",
+      "slideIndex": 5,
+      "fileName": "slide-05.png",
+      "relativePath": "docs/social/b2b06/v1/slide-05.png",
+      "sha256": "cd0bfa4828ea42ec20f9dcc2d08cf18295c968288f2af80fcdd16fb25508982e",
+      "bytes": 130644
+    }
+  ],
+  "reviewEvidence": "REVIEW_AND_QA.md",
+  "deliveryBlocker": {
+    "operation": "send Telegram documents through Nicolas Relay",
+    "reason": "No social-ops, Relay connector, or authenticated browser capability was granted. The package must first receive the separate qa-e2e decision; no message or receipt was fabricated."
+  }
+}
