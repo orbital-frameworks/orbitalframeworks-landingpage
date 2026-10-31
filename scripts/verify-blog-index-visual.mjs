@@ -221,6 +221,10 @@ try {
         }));
 
         const searchField = document.querySelector('#blog-search-field');
+        const mobileToggle = document.querySelector('.blogCategoryMobileToggle');
+        const toggleRect = mobileToggle.getBoundingClientRect();
+        const headerRect = document.querySelector('.blogSectionHeader').getBoundingClientRect();
+        const gridRect = grid.getBoundingClientRect();
         const links = cards.map((card) => card.querySelector('.blogPostCardSurface')?.getAttribute('href'));
 
         return {
@@ -232,6 +236,9 @@ try {
           cardCount: cards.length,
           titleChecks,
           categoryButtons,
+          mobileToggle: { display: getComputedStyle(mobileToggle).display, height: toggleRect.height,
+            expanded: mobileToggle.getAttribute('aria-expanded') },
+          articleGap: Math.round(gridRect.top - headerRect.bottom),
           hasSearchField: Boolean(searchField),
           searchLabel: document.querySelector('label[for="blog-search-field"]')?.textContent.trim(),
           links,
@@ -259,7 +266,17 @@ try {
     assert.equal(data.searchLabel, 'Buscar', `Search must keep its visible label at ${vp.width}px`)
     assert.equal(new Set(data.links).size, 5, `Every card must expose a unique crawlable link at ${vp.width}px`)
     assert.ok(data.links.every((href) => href?.startsWith('/blog/')), `Card links must remain internal blog URLs at ${vp.width}px`)
-    assert.ok(data.categoryButtons.every(({ height }) => height >= 44), `Category controls must be at least 44px tall at ${vp.width}px`)
+    if (vp.width <= 700) {
+      assert.ok(data.mobileToggle.height >= 44 && data.mobileToggle.expanded === 'false',
+        `Mobile category disclosure must be a usable collapsed touch target at ${vp.width}px`)
+      assert.ok(data.categoryButtons.every(({ height }) => height === 0),
+        `Category options must remain collapsed by default at ${vp.width}px`)
+    } else {
+      assert.ok(data.categoryButtons.every(({ height }) => height >= 44), `Category controls must be at least 44px tall at ${vp.width}px`)
+      assert.equal(data.mobileToggle.display, 'none', `Desktop/tablet categories must remain visible at ${vp.width}px`)
+    }
+    assert.ok(data.articleGap <= (vp.width <= 700 ? 215 : vp.width <= 1180 ? 195 : 155),
+      `Article cards must appear near the header at ${vp.width}px; gap=${data.articleGap}px`)
     assert.deepEqual(
       Object.fromEntries(data.categoryButtons.map(({ id, count }) => [id, count])),
       {
@@ -278,6 +295,38 @@ try {
 
     const screenshot = await capture(`blog-index-${vp.width}.png`)
     console.log(`PASS [${vp.label}]: cols=${data.geometricCols}, overflow=none (${data.scrollWidth}px <= ${data.innerWidth}px), cards=${data.cardCount}, screenshot=${screenshot.path}, sha256=${screenshot.hash}`)
+    if (vp.width === 390 || vp.width === 1440) {
+      await send('Runtime.evaluate', { expression: `document.querySelector('#articulos').scrollIntoView({block:'start'})` })
+      await sleep(150)
+      const toolbarShot = await capture(`blog-toolbar-${vp.width}.png`)
+      console.log('PASS [Compact toolbar screenshot]', vp.width, toolbarShot.path)
+    }
+    if (vp.width <= 700) {
+      await send('Runtime.evaluate', { expression: `document.querySelector('.blogCategoryMobileToggle').click()` })
+      await sleep(80)
+      const expanded = await send('Runtime.evaluate', {
+        expression: `(() => ({
+          expanded: document.querySelector('.blogCategoryMobileToggle').getAttribute('aria-expanded'),
+          options: [...document.querySelectorAll('.blogCategoryBtn')].map(e => Math.round(e.getBoundingClientRect().height))
+        }))()`, returnByValue: true,
+      })
+      assert.equal(expanded.result.value.expanded, 'true', 'Mobile category selector must expand on click')
+      assert.ok(expanded.result.value.options.every((height) => height >= 44),
+        'Expanded mobile category options must be touch sized')
+      await send('Runtime.evaluate', { expression: `document.querySelector('#cat-web-y-conversion').click()` })
+      await sleep(80)
+      const selected = await send('Runtime.evaluate', {
+        expression: `(() => ({
+          expanded: document.querySelector('.blogCategoryMobileToggle').getAttribute('aria-expanded'),
+          cards: document.querySelectorAll('.blogPostCard').length,
+          label: document.querySelector('.blogCategoryMobileToggle').textContent.trim()
+        }))()`, returnByValue: true,
+      })
+      assert.equal(selected.result.value.expanded, 'false', 'Selecting a category closes the mobile disclosure')
+      assert.equal(selected.result.value.cards, 2, 'Selecting web category filters posts')
+      assert.match(selected.result.value.label, /Web y conversión/)
+      console.log('PASS [Mobile filter disclosure]', vp.width, 'expanded/selected/collapsed')
+    }
   }
 
   // Browser zoom changes the effective CSS viewport. A 1440px display at 200%
@@ -607,6 +656,18 @@ try {
   await sleep(700)
   const anchorHash = await send('Runtime.evaluate', { expression: 'location.hash', returnByValue: true })
   assert.equal(anchorHash.result.value, '#articulos', 'Touching the visible article anchor must navigate to #articulos')
+  const togglePoint = await send('Runtime.evaluate', {
+    expression: `(() => {const r = document.querySelector('.blogCategoryMobileToggle').getBoundingClientRect();
+      return {x:r.left+r.width/2,y:r.top+r.height/2}})()`, returnByValue: true,
+  })
+  await tap(togglePoint.result.value.x, togglePoint.result.value.y)
+  await sleep(110)
+  const touchExpanded = await send('Runtime.evaluate', {
+    expression: `document.querySelector('.blogCategoryMobileToggle').getAttribute('aria-expanded')`, returnByValue: true,
+  })
+  assert.equal(touchExpanded.result.value, 'true', 'Actual touch must open category disclosure')
+  await send('Runtime.evaluate', { expression: `document.querySelector('#cat-automatizacion-y-operaciones').scrollIntoView({block:'center'})` })
+  await sleep(120)
   const touchPoint = await send('Runtime.evaluate', {
     expression: `(() => {
       const target = document.querySelector('#cat-automatizacion-y-operaciones');

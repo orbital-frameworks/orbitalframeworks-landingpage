@@ -93,7 +93,7 @@ try {
       })
       assert.deepEqual(navClosed.result.value, { expanded: 'false', visibility: 'hidden' }, `${width}px: closed menu must not expose links to keyboard focus`)
       await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').click()` })
-      await sleep(430)
+      await sleep(800)
       const navOpened = await send('Runtime.evaluate', {
         expression: `(() => {
           const links = document.querySelector('.navLinks');
@@ -105,6 +105,8 @@ try {
             expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
             x: rect.x, width: rect.width, bottom: rect.bottom,
             containerWidth: document.querySelector('.navShell').getBoundingClientRect().width,
+            right: rect.right, height: rect.height,
+            drawerCloseVisible: getComputedStyle(document.querySelector('.navDrawerClose')).display !== 'none',
             visibility: style.visibility, opacity: style.opacity,
             background: style.backgroundColor,
             backdrop: !!backdrop && backdropRect.width >= document.documentElement.clientWidth - 1 && backdropRect.height >= innerHeight,
@@ -120,8 +122,10 @@ try {
       assert.equal(menu.visibility, 'visible', `${width}px: open menu must be visible`)
       assert.equal(menu.opacity, '1', `${width}px: open menu must be opaque`)
       assert.equal(menu.background, 'rgb(7, 17, 27)', `${width}px: text must not compete with hero behind the menu`)
-      assert.ok(menu.x >= 0 && menu.x <= 25 && menu.width >= menu.containerWidth - 50,
-        `${width}px: menu must fill available width, got x=${menu.x}, width=${menu.width}, container=${menu.containerWidth}`)
+      assert.ok(menu.x >= 0 && menu.right >= width - 20 && menu.right <= width + 4 && menu.width <= 381 &&
+        menu.width >= Math.min(width * 0.88, 380) - 2 && menu.height >= 810,
+        `${width}px: off-canvas drawer must occupy the right edge, got x=${menu.x}, width=${menu.width}, right=${menu.right}`)
+      assert.equal(menu.drawerCloseVisible, true, `${width}px: drawer requires an accessible close control`)
       assert.equal(menu.backdrop, true, `${width}px: open menu must shield underlying content`)
       assert.equal(menu.scrollLocked, true, `${width}px: open menu must lock background scroll`)
       assert.equal(menu.links, 7, `${width}px: all navigation links must be present`)
@@ -141,7 +145,7 @@ try {
       assert.equal(tabFocus.result.value, true, `${width}px: Tab must enter the open navigation`)
       await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
       await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
-      await sleep(80)
+      await sleep(300)
       const closedByEscape = await send('Runtime.evaluate', {
         expression: `(() => ({ expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
           focusReturned: document.activeElement === document.querySelector('.navToggle'),
@@ -153,8 +157,8 @@ try {
         `${width}px: Escape must close, restore focus, restore scrolling and hide links`)
       await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').click()` })
       await sleep(130)
-      await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: Math.floor(width / 2), y: 800, button: 'left', clickCount: 1 })
-      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: Math.floor(width / 2), y: 800, button: 'left', clickCount: 1 })
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 8, y: 800, button: 'left', clickCount: 1 })
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 8, y: 800, button: 'left', clickCount: 1 })
       await sleep(120)
       const closedByBackdrop = await send('Runtime.evaluate', {
         expression: `(() => ({expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),

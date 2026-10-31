@@ -64,7 +64,6 @@ function Logo() {
 function NavBar({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -136,29 +135,26 @@ function NavBar({ items }: { items: NavItem[] }) {
 
         <div
           id="primary-nav-links"
-          className={`navLinks ${open ? 'isOpen' : ''} ${hoveredId ? 'isHovering' : ''}`}
-          onMouseLeave={() => setHoveredId(null)}
+          className={`navLinks ${open ? 'isOpen' : ''}`}
         >
+          <div className="navDrawerHead">
+            <span>Explorar Orbital</span>
+            <button className="navDrawerClose" type="button" onClick={() => { setOpen(false); toggleRef.current?.focus() }} aria-label="Cerrar menú">×</button>
+          </div>
           {items.map((item) => (
             <a
               key={item.id}
-              className={`navLink ${hoveredId === item.id ? 'isHover' : ''}`}
+              className="navLink"
               href={`#${item.id}`}
               onClick={() => setOpen(false)}
-              onMouseEnter={() => setHoveredId(item.id)}
-              onFocus={() => setHoveredId(item.id)}
-              onBlur={() => setHoveredId(null)}
             >
               {item.label}
             </a>
           ))}
           <a
-            className={`navLink ${hoveredId === 'blog' ? 'isHover' : ''}`}
+            className="navLink"
             href="/blog/"
             onClick={() => setOpen(false)}
-            onMouseEnter={() => setHoveredId('blog')}
-            onFocus={() => setHoveredId('blog')}
-            onBlur={() => setHoveredId(null)}
           >
             Blog
           </a>

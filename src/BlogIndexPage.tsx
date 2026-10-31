@@ -100,6 +100,7 @@ const H = (t: string, r: RegExp | null) =>
 export default function BlogIndexPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategoryId, setActiveCategoryId] = useState<BlogCategoryId>(ALL)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const tokens = tokenizeSearchQuery(searchQuery)
   const highlightRegex = buildHighlightRegex(tokens)
@@ -128,15 +129,38 @@ export default function BlogIndexPage() {
       h(
         'section',
         { className: 'blogIndexMain', id: 'articulos' },
-        h('header', { className: 'blogSectionHeader' }, <h2>Artículos y análisis técnicos</h2>, <p>Evaluaciones fundamentadas en experiencias reales de desarrollo y arquitectura de sistemas.</p>),
+        h(
+          'header',
+          { className: 'blogSectionHeader' },
+          D(
+            'blogSectionTitleRow',
+            <h2>Artículos y análisis técnicos</h2>,
+            D(
+              'blogResultsBar',
+              h('div', { id: 'blog-results-status', className: 'blogResultsStatus', role: 'status', 'aria-live': 'polite' }, `${results.length} artículo${results.length === 1 ? '' : 's'}${q ? ' para "' + q + '"' : ''}`),
+              (activeCategoryId !== ALL || q) && (
+                <button type="button" onClick={() => clear(true)} className="blogResetBtn">Restablecer</button>
+              ),
+            ),
+          ),
+          <p>Evaluaciones fundamentadas en experiencias reales de desarrollo y arquitectura de sistemas.</p>,
+        ),
         D(
           'blogFilterToolbar',
           h(
             'fieldset',
             { className: 'blogCategoryGroup' },
             h('legend', { className: 'blogCategoryGroupLabel' }, 'Filtrar por tema'),
+            <button
+              type="button"
+              className="blogCategoryMobileToggle"
+              aria-expanded={mobileFiltersOpen}
+              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+            >
+              {categoryName(activeCategoryId)}
+            </button>,
             D(
-              'blogCategoryList',
+              `blogCategoryList${mobileFiltersOpen ? ' isMobileOpen' : ''}`,
               BLOG_CATEGORIES.map(([id, label]) => {
                 const a = activeCategoryId === id
                 return (
@@ -146,7 +170,7 @@ export default function BlogIndexPage() {
                     type="button"
                     aria-pressed={a}
                     className={'blogCategoryBtn' + (a ? ' isCategoryActive' : '')}
-                    onClick={() => setActiveCategoryId(id)}
+                    onClick={() => { setActiveCategoryId(id); setMobileFiltersOpen(false) }}
                   >
                     {label}{S('blogCategoryCount', counts[id] || 0)}
                   </button>
@@ -175,15 +199,6 @@ export default function BlogIndexPage() {
                   ×
                 </button>
               ),
-            ),
-          ),
-          D(
-            'blogResultsBar',
-            h('div', { id: 'blog-results-status', className: 'blogResultsStatus', role: 'status', 'aria-live': 'polite' }, `${results.length} artículo${results.length === 1 ? '' : 's'}${q ? ' para "' + q + '"' : ''}`),
-            (activeCategoryId !== ALL || q) && (
-              <button type="button" onClick={() => clear(true)} className="blogResetBtn">
-                Restablecer
-              </button>
             ),
           ),
         ),
