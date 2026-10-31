@@ -65,14 +65,31 @@ function NavBar({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth >= 1101) setOpen(false)
+      if (window.innerWidth > 1180) setOpen(false)
     }
     window.addEventListener('resize', onResize, { passive: true })
     return () => window.removeEventListener('resize', onResize)
   }, [])
+
+  useEffect(() => {
+    if (!open) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
 
   useEffect(() => {
     let raf = 0
@@ -97,22 +114,28 @@ function NavBar({ items }: { items: NavItem[] }) {
 
   return (
     <div className={`navShell ${scrolled ? 'isScrolled' : ''}`}>
+      {open && (
+        <button type="button" className="navBackdrop" aria-label="Cerrar menú de navegación" tabIndex={-1} onClick={() => setOpen(false)} />
+      )}
       <nav className="nav" aria-label="Navegación principal">
         <Logo />
 
         <button
+          ref={toggleRef}
           className="navToggle"
           type="button"
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
+          aria-controls="primary-nav-links"
           onClick={() => setOpen((v) => !v)}
         >
           <svg viewBox="0 0 24 24" role="presentation" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" />
+            <path d={open ? 'M5 5l14 14M19 5L5 19' : 'M4 7h16M4 12h16M4 17h16'} />
           </svg>
         </button>
 
         <div
+          id="primary-nav-links"
           className={`navLinks ${open ? 'isOpen' : ''} ${hoveredId ? 'isHovering' : ''}`}
           onMouseLeave={() => setHoveredId(null)}
         >

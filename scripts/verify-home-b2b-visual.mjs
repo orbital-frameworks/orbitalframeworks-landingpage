@@ -48,7 +48,7 @@ try {
   })
   await send('Page.enable')
   await send('Runtime.enable')
-  for (const width of [320, 390, 768, 1024, 1440, 1728]) {
+  for (const width of [320, 390, 768, 1024, 1180, 1181, 1440, 1728]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width < 768 })
     await send('Page.navigate', { url: origin })
     await sleep(470)
@@ -84,6 +84,101 @@ try {
     assert.equal(data.cardCount, 4)
     assert.ok(data.cardLinks.every(Boolean), 'All service cards must link to a service or contact')
     console.log('B2B_LAYOUT_PASS', width, 'hero', data.h1.h, 'px', 'CTA', data.primary.w, 'px', 'services', data.serviceTitle.h, 'px')
+    if (width <= 1180) {
+      const navClosed = await send('Runtime.evaluate', {
+        expression: `(() => ({
+          expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
+          visibility: getComputedStyle(document.querySelector('.navLinks')).visibility,
+        }))()`, returnByValue: true,
+      })
+      assert.deepEqual(navClosed.result.value, { expanded: 'false', visibility: 'hidden' }, `${width}px: closed menu must not expose links to keyboard focus`)
+      await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').click()` })
+      await sleep(430)
+      const navOpened = await send('Runtime.evaluate', {
+        expression: `(() => {
+          const links = document.querySelector('.navLinks');
+          const rect = links.getBoundingClientRect();
+          const backdrop = document.querySelector('.navBackdrop');
+          const style = getComputedStyle(links);
+          const backdropRect = backdrop.getBoundingClientRect();
+          return {
+            expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
+            x: rect.x, width: rect.width, bottom: rect.bottom,
+            containerWidth: document.querySelector('.navShell').getBoundingClientRect().width,
+            visibility: style.visibility, opacity: style.opacity,
+            background: style.backgroundColor,
+            backdrop: !!backdrop && backdropRect.width >= document.documentElement.clientWidth - 1 && backdropRect.height >= innerHeight,
+            scrollLocked: document.body.style.overflow === 'hidden',
+            links: links.querySelectorAll('a').length,
+            linkColors: [...links.querySelectorAll('a')].map(link => getComputedStyle(link).color),
+            overflow: document.documentElement.scrollWidth > innerWidth,
+          }
+        })()`, returnByValue: true,
+      })
+      const menu = navOpened.result.value
+      assert.equal(menu.expanded, 'true', `${width}px: open menu should be expanded`)
+      assert.equal(menu.visibility, 'visible', `${width}px: open menu must be visible`)
+      assert.equal(menu.opacity, '1', `${width}px: open menu must be opaque`)
+      assert.equal(menu.background, 'rgb(7, 17, 27)', `${width}px: text must not compete with hero behind the menu`)
+      assert.ok(menu.x >= 0 && menu.x <= 25 && menu.width >= menu.containerWidth - 50,
+        `${width}px: menu must fill available width, got x=${menu.x}, width=${menu.width}, container=${menu.containerWidth}`)
+      assert.equal(menu.backdrop, true, `${width}px: open menu must shield underlying content`)
+      assert.equal(menu.scrollLocked, true, `${width}px: open menu must lock background scroll`)
+      assert.equal(menu.links, 7, `${width}px: all navigation links must be present`)
+      assert.ok(menu.linkColors.every(color => color === 'rgb(245, 245, 245)' || color === 'rgba(255, 255, 255, 0.95)'),
+        `${width}px: focusing one menu link must not dim the other links; observed ${menu.linkColors.join(', ')}`)
+      assert.equal(menu.overflow, false, `${width}px: open menu must not overflow horizontally`)
+      if (process.env.QA_CAPTURE_HOME === '1' && [390, 1024].includes(width)) {
+        const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true })
+        writeFileSync(join(tmpdir(), `orbital-mobile-menu-open-${width}.png`), Buffer.from(capture.data, 'base64'))
+      }
+      await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').focus()` })
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 })
+      await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 })
+      const tabFocus = await send('Runtime.evaluate', {
+        expression: `document.querySelector('.navLinks').contains(document.activeElement)`, returnByValue: true,
+      })
+      assert.equal(tabFocus.result.value, true, `${width}px: Tab must enter the open navigation`)
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
+      await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
+      await sleep(80)
+      const closedByEscape = await send('Runtime.evaluate', {
+        expression: `(() => ({ expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
+          focusReturned: document.activeElement === document.querySelector('.navToggle'),
+          scrollUnlocked: document.body.style.overflow !== 'hidden',
+          visibility: getComputedStyle(document.querySelector('.navLinks')).visibility }))()`, returnByValue: true,
+      })
+      assert.deepEqual(closedByEscape.result.value,
+        { expanded: 'false', focusReturned: true, scrollUnlocked: true, visibility: 'hidden' },
+        `${width}px: Escape must close, restore focus, restore scrolling and hide links`)
+      await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').click()` })
+      await sleep(130)
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: Math.floor(width / 2), y: 800, button: 'left', clickCount: 1 })
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: Math.floor(width / 2), y: 800, button: 'left', clickCount: 1 })
+      await sleep(120)
+      const closedByBackdrop = await send('Runtime.evaluate', {
+        expression: `(() => ({expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'),
+          backdropRemoved: !document.querySelector('.navBackdrop')}))()`, returnByValue: true,
+      })
+      assert.deepEqual(closedByBackdrop.result.value, { expanded: 'false', backdropRemoved: true },
+        `${width}px: outside click must dismiss the menu`)
+      await send('Runtime.evaluate', { expression: `document.querySelector('.navToggle').click(); document.querySelector('.navLinks a[href="#servicios"]').click()` })
+      await sleep(70)
+      const afterLink = await send('Runtime.evaluate', {
+        expression: `(() => ({ expanded: document.querySelector('.navToggle').getAttribute('aria-expanded'), hash: location.hash,
+          scrollUnlocked: document.body.style.overflow !== 'hidden' }))()`, returnByValue: true,
+      })
+      assert.deepEqual(afterLink.result.value, { expanded: 'false', hash: '#servicios', scrollUnlocked: true },
+        `${width}px: navigation links must close the menu and navigate to their target`)
+      console.log('MOBILE_NAV_OPEN_QA_PASS', width, 'menu', Math.round(menu.width), 'px', 'Escape/backdrop/keyboard/scroll PASS')
+    } else {
+      const desktopNav = await send('Runtime.evaluate', {
+        expression: `(() => ({toggle: getComputedStyle(document.querySelector('.navToggle')).display,
+          links: getComputedStyle(document.querySelector('.navLinks')).visibility }))()`, returnByValue: true,
+      })
+      assert.deepEqual(desktopNav.result.value, { toggle: 'none', links: 'visible' },
+        `${width}px: desktop navigation must remain available without a hamburger toggle`)
+    }
     if (process.env.QA_CAPTURE_HOME === '1' && [390, 1440].includes(width)) {
       const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true })
       writeFileSync(join(tmpdir(), `orbital-b2b-home-${width}.png`), Buffer.from(capture.data, 'base64'))

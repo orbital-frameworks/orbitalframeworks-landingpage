@@ -82,6 +82,10 @@
   stroke-linecap: round;
 }
 
+.navBackdrop {
+  display: none;
+}
+
 .navLinks {
   justify-self: center;
   display: flex;
@@ -3686,6 +3690,19 @@
   .nav {
     grid-template-columns: 1fr auto;
     padding: 18px 24px;
+    z-index: 1;
+  }
+
+  .navBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    background: rgba(3, 10, 18, 0.76);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    cursor: pointer;
   }
 
   .navToggle {
@@ -3697,8 +3714,10 @@
   .navLinks,
   .navShell.isScrolled .navLinks {
     position: absolute;
+    justify-self: stretch;
     left: 24px;
     right: 24px;
+    width: auto;
     top: calc(100% + 8px);
     transform: translateY(-8px);
     display: grid;
@@ -3706,14 +3725,20 @@
     padding: 14px;
     border: 1px solid rgba(245, 245, 245, 0.12);
     border-radius: 12px;
-    background: rgba(7, 17, 27, 0.97);
+    background: #07111b;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    max-height: calc(100dvh - 110px);
+    overflow-y: auto;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
   }
 
-  .navLinks.isOpen {
+  .navLinks.isOpen,
+  .navShell.isScrolled .navLinks.isOpen {
     transform: translateY(0);
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
@@ -3722,6 +3747,11 @@
     justify-content: flex-start;
     padding: 13px 14px;
     font-size: 17px;
+  }
+
+  .navLinks.isHovering .navLink,
+  .navLinks.isHovering .navLink.isHover {
+    color: #f5f5f5;
   }
 
   .heroInner {
