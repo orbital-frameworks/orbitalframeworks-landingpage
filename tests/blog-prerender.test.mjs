@@ -25,6 +25,12 @@ test('1. Blog index and pilot article are prerendered in dist', () => {
   assert.ok(blogHtml.length > 3000, `Blog index must be substantial (got ${blogHtml.length} chars)`)
   assert.ok(!blogHtml.includes('<div id="root"></div>'), 'Blog index must not have empty root')
   assert.ok(blogHtml.includes('Orbital Insights'), 'Blog index must include section title')
+  assert.ok(blogHtml.includes('id="blog-search-field"'), 'Blog index must prerender the local search control')
+  assert.ok(blogHtml.includes('Filtrar por tema'), 'Blog index must prerender an accessible category legend')
+  const indexArticleLinks = [...blogHtml.matchAll(/<a href="(\/blog\/[^\"]+\/)" class="blogPostCardSurface"/g)]
+    .map((match) => match[1])
+  assert.equal(indexArticleLinks.length, 5, 'Default SSR index must expose every published article card')
+  assert.equal(new Set(indexArticleLinks).size, 5, 'Default SSR index article links must be unique')
 
   const articlePath = join(distDir, 'blog/software-a-medida-o-saas-como-decidir/index.html')
   assert.ok(existsSync(articlePath), `Prerendered HTML must exist at ${articlePath}`)

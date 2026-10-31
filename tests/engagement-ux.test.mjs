@@ -25,7 +25,8 @@ test('blog cards have a single keyboard-accessible link wrapping the full card',
   assert.match(page, /class="blogPostCardReadLink">Leer análisis/)
   assert.doesNotMatch(page, /<h3 class="blogPostCardTitle"><a /)
   assert.match(page, /href="#articulos"[^>]*>Leer artículos/)
-  assert.match(page, /<button[^>]*>Copiar enlace RSS<\/button>/)
+  assert.match(page, /<a class="blogRssLink" href="\/feed\.xml">Abrir feed RSS<\/a>/)
+  assert.doesNotMatch(page, /Copiar enlace RSS/)
   assert.doesNotMatch(page, /Suscribirse vía RSS/)
 })
 
