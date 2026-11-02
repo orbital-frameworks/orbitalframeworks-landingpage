@@ -230,6 +230,20 @@ if(b2b06.status==='PUBLISHED'){
   })
 }
 
+// Draft stays absent from SSR/sitemap/RSS; the release step only flips its
+// exact editorial status after owner approval and publication authorization.
+const fieldArticle=blogPosts['digitalizacion-asistencia-personal-campo-trazabilidad']
+if(fieldArticle.status==='PUBLISHED'){
+  const anchor=pages.findIndex(p=>p.pathname==='/404')
+  if(anchor<0)throw Error('FIELD_ARTICLE_PRERENDER_ANCHOR_MISSING')
+  pages.splice(anchor,0,{
+    pathname:fieldArticle.route,output:'dist/blog/'+fieldArticle.slug+'/index.html',
+    title:fieldArticle.metaTitle,description:fieldArticle.metaDescription,
+    canonical:fieldArticle.canonical,schemaType:'article',articleHeadline:fieldArticle.title,
+    datePublished:fieldArticle.datePublished,dateModified:fieldArticle.dateModified
+  })
+}
+
 function schemaForPage(page) {
   if (page.schemaType === '404') return null
   if (!page.schemaType) return baseStructuredData

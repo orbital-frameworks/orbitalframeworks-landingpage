@@ -1,0 +1,197 @@
+{
+  "schema": "orbital.carousel.preview.v3",
+  "status": "DRAFT_UNAPPROVED_NO_PUBLICATION",
+  "createdAt": "2026-11-02T18:40:54.227Z",
+  "campaign": "field-attendance-20261103",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "count": 5
+  },
+  "source": "source.html",
+  "renderer": "render.mjs",
+  "layout": [
+    {
+      "slide": 1,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 377,
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 2,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 455,
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 3,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 412,
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 4,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 530,
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 5,
+      "width": 1080,
+      "height": 1350,
+      "textLength": 493,
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    }
+  ],
+  "collisions": [
+    {
+      "name": "page-2-summary-after-cards",
+      "gap": 86.5625
+    },
+    {
+      "name": "page-3-rail-after-description",
+      "gap": 39.28125
+    },
+    {
+      "name": "page-4-callout-after-visual",
+      "gap": 49.390625
+    },
+    {
+      "name": "page-5-cta-after-checklist",
+      "gap": 67.625
+    }
+  ],
+  "orbiQa": [
+    {
+      "slide": 1,
+      "image": "url(\"file:///srv/orbital/workspaces/orbitalframeworks-landingpage/docs/social/b2b06-field/v3/assets/orbi-07_laptop.png\")",
+      "x": 810,
+      "y": 685,
+      "w": 187,
+      "h": 187,
+      "meaningful": true,
+      "inside": true,
+      "textOverlap": []
+    },
+    {
+      "slide": 2,
+      "image": "url(\"file:///srv/orbital/workspaces/orbitalframeworks-landingpage/docs/social/b2b06-field/v3/assets/orbi-11_confused.png\")",
+      "x": 782,
+      "y": 1040,
+      "w": 185,
+      "h": 185,
+      "meaningful": true,
+      "inside": true,
+      "textOverlap": []
+    },
+    {
+      "slide": 3,
+      "image": "none",
+      "x": null,
+      "y": null,
+      "w": null,
+      "h": null,
+      "meaningful": false,
+      "inside": false,
+      "textOverlap": []
+    },
+    {
+      "slide": 4,
+      "image": "none",
+      "x": null,
+      "y": null,
+      "w": null,
+      "h": null,
+      "meaningful": false,
+      "inside": false,
+      "textOverlap": []
+    },
+    {
+      "slide": 5,
+      "image": "./assets/orbi-pointing.png",
+      "x": 785,
+      "y": 746,
+      "w": 234,
+      "h": 234,
+      "meaningful": true,
+      "inside": true,
+      "textOverlap": []
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "slide-01.png",
+      "bytes": 139777,
+      "sha256": "7cb1ca631687bbe5a29be3a5a5fae5162d4a641284df7a739b1bb8ed566bd794"
+    },
+    {
+      "file": "slide-02.png",
+      "bytes": 144517,
+      "sha256": "d47bc9332ac0bf132cfc6ee4a5ac47f0138adf3d7d8dd690985b42a0815d00a2"
+    },
+    {
+      "file": "slide-03.png",
+      "bytes": 132176,
+      "sha256": "7a0bfb1c25aaaeea6dc9ed028ce97e2d009fe0979d784c41d809fcd34f59a52a"
+    },
+    {
+      "file": "slide-04.png",
+      "bytes": 157134,
+      "sha256": "35a38fd76eb74cf2b7fb60a2239cb781478fe227386c790b076d88bc0b9204f4"
+    },
+    {
+      "file": "slide-05.png",
+      "bytes": 146281,
+      "sha256": "0221806d5c3e99289afd7292960c81e217866f33dfc10eb708c50797e7b53f42"
+    },
+    {
+      "file": "orbital-attendance-carousel-v3.pdf",
+      "bytes": 455873,
+      "sha256": "ad831b217d5b883d24d54558d48304469128b1c5bb66ed2ff26c70d8c1e883ed"
+    }
+  ],
+  "provenance": [
+    {
+      "file": "assets/big-shoulders.woff2",
+      "sha256": "698f9960927e7b5a0c38e5bf388cd0a6e42d855062fe70366cf5057664e39401"
+    },
+    {
+      "file": "assets/orbi-07_laptop.png",
+      "sha256": "c1a80ab8393f6c50c433464f087e047008ad1afeb54bf437c6093872c72305e9"
+    },
+    {
+      "file": "assets/orbi-11_confused.png",
+      "sha256": "298854e00f0585e5135909ba0232e82c9eae3d02e160576581e879614e01dde8"
+    },
+    {
+      "file": "assets/orbi-pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "file": "assets/orbital-wordmark.png",
+      "sha256": "f35906126fea3aef714d07f5e5e6e9071f1d6bdaa3fc5d9b6d00f065b7b4c271"
+    },
+    {
+      "file": "assets/plex-mono.woff2",
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    },
+    {
+      "file": "assets/plex-sans.woff2",
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    }
+  ]
+}

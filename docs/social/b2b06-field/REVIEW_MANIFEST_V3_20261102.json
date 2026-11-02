@@ -1,0 +1,48 @@
+{
+  "schema": "orbital.b2b06.review.v3",
+  "status": "PENDING_OWNER_APPROVAL",
+  "supersedes": "V2 carousel only",
+  "date": "2026-11-02",
+  "plannedRelease": {
+    "article": "2026-11-03T11:00:00-05:00",
+    "linkedin": "2026-11-03T13:00:00-05:00",
+    "isScheduled": false
+  },
+  "author": {
+    "companyLinkedInId": "134014070"
+  },
+  "assets": {
+    "carouselPdf": {
+      "file": "v3/orbital-attendance-carousel-v3.pdf",
+      "sha256": "ad831b217d5b883d24d54558d48304469128b1c5bb66ed2ff26c70d8c1e883ed",
+      "bytes": 455873
+    },
+    "contactSheet": {
+      "file": "v3/mobile-feed-contact-sheet.png",
+      "sha256": "4b604e9cea8af83dac3e8c1968494427711e2ebdd28ab6252ff69c90df792c1a",
+      "bytes": 343447
+    },
+    "articlePdf": {
+      "file": "ARTICLE_REVIEW_20261103.pdf",
+      "sha256": "3bcacee78076b99603725f57d196cbffd522565b4885804bc927d5086857f2c9",
+      "bytes": 112082
+    },
+    "linkedinCopy": {
+      "file": "LINKEDIN_COPY_DRAFT_20261103.txt",
+      "sha256": "2b29c382652d00609079a1804fa8d3340f0458e86ed0ae0c08ab1a8c461013ba",
+      "bytes": 1008
+    }
+  },
+  "copyTrimmedSha256": "b09665d3767ba83f9eb3be491469d10a9061bdeeb0a33b32e0745209d346ca28",
+  "orbiSlides": [
+    1,
+    2,
+    5
+  ],
+  "removedOrbiSlides": [
+    3,
+    4
+  ],
+  "exactApprovalPhrase": "APROBADO B2B06 V3 03/11",
+  "approval": false
+}

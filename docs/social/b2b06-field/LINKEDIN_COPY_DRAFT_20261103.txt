@@ -1,0 +1,16 @@
+Una marcación de entrada no explica toda una jornada.
+
+Cuando una persona pide corregir un horario, el problema deja de ser «marcar asistencia» y pasa a ser otro:
+
+→ ¿Cuál fue el registro original?
+→ ¿Qué información necesitaba el supervisor para revisarlo?
+→ ¿Quién tomó la decisión y dónde quedó el historial?
+
+Digitalizar asistencia no es solamente cambiar una planilla por una aplicación. Es conectar registro, contexto, revisión y resolución sin perder trazabilidad.
+
+Preparamos una guía visual con el recorrido y tres preguntas para evaluar si una empresa necesita mejorar su proceso antes de comprar software.
+
+Artículo completo: https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_field_staff_tracking
+Referencia pública del tipo de solución: https://orbitalframeworks.qzz.io/casos/checkio/
+
+#OrbitalFrameworks #GestiónDePersonal #Operaciones #TransformaciónDigital
