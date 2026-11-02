@@ -1,0 +1,17 @@
+[Unit]
+Description=Arm B2B06 LinkedIn document before 09:00 Lima, recover preflight failures
+
+[Timer]
+OnCalendar=2026-11-03 13:30:00 UTC
+OnCalendar=2026-11-03 13:45:00 UTC
+OnCalendar=2026-11-03 13:55:00 UTC
+OnCalendar=2026-11-03 14:05:00 UTC
+OnCalendar=2026-11-03 14:15:00 UTC
+OnCalendar=2026-11-03 14:30:00 UTC
+OnCalendar=2026-11-03 14:45:00 UTC
+Persistent=true
+AccuracySec=15s
+Unit=orbital-b2b06-social.service
+
+[Install]
+WantedBy=timers.target

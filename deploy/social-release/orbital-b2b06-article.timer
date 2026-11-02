@@ -1,0 +1,18 @@
+[Unit]
+Description=Deploy approved B2B06 article ahead of 07:00 Lima and verify
+
+[Timer]
+OnCalendar=2026-11-03 11:40:00 UTC
+OnCalendar=2026-11-03 11:50:00 UTC
+OnCalendar=2026-11-03 12:00:00 UTC
+OnCalendar=2026-11-03 12:10:00 UTC
+OnCalendar=2026-11-03 12:20:00 UTC
+OnCalendar=2026-11-03 12:35:00 UTC
+OnCalendar=2026-11-03 13:00:00 UTC
+OnCalendar=2026-11-03 13:20:00 UTC
+Persistent=true
+AccuracySec=15s
+Unit=orbital-b2b06-article.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Orbital B2B06 preflight and arm existing LinkedIn document publisher
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/orbital/workspaces/orbitalframeworks-landingpage
+Environment=PATH=/home/orbital-private/.local/bin:/opt/node-v24.18.0-linux-x64/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/node /srv/orbital/runtimes/private/social-release/bin/release-b2b06-scheduled.mjs --social
+UMask=0077
+NoNewPrivileges=yes
+TimeoutStartSec=480

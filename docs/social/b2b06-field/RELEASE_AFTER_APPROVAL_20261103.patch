@@ -1,0 +1,139 @@
+--- a/src/blogData.ts
++++ b/src/blogData.ts
+@@ -542,7 +542,7 @@
+   "datePublished": "2026-11-03",
+   "dateModified": "2026-11-03",
+   "readingTime": "7 min de lectura",
+-  "status": "DRAFT_NO_PUBLICABLE",
++  "status": "PUBLISHED",
+   "statusLabel": "Pendiente de aprobación editorial",
+   "statusNotice": "Artículo preparado para revisión. No distribuible externamente hasta aprobar el arte, copy y fuente final.",
+   "prioritizedOwnerQuestion": "¿El caso Checkio respalda exclusivamente las capacidades descritas, sin afirmar resultados comerciales ni cumplimiento normativo?",
+--- a/public/sitemap.xml
++++ b/public/sitemap.xml
+@@ -108,4 +108,10 @@
+     <changefreq>monthly</changefreq>
+     <priority>0.8</priority>
+   </url>
++  <url>
++    <loc>https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/</loc>
++    <lastmod>2026-11-03</lastmod>
++    <changefreq>monthly</changefreq>
++    <priority>0.8</priority>
++  </url>
+ </urlset>
+--- a/public/feed.xml
++++ b/public/feed.xml
+@@ -5,8 +5,16 @@
+     <link>https://orbitalframeworks.qzz.io/blog/</link>
+     <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
+     <language>es-PE</language>
+-    <lastBuildDate>Thu, 29 Oct 2026 14:00:00 GMT</lastBuildDate>
++    <lastBuildDate>Tue, 03 Nov 2026 16:00:00 GMT</lastBuildDate>
+     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
++    <item>
++      <title>Control de asistencia en campo: por qué registrar una marcación no basta para tener trazabilidad</title>
++      <link>https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/</link>
++      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/</guid>
++      <pubDate>Tue, 03 Nov 2026 16:00:00 GMT</pubDate>
++      <description>Registro, incidencias y correcciones para personal en campo.</description>
++      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
++    </item>
+     <item>
+       <title>Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar</title>
+       <link>https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/</link>
+--- a/scripts/blog-linkedin-gate.mjs
++++ b/scripts/blog-linkedin-gate.mjs
+@@ -54,7 +54,7 @@
+     id: 'B2B-06',
+     slug: 'digitalizacion-asistencia-personal-campo-trazabilidad',
+     title: 'Digitalización de asistencia y control de personal en campo: lecciones de trazabilidad',
+-    status: 'DRAFT_NO_PUBLICABLE',
++    status: 'PUBLISHED',
+     campaign: 'camp_field_staff_tracking',
+     service: 'Desarrollo de Software a Medida',
+     caseStudy: 'Checkio',
+--- a/tests/agent-readiness.test.mjs
++++ b/tests/agent-readiness.test.mjs
+@@ -647,11 +647,11 @@
+   assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
+   assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
+ 
+-  // Verify all 18 approved public canonical routes, including B2B-05 released
++  // Verify all 19 approved public canonical routes, including B2B-05 released
+   // on 27 Oct. New releases must update both this guard and the URL list.
+   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
+   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz.io[^<]*)<\/loc>/g)].map(m => m[1])
+-  assert.equal(locMatches.length, 18, 'Sitemap must contain exactly 18 canonical routes')
++  assert.equal(locMatches.length, 19, 'Sitemap must contain exactly 19 canonical routes')
+ 
+   const expectedUrls = [
+     'https://orbitalframeworks.qzz.io/',
+@@ -671,6 +671,7 @@
+     'https://orbitalframeworks.qzz.io/blog/automatizacion-procesos-vs-excel-riesgo-operativo/',
+     'https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/',
+     'https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/',
++    'https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/',
+   ]
+   for (const expectedUrl of expectedUrls) {
+     assert.ok(locMatches.includes(expectedUrl), `Sitemap must include ${expectedUrl}`)
+--- a/tests/blog-index-search.test.mjs
++++ b/tests/blog-index-search.test.mjs
+@@ -24,7 +24,7 @@
+ const slugs = (results) => results.map(([item]) => item[0].slug)
+ 
+ test('blog corpus keeps every published post in stable editorial order with explicit taxonomy', () => {
+-  assert.equal(BLOG_CORPUS.length, 5)
++  assert.equal(BLOG_CORPUS.length, 6)
+   assert.deepEqual(
+     BLOG_CATEGORIES.map(([, label]) => label),
+     ['Todos', 'Web y conversión', 'Automatización y operaciones', 'Software y sistemas'],
+@@ -37,6 +37,7 @@
+       'software-a-medida-o-saas-como-decidir',
+       'automatizacion-procesos-vs-excel-riesgo-operativo',
+       'landing-page-b2b-tecnica-vs-web-corporativa',
++      'digitalizacion-asistencia-personal-campo-trazabilidad',
+     ],
+   )
+   assert.deepEqual(
+@@ -47,6 +48,7 @@
+       'software-a-medida-o-saas-como-decidir': 'software-y-sistemas',
+       'automatizacion-procesos-vs-excel-riesgo-operativo': 'automatizacion-y-operaciones',
+       'landing-page-b2b-tecnica-vs-web-corporativa': 'web-y-conversion',
++      'digitalizacion-asistencia-personal-campo-trazabilidad': 'automatizacion-y-operaciones',
+     },
+   )
+ })
+@@ -180,7 +182,7 @@
+ 
+ test('empty or whitespace query returns all category items in source order without match scoring', () => {
+   const defaultAll = filterAndSearchBlogPosts(BLOG_CORPUS, '')
+-  assert.equal(defaultAll.length, 5)
++  assert.equal(defaultAll.length, 6)
+   assert.deepEqual(
+     defaultAll.map((r) => r[0][0].slug),
+     BLOG_CORPUS.map((item) => item[0].slug),
+--- a/tests/blog-prerender.test.mjs
++++ b/tests/blog-prerender.test.mjs
+@@ -29,8 +29,8 @@
+   assert.ok(blogHtml.includes('Filtrar por tema'), 'Blog index must prerender an accessible category legend')
+   const indexArticleLinks = [...blogHtml.matchAll(/<a href="(\/blog\/[^\"]+\/)" class="blogPostCardSurface"/g)]
+     .map((match) => match[1])
+-  assert.equal(indexArticleLinks.length, 5, 'Default SSR index must expose every published article card')
+-  assert.equal(new Set(indexArticleLinks).size, 5, 'Default SSR index article links must be unique')
++  assert.equal(indexArticleLinks.length, 6, 'Default SSR index must expose every published article card')
++  assert.equal(new Set(indexArticleLinks).size, 6, 'Default SSR index article links must be unique')
+ 
+   const articlePath = join(distDir, 'blog/software-a-medida-o-saas-como-decidir/index.html')
+   assert.ok(existsSync(articlePath), `Prerendered HTML must exist at ${articlePath}`)
+--- a/tests/blog-linkedin-gate.test.mjs
++++ b/tests/blog-linkedin-gate.test.mjs
+@@ -45,7 +45,7 @@
+   const b2b06web = BACKLOG_TOPICS.find((t) => t.id === 'B2B-06-WEB')
+   assert.equal(b2b06web?.status, 'PUBLISHED', 'Web conversion article approved 29/10/2026')
+ 
+-  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05', 'B2B-06-WEB'].includes(t.id))
++  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05', 'B2B-06-WEB', 'B2B-06'].includes(t.id))
+   for (const draft of drafts) {
+     assert.equal(
+       draft.status,
