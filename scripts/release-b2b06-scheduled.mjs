@@ -119,6 +119,26 @@ function safePush(shaToPush){
   remote=exec('git',['ls-remote','origin','refs/heads/main']).split(/\s+/)[0]
   if(remote!==shaToPush)throw Error('REMOTE_RELEASE_SHA_UNVERIFIED')
 }
+function recoverFailedGitHubDeployment(){
+  // A cancelled/failed GitHub Pages job does not mean the article has
+  // reached production. Rerun the same exact SHA, at most twice.
+  if((state.ciReruns||0)>=2)return
+  try{
+    const runs=JSON.parse(exec('gh',['run','list','--repo',
+      'orbital-frameworks/orbitalframeworks-landingpage','--limit','12',
+      '--json','databaseId,name,status,conclusion,headSha'],{timeout:30000}))
+    const run=runs.find(x=>x.headSha===state.articleSha&&x.name==='Deploy GitHub Pages')
+    if(run?.status==='completed'&&['failure','cancelled'].includes(run.conclusion)){
+      exec('gh',['run','rerun',String(run.databaseId),'--repo',
+        'orbital-frameworks/orbitalframeworks-landingpage'],{timeout:30000})
+      persist('ARTICLE_PUSHED',{ciReruns:(state.ciReruns||0)+1,
+        lastCiRun:run.databaseId,ciRecovery:'RERUN_SAME_APPROVED_SHA'})
+    }
+  }catch(error){
+    emit({status:'GITHUB_CI_STATUS_UNAVAILABLE_RETRY_NEXT_TIMER',
+      reason:String(error.message).slice(0,180)})
+  }
+}
 function prepareArticle(){
   if(exec('git',['branch','--show-current'])!=='main')throw Error('RELEASE_NEEDS_MAIN_BRANCH')
   if(exec('git',['diff','--cached','--name-only']))throw Error('UNRELATED_STAGED_CHANGES_PRESENT')
@@ -166,7 +186,10 @@ async function article(){
       persist('ARTICLE_PUBLIC_VERIFIED',{publicUrl:CANONICAL})
       if(!state.articleNoticeSent)persist('ARTICLE_PUBLIC_VERIFIED',
         {articleNoticeSent:notify('success','Artículo público verificado (HTTP/SEO/sitemap/RSS): '+CANONICAL)})
-    }else emit({status:'DEPLOY_PENDING_RECHECK_AT_NEXT_TIMER',sha:state.articleSha})
+    }else{
+      recoverFailedGitHubDeployment()
+      emit({status:'DEPLOY_PENDING_RECHECK_AT_NEXT_TIMER',sha:state.articleSha})
+    }
   }
 }
 async function social(){

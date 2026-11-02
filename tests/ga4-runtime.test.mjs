@@ -178,11 +178,14 @@ test('GA4 browser runtime contract with an emulated official loader', async (t) 
     }
 
     const waitForPage = async (expression, message) => {
-      for (let attempt = 0; attempt < 30; attempt += 1) {
+      // On shared CI CPUs, the app may mount after Chrome/CDP is already ready.
+      // Preserve the same real DOM assertion; allow a bounded mount interval.
+      for (let attempt = 0; attempt < 150; attempt += 1) {
         if (await evalInPage(expression)) return
         await new Promise((resolve) => setTimeout(resolve, 100))
       }
-      assert.fail(message)
+      const detail = await evalInPage('JSON.stringify({url:location.href,readyState:document.readyState,root:!!document.querySelector("#root"),body:document.body?.innerText?.slice(0,180)})')
+      assert.fail(message + '; page=' + detail)
     }
 
     await sendCdp('Network.enable')
