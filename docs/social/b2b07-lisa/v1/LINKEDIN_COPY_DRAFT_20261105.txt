@@ -1,0 +1,21 @@
+Elegir una plaza SERUMS no debería depender de saltar entre hojas de cálculo, mapas y registros dispersos.
+
+Cuando la información es difícil de cruzar, también se vuelve más difícil comparar alternativas.
+
+Por eso trabajamos en LISA, una plataforma que ayuda a explorar plazas SERUMS con un mapa interactivo, filtros y herramientas de apoyo para organizar opciones.
+
+Detrás hay dos partes que no suelen verse juntas: software y trabajo de datos.
+
+Desde Orbital Frameworks, Mathias aportó principalmente al desarrollo de la aplicación. Angel trabajó en estructurar la información y creó un bot para automatizar una parte del procesamiento que antes consumía demasiado tiempo.
+
+El producto es resultado de un equipo de médicos e ingenieros. Nuestro aporte fue convertir problemas de desarrollo y organización de datos en una experiencia que se puede usar.
+
+En el carrusel mostramos el reto, el trabajo y capturas REALES de la plataforma en escritorio y móvil.
+
+Conoce el caso: https://orbitalframeworks.qzz.io/casos/localisa/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_lisa_case_20261105
+
+Explora LISA: https://www.localisa.pe/
+
+LISA es una herramienta de apoyo. Las ubicaciones y condiciones de las plazas deben verificarse en las fuentes oficiales.
+
+#OrbitalFrameworks #LISA #SERUMS #SaludDigital #DesarrolloDeSoftware

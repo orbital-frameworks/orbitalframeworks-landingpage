@@ -5,6 +5,7 @@ export type BlogPostSlug =
   | 'integracion-pedidos-whatsapp-almacen-operaciones'
   | 'web-con-visitas-pero-sin-consultas'
   | 'digitalizacion-asistencia-personal-campo-trazabilidad'
+  | 'lisa-serums-mapa-datos-automatizacion'
 
 
 export type BlogSection = {
@@ -632,8 +633,85 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
     "description": "Cuéntanos cómo registras asistencia hoy, cómo se corrigen las diferencias y qué información necesita RRHH para decidir. Evaluamos el proceso antes de recomendar tecnología.",
     "subject": "Consulta sobre control de asistencia y trazabilidad operativa",
     "body": "Hola Orbital Frameworks,\n\nLeí el artículo sobre asistencia y trazabilidad y quiero revisar un caso en mi organización.\n\nTipo de operación:\nCómo registramos asistencia:\nCómo se revisan incidencias:\nQué problema buscamos resolver:\n"
+  },
+  },
+  'lisa-serums-mapa-datos-automatizacion': {
+    slug: 'lisa-serums-mapa-datos-automatizacion',
+    route: '/blog/lisa-serums-mapa-datos-automatizacion/',
+    canonical: 'https://orbitalframeworks.qzz.io/blog/lisa-serums-mapa-datos-automatizacion/',
+    title: 'LISA: cuando ordenar la información importa tanto como construir el software',
+    metaTitle: 'LISA, SERUMS y automatización de datos | Orbital Insights',
+    metaDescription: 'Cómo médicos e ingenieros conectaron software y automatización de datos para facilitar la exploración territorial de plazas SERUMS con LISA.',
+    eyebrow: 'Orbital Insights / Salud digital y productos de datos',
+    datePublished: '2026-11-05',
+    dateModified: '2026-11-05',
+    readingTime: '5 min de lectura',
+    status: 'DRAFT_NO_PUBLICABLE',
+    statusLabel: 'Publicación pendiente de ventana autorizada',
+    statusNotice: 'Artículo preparado para la campaña LISA. Pendiente de fecha y hora exactas de despliegue y verificación en dominio público.',
+    prioritizedOwnerQuestion: '¿La atribución de Orbital Frameworks a LISA fue comunicada y aceptada por el resto del equipo?',
+    author: {
+      name: 'Orbital Frameworks',
+      type: 'Organization',
+      url: 'https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/',
+    },
+    lead: 'Elegir una plaza del Servicio Rural y Urbano Marginal de Salud (SERUMS) exige más que consultar una fila en una hoja de cálculo. Un profesional necesita contrastar ubicación, establecimiento, modalidad y condiciones del proceso. LISA busca facilitar esa exploración mediante una plataforma que reúne trabajo de médicos e ingenieros, con participación de Orbital Frameworks en desarrollo de software y organización de datos.',
+    sections: [
+      {
+        heading: '1. El problema: fuentes dispersas, decisiones difíciles',
+        content: [
+          'La información sobre plazas y establecimientos puede estar distribuida entre distintos registros. No siempre comparte el mismo formato, la misma granularidad o la precisión geográfica que una persona necesita para comparar alternativas.',
+          'Antes de presentar la información en una pantalla, es necesario estructurar, cruzar y reconciliar registros, distinguir datos completos de datos faltantes y hacer explícitas las limitaciones de las ubicaciones.',
+          'Un mapa por sí solo no corrige una fuente defectuosa. La calidad de los datos es parte del diseño del producto, no una tarea secundaria.',
+        ],
+      },
+      {
+        heading: '2. LISA: un mapa para explorar alternativas',
+        content: [
+          'LISA (Localisa) es una plataforma pública que permite explorar establecimientos y plazas SERUMS en un mapa interactivo, aplicar filtros y consultar herramientas de apoyo como favoritos y simulación de puntajes.',
+          'Puede consultarse desde una computadora o un celular. Su objetivo es ayudar a organizar alternativas, no sustituir los documentos y las verificaciones necesarios para postular.',
+          'La plataforma explica públicamente que algunas coordenadas pueden ser referenciales. Por eso, la ubicación real y las condiciones de cada plaza deben confirmarse con las entidades competentes.',
+        ],
+      },
+      {
+        heading: '3. El aporte de Orbital Frameworks: producto y datos',
+        content: [
+          'Dentro del equipo multidisciplinario de LISA, integrantes de Orbital Frameworks participaron en dos frentes: el desarrollo de la aplicación y la organización y automatización de parte de la información que la alimenta.',
+          'En el frente de software se trabajó en convertir los registros en una experiencia de exploración web. En el frente de datos, ante la dificultad de procesar información manualmente, se desarrolló un bot y un proceso de estructuración que facilitaron ese trabajo.',
+          'Una interfaz clara no compensa datos desorganizados, y una base de datos ordenada necesita una experiencia usable para convertirse en ayuda práctica. El resultado requiere ambos frentes.',
+          'Se reconoce el trabajo compartido con profesionales de salud e ingeniería; esta descripción no atribuye a Orbital autoría exclusiva, propiedad intelectual ni respaldo institucional de LISA.',
+        ],
+      },
+      {
+        heading: '4. Lo que este proyecto enseña para otros sectores',
+        content: [
+          'El problema se repite en organizaciones donde los datos viven repartidos entre archivos, registros y sistemas. Un tablero adicional no necesariamente simplifica la decisión.',
+          'Primero conviene comprender qué necesita resolver cada usuario, qué fuentes son suficientemente confiables y qué procesamiento puede automatizarse sin perder la posibilidad de revisar excepciones.',
+          'Después se construye la interfaz para mostrar información pertinente, conservar las advertencias necesarias y permitir explorar el detalle. LISA sirve como un caso público de ese enfoque.',
+        ],
+      },
+      {
+        heading: '5. Conoce LISA y verifica sus fuentes',
+        content: [
+          'El proyecto se puede explorar públicamente en https://www.localisa.pe/. La explicación de fuentes y limitaciones de precisión está disponible en https://www.localisa.pe/sobre-los-datos.',
+          'LISA es una herramienta de apoyo. Las ubicaciones, condiciones de plaza y fuentes relevantes deben contrastarse con las entidades competentes antes de tomar una decisión de postulación. No se afirma convenio ni respaldo institucional del MINSA.',
+          'En Orbital Frameworks presentamos Localisa como caso de trabajo en desarrollo de software, automatización y organización de información. Consulta la ficha: https://orbitalframeworks.qzz.io/casos/localisa/.',
+        ],
+      },
+    ],
+    decisionMatrix: [],
+    internalLinks: [
+      { anchor: 'Ficha pública de LISA / Localisa', url: '/casos/localisa/', label: 'Cómo se presenta el proyecto LISA en Orbital Frameworks.' },
+      { anchor: 'Desarrollo de software a medida', url: '/servicios/desarrollo-software-medida/', label: 'Cómo diseñamos aplicaciones para resolver necesidades operativas.' },
+      { anchor: 'Automatización de procesos', url: '/servicios/automatizacion-procesos/', label: 'Cómo organizamos procesos y flujos de información.' },
+    ],
+    cta: {
+      headline: '¿Tu organización necesita convertir datos dispersos en una herramienta útil?',
+      description: 'Descríbenos las fuentes disponibles, el problema de comparación y qué decisión necesita tomar tu equipo. Evaluaremos el trabajo de datos y software que corresponde.',
+      subject: 'Consulta sobre desarrollo de software y automatización de datos — LISA',
+      body: 'Hola Orbital Frameworks,\n\nConocí el caso LISA y quisiera evaluar un problema de información de mi organización.\n\nFuentes de datos actuales:\nQuién necesita consultar la información:\nDificultad principal:\nResultado esperado:\n',
+    },
   }
-}
 }
 
 // Only published articles appear in the public blog and route resolver.

@@ -1,0 +1,131 @@
+{
+  "schema": "orbital.carousel.review.v3",
+  "status": "OWNER_REVIEW_NOT_PUBLISHED_NOT_SCHEDULED",
+  "derivedFrom": "../v2/source.html",
+  "description": "Orby scale and placement plus removal of stray decorative oval",
+  "createdAt": "2026-11-03T15:46:29.234Z",
+  "slides": [
+    {
+      "slide": 1,
+      "imagesOk": true,
+      "canvas": [
+        1080,
+        1350
+      ],
+      "outerOverflow": false,
+      "orbiCssWidth": 240,
+      "orbiInk": {
+        "left": 842,
+        "right": 1039,
+        "top": 390,
+        "bottom": 533
+      },
+      "within": true,
+      "overlaps": [],
+      "ovalPresent": false
+    },
+    {
+      "slide": 2,
+      "imagesOk": true,
+      "canvas": [
+        1080,
+        1350
+      ],
+      "outerOverflow": false,
+      "orbiCssWidth": 310,
+      "orbiInk": {
+        "left": 777,
+        "right": 1031,
+        "top": 507,
+        "bottom": 692
+      },
+      "within": true,
+      "overlaps": [],
+      "ovalPresent": false
+    },
+    {
+      "slide": 3,
+      "imagesOk": true,
+      "canvas": [
+        1080,
+        1350
+      ],
+      "outerOverflow": false,
+      "orbiCssWidth": 0,
+      "within": true,
+      "overlaps": [],
+      "ovalPresent": false
+    },
+    {
+      "slide": 4,
+      "imagesOk": true,
+      "canvas": [
+        1080,
+        1350
+      ],
+      "outerOverflow": false,
+      "orbiCssWidth": 250,
+      "orbiInk": {
+        "left": 808,
+        "right": 1013,
+        "top": 1062,
+        "bottom": 1212
+      },
+      "within": true,
+      "overlaps": [],
+      "ovalPresent": false
+    },
+    {
+      "slide": 5,
+      "imagesOk": true,
+      "canvas": [
+        1080,
+        1350
+      ],
+      "outerOverflow": false,
+      "orbiCssWidth": 240,
+      "orbiInk": {
+        "left": 842,
+        "right": 1039,
+        "top": 660,
+        "bottom": 803
+      },
+      "within": true,
+      "overlaps": [],
+      "ovalPresent": false
+    }
+  ],
+  "slide3UnchangedFromV2": true,
+  "artifacts": [
+    {
+      "file": "slide-01.png",
+      "sha256": "86821c085c75d16dbdf09c5cba5d2ca4ada549839a712fedce88e71612c14d8d",
+      "bytes": 515797
+    },
+    {
+      "file": "slide-02.png",
+      "sha256": "c467f41400a59f16c358c9293e2ab8d30058d32c6dbb1ed328a38606cb8495fb",
+      "bytes": 167039
+    },
+    {
+      "file": "slide-03.png",
+      "sha256": "82c2535c7809270c376ccdadb95036ed2d564b429f5d057d3e36b7bab80c4d0e",
+      "bytes": 425816
+    },
+    {
+      "file": "slide-04.png",
+      "sha256": "b7a6ddef5375c5c089f5975b1e78674d577e7e173a820670e10ec10f0fa2e923",
+      "bytes": 158287
+    },
+    {
+      "file": "slide-05.png",
+      "sha256": "ea880cffea81c267368e1df94a9b8cb4065070e136d7ac8c617f7d25f74f44b7",
+      "bytes": 173605
+    },
+    {
+      "file": "lisa-orbital-carousel-v3.pdf",
+      "sha256": "2a9c734b212cd7d9b18794cb65ac20703f973c603c54d656ec8c2f8bf3b4befc",
+      "bytes": 2467849
+    }
+  ]
+}

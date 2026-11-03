@@ -93,3 +93,14 @@ Cuando se usen imágenes/escenas adicionales, podrán proceder de recursos local
 ## Resultado aceptable en futuras campañas
 
 Un carrusel se declara **APROBABLE** solo si: contenido útil y propio, recursos oficiales, variedad de composiciones, primer impacto móvil claro, zero artefactos visuales defectuosos, pruebas + inspección humana, fuente reutilizable, hashes/versión y preview entregado. La decisión creativa se renueva en cada campaña: **el método se reutiliza; el diseño no se copia automáticamente**.
+
+## Aprendizaje B2B07: LISA / Localisa, V1 → V3 (aprobado 03/11/2026)
+
+**Dossier reproducible:** `docs/social/b2b07-lisa/LESSONS_LEARNED.md`. **Aprobación exacta:** `docs/social/b2b07-lisa/APPROVED_RELEASE_20261103.md`.
+
+- Una captura real puede seguir siendo un mal visual si queda recortada. Verificar la **integridad y encuadre de la interfaz** que la audiencia necesita comprender, especialmente en portada.
+- Para un producto responsive, mostrar captura real **desktop + móvil**. Si se añade una cabecera editorial con el logotipo al marco del dispositivo, documentar que no forma parte de la interfaz capturada.
+- No trasladar metadatos de producción al arte final: fechas de captura, etiquetas de QA, numeración interna y atribuciones personales se mantienen en el expediente, no en los slides.
+- Medir el **tamaño visible** de Orby, no solo el ancho CSS: sus PNG oficiales tienen grandes márgenes transparentes. Comprobar intersecciones sobre píxeles alfa visibles, respetando la pose canónica.
+- Eliminar decoración sin función clara (ej. un óvalo gigante detrás de Orby). La composición y sus controles deben reforzar el producto, no simular un elemento de marca.
+- Separar aprobación del archivo final y activación del publicador. Sin ventana horaria explícita y comprobación del destino, **no encolar** una campaña aunque el carrusel esté aprobado.

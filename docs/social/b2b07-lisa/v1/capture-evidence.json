@@ -1,0 +1,78 @@
+[
+  {
+    "name": "lisa-landing-desktop",
+    "url": "https://www.localisa.pe/",
+    "width": 1440,
+    "height": 960,
+    "mobile": false,
+    "status": 200,
+    "evidence": {
+      "title": "LISA",
+      "text": "Funciones\nPlataforma\nEquipo\nIr al mapa\nPlataforma SERUMS · Perú 2026\nEl futuro de las\n\nplazas\nSERUMS\nestá aquí.\n\nLISA es una herramienta que busca facilitar a los serumistas del Perú a tomar una decisión más eficiente y de manera más visual.\n\nIr al mapa\nVer cómo funciona\n14,265 plazas indexadas\n25 regiones del Perú\nInformación actualizada · 2026-2\n2026-2\nACTUALIZADO\n17\nCARRERAS\n4,386\nESTABLECIMIENTOS\nPlazas SERUMS\nFUNCIONES\nTodo lo esencial para ",
+      "viewport": {
+        "w": 1440,
+        "h": 960
+      },
+      "brokenImages": 2
+    },
+    "file": "assets/lisa-landing-desktop.png",
+    "at": "2026-11-03T15:08:52.840Z"
+  },
+  {
+    "name": "lisa-landing-mobile",
+    "url": "https://www.localisa.pe/",
+    "width": 390,
+    "height": 844,
+    "mobile": true,
+    "status": 200,
+    "evidence": {
+      "title": "LISA",
+      "text": "Plataforma SERUMS · Perú 2026\nEl futuro de las\n\nplazas\nSERUMS\nestá aquí.\n\nLISA es una herramienta que busca facilitar a los serumistas del Perú a tomar una decisión más eficiente y de manera más visual.\n\nIr al mapa\nVer cómo funciona\n14,265 plazas indexadas\n25 regiones del Perú\nInformación actualizada · 2026-2\n2026-2\nACTUALIZADO\n17\nCARRERAS\n4,386\nESTABLECIMIENTOS\nPlazas SERUMS\nFUNCIONES\nTodo lo esencial para decidir mejor\n\nDiseñado para comparar p",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "brokenImages": 3
+    },
+    "file": "assets/lisa-landing-mobile.png",
+    "at": "2026-11-03T15:08:58.639Z"
+  },
+  {
+    "name": "lisa-map-desktop-live",
+    "url": "https://www.localisa.pe/map",
+    "width": 1440,
+    "height": 1000,
+    "mobile": false,
+    "status": 200,
+    "evidence": {
+      "title": "LISA",
+      "text": "✨ Simulador\n⚠️\n\nLas ubicaciones en el mapa son referenciales. Algunos puntos pueden no coincidir con la ubicación real del establecimiento. Más info\n\n✕\n18\n22\n188\n5\n507\n486\n462\n13\n317\n1032\n2429\n44\n196\n2695\n217\n1037\n+\n−\n Leaflet | © OpenStreetMap\n9668 establecimientos\nSelecciona un marcador para ver el detalle.\nLeyenda\nInstituciones y categoría\nInstitución\nEsSalud\nMINSA\nFF.AA\nOtros\nCategoría\nI-1\nI-2\nI-3\nI-4\nFiltros\nSelecciona múltiples opciones.\nLi",
+      "viewport": {
+        "w": 1440,
+        "h": 1000
+      },
+      "brokenImages": 0
+    },
+    "file": "assets/lisa-map-desktop-live.png",
+    "at": "2026-11-03T15:09:04.523Z"
+  },
+  {
+    "name": "lisa-map-mobile-live",
+    "url": "https://www.localisa.pe/map",
+    "width": 390,
+    "height": 844,
+    "mobile": true,
+    "status": 200,
+    "evidence": {
+      "title": "LISA",
+      "text": "⚠️\n\nLas ubicaciones en el mapa son referenciales. Algunos puntos pueden no coincidir con la ubicación real del establecimiento. Más info\n\n✕\n18\n22\n188\n5\n507\n486\n462\n13\n317\n1032\n2429\n44\n196\n2695\n217\n1037\n+\n−\n Leaflet | © OpenStreetMap\n9668 establecimientos\nSelecciona un marcador para ver el detalle.\nLeyenda\nInstituciones y categoría\nInstitución\nEsSalud\nMINSA\nFF.AA\nOtros\nCategoría\nI-1\nI-2\nI-3\nI-4\nFiltros\nSelecciona múltiples opciones.\nLimpiar\nAplica",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "brokenImages": 0
+    },
+    "file": "assets/lisa-map-mobile-live.png",
+    "at": "2026-11-03T15:09:10.448Z"
+  }
+]

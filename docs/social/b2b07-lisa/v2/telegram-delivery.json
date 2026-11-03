@@ -1,0 +1,44 @@
+{
+  "schema": "orbital.owner-preview-delivery.v2",
+  "campaign": "b2b07-lisa",
+  "status": "DELIVERED",
+  "items": [
+    {
+      "group": "five-slides",
+      "messageIds": [
+        1684,
+        1685,
+        1686,
+        1687,
+        1688
+      ],
+      "count": 5
+    },
+    {
+      "file": "lisa-orbital-carousel-v2.pdf",
+      "messageIds": [
+        1689
+      ],
+      "sha256": "ea1e431828bbeb11522c6114916dd99a691f84fe7814f55b7b97f2aeace22bb1",
+      "bytes": 2442740
+    },
+    {
+      "file": "ARTICLE_DRAFT_20261105.md",
+      "messageIds": [
+        1690
+      ],
+      "sha256": "e39fda4a54ac9e56ce92f56c5c3b1da56d133a282bf7560b8088ec8c65cfc548",
+      "bytes": 4840
+    },
+    {
+      "file": "LINKEDIN_COPY_DRAFT_20261105.txt",
+      "messageIds": [
+        1691
+      ],
+      "sha256": "e10fd7969488e1a59782d533365309a188173cba0e377a3ccc4aa1befabe8027",
+      "bytes": 1445
+    }
+  ],
+  "createdAt": "2026-11-03T15:41:10.363Z",
+  "completedAt": "2026-11-03T15:41:14.491Z"
+}

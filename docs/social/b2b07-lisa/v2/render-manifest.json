@@ -1,0 +1,293 @@
+{
+  "schema": "orbital.carousel.review.v2",
+  "status": "OWNER_REVIEW_NOT_PUBLISHED_NOT_SCHEDULED",
+  "campaign": "b2b07-lisa",
+  "createdAt": "2026-11-03T15:39:08.380Z",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "slides": 5
+  },
+  "source": "source.html",
+  "renderer": "render.mjs",
+  "v1_preserved": true,
+  "coverImage": {
+    "natural": [
+      1440,
+      1000
+    ],
+    "display": [
+      914,
+      634.71875
+    ],
+    "frame": [
+      914,
+      636
+    ]
+  },
+  "geometry": {
+    "slide2SubtitleToCards": 45.25,
+    "slide2CardsToSummary": 43,
+    "slide3DescriptionToDesktop": 20.53125,
+    "slide4WorkToResult": 43.859375,
+    "slide5ProofToCTA": 55.609375
+  },
+  "checks": [
+    {
+      "slide": 1,
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-pointing.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-desktop-live.png",
+          "loaded": true
+        }
+      ],
+      "offCanvas": [],
+      "overflow": [],
+      "footer": "localisa.pe · orbitalframeworks.qzz.io",
+      "hasDate": false,
+      "contentHeight": 1350
+    },
+    {
+      "slide": 2,
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-thinking.png",
+          "loaded": true
+        }
+      ],
+      "offCanvas": [],
+      "overflow": [],
+      "footer": "localisa.pe · orbitalframeworks.qzz.io",
+      "hasDate": false,
+      "contentHeight": 1350
+    },
+    {
+      "slide": 3,
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-desktop-live.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-mobile-live.png",
+          "loaded": true
+        }
+      ],
+      "offCanvas": [],
+      "overflow": [],
+      "footer": "localisa.pe · orbitalframeworks.qzz.io",
+      "hasDate": false,
+      "contentHeight": 1350
+    },
+    {
+      "slide": 4,
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-analyzing.png",
+          "loaded": true
+        }
+      ],
+      "offCanvas": [],
+      "overflow": [],
+      "footer": "localisa.pe · orbitalframeworks.qzz.io",
+      "hasDate": false,
+      "contentHeight": 1350
+    },
+    {
+      "slide": 5,
+      "dimensions": [
+        1080,
+        1350
+      ],
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-character.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-laptop.png",
+          "loaded": true
+        }
+      ],
+      "offCanvas": [],
+      "overflow": [],
+      "footer": "localisa.pe · orbitalframeworks.qzz.io",
+      "hasDate": false,
+      "contentHeight": 1350
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "slide-01.png",
+      "bytes": 515927,
+      "sha256": "0df195de6cf3008d4f6c08b00c59c4b867a8bb533990b1fad6bbead9a23b65be"
+    },
+    {
+      "file": "slide-02.png",
+      "bytes": 161014,
+      "sha256": "d0cad79f4b39913a2dea40220cbb3116674501829fd539dfedad5333551f110f"
+    },
+    {
+      "file": "slide-03.png",
+      "bytes": 425816,
+      "sha256": "82c2535c7809270c376ccdadb95036ed2d564b429f5d057d3e36b7bab80c4d0e"
+    },
+    {
+      "file": "slide-04.png",
+      "bytes": 148226,
+      "sha256": "572b415a7e9c62379d7509d442ae2094be6eeb327a5b275a57e34d997fe7b3c2"
+    },
+    {
+      "file": "slide-05.png",
+      "bytes": 165581,
+      "sha256": "fbd4ca45b5087dc1e323005f687a72754b1cbe590bbfc577a81c3d0f00e12748"
+    },
+    {
+      "file": "lisa-orbital-carousel-v2.pdf",
+      "bytes": 2442740,
+      "sha256": "ea1e431828bbeb11522c6114916dd99a691f84fe7814f55b7b97f2aeace22bb1"
+    }
+  ],
+  "assetProvenance": [
+    {
+      "file": "assets/lisa-character.png",
+      "sha256": "d809b6aa1160dc2db89fe225e7cdb33a941ffd9442a916eba68c6a3e5de0c800"
+    },
+    {
+      "file": "assets/lisa-landing-desktop.png",
+      "sha256": "631fc889d55f9015b4ef45dc230b6ba09636545c0aa1ec0d8649c7c7b65706d5"
+    },
+    {
+      "file": "assets/lisa-landing-mobile.png",
+      "sha256": "488253df8b7e6be219b1539e410abd81dca5185c6e71ecd661177b73626e0d59"
+    },
+    {
+      "file": "assets/lisa-logo.png",
+      "sha256": "4b4ce1a91ae2720e4ca50a55803a1175f371ef0cb4ef8df639fd77d78c99511a"
+    },
+    {
+      "file": "assets/lisa-map-desktop-live.png",
+      "sha256": "b84d755c54473a87fae2968528d76f7ee48182e520fdfffdaf6b95869e5684b8"
+    },
+    {
+      "file": "assets/lisa-map-mobile-live.png",
+      "sha256": "94ef3fd0bfc094b35d09e6e2b90cd785fd14b288901f7ef3d3c741f6af5a82a2"
+    },
+    {
+      "file": "assets/orbi-analyzing.png",
+      "sha256": "dd1781494ea1bab729c092f02071a6877e8c25738c2811c3218d3210075f62c7"
+    },
+    {
+      "file": "assets/orbi-laptop.png",
+      "sha256": "c1a80ab8393f6c50c433464f087e047008ad1afeb54bf437c6093872c72305e9"
+    },
+    {
+      "file": "assets/orbi-pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "file": "assets/orbi-thinking.png",
+      "sha256": "8ea0d488bb6ce5626d3e66bbc65a8afb61c927c13fb6454d6f498c5c2a44997a"
+    },
+    {
+      "file": "assets/orbital-wordmark.png",
+      "sha256": "f35906126fea3aef714d07f5e5e6e9071f1d6bdaa3fc5d9b6d00f065b7b4c271"
+    }
+  ],
+  "notes": [
+    "Mobile device branding is a separate editorial header built with the original LISA logo; the underlying viewport is a cropped real screenshot.",
+    "No invented product UI, quotes, logos, efficacy metrics or claimed institutional endorsement."
+  ]
+}

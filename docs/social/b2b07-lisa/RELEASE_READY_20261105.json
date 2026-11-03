@@ -1,0 +1,55 @@
+{
+  "schema": "orbital.social-release-preparation.v1",
+  "campaignId": "b2b07-lisa-20261105",
+  "status": "APPROVED_CONTENT_RELEASE_PREPARED_NOT_QUEUED",
+  "approval": {
+    "explicit": true,
+    "date": "2026-11-03",
+    "reference": "docs/social/b2b07-lisa/APPROVED_RELEASE_20261103.md",
+    "visualVersion": "v3"
+  },
+  "target": {
+    "date": "2026-11-05",
+    "timezone": "America/Lima",
+    "articleTime": null,
+    "linkedinTime": null
+  },
+  "article": {
+    "slug": "lisa-serums-mapa-datos-automatizacion",
+    "route": "/blog/lisa-serums-mapa-datos-automatizacion/",
+    "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/lisa-serums-mapa-datos-automatizacion/",
+    "source": "src/blogData.ts",
+    "status": "DRAFT_NO_PUBLICABLE",
+    "editorialFile": "docs/social/b2b07-lisa/v2/ARTICLE_DRAFT_20261105.md",
+    "editorialFileSha256": "e39fda4a54ac9e56ce92f56c5c3b1da56d133a282bf7560b8088ec8c65cfc548",
+    "productionVerified": false
+  },
+  "linkedin": {
+    "companyId": "134014070",
+    "campaign": "camp_lisa_case_20261105",
+    "documentTitle": "LISA: software, datos y decisiones | Orbital",
+    "pdfPath": "docs/social/b2b07-lisa/v3/lisa-orbital-carousel-v3.pdf",
+    "pdfSha256": "2a9c734b212cd7d9b18794cb65ac20703f973c603c54d656ec8c2f8bf3b4befc",
+    "pdfPages": 5,
+    "copyPath": "docs/social/b2b07-lisa/v2/LINKEDIN_COPY_DRAFT_20261105.txt",
+    "copyTrimmedSha256": "407fce7555c01a18b0e796fb06a777af90767eb6050074239dad2ccb89fe6e6b",
+    "urlDestination": "https://orbitalframeworks.qzz.io/casos/localisa/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_lisa_case_20261105",
+    "companyPostVerified": false,
+    "alreadyQueued": false,
+    "publicationId": null
+  },
+  "constraints": {
+    "teammateAttributionToConfirm": true,
+    "minsaEndorsementClaimAllowed": false,
+    "externalReleaseRequiresScheduledWindow": true,
+    "useExactPdfAndCopy": true,
+    "neverDegradeToTextOnly": true,
+    "deduplicateBeforePublish": true
+  },
+  "reviewDelivery": {
+    "channel": "telegram",
+    "slideMessageIds": [1692, 1693, 1694, 1695, 1696],
+    "pdfMessageId": 1697,
+    "journal": "docs/social/b2b07-lisa/v3/telegram-delivery.json"
+  }
+}

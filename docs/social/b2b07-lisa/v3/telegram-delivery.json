@@ -1,0 +1,28 @@
+{
+  "schema": "orbital.owner-preview-delivery.v3",
+  "status": "DELIVERED",
+  "campaign": "b2b07-lisa-v3",
+  "items": [
+    {
+      "group": "slide-images",
+      "count": 5,
+      "messageIds": [
+        1692,
+        1693,
+        1694,
+        1695,
+        1696
+      ]
+    },
+    {
+      "file": "lisa-orbital-carousel-v3.pdf",
+      "messageIds": [
+        1697
+      ],
+      "sha256": "2a9c734b212cd7d9b18794cb65ac20703f973c603c54d656ec8c2f8bf3b4befc",
+      "bytes": 2467849
+    }
+  ],
+  "createdAt": "2026-11-03T15:48:09.639Z",
+  "completedAt": "2026-11-03T15:48:16.599Z"
+}

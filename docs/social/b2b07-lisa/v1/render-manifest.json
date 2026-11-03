@@ -1,0 +1,206 @@
+{
+  "schema": "orbital.carousel.review.v1",
+  "status": "OWNER_REVIEW_NOT_APPROVED_NOT_SCHEDULED",
+  "createdAt": "2026-11-03T15:20:25.563Z",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "slides": 5
+  },
+  "source": "source.html",
+  "renderer": "render.mjs",
+  "inspections": [
+    {
+      "slide": 1,
+      "width": 1080,
+      "height": 1350,
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-pointing.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-desktop-live.png",
+          "loaded": true
+        }
+      ],
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 2,
+      "width": 1080,
+      "height": 1350,
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-thinking.png",
+          "loaded": true
+        }
+      ],
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 3,
+      "width": 1080,
+      "height": 1350,
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-desktop-live.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-map-mobile-live.png",
+          "loaded": true
+        }
+      ],
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 4,
+      "width": 1080,
+      "height": 1350,
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-analyzing.png",
+          "loaded": true
+        }
+      ],
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    },
+    {
+      "slide": 5,
+      "width": 1080,
+      "height": 1350,
+      "images": [
+        {
+          "src": "./assets/orbital-wordmark.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/lisa-logo.png",
+          "loaded": true
+        },
+        {
+          "src": "./assets/orbi-laptop.png",
+          "loaded": true
+        }
+      ],
+      "overflowX": false,
+      "overflowY": false,
+      "offCanvas": []
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "slide-01.png",
+      "bytes": 356766,
+      "sha256": "e23bda3d560867a2ec127f3ea0b88b74467d1e2e6a3861ef2a26ebfbb4ffc1f4"
+    },
+    {
+      "file": "slide-02.png",
+      "bytes": 176590,
+      "sha256": "5d597612e96abf95f1a85c513a749cef50dcb8b3bdc2293bddb1075bc031e2cb"
+    },
+    {
+      "file": "slide-03.png",
+      "bytes": 416128,
+      "sha256": "814c4e9c867d0eb29518de49d15bee009fa364395c907b3f5e81caebd9f2f313"
+    },
+    {
+      "file": "slide-04.png",
+      "bytes": 154522,
+      "sha256": "2edbf757d055a65971c2f2a590536b8183fe11f4de550cdfa5d97d52a2fe57f6"
+    },
+    {
+      "file": "slide-05.png",
+      "bytes": 157806,
+      "sha256": "82db82002d435b2ab7dd845d178e55e65e7bf261d47efd7b7970cbbafd12a6b5"
+    },
+    {
+      "file": "lisa-orbital-carousel-v1.pdf",
+      "bytes": 1694246,
+      "sha256": "f1253315addda5e7c3ac6ecc0e80d1e49c69f5fab80843adb9a1d871f398e53c"
+    }
+  ],
+  "provenance": [
+    {
+      "file": "assets/big-shoulders.woff2",
+      "sha256": "698f9960927e7b5a0c38e5bf388cd0a6e42d855062fe70366cf5057664e39401"
+    },
+    {
+      "file": "assets/lisa-character.png",
+      "sha256": "d809b6aa1160dc2db89fe225e7cdb33a941ffd9442a916eba68c6a3e5de0c800"
+    },
+    {
+      "file": "assets/lisa-landing-desktop.png",
+      "sha256": "631fc889d55f9015b4ef45dc230b6ba09636545c0aa1ec0d8649c7c7b65706d5"
+    },
+    {
+      "file": "assets/lisa-landing-mobile.png",
+      "sha256": "488253df8b7e6be219b1539e410abd81dca5185c6e71ecd661177b73626e0d59"
+    },
+    {
+      "file": "assets/lisa-logo.png",
+      "sha256": "4b4ce1a91ae2720e4ca50a55803a1175f371ef0cb4ef8df639fd77d78c99511a"
+    },
+    {
+      "file": "assets/lisa-map-desktop-live.png",
+      "sha256": "b84d755c54473a87fae2968528d76f7ee48182e520fdfffdaf6b95869e5684b8"
+    },
+    {
+      "file": "assets/lisa-map-mobile-live.png",
+      "sha256": "94ef3fd0bfc094b35d09e6e2b90cd785fd14b288901f7ef3d3c741f6af5a82a2"
+    },
+    {
+      "file": "assets/orbi-analyzing.png",
+      "sha256": "dd1781494ea1bab729c092f02071a6877e8c25738c2811c3218d3210075f62c7"
+    },
+    {
+      "file": "assets/orbi-laptop.png",
+      "sha256": "c1a80ab8393f6c50c433464f087e047008ad1afeb54bf437c6093872c72305e9"
+    },
+    {
+      "file": "assets/orbi-pointing.png",
+      "sha256": "b4eaf9da1f272acf1de08679ff5dced92ce9b28e90e58ba1fb670b5357935c12"
+    },
+    {
+      "file": "assets/orbi-thinking.png",
+      "sha256": "8ea0d488bb6ce5626d3e66bbc65a8afb61c927c13fb6454d6f498c5c2a44997a"
+    },
+    {
+      "file": "assets/orbital-wordmark.png",
+      "sha256": "f35906126fea3aef714d07f5e5e6e9071f1d6bdaa3fc5d9b6d00f065b7b4c271"
+    },
+    {
+      "file": "assets/plex-mono.woff2",
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    },
+    {
+      "file": "assets/plex-sans.woff2",
+      "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470"
+    }
+  ]
+}
