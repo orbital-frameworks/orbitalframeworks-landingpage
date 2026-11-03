@@ -225,7 +225,7 @@ async function social(){
     clean.publications[SLUG]=entry
     clean.lastUpdated=new Date().toISOString()
     const blob=exec('git',['hash-object','-w','--stdin'],{input:JSON.stringify(clean,null,2)+'\n'})
-    exec('git',['update-index','--add','--cacheinfo','100644,'+blob,MANIFEST])
+    exec('git',['update-index','--add','--cacheinfo','100644,'+blob+','+MANIFEST])
     manifest.publications[SLUG]=entry
     manifest.lastUpdated=clean.lastUpdated
     writeFileSync(join(ROOT,MANIFEST),JSON.stringify(manifest,null,2)+'\n')
