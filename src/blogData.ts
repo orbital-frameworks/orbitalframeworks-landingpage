@@ -542,7 +542,7 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
   "datePublished": "2026-11-03",
   "dateModified": "2026-11-03",
   "readingTime": "7 min de lectura",
-  "status": "DRAFT_NO_PUBLICABLE",
+  "status": "PUBLISHED",
   "statusLabel": "Pendiente de aprobación editorial",
   "statusNotice": "Artículo preparado para revisión. No distribuible externamente hasta aprobar el arte, copy y fuente final.",
   "prioritizedOwnerQuestion": "¿El caso Checkio respalda exclusivamente las capacidades descritas, sin afirmar resultados comerciales ni cumplimiento normativo?",

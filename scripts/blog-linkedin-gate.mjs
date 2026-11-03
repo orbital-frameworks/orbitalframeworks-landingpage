@@ -54,7 +54,7 @@ export const BACKLOG_TOPICS = [
     id: 'B2B-06',
     slug: 'digitalizacion-asistencia-personal-campo-trazabilidad',
     title: 'Digitalización de asistencia y control de personal en campo: lecciones de trazabilidad',
-    status: 'DRAFT_NO_PUBLICABLE',
+    status: 'PUBLISHED',
     campaign: 'camp_field_staff_tracking',
     service: 'Desarrollo de Software a Medida',
     caseStudy: 'Checkio',

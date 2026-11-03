@@ -29,8 +29,8 @@ test('1. Blog index and pilot article are prerendered in dist', () => {
   assert.ok(blogHtml.includes('Filtrar por tema'), 'Blog index must prerender an accessible category legend')
   const indexArticleLinks = [...blogHtml.matchAll(/<a href="(\/blog\/[^\"]+\/)" class="blogPostCardSurface"/g)]
     .map((match) => match[1])
-  assert.equal(indexArticleLinks.length, 5, 'Default SSR index must expose every published article card')
-  assert.equal(new Set(indexArticleLinks).size, 5, 'Default SSR index article links must be unique')
+  assert.equal(indexArticleLinks.length, 6, 'Default SSR index must expose every published article card')
+  assert.equal(new Set(indexArticleLinks).size, 6, 'Default SSR index article links must be unique')
 
   const articlePath = join(distDir, 'blog/software-a-medida-o-saas-como-decidir/index.html')
   assert.ok(existsSync(articlePath), `Prerendered HTML must exist at ${articlePath}`)

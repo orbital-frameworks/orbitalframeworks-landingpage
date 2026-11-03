@@ -5,8 +5,16 @@
     <link>https://orbitalframeworks.qzz.io/blog/</link>
     <description>Artículos técnicos, marcos de decisión y evaluaciones de arquitectura de software y automatización para empresas en Perú.</description>
     <language>es-PE</language>
-    <lastBuildDate>Thu, 29 Oct 2026 14:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 16:00:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Control de asistencia en campo: por qué registrar una marcación no basta para tener trazabilidad</title>
+      <link>https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/</guid>
+      <pubDate>Tue, 03 Nov 2026 16:00:00 GMT</pubDate>
+      <description>Registro, incidencias y correcciones para personal en campo.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
     <item>
       <title>Tu web recibe visitas, pero nadie te contacta: cómo encontrar la fricción antes de rediseñar</title>
       <link>https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/</link>

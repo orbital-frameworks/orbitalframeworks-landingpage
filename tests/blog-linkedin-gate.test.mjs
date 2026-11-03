@@ -45,7 +45,7 @@ test('1. Backlog topics and pilot article metadata alignment', () => {
   const b2b06web = BACKLOG_TOPICS.find((t) => t.id === 'B2B-06-WEB')
   assert.equal(b2b06web?.status, 'PUBLISHED', 'Web conversion article approved 29/10/2026')
 
-  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05', 'B2B-06-WEB'].includes(t.id))
+  const drafts = BACKLOG_TOPICS.filter((t) => !['B2B-01', 'B2B-02', 'B2B-03', 'B2B-05', 'B2B-06-WEB', 'B2B-06'].includes(t.id))
   for (const draft of drafts) {
     assert.equal(
       draft.status,
