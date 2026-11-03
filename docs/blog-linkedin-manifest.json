@@ -107,15 +107,20 @@
       "campaign": "camp_field_staff_tracking",
       "utmUrl": "https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=camp_field_staff_tracking",
       "canonicalUrl": "https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/",
-      "status": "LISTO_PARA_DISTRIBUCION_EXTERNA",
+      "status": "DISTRIBUTED",
       "gateVerdict": "PASS",
-      "autopostAuthorized": true,
+      "autopostAuthorized": false,
       "approvalReference": "docs/social/b2b06-field/APPROVED_RELEASE_20261102.md",
       "approvedPdfSha256": "ad831b217d5b883d24d54558d48304469128b1c5bb66ed2ff26c70d8c1e883ed",
       "approvedCopySha256": "b09665d3767ba83f9eb3be491469d10a9061bdeeb0a33b32e0745209d346ca28",
       "blogPublishedAt": "2026-11-03T14:30:01.081Z",
       "scheduledLinkedInAt": "2026-11-03T14:00:00Z",
-      "failedChecks": []
+      "failedChecks": [],
+      "linkedinPostUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7523394359854100480?actorCompanyId=134014070",
+      "linkedinPostUrn": "urn:li:activity:7523394359854100480",
+      "verifiedAt": "2026-11-03T14:43:24.197Z",
+      "documentPagesVerified": 5,
+      "verificationSource": "LINKEDIN_PUBLIC_POST_AND_DOCUMENT_QA_20261103"
     }
   }
 }
