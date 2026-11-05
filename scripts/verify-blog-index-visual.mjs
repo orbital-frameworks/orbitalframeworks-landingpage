@@ -393,7 +393,8 @@ try {
     const evaluated = await send('Runtime.evaluate', {
       expression: `(() => ({
         dates: [...document.querySelectorAll('.blogPostCardBottom > span:first-child')].map(e => e.textContent.trim().slice(0, 10)),
-        titles: [...document.querySelectorAll('.blogPostCardTitle')].map(e => e.innerText.trim())
+        titles: [...document.querySelectorAll('.blogPostCardTitle')].map(e => e.innerText.trim()),
+        topics: [...document.querySelectorAll('.blogPostCardCategoryBadge')].map(e => e.textContent.trim())
       }))()`,
       returnByValue: true,
     })
@@ -404,10 +405,18 @@ try {
   const byTitle = await chooseSort('title')
   assert.deepEqual(byTitle.titles, [...byTitle.titles].sort((a, b) => a.localeCompare(b, 'es')),
     'Alphabetical sorting must follow Spanish title order')
+  const byTopic = await chooseSort('topic')
+  assert.deepEqual(byTopic.topics, [...byTopic.topics].sort((a, b) => a.localeCompare(b, 'es')),
+    'Topic sorting must group categories alphabetically in Spanish')
+  for (let i = 1; i < byTopic.topics.length; i += 1) {
+    if (byTopic.topics[i] === byTopic.topics[i - 1]) {
+      assert.ok(byTopic.dates[i - 1] >= byTopic.dates[i], 'Posts within each topic must be newest first')
+    }
+  }
   const latest = await chooseSort('newest')
   assert.deepEqual(latest.dates, [...latest.dates].sort().reverse(),
     'Restoring newest sort must return descending dates')
-  console.log('PASS [Article Sort]: newest/oldest/title options reorder actual article cards')
+  console.log('PASS [Article Sort]: newest/oldest/title/topic options reorder actual article cards')
 
   // 1. Native button keyboard reachability and visible focus
   await send('Runtime.evaluate', { expression: `document.activeElement?.blur()` })

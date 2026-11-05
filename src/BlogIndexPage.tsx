@@ -109,6 +109,8 @@ export default function BlogIndexPage() {
   const results = (activeCategoryId === ALL ? allFiltered : allFiltered.filter(([i]) => i[1] === activeCategoryId))
     .sort((a, b) => sortBy === 'title'
       ? a[0][0].title.localeCompare(b[0][0].title, 'es')
+      : sortBy === 'topic'
+        ? categoryName(a[0][1]).localeCompare(categoryName(b[0][1]), 'es') || b[0][0].datePublished.localeCompare(a[0][0].datePublished)
       : sortBy === 'oldest'
         ? a[0][0].datePublished.localeCompare(b[0][0].datePublished)
         : b[0][0].datePublished.localeCompare(a[0][0].datePublished))
@@ -213,6 +215,7 @@ export default function BlogIndexPage() {
               <option value="newest">Más recientes</option>
               <option value="oldest">Más antiguos</option>
               <option value="title">Título A–Z</option>
+              <option value="topic">Tema A–Z</option>
             </select>
           </div>,
         ),
