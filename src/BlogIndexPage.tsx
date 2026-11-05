@@ -101,11 +101,17 @@ export default function BlogIndexPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategoryId, setActiveCategoryId] = useState<BlogCategoryId>(ALL)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [sortBy, setSortBy] = useState('newest')
 
   const tokens = tokenizeSearchQuery(searchQuery)
   const highlightRegex = buildHighlightRegex(tokens)
   const allFiltered = filterAndSearchBlogPosts(BLOG_CORPUS, searchQuery)
-  const results = activeCategoryId === ALL ? allFiltered : allFiltered.filter(([i]) => i[1] === activeCategoryId)
+  const results = (activeCategoryId === ALL ? allFiltered : allFiltered.filter(([i]) => i[1] === activeCategoryId))
+    .sort((a, b) => sortBy === 'title'
+      ? a[0][0].title.localeCompare(b[0][0].title, 'es')
+      : sortBy === 'oldest'
+        ? a[0][0].datePublished.localeCompare(b[0][0].datePublished)
+        : b[0][0].datePublished.localeCompare(a[0][0].datePublished))
 
   const counts: Record<string, number> = { [ALL]: allFiltered.length }
   for (const [i] of allFiltered) counts[i[1]] = -~counts[i[1]]
@@ -201,6 +207,14 @@ export default function BlogIndexPage() {
               ),
             ),
           ),
+          <div className="blogSortControl">
+            <label htmlFor="blog-sort-order">Ordenar por</label>
+            <select id="blog-sort-order" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="newest">Más recientes</option>
+              <option value="oldest">Más antiguos</option>
+              <option value="title">Título A–Z</option>
+            </select>
+          </div>,
         ),
         !results.length
           ? D(

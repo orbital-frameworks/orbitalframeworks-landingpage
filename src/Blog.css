@@ -302,7 +302,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 280px) 150px;
   align-items: center;
   gap: 16px;
 }
@@ -417,6 +417,35 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+.blogSortControl {
+  min-width: 0;
+}
+
+.blogSortControl label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.blogSortControl select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: #111c27;
+  color: #f5f5f5;
+  font: 13px var(--font-sans);
+  cursor: pointer;
+}
+
+.blogSortControl select:focus-visible {
+  outline: 2px solid var(--orbital-teal);
+  outline-offset: 2px;
 }
 
 .blogSearchBox {
@@ -1091,6 +1120,14 @@
 }
 
 @media (min-width: 701px) and (max-width: 1180px) {
+  .blogFilterToolbar {
+    grid-template-columns: minmax(0, 1fr) 150px;
+  }
+
+  .blogCategoryGroup {
+    grid-column: 1 / -1;
+  }
+
   .blogCategoryList {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1103,6 +1140,18 @@
 }
 
 @media (max-width: 700px) {
+  .blogFilterToolbar {
+    grid-template-columns: minmax(0, 1fr) 132px;
+  }
+
+  .blogCategoryGroup {
+    grid-column: 1;
+  }
+
+  .blogSortControl {
+    grid-column: 2;
+  }
+
   .blogIndexMain {
     padding-top: 28px;
   }
@@ -1127,6 +1176,7 @@
 
   .blogSearchContainer {
     order: -1;
+    grid-column: 1 / -1;
   }
 
   .blogCategoryGroup {

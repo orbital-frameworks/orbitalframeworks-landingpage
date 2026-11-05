@@ -260,11 +260,11 @@ try {
     )
     assert.equal(
       data.cardCount,
-      5,
-      `Expected 5 cards on initial render at ${vp.width}px, got ${data.cardCount}`,
+      7,
+      `Expected 7 cards on initial render at ${vp.width}px, got ${data.cardCount}`,
     )
     assert.equal(data.searchLabel, 'Buscar', `Search must keep its visible label at ${vp.width}px`)
-    assert.equal(new Set(data.links).size, 5, `Every card must expose a unique crawlable link at ${vp.width}px`)
+    assert.equal(new Set(data.links).size, 7, `Every card must expose a unique crawlable link at ${vp.width}px`)
     assert.ok(data.links.every((href) => href?.startsWith('/blog/')), `Card links must remain internal blog URLs at ${vp.width}px`)
     if (vp.width <= 700) {
       assert.ok(data.mobileToggle.height >= 44 && data.mobileToggle.expanded === 'false',
@@ -280,10 +280,10 @@ try {
     assert.deepEqual(
       Object.fromEntries(data.categoryButtons.map(({ id, count }) => [id, count])),
       {
-        'cat-todos': 5,
+        'cat-todos': 7,
         'cat-web-y-conversion': 2,
-        'cat-automatizacion-y-operaciones': 2,
-        'cat-software-y-sistemas': 1,
+        'cat-automatizacion-y-operaciones': 3,
+        'cat-software-y-sistemas': 2,
       },
       `Category counters must match the complete corpus at ${vp.width}px`,
     )
@@ -295,6 +295,18 @@ try {
 
     const screenshot = await capture(`blog-index-${vp.width}.png`)
     console.log(`PASS [${vp.label}]: cols=${data.geometricCols}, overflow=none (${data.scrollWidth}px <= ${data.innerWidth}px), cards=${data.cardCount}, screenshot=${screenshot.path}, sha256=${screenshot.hash}`)
+    const defaultSort = await send('Runtime.evaluate', {
+      expression: `(() => {
+        const select = document.querySelector('#blog-sort-order');
+        const dates = [...document.querySelectorAll('.blogPostCardBottom > span:first-child')].map(e => e.textContent.trim().slice(0, 10));
+        return {value:select?.value, height:select?.getBoundingClientRect().height, dates};
+      })()`, returnByValue: true,
+    })
+    const sort = defaultSort.result.value
+    assert.equal(sort.value, 'newest', `Date descending must be the default at ${vp.width}px`)
+    assert.ok(sort.height >= 44, `Sort select must be a touch-sized native control at ${vp.width}px`)
+    assert.deepEqual(sort.dates, [...sort.dates].sort().reverse(),
+      `Articles must default to most recent first at ${vp.width}px`)
     if (vp.width === 390 || vp.width === 1440) {
       await send('Runtime.evaluate', { expression: `document.querySelector('#articulos').scrollIntoView({block:'start'})` })
       await sleep(150)
@@ -368,6 +380,35 @@ try {
   await send('Page.navigate', { url: `${origin}/blog/` })
   await sleep(400)
 
+  // Exercise native sorting with live DOM updates, not only default CSS/SSR.
+  const chooseSort = async (value) => {
+    await send('Runtime.evaluate', {
+      expression: `(() => {
+        const select = document.querySelector('#blog-sort-order')
+        select.value = ${JSON.stringify(value)}
+        select.dispatchEvent(new Event('change', { bubbles: true }))
+      })()`,
+    })
+    await sleep(100)
+    const evaluated = await send('Runtime.evaluate', {
+      expression: `(() => ({
+        dates: [...document.querySelectorAll('.blogPostCardBottom > span:first-child')].map(e => e.textContent.trim().slice(0, 10)),
+        titles: [...document.querySelectorAll('.blogPostCardTitle')].map(e => e.innerText.trim())
+      }))()`,
+      returnByValue: true,
+    })
+    return evaluated.result.value
+  }
+  const oldest = await chooseSort('oldest')
+  assert.deepEqual(oldest.dates, [...oldest.dates].sort(), 'Oldest sorting must be ascending by publication date')
+  const byTitle = await chooseSort('title')
+  assert.deepEqual(byTitle.titles, [...byTitle.titles].sort((a, b) => a.localeCompare(b, 'es')),
+    'Alphabetical sorting must follow Spanish title order')
+  const latest = await chooseSort('newest')
+  assert.deepEqual(latest.dates, [...latest.dates].sort().reverse(),
+    'Restoring newest sort must return descending dates')
+  console.log('PASS [Article Sort]: newest/oldest/title options reorder actual article cards')
+
   // 1. Native button keyboard reachability and visible focus
   await send('Runtime.evaluate', { expression: `document.activeElement?.blur()` })
   let keyboardData
@@ -433,8 +474,8 @@ try {
 
   const catData = catFilterResult.result.value
   assert.equal(catData.activeId, 'cat-software-y-sistemas', 'Software category should be active')
-  assert.equal(catData.cardCount, 1, 'Software category should show exactly 1 card')
-  assert.ok(catData.firstTitle.includes('Software a medida'), 'Card title should match software article')
+  assert.equal(catData.cardCount, 2, 'Software category must include both current articles')
+  assert.ok(catData.firstTitle.includes('LISA'), 'Newest software article should be LISA')
   await send('Runtime.evaluate', { expression: `document.querySelector('#cat-web-y-conversion')?.click()` })
   await sleep(50)
   await send('Runtime.evaluate', { expression: `document.querySelector('#cat-todos')?.click()` })
@@ -447,7 +488,7 @@ try {
     returnByValue: true,
   })
   assert.equal(consecutiveResult.result.value.activeId, 'cat-todos', 'Consecutive category changes must end in the requested category')
-  assert.equal(consecutiveResult.result.value.cards, 5, 'Consecutive category changes must restore all posts')
+  assert.equal(consecutiveResult.result.value.cards, 7, 'Consecutive category changes must restore all posts')
   console.log(`PASS [Category Filter]: selected software-y-sistemas -> ${catData.cardCount} card shown (${catData.firstTitle})`)
 
   // 3. Search query typing and highlight verification
@@ -524,7 +565,7 @@ try {
 
   const clearData = clearResult.result.value
   assert.equal(clearData.inputValue, '', 'Input should be cleared')
-  assert.equal(clearData.cardCount, 5, 'All 5 cards should be restored after clearing search')
+  assert.equal(clearData.cardCount, 7, 'All 7 cards should be restored after clearing search')
   assert.equal(clearData.focusedId, 'blog-search-field', 'Clearing search must return focus to the search field')
   console.log(`PASS [Clear Button]: input reset to empty -> ${clearData.cardCount} cards restored`)
 
@@ -629,7 +670,7 @@ try {
   })
 
   const resetData = resetResult.result.value
-  assert.equal(resetData.cardsAfterReset, 5, 'Reset button click should restore all 5 cards')
+  assert.equal(resetData.cardsAfterReset, 7, 'Reset button click should restore all 7 cards')
   assert.equal(resetData.inputAfterReset, '', 'Reset button click should clear input')
   console.log(`PASS [Empty State & Reset]: 0-results empty state rendered -> reset clicked -> ${resetData.cardsAfterReset} cards restored; screenshot=${emptyScreenshot.path}, sha256=${emptyScreenshot.hash}`)
 
@@ -700,7 +741,7 @@ try {
     returnByValue: true,
   })
   assert.equal(touchResult.result.value.activeId, 'cat-automatizacion-y-operaciones', 'Touch must activate the automation category')
-  assert.equal(touchResult.result.value.cards, 2, 'Touch category activation must show the two automation posts')
+  assert.equal(touchResult.result.value.cards, 3, 'Touch category activation must show the three automation posts')
   const touchScreenshot = await capture('blog-index-touch-390.png')
 
   await send('Runtime.evaluate', { expression: `document.querySelector('.blogPostCardSurface')?.click()` })
