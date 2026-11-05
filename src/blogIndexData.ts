@@ -22,7 +22,7 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
   [SOFTWARE, 'Software y sistemas'],
 ]
 
-const POST_CATEGORIES = [WEB, OPERATIONS, SOFTWARE, OPERATIONS, WEB, OPERATIONS] as const
+const POST_CATEGORIES = [WEB, OPERATIONS, SOFTWARE, OPERATIONS, WEB, OPERATIONS, SOFTWARE] as const
 
 export const categoryName = (id: BlogCategoryId) => BLOG_CATEGORIES.find(([c]) => c === id)![1]
 

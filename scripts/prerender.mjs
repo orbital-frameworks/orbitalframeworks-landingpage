@@ -244,6 +244,23 @@ if(fieldArticle.status==='PUBLISHED'){
   })
 }
 
+const lisaArticle = blogPosts['lisa-serums-mapa-datos-automatizacion']
+if (lisaArticle.status === 'PUBLISHED') {
+  const anchor = pages.findIndex(page => page.pathname === '/404')
+  if (anchor < 0) throw Error('LISA_PRERENDER_ANCHOR_MISSING')
+  pages.splice(anchor, 0, {
+    pathname: lisaArticle.route,
+    output: 'dist/blog/' + lisaArticle.slug + '/index.html',
+    title: lisaArticle.metaTitle,
+    description: lisaArticle.metaDescription,
+    canonical: lisaArticle.canonical,
+    schemaType: 'article',
+    articleHeadline: lisaArticle.title,
+    datePublished: lisaArticle.datePublished,
+    dateModified: lisaArticle.dateModified,
+  })
+}
+
 function schemaForPage(page) {
   if (page.schemaType === '404') return null
   if (!page.schemaType) return baseStructuredData

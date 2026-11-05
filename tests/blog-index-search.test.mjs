@@ -24,7 +24,7 @@ import {
 const slugs = (results) => results.map(([item]) => item[0].slug)
 
 test('blog corpus keeps every published post in stable editorial order with explicit taxonomy', () => {
-  assert.equal(BLOG_CORPUS.length, 6)
+  assert.equal(BLOG_CORPUS.length, 7)
   assert.deepEqual(
     BLOG_CATEGORIES.map(([, label]) => label),
     ['Todos', 'Web y conversión', 'Automatización y operaciones', 'Software y sistemas'],
@@ -38,6 +38,7 @@ test('blog corpus keeps every published post in stable editorial order with expl
       'automatizacion-procesos-vs-excel-riesgo-operativo',
       'landing-page-b2b-tecnica-vs-web-corporativa',
       'digitalizacion-asistencia-personal-campo-trazabilidad',
+      'lisa-serums-mapa-datos-automatizacion',
     ],
   )
   assert.deepEqual(
@@ -49,6 +50,7 @@ test('blog corpus keeps every published post in stable editorial order with expl
       'automatizacion-procesos-vs-excel-riesgo-operativo': 'automatizacion-y-operaciones',
       'landing-page-b2b-tecnica-vs-web-corporativa': 'web-y-conversion',
       'digitalizacion-asistencia-personal-campo-trazabilidad': 'automatizacion-y-operaciones',
+      'lisa-serums-mapa-datos-automatizacion': 'software-y-sistemas',
     },
   )
 })
@@ -182,7 +184,7 @@ test('category and query combine without leaking results from another category',
 
 test('empty or whitespace query returns all category items in source order without match scoring', () => {
   const defaultAll = filterAndSearchBlogPosts(BLOG_CORPUS, '')
-  assert.equal(defaultAll.length, 6)
+  assert.equal(defaultAll.length, 7)
   assert.deepEqual(
     defaultAll.map((r) => r[0][0].slug),
     BLOG_CORPUS.map((item) => item[0].slug),

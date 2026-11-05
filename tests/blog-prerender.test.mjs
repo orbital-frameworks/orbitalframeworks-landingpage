@@ -29,8 +29,11 @@ test('1. Blog index and pilot article are prerendered in dist', () => {
   assert.ok(blogHtml.includes('Filtrar por tema'), 'Blog index must prerender an accessible category legend')
   const indexArticleLinks = [...blogHtml.matchAll(/<a href="(\/blog\/[^\"]+\/)" class="blogPostCardSurface"/g)]
     .map((match) => match[1])
-  assert.equal(indexArticleLinks.length, 6, 'Default SSR index must expose every published article card')
-  assert.equal(new Set(indexArticleLinks).size, 6, 'Default SSR index article links must be unique')
+  assert.equal(indexArticleLinks.length, 7, 'Default SSR index must expose every published article card')
+  assert.equal(new Set(indexArticleLinks).size, 7, 'Default SSR index article links must be unique')
+  assert.ok(indexArticleLinks.includes('/blog/lisa-serums-mapa-datos-automatizacion/'), 'LISA release must be visible in the public blog')
+  const lisaHtml = readFileSync(join(distDir, 'blog/lisa-serums-mapa-datos-automatizacion/index.html'), 'utf8')
+  assert.ok(lisaHtml.includes('LISA') && lisaHtml.includes('rel="canonical"'), 'LISA article must be prerendered with canonical metadata')
 
   const articlePath = join(distDir, 'blog/software-a-medida-o-saas-como-decidir/index.html')
   assert.ok(existsSync(articlePath), `Prerendered HTML must exist at ${articlePath}`)

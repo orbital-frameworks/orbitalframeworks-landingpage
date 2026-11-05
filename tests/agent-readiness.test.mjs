@@ -647,11 +647,10 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   assert.ok(readFileSync(gscPath, 'utf8'), 'GSC verification token must exist in public/google466769daa2952733.html')
   assert.equal(readFileSync(gscPath, 'utf8').trim(), 'google-site-verification: google466769daa2952733.html')
 
-  // Verify all 19 approved public canonical routes, including B2B-05 released
-  // on 27 Oct. New releases must update both this guard and the URL list.
+  // Verify public canonical routes, including the 5 November LISA release.
   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz.io[^<]*)<\/loc>/g)].map(m => m[1])
-  assert.equal(locMatches.length, 19, 'Sitemap must contain exactly 19 canonical routes')
+  assert.equal(locMatches.length, 20, 'Sitemap must contain exactly 20 canonical routes')
 
   const expectedUrls = [
     'https://orbitalframeworks.qzz.io/',
@@ -672,6 +671,7 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
     'https://orbitalframeworks.qzz.io/blog/integracion-pedidos-whatsapp-almacen-operaciones/',
     'https://orbitalframeworks.qzz.io/blog/web-con-visitas-pero-sin-consultas/',
     'https://orbitalframeworks.qzz.io/blog/digitalizacion-asistencia-personal-campo-trazabilidad/',
+    'https://orbitalframeworks.qzz.io/blog/lisa-serums-mapa-datos-automatizacion/',
   ]
   for (const expectedUrl of expectedUrls) {
     assert.ok(locMatches.includes(expectedUrl), `Sitemap must include ${expectedUrl}`)

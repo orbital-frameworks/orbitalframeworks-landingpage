@@ -646,9 +646,9 @@ export const blogPosts: Record<BlogPostSlug, BlogPost> = {
     datePublished: '2026-11-05',
     dateModified: '2026-11-05',
     readingTime: '5 min de lectura',
-    status: 'DRAFT_NO_PUBLICABLE',
-    statusLabel: 'Publicación pendiente de ventana autorizada',
-    statusNotice: 'Artículo preparado para la campaña LISA. Pendiente de fecha y hora exactas de despliegue y verificación en dominio público.',
+    status: 'PUBLISHED',
+    statusLabel: '',
+    statusNotice: '',
     prioritizedOwnerQuestion: '¿La atribución de Orbital Frameworks a LISA fue comunicada y aceptada por el resto del equipo?',
     author: {
       name: 'Orbital Frameworks',
