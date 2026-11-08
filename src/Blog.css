@@ -1083,6 +1083,10 @@
     display: none;
   }
 
+  .blogFooter {
+    padding-bottom: 140px;
+  }
+
   .blogHeroActions {
     flex-direction: column;
     align-items: stretch;

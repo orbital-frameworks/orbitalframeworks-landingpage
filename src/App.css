@@ -631,7 +631,7 @@
   .portfolioProjects {
     grid-column: auto;
   }
-  
+
   .portfolioRobot {
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -3152,6 +3152,7 @@
     width: calc(100% - 32px);
     grid-template-columns: 1fr;
     align-items: start;
+    padding-bottom: 140px;
   }
 
   .siteFooterMeta {
@@ -3910,5 +3911,349 @@
 
   .orbitalLeadsIntro h2 {
     font-size: clamp(52px, 18vw, 78px);
+  }
+}
+
+/* Unified Dual-Funnel Contact Capture Panel (Katherine Gilligan 11 UX States) */
+.contactCapturePanel {
+  width: 100%;
+  padding: 28px clamp(20px, 3vw, 32px);
+  border: 1px solid rgba(245, 245, 245, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+    rgba(7, 17, 27, 0.78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+}
+
+.contactCapturePanel--compact {
+  padding: 20px 16px;
+  background: rgba(7, 17, 27, 0.65);
+}
+
+.contactCaptureHeader {
+  margin-bottom: 20px;
+}
+
+.contactCaptureHeadline {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.contactCaptureSubheadline {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(245, 245, 245, 0.72);
+}
+
+.contactLaneSelector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.contactLanePill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 16px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(245, 245, 245, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.contactLanePill:hover {
+  border-color: rgba(0, 210, 211, 0.4);
+  background: rgba(0, 210, 211, 0.03);
+}
+
+.contactLanePill--active {
+  border-color: var(--orbital-teal);
+  background: rgba(0, 210, 211, 0.08);
+  box-shadow: 0 0 16px rgba(0, 210, 211, 0.12);
+}
+
+.contactLanePillTag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orbital-teal);
+}
+
+.contactLanePillTitle {
+  display: block;
+  margin: 4px 0 2px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.contactLanePillDetail {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(245, 245, 245, 0.62);
+}
+
+.contactCaptureForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactFieldsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contactFieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contactFieldLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 245, 0.75);
+}
+
+.contactRequiredMarker {
+  color: var(--orbital-teal);
+}
+
+.contactFieldOptional {
+  color: rgba(245, 245, 245, 0.42);
+  text-transform: none;
+}
+
+.contactTextInput {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: rgba(5, 12, 19, 0.85);
+  border: 1px solid rgba(245, 245, 245, 0.15);
+  border-radius: 4px;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  transition: border-color 0.18s ease;
+}
+
+.contactTextInput:focus {
+  outline: none;
+  border-color: var(--orbital-teal);
+  box-shadow: 0 0 0 2px rgba(0, 210, 211, 0.2);
+}
+
+.contactTextInput--invalid {
+  border-color: #ff4d4f;
+}
+
+.contactStatusNotice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.contactStatusNotice--error {
+  background: rgba(255, 77, 79, 0.12);
+  border: 1px solid rgba(255, 77, 79, 0.35);
+  color: #ff9c9c;
+}
+
+.contactStatusNotice--warning {
+  background: rgba(250, 173, 20, 0.12);
+  border: 1px solid rgba(250, 173, 20, 0.35);
+  color: #ffd591;
+}
+
+.contactInlineRetryBtn {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.contactFeedbackCard {
+  padding: 20px;
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+.contactFeedbackCard--success {
+  background: rgba(0, 210, 211, 0.06);
+  border: 1px solid rgba(0, 210, 211, 0.32);
+}
+
+.contactFeedbackCard--degraded {
+  background: rgba(250, 173, 20, 0.08);
+  border: 1px solid rgba(250, 173, 20, 0.32);
+}
+
+.contactFeedbackTitle {
+  margin: 0 0 6px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.contactFeedbackText {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(245, 245, 245, 0.85);
+}
+
+.contactFeedbackRef {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--orbital-teal);
+  margin-bottom: 12px;
+}
+
+.contactPreservedData {
+  margin: 12px 0;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(245, 245, 245, 0.88);
+}
+
+.contactFeedbackActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.contactSubmitRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.contactSubmitBtn {
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+
+.contactPrivacyHint {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.5);
+}
+
+.contactDirectSection {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(245, 245, 245, 0.08);
+}
+
+.contactDirectTitle {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 245, 0.5);
+  margin-bottom: 12px;
+}
+
+.contactDirectActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.contactDirectLink,
+.contactDirectCopyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(245, 245, 245, 0.88);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(245, 245, 245, 0.14);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.contactDirectLink:hover,
+.contactDirectCopyBtn:hover {
+  border-color: var(--orbital-teal);
+  color: #fff;
+  background: rgba(0, 210, 211, 0.08);
+}
+
+.contactGuidanceFooter {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(245, 245, 245, 0.05);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(245, 245, 245, 0.4);
+}
+
+.aboutCtaPanelShell {
+  width: 100%;
+  max-width: 620px;
+}
+
+@media (max-width: 760px) {
+  .contactLaneSelector {
+    grid-template-columns: 1fr;
+  }
+  .contactFieldsGrid {
+    grid-template-columns: 1fr;
+  }
+  .contactDirectActions {
+    flex-direction: column;
+  }
+  .contactDirectLink,
+  .contactDirectCopyBtn,
+  .contactSubmitBtn {
+    width: 100%;
   }
 }

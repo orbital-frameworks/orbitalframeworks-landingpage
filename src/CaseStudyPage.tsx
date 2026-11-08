@@ -5,6 +5,7 @@ import lisaImg from './assets/lisa.png'
 import perulogImg from './assets/PerulogPallets.png'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { caseStudies, type CaseStudySlug } from './caseStudies'
+import ContactCapturePanel from './ContactCapturePanel'
 import './CaseStudyPage.css'
 
 const images: Record<CaseStudySlug, string> = {
@@ -40,7 +41,6 @@ const visitCopy: Record<CaseStudySlug, { headline: string; description: string; 
 export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
   const study = caseStudies[slug]
   const visit = visitCopy[slug]
-  const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20un%20caso%20-%20Orbital%20Frameworks&body=Proyecto%20o%20negocio%3A%0A%0AProblema%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
 
   return (
     <div className="casePage">
@@ -166,13 +166,13 @@ export default function CaseStudyPage({ slug }: { slug: CaseStudySlug }) {
           </aside>
         </section>
 
-        <section className="caseCta">
-          <div>
-            <span>Siguiente conversación</span>
-            <h2>¿Tienes un problema operativo parecido?</h2>
-            <p>Describe la situación actual y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
-          </div>
-          <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir a Orbital ↗</a>
+        <section className="caseCta" id="contacto">
+          <ContactCapturePanel
+            sourcePage={`/casos/${slug}/`}
+            initialLane={slug === 'wasy' ? 'product_idea' : 'b2b_ops'}
+            headline={slug === 'wasy' ? '¿Quieres desarrollar una idea o producto digital?' : '¿Tienes un problema operativo o proyecto parecido?'}
+            subheadline="Describe la situación actual o tu idea y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución."
+          />
         </section>
       </main>
     </div>

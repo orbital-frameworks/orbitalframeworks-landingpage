@@ -2,13 +2,31 @@ declare global {
   interface Window {
     dataLayer?: unknown[]
     gtag?: (...args: unknown[]) => void
+    clarity?: (...args: unknown[]) => void
   }
 }
 
 // GA4 Measurement ID is public (not a secret). Allow a deployment override,
 // but keep the owner's verified web stream enabled in a clean Amplify build.
 const measurementId = import.meta.env?.VITE_GA_MEASUREMENT_ID?.trim() || 'G-487MJFCW45'
+const clarityProjectId = import.meta.env?.VITE_CLARITY_PROJECT_ID?.trim() || ''
 const consentKey = 'orbital-analytics-consent'
+
+export type LaneId = 'b2b_ops' | 'product_idea'
+
+export interface TelemetryPayload {
+  event: 'section_dwell' | 'scroll_depth' | 'lane_selection' | 'contact_intent' | 'page_view'
+  path: string
+  timestamp: number
+  depth?: number
+  lane?: LaneId
+  dwell_ms?: number
+  section_id?: string
+  sections?: Record<string, number>
+  method?: string
+  channel?: string
+  meta?: Record<string, unknown>
+}
 
 function gtag(...args: unknown[]) {
   window.dataLayer ??= []
@@ -23,12 +41,16 @@ export function isAnalyticsConfigured() {
   return Boolean(measurementId)
 }
 
+export function isClarityConfigured() {
+  return Boolean(clarityProjectId)
+}
+
 export function hasAnalyticsConsent() {
-  return Boolean(measurementId && localStorage.getItem(consentKey) !== null)
+  return Boolean((measurementId || clarityProjectId) && localStorage.getItem(consentKey) !== null)
 }
 
 export function isConsentGranted() {
-  return Boolean(measurementId && localStorage.getItem(consentKey) === 'granted')
+  return Boolean((measurementId || clarityProjectId) && localStorage.getItem(consentKey) === 'granted')
 }
 
 // Session-level journey tracking (pure in-memory, no unconsented storage, no PII)
@@ -47,6 +69,236 @@ export function recordFunnelStep(step: 'article' | 'service', slug: string) {
 
 export function getSessionJourney() {
   return { ...sessionJourney }
+}
+
+// First-Party Attention Map & Telemetry (Zero Cookies, Zero PII, 100% of visits)
+let currentSelectedLane: LaneId | null = null
+const reachedScrollMilestones = new Set<number>()
+const sectionDwellTimes: Record<string, number> = {}
+const activeSectionTimestamps: Record<string, number> = {}
+let attentionObserver: IntersectionObserver | null = null
+let attentionMapInitialized = false
+
+export function getSelectedLane(): LaneId | null {
+  return currentSelectedLane
+}
+
+export function getSectionDwellTimes(): Record<string, number> {
+  return { ...sectionDwellTimes }
+}
+
+export function sendTelemetry(payload: TelemetryPayload | TelemetryPayload[]): boolean {
+  if (typeof window === 'undefined') return false
+  const endpoint = '/api/telemetry'
+  const body = JSON.stringify(payload)
+
+  try {
+    if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      const blob = new Blob([body], { type: 'application/json' })
+      if (navigator.sendBeacon(endpoint, blob)) {
+        return true
+      }
+    }
+  } catch {
+    // Fall back to fetch keepalive
+  }
+
+  try {
+    if (typeof fetch === 'function') {
+      void fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        keepalive: true,
+      }).catch(() => {
+        // Silently tolerate endpoint absence in local dev or static preview
+      })
+      return true
+    }
+  } catch {
+    // Silently ignore
+  }
+
+  return false
+}
+
+export function trackLaneSelection(lane: LaneId, meta?: Record<string, unknown>) {
+  currentSelectedLane = lane
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/'
+
+  sendTelemetry({
+    event: 'lane_selection',
+    path,
+    timestamp: Date.now(),
+    lane,
+    meta,
+  })
+
+  if (measurementId && isConsentGranted()) {
+    gtag('event', 'select_lane', {
+      lane,
+      source_page: path,
+      ...meta,
+    })
+  }
+}
+
+export function trackAttentionEvent(event: string, data?: Record<string, unknown>) {
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/'
+  sendTelemetry({
+    event: 'section_dwell',
+    path,
+    timestamp: Date.now(),
+    lane: currentSelectedLane || undefined,
+    meta: {
+      attention_event: event,
+      ...data,
+    },
+  })
+}
+
+export function flushAttentionMetrics() {
+  if (typeof window === 'undefined') return
+  const now = Date.now()
+
+  // Flush in-flight active sections
+  for (const [sectionId, startTime] of Object.entries(activeSectionTimestamps)) {
+    if (startTime > 0) {
+      const elapsed = now - startTime
+      sectionDwellTimes[sectionId] = (sectionDwellTimes[sectionId] || 0) + elapsed
+      activeSectionTimestamps[sectionId] = now // Reset anchor for continuing views
+    }
+  }
+
+  const keys = Object.keys(sectionDwellTimes)
+  if (keys.length > 0) {
+    sendTelemetry({
+      event: 'section_dwell',
+      path: window.location.pathname,
+      timestamp: now,
+      sections: { ...sectionDwellTimes },
+      lane: currentSelectedLane || undefined,
+    })
+  }
+}
+
+function checkScrollMilestones() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return
+  const docEl = document.documentElement
+  const docHeight = docEl.scrollHeight - window.innerHeight
+  if (docHeight <= 0) return
+
+  const scrollY = window.scrollY || window.pageYOffset || docEl.scrollTop
+  const percent = Math.min(100, Math.round((scrollY / docHeight) * 100))
+  const milestones = [25, 50, 75, 100] as const
+
+  for (const milestone of milestones) {
+    if (percent >= milestone && !reachedScrollMilestones.has(milestone)) {
+      reachedScrollMilestones.add(milestone)
+      sendTelemetry({
+        event: 'scroll_depth',
+        path: window.location.pathname,
+        timestamp: Date.now(),
+        depth: milestone,
+        lane: currentSelectedLane || undefined,
+      })
+    }
+  }
+}
+
+function handleIntersection(entries: IntersectionObserverEntry[]) {
+  const now = Date.now()
+  for (const entry of entries) {
+    const target = entry.target as HTMLElement
+    const sectionId = target.id || target.dataset.section || target.tagName.toLowerCase()
+    if (!sectionId) continue
+
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+      if (!activeSectionTimestamps[sectionId]) {
+        activeSectionTimestamps[sectionId] = now
+      }
+    } else {
+      if (activeSectionTimestamps[sectionId]) {
+        const dwell = now - activeSectionTimestamps[sectionId]
+        sectionDwellTimes[sectionId] = (sectionDwellTimes[sectionId] || 0) + dwell
+        delete activeSectionTimestamps[sectionId]
+
+        if (dwell >= 1000) {
+          sendTelemetry({
+            event: 'section_dwell',
+            path: typeof window !== 'undefined' ? window.location.pathname : '/',
+            timestamp: now,
+            section_id: sectionId,
+            dwell_ms: dwell,
+            lane: currentSelectedLane || undefined,
+          })
+        }
+      }
+    }
+  }
+}
+
+function handleVisibilityChange() {
+  if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+    flushAttentionMetrics()
+  }
+}
+
+export function initAttentionMap(): () => void {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return () => {}
+  }
+  if (attentionMapInitialized) {
+    return () => {}
+  }
+  attentionMapInitialized = true
+
+  reachedScrollMilestones.clear()
+
+  let scrollPending = false
+  const onScroll = () => {
+    if (!scrollPending) {
+      scrollPending = true
+      requestAnimationFrame(() => {
+        checkScrollMilestones()
+        scrollPending = false
+      })
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    attentionObserver = new IntersectionObserver(handleIntersection, {
+      threshold: [0, 0.25, 0.5, 0.75, 1.0],
+    })
+
+    const observeElements = () => {
+      const targets = document.querySelectorAll('section, main > div[id], [data-section], footer, header')
+      targets.forEach((el) => attentionObserver?.observe(el))
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', observeElements, { once: true })
+    } else {
+      observeElements()
+    }
+  }
+
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  window.addEventListener('pagehide', flushAttentionMetrics)
+  window.addEventListener('beforeunload', flushAttentionMetrics)
+
+  setTimeout(checkScrollMilestones, 150)
+
+  return () => {
+    attentionMapInitialized = false
+    window.removeEventListener('scroll', onScroll)
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
+    window.removeEventListener('pagehide', flushAttentionMetrics)
+    window.removeEventListener('beforeunload', flushAttentionMetrics)
+    attentionObserver?.disconnect()
+    attentionObserver = null
+  }
 }
 
 function sanitizeUrl(urlString: string): string {
@@ -85,7 +337,6 @@ function extractSlug(path: string, prefix: string): string {
 }
 
 export function trackPageView(pathname?: string, title?: string) {
-  if (!measurementId || !isConsentGranted()) return
   const currentPath = pathname || (typeof window !== 'undefined' ? window.location.pathname : '/')
 
   if (currentPath.startsWith('/blog/')) {
@@ -95,6 +346,19 @@ export function trackPageView(pathname?: string, title?: string) {
     const slug = extractSlug(currentPath, '/servicios/')
     if (slug) recordFunnelStep('service', slug)
   }
+
+  // First-party page_view telemetry (zero cookies, zero PII)
+  sendTelemetry({
+    event: 'page_view',
+    path: currentPath,
+    timestamp: Date.now(),
+    lane: currentSelectedLane || undefined,
+  })
+
+  // Reset scroll milestones on new page view
+  reachedScrollMilestones.clear()
+
+  if (!measurementId || !isConsentGranted()) return
 
   const safeLocation = typeof window !== 'undefined' ? sanitizeUrl(window.location.href) : undefined
   const safeReferrer = (typeof document !== 'undefined' && document.referrer) ? sanitizeUrl(document.referrer) : undefined
@@ -111,19 +375,36 @@ export interface ContactIntentContext {
   source_page?: string
   article_slug?: string
   service_slug?: string
+  lane?: LaneId
 }
 
 export function trackContactIntent(
   method: 'email' | 'gmail' | 'copy_email',
   context?: ContactIntentContext,
 ) {
-  if (!measurementId || !isConsentGranted()) return
-  const eventKey = `contact_intent:${method}:${context?.source_page || ''}`
-  if (isDuplicateEvent(eventKey)) return
-
   const sourcePath = context?.source_page || (typeof window !== 'undefined' ? window.location.pathname : '')
   const isFromBlog = sourcePath.startsWith('/blog/') || Boolean(sessionJourney.entryArticle)
   const isFromService = sourcePath.startsWith('/servicios/') || Boolean(sessionJourney.visitedService)
+  const effectiveLane = context?.lane || currentSelectedLane || undefined
+
+  // First-Party telemetry: ALWAYS emitted on contact intent (zero cookies, zero PII, 100% of visits)
+  sendTelemetry({
+    event: 'contact_intent',
+    path: sourcePath || '/',
+    timestamp: Date.now(),
+    method,
+    channel: method === 'gmail' ? 'gmail_compose' : method === 'copy_email' ? 'clipboard' : 'mailto',
+    lane: effectiveLane,
+    meta: {
+      funnel_origin: isFromBlog ? (context?.article_slug || sessionJourney.entryArticle || 'blog') : undefined,
+      service_context: isFromService ? (context?.service_slug || sessionJourney.visitedService || 'service') : undefined,
+    },
+  })
+
+  // GA4 event: requires user consent
+  if (!measurementId || !isConsentGranted()) return
+  const eventKey = `contact_intent:${method}:${sourcePath}`
+  if (isDuplicateEvent(eventKey)) return
 
   // Opening a mail composer or copying an address is an intent, not a lead.
   // Never report generate_lead without confirmed submission/receipt.
@@ -133,6 +414,7 @@ export function trackContactIntent(
     source_path: sourcePath || undefined,
     funnel_origin: isFromBlog ? (context?.article_slug || sessionJourney.entryArticle || 'blog') : undefined,
     service_context: isFromService ? (context?.service_slug || sessionJourney.visitedService || 'service') : undefined,
+    lane: effectiveLane,
   })
 }
 
@@ -259,23 +541,47 @@ function trackClick(event: MouseEvent) {
   // after navigator.clipboard.writeText() actually succeeds.
 }
 
+function loadClarity() {
+  if (!clarityProjectId || typeof document === 'undefined') return
+  if (document.querySelector(`script[data-clarity-id="${clarityProjectId}"]`)) return
+
+  window.clarity = window.clarity || function (...args: unknown[]) {
+    const q = ((window.clarity as unknown as { q?: unknown[] }).q ??= [])
+    q.push(args)
+  }
+
+  const script = document.createElement('script')
+  script.async = true
+  script.src = `https://www.clarity.ms/tag/${encodeURIComponent(clarityProjectId)}`
+  script.dataset.clarityId = clarityProjectId
+  document.head.append(script)
+
+  // Configure Microsoft Clarity with sensitive input masking for user privacy
+  window.clarity('mask', 'input')
+}
+
 export function grantAnalyticsConsent() {
-  if (!measurementId) return
+  if (!measurementId && !clarityProjectId) return
   localStorage.setItem(consentKey, 'granted')
-  gtag('consent', 'update', {
-    analytics_storage: 'granted',
-  })
-  loadAnalytics()
+  if (measurementId) {
+    gtag('consent', 'update', {
+      analytics_storage: 'granted',
+    })
+    loadAnalytics()
+  }
+  loadClarity()
 }
 
 export function denyAnalyticsConsent() {
   localStorage.setItem(consentKey, 'denied')
-  gtag('consent', 'update', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-  })
+  if (measurementId) {
+    gtag('consent', 'update', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    })
+  }
 }
 
 function loadAnalytics() {
@@ -297,20 +603,28 @@ function loadAnalytics() {
 }
 
 export function initializeAnalytics() {
-  if (!measurementId) return
-  window.gtag = gtag
-  gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-  })
-  gtag('set', {
-    allow_google_signals: false,
-    allow_ad_personalization_signals: false,
-    restricted_data_processing: true,
-  })
+  // Always initialize first-party attention telemetry (zero cookies, zero PII)
+  initAttentionMap()
+
+  if (!measurementId && !clarityProjectId) return
+
+  if (measurementId) {
+    window.gtag = gtag
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    })
+    gtag('set', {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      restricted_data_processing: true,
+    })
+  }
+
   if (localStorage.getItem(consentKey) === 'granted') {
-    loadAnalytics()
+    if (measurementId) loadAnalytics()
+    loadClarity()
   }
 }

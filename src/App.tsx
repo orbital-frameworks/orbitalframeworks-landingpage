@@ -6,6 +6,7 @@ import checkioImg from './assets/checkio.png'
 import wasyImg640 from './assets/wasy-catalog-2026-10-16-640.webp'
 import wasyImg from './assets/wasy-catalog-2026-10-16-960.webp'
 import { trackContactIntent } from './analytics'
+import ContactCapturePanel from './ContactCapturePanel'
 import './App.css'
 
 type NavItem = {
@@ -302,7 +303,7 @@ function ServicesSection() {
 
           <div className="servicesHeroMeta">
             <p className="servicesLead">
-              Desde una web que explique mejor tu oferta hasta un proceso interno que necesite menos trabajo manual.
+              Desde una web comercial o un nuevo producto digital desde cero, hasta un proceso interno que necesite menos trabajo manual.
             </p>
 
             <aside className="servicesManifesto">
@@ -709,9 +710,6 @@ function TeamSection() {
 }
 
 function ContactSection() {
-  const [emailCopied, setEmailCopied] = useState(false)
-  const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks&body=Negocio%3A%0A%0ASituaci%C3%B3n%20actual%3A%0A%0AC%C3%B3mo%20se%20resuelve%20hoy%3A%0A%0AResultado%20que%20tendr%C3%ADa%20valor%3A%0A'
-
   const copyEmail = async () => {
     let copied = false
     try {
@@ -738,10 +736,9 @@ function ContactSection() {
       }
     }
     if (copied) {
-      setEmailCopied(true)
       trackContactIntent('copy_email')
-      window.setTimeout(() => setEmailCopied(false), 2200)
     }
+    return copied
   }
 
   return (
@@ -749,30 +746,20 @@ function ContactSection() {
       <div className="contactInner">
         <div className="contactIntro">
           <div className="contactKicker">Contacto / Orbital Frameworks</div>
-          <h2 className="contactTitle">Cuéntanos qué proceso necesita mejorar tu empresa.</h2>
-          <p className="contactLead">¿Usan demasiadas hojas de cálculo? ¿Hay tareas manuales que se repiten? ¿Necesitan un sistema, una web comercial o evaluar una integración con IA? Describe la situación y revisaremos por dónde empezar.</p>
-        </div>
-
-        <div className="contactPanel">
+          <h2 className="contactTitle">Cuéntanos qué necesita mejorar tu empresa o qué idea quieres construir.</h2>
+          <p className="contactLead">¿Usan demasiadas hojas de cálculo y tareas manuales, o tienes la idea de lanzar una aplicación móvil, plataforma web o sistema propio? Elige tu carril, déjanos tu correo o WhatsApp para escribirte, o contáctanos directo.</p>
           <div className="contactBlock">
             <span>Qué incluir en el mensaje</span>
-            <strong>Tu negocio, la situación observada, cómo se resuelve hoy y qué cambio sería valioso.</strong>
-          </div>
-          <div className="contactBlock">
-            <span>Qué ocurre después</span>
-            <strong>Revisamos el contexto y respondemos para aclarar información o coordinar una conversación breve.</strong>
+            <strong>Tu negocio o proyecto, la situación actual o idea que deseas desarrollar, y qué resultado tendría valor.</strong>
           </div>
           <div className="contactBlock">
             <span>Canales verificables</span>
             <a href="mailto:contact.orbitalframeworks@gmail.com">contact.orbitalframeworks@gmail.com</a>
             <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn de Orbital Frameworks</a>
           </div>
-          <div className="contactActions">
-            <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Consultar por correo ↗</a>
-            <button className="btn btnGhost" type="button" data-analytics-action="copy_email" onClick={copyEmail}>{emailCopied ? 'Correo copiado' : 'Copiar correo'}</button>
-            <a className="btn btnGhost" href="#proyectos">Revisar proyectos</a>
-          </div>
         </div>
+
+        <ContactCapturePanel id="contacto-panel" sourcePage="/" onCopyEmail={copyEmail} />
       </div>
       <footer className="siteFooter">
         <div className="siteFooterBrand">
@@ -939,12 +926,12 @@ function Hero() {
         </div>
 
         <aside className="heroPanel">
-          <div className="heroPanelLabel">¿Por dónde empezamos?</div>
-          <p className="heroPanelText">Entendemos cómo funciona tu empresa antes de decidir qué tecnología necesitas.</p>
+          <div className="heroPanelLabel">Dos carriles de trabajo</div>
+          <p className="heroPanelText">Entendemos tu necesidad antes de decidir qué tecnología o arquitectura conviene.</p>
           <div className="heroPanelList">
-            <div><span>SI NECESITAS</span><strong>Ordenar tareas, información o procesos internos</strong></div>
-            <div><span>PODEMOS EVALUAR</span><strong>Software propio, integraciones, automatización e IA</strong></div>
-            <div><span>PRIMER CONTACTO</span><strong>Cuéntanos el problema y el resultado que buscas</strong></div>
+            <div><span>CARRIL A · EMPRESAS</span><strong>Empresas y operación: ordenar procesos, automatizar tareas o construir sistemas a medida</strong></div>
+            <div><span>CARRIL B · NUEVOS PRODUCTOS</span><strong>Nuevos productos e ideas: transformar una idea de aplicación móvil, plataforma web o sistema digital en un producto real y verificable (como Wasy, Localisa y Checkio)</strong></div>
+            <div><span>PRIMER CONTACTO</span><strong>Elige tu carril abajo, déjanos tu contacto o escríbenos directo</strong></div>
           </div>
         </aside>
 

@@ -261,6 +261,25 @@ if (lisaArticle.status === 'PUBLISHED') {
   })
 }
 
+// Automatically prerender any other published articles from blogPosts
+for (const [, post] of Object.entries(blogPosts)) {
+  if (post && post.status === 'PUBLISHED' && !pages.some((page) => page.pathname === post.route)) {
+    const anchor = pages.findIndex((page) => page.pathname === '/404')
+    if (anchor < 0) throw Error('BLOG_PRERENDER_ANCHOR_MISSING')
+    pages.splice(anchor, 0, {
+      pathname: post.route,
+      output: 'dist/blog/' + post.slug + '/index.html',
+      title: post.metaTitle,
+      description: post.metaDescription,
+      canonical: post.canonical,
+      schemaType: 'article',
+      articleHeadline: post.title,
+      datePublished: post.datePublished,
+      dateModified: post.dateModified,
+    })
+  }
+}
+
 function schemaForPage(page) {
   if (page.schemaType === '404') return null
   if (!page.schemaType) return baseStructuredData
@@ -523,7 +542,12 @@ function withMetadata(html, page) {
     )
   }
 
-  if (page.noindex) {
+  if (page.schemaType === '404') {
+    output = output.replace(
+      /<meta name="robots" content="[^"]*" \/>/,
+      '<meta name="robots" content="noindex, nofollow" />',
+    )
+  } else if (page.noindex) {
     output = output.replace(
       /<meta name="robots" content="[^"]*" \/>/,
       '<meta name="robots" content="noindex, follow" />',
@@ -555,4 +579,14 @@ for (const staticAsset of ['index.md', '404.md', 'feed.xml']) {
   }
   await writeFile(dest, content, 'utf8')
   console.log(`Guaranteed asset ${staticAsset} copied to dist/ (${content.length} characters)`)
+}
+
+const favicon32Src = resolve(distDir, 'favicon-32.png')
+const favicon48Dest = resolve(distDir, 'favicon-48x48.png')
+try {
+  const favicon32Buf = await readFile(favicon32Src)
+  await writeFile(favicon48Dest, favicon32Buf)
+  console.log('Guaranteed favicon-48x48.png copied to dist/')
+} catch (e) {
+  // If favicon-32.png is not yet present during a partial run, ignore
 }

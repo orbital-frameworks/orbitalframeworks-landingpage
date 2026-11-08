@@ -41,10 +41,16 @@ function resolvePage(pathname: string) {
 
 const root = document.getElementById('root')!
 initializeAnalytics()
-const app = <StrictMode>{resolvePage(window.location.pathname)}<AnalyticsConsent /></StrictMode>
+const page = resolvePage(window.location.pathname)
+const app = <StrictMode>{page}<AnalyticsConsent /></StrictMode>
+const canHydrate = root.hasChildNodes() && (page.type !== NotFoundPage || root.querySelector('.notFoundShell'))
 
-if (root.hasChildNodes()) {
-  hydrateRoot(root, app)
+if (canHydrate) {
+  try {
+    hydrateRoot(root, app)
+  } catch {
+    createRoot(root).render(app)
+  }
 } else {
   createRoot(root).render(app)
 }

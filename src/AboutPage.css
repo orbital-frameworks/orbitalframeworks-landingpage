@@ -394,16 +394,19 @@
 
 @media (max-width: 680px) {
   .aboutNav {
-    width: min(100% - 28px, 1280px);
-    min-height: 68px;
+    width: min(100% - 24px, 1280px);
+    min-height: 60px;
+    gap: 12px;
   }
 
   .aboutBrand img {
-    height: 20px;
+    height: 18px;
+    max-width: 130px;
+    object-fit: contain;
   }
 
   .aboutNavActions {
-    gap: 14px;
+    gap: 12px;
   }
 
   .aboutNavActions a:nth-child(2) {
@@ -412,12 +415,17 @@
 
   .aboutNavActions a {
     font-size: 14px;
+    white-space: nowrap;
   }
 
   .aboutHero,
   .aboutSection,
   .aboutCta {
     width: min(100% - 32px, 1280px);
+  }
+
+  .aboutCta {
+    padding-bottom: 160px;
   }
 
   .aboutHero {
@@ -484,5 +492,29 @@
 
   .aboutCtaActions .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .aboutNav {
+    width: min(100% - 16px, 1280px);
+    gap: 8px;
+  }
+
+  .aboutBrand img {
+    height: 16px;
+    max-width: 105px;
+  }
+
+  .aboutNavActions {
+    gap: 10px;
+  }
+
+  .aboutNavActions a {
+    font-size: 13px;
+  }
+
+  .aboutCta {
+    padding-bottom: 160px;
   }
 }

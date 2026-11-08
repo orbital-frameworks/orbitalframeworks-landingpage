@@ -1,25 +1,11 @@
-import { useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { blogPosts, type BlogPostSlug } from './blogData'
 import { b2b05ArticleHtml } from './blogB2B05Html'
-import { trackContactIntent, trackArticleIntent } from './analytics'
+import ContactCapturePanel from './ContactCapturePanel'
 import './Blog.css'
 
 export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
   const post = blogPosts[slug]
-  const [copied, setCopied] = useState(false)
-
-  const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=${encodeURIComponent(
-    post.cta.subject,
-  )}&body=${encodeURIComponent(post.cta.body)}`
-
-  const handleCopyEmail = () => {
-    trackContactIntent('copy_email', { source_page: `/blog/${slug}/`, article_slug: slug })
-    trackArticleIntent('article_to_contact', 'copy_email', slug)
-    navigator.clipboard?.writeText('contact.orbitalframeworks@gmail.com').catch(() => {})
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2500)
-  }
 
   return (
     <div className="blogPage">
@@ -28,11 +14,13 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
           <img src={orbitalLogo} alt="Orbital Frameworks" width={200} height={20} />
         </a>
         <nav className="blogNavActions" aria-label="Navegación de artículo">
-          <a href="/#servicios">Servicios</a>
-          <a href="/#proyectos">Proyectos</a>
-          <a href="/evidencia/">Evidencia</a>
-          <a href="/blog/">Blog</a>
-          <a href="/#contacto">Contacto</a>
+          {[
+            ['/#servicios', 'Servicios'],
+            ['/#proyectos', 'Proyectos'],
+            ['/evidencia/', 'Evidencia'],
+            ['/blog/', 'Blog'],
+            ['/#contacto', 'Contacto'],
+          ].map(([h, l]) => <a key={h} href={h}>{l}</a>)}
         </nav>
       </header>
 
@@ -144,26 +132,17 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
               </ul>
             </div>
 
-            <section className="blogCtaBox">
-              <h3>{post.cta.headline}</h3>
-              <p>{post.cta.description}</p>
-              <div className="blogCtaActions">
-                <a
-                  className="blogPrimaryBtn"
-                  href={gmailComposeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Consultar por correo ↗
-                </a>
-                <button
-                  type="button"
-                  className="blogGhostBtn"
-                  onClick={handleCopyEmail}
-                >
-                  {copied ? '✓ Correo copiado' : 'Copiar correo'}
-                </button>
-              </div>
+            <section className="blogCtaBox" id="contacto">
+              <ContactCapturePanel
+                sourcePage={`/blog/${slug}/`}
+                articleSlug={slug}
+                headline={post.cta.headline}
+                subheadline={post.cta.description}
+                customSubject={post.cta.subject}
+                customBody={post.cta.body}
+                gmailLabel="Consultar por correo ↗"
+                compact={true}
+              />
             </section>
           </div>
         </article>
@@ -178,21 +157,17 @@ export default function BlogPostPage({ slug }: { slug: BlogPostSlug }) {
         </div>
 
         <nav className="blogFooterLinks" aria-label="Enlaces del pie de página">
-          <a href="/">Inicio</a>
-          <a href="/#servicios">Servicios</a>
-          <a href="/#proyectos">Casos</a>
-          <a href="/evidencia/">Evidencia</a>
-          <a href="/blog/">Blog</a>
-          <a href="/sobre-orbital-frameworks/">Sobre Orbital</a>
-          <a href="/privacy">Privacidad</a>
-          <a href="/terms">Términos</a>
-          <a
-            href="https://www.linkedin.com/company/orbitalframeworks/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn ↗
-          </a>
+          {[
+            ['/', 'Inicio'],
+            ['/#servicios', 'Servicios'],
+            ['/#proyectos', 'Casos'],
+            ['/evidencia/', 'Evidencia'],
+            ['/blog/', 'Blog'],
+            ['/sobre-orbital-frameworks/', 'Sobre Orbital'],
+            ['/privacy', 'Privacidad'],
+            ['/terms', 'Términos'],
+          ].map(([h, l]) => <a key={h} href={h}>{l}</a>)}
+          <a href="https://www.linkedin.com/company/orbitalframeworks/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
         </nav>
 
         <div className="blogFooterBottom">

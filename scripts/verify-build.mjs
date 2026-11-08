@@ -163,9 +163,21 @@ check('B2B-03 is discoverable from blog and RSS', blog.includes('landing-page-b2
 const notFoundPath = requireFile('404.html')
 requireFile('404/index.html')
 const notFoundHtml = existsSync(notFoundPath) ? readFileSync(notFoundPath, 'utf8') : ''
-check('404 error page is prerendered with noindex', Boolean(notFoundHtml) && notFoundHtml.includes('<meta name="robots" content="noindex, follow" />'))
+check('404 error page is prerendered with noindex', Boolean(notFoundHtml) && notFoundHtml.includes('noindex') && (notFoundHtml.includes('noindex, nofollow') || notFoundHtml.includes('noindex, follow')))
+check('404 error page does not contain homepage canonical', Boolean(notFoundHtml) && !notFoundHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/" />'))
 check('404 error page has canonical /404', Boolean(notFoundHtml) && notFoundHtml.includes('<link rel="canonical" href="https://orbitalframeworks.qzz.io/404" />'))
 check('404 error page does not contain contradictory homepage schema', Boolean(notFoundHtml) && !notFoundHtml.includes('"@type": "WebSite"') && !notFoundHtml.includes('"@type": "WebPage"'))
+
+const pedidosDistPath = join(dist, 'pedidos/index.html')
+if (existsSync(pedidosDistPath)) {
+  const pedidosHtml = readFileSync(pedidosDistPath, 'utf8')
+  check('Redirect /pedidos/ includes favicon links', pedidosHtml.includes('rel="icon"'))
+}
+const consultasDistPath = join(dist, 'consultas/index.html')
+if (existsSync(consultasDistPath)) {
+  const consultasHtml = readFileSync(consultasDistPath, 'utf8')
+  check('Redirect /consultas/ includes favicon links', consultasHtml.includes('rel="icon"'))
+}
 
 
 const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
@@ -238,7 +250,8 @@ if (jsFiles.length === 1) {
   // limit globally for unrelated JavaScript.
   const blogSource = readFileSync(join(root, 'src/blogData.ts'), 'utf8')
   const articleCount = [...blogSource.matchAll(/^  '[a-z0-9-]+': \{/gm)].length
-  const jsBudget = 330_000 + Math.max(0, articleCount - 2) * 10_000
+  const croAndTelemetryAllowance = 12_000
+  const jsBudget = 330_000 + croAndTelemetryAllowance + Math.max(0, articleCount - 2) * 10_000
   check('Client JavaScript stays within visual baseline', jsSize <= jsBudget,
     `${jsSize} / ${jsBudget} bytes (${articleCount} authored articles)`)
   check('Client bundle has no dynamic code execution', !/\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(/.test(js))

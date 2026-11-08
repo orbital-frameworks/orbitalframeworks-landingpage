@@ -1,0 +1,122 @@
+{
+  "schema": "orbital.sponsor-plan.v1",
+  "routingMode": "director-led",
+  "complexity": "high",
+  "objective": "Implementar y validar en Orbital Frameworks Landing Page (preservando todo el trabajo editorial preexistente y sincronizando con el worktree /srv/orbital/workspaces/orbital-landing-cro-20261108) el sistema integral de conversión, observabilidad y cierre de deudas técnicas de la Auditoría V2: (1) Posicionamiento e interfaz de Embudo Dual que atienda tanto a empresas en operación (B2B procesos/software/automatización) como a fundadores/creadores con una idea o sueño de aplicación móvil, plataforma web o producto digital, respaldado por casos verificables (Wasy, Localisa, Checkio, PeruLog); (2) Capturador voluntario de contacto de baja fricción (dejar Correo o WhatsApp/Teléfono + selector de carril + idea/contexto en 1 línea) con los 11 estados de UX de Katherine Gilligan y canales directos unificados (mailto neutro, Gmail y Copiar correo) en las 5 familias de páginas (Home, Casos, Servicios, Blog y Sobre Orbital); (3) Backend/Worker y conector de triple entrega para leads capturados (notificación a Telegram vía Orbital Relay, copia a contact.orbitalframeworks@gmail.com e ingesta estructurada en la bandeja acquisition/opportunity-inbox/external/ de Orbital Leads); (4) Observabilidad en 2 capas: Mapa de Atención First-Party sin cookies ni PII (dwell time por sección, profundidad de scroll 25/50/75/100%, selección de carril e intención de contacto) + integración consent-aware de Microsoft Clarity (VITE_CLARITY_PROJECT_ID) coexistiendo con GA4, más reglas Cloudflare WAF/Hotlink y exclusión de rutas de túneles (/mcp, /healthz, /.well-known/*); y (5) Cierre del 100% de las deudas P2-01, P2-02, P2-03, P3-01 y P3-02 de INFORME_FINAL_AUDITORIA_V2.md con validación determinista, revisión de seguridad y protocolo Orbital First-User Testing.",
+  "summary": "Diagnóstico consolidado del Sponsor: (1) El 61,7% de las 63.061 solicitudes de Cloudflare proviene de rutas operativas de los propios túneles MCP/DevSpace (/mcp, /healthz, /.well-known/oauth-authorization-server) y el pico de 149,8 MB del 6 de noviembre corresponde al propio crawling de la Auditoría Web V2; el tráfico humano comercial estimado en Perú es de 10-25 personas/mes con 3 impresiones y 0 clics en Search Console y 4 sesiones consentidas en GA4. (2) El parche previo en /srv/orbital/workspaces/orbital-landing-cro-20261108 solo actualizó parcialmente Home (src/App.tsx, src/App.css, src/AnalyticsConsent.tsx, src/index.css), dejando CaseStudyPage.tsx, ServicePage.tsx, BlogPostPage.tsx y AboutPage.tsx atados exclusivamente a Gmail Web Compose (que falla o exige login web en navegadores móviles), sin opción de captura voluntaria de correo/teléfono y hablando únicamente a gerentes con hojas de cálculo (excluyendo a quienes tienen una idea de app o producto digital). (3) Además, quedaron abiertas las deudas técnicas de INFORME_FINAL_AUDITORIA_V2.md: P2-01 (hidratación incompatible React #418 al servir HTML de Home en rutas 404), P2-02 (oclusión del CTA por el banner .analyticsConsent en vistas interiores móviles), P2-03 (clipping de 3,64 px y 33,64 px del enlace Contacto en /sobre-orbital-frameworks/ a 390px y 360px), P3-01 (404 de favicon en /pedidos/ y /consultas/) y P3-02 (Soft-404 HTTP 200 sin noindex en /404). NOTA OPERATIVA CRÍTICA PARA EL DIRECTOR Y WORKERS: Dentro del sandbox Bubblewrap anidado de los workers, lanzar Chromium/Playwright con sandbox SUID puede fallar con ANTIGRAVITY_PERMISSION_DENIED. Los workers deben ejecutar validaciones deterministas mediante scripts Node, análisis de DOM/HTML/CSS compilado en dist/, pruebas unitarias/integración (npm test) y verificadores estáticos/SSR sin bloquearse en lanzamientos gráficos interactivos no soportados por el sandbox anidado.",
+  "acceptance": [
+    "Embudo Dual y Posicionamiento (Harry Sanders Trust & ACE + Josh Braun / Blair Enns): Home (src/App.tsx) y el bloque de contacto abren explícitamente dos carriles sin violar AGENTS.md (sin usar 'Tech Studio' ni inventar métricas): Carril A ('Empresas y operación: ordenar procesos, automatizar tareas o construir sistemas a medida') y Carril B ('Nuevos productos e ideas: transformar una idea de aplicación móvil, plataforma web o sistema digital en un producto real y verificable', conectado como prueba a Wasy, Localisa y Checkio).",
+    "Componente Unificado de Conversión y Captura Voluntaria (Katherine Gilligan 11 UX States): Creado e integrado en las 5 familias de plantillas (src/App.tsx, src/CaseStudyPage.tsx, src/ServicePage.tsx, src/BlogPostPage.tsx y src/AboutPage.tsx). Permite: (a) dejar voluntariamente Correo o WhatsApp/Teléfono seleccionando el carril ('Mejorar operación empresarial' vs 'Desarrollar una idea / app / web') y un resumen breve opcional, implementando explícitamente los estados initial, loading, success, error, empty, partial/degraded (con preservación de datos y acción directa de respaldo si el endpoint edge no está disponible en hosting estático), retry, duplicated action e invalid input; y (b) usar en todas las páginas los canales directos ('Escribir desde mi correo' con mailto neutro, 'Abrir en Gmail' y 'Copiar correo' con confirmación visual).",
+    "Triple Destino de Leads Capturados (Telegram + Correo + Orbital Leads): Implementado en el Cloudflare Worker (scripts/edge/cloudflare-worker-content-negotiation.js o módulo edge asociado) y utilidad CLI/Node de sincronización (scripts/process-inbound-lead.mjs): ante un lead válido (con honeypot antispam, sanitización y rate-limit), (1) formatea y despacha alerta inmediata a Telegram vía Orbital Relay, (2) genera entrega/copia hacia contact.orbitalframeworks@gmail.com, y (3) escribe o sincroniza el registro estructurado compatible con la bandeja de entrada de Orbital Leads (esquema documentado para acquisition/opportunity-inbox/external/ diferenciando b2b_ops y product_idea con estado READY_FOR_REVIEW / MANUAL_CONTACT_READY).",
+    "Observabilidad en 2 Capas y Blindaje Edge: (1) Mapa de Atención First-Party sin cookies ni PII en src/analytics.ts + endpoint /api/telemetry en el Worker que registra tiempo real de atención por sección (section_dwell_ms), profundidad de scroll (25/50/75/100%), clics en tarjetas de proyectos/servicios, selección de carril (b2b_ops vs product_idea) e intención de contacto en el 100% de las visitas sin depender del banner de cookies; (2) Integración consent-aware de Microsoft Clarity (VITE_CLARITY_PROJECT_ID con enmascaramiento de inputs sensibles) cargada estrictamente tras grantAnalyticsConsent() junto a GA4; (3) Exclusión explícita de /mcp, /healthz y /.well-known/* de la telemetría y documentación ejecutable en docs/cro/2026-11-08/CLOUDFLARE_EDGE_SHIELD_AND_OBSERVABILITY.md con las expresiones exactas de WAF Anti-Scraping y Hotlink Protection que protegen /assets/*, /portfolio/* y /fonts/* sin bloquear Googlebot ni LinkedInBot.",
+    "Cierre del 100% de las Deudas Técnicas P2 y P3 de la Auditoría V2: (1) P2-01 y P3-02 resueltos: scripts/prerender.mjs, src/entry-server.tsx, src/main.tsx y el Worker generan y sirven dist/404.html y dist/404/index.html con el marcado prerenderizado de NotFoundPage, <meta name=\"robots\" content=\"noindex\"> y sin canonical de Home, eliminando el error de hidratación React #418 en rutas 404; (2) P2-02 resuelto: resguardo inferior garantizado en móvil (320px, 360px, 390px) en App.css, CaseStudyPage.css, ServicePage.css, Blog.css y AboutPage.css para que .analyticsConsent no oculte ni intercepte ningún CTA; (3) P2-03 resuelto: .aboutNav y .aboutNavActions en src/AboutPage.css ajustados para 0 px de desborde/clipping del botón Contacto en 360x800 y 390x844; (4) P3-01 resuelto: etiquetas <link rel=\"icon\"> añadidas en public/pedidos/index.html y public/consultas/index.html.",
+    "Validación Determinista, Seguridad y QA Independiente: npm run typecheck, npm run lint, npm run build, npm run verify:build y npm test en PASS (incluyendo suite nueva de pruebas automatizadas para el embudo dual, los 11 estados del capturador, telemetría first-party, Clarity consent-aware, triple intake, 404 SSR sin #418, favicons y CSS responsive anti-oclusión/anti-clipping), reporte consolidado en docs/cro/2026-11-08/REPORTE_INTEGRAL_CRO_OBSERVABILIDAD_Y_AUDITORIA_V2.md y sincronización limpia de los cambios verificados hacia el worktree /srv/orbital/workspaces/orbital-landing-cro-20261108."
+  ],
+  "constraints": [
+    "Preservar íntegramente todos los archivos modificados o untracked preexistentes del calendario editorial y auditorías previas en /srv/orbital/workspaces/orbitalframeworks-landingpage (docs/social/*, docs/audits/*, scripts/linkedin-*, scripts/editorial-*, etc.). Prohibido usar git reset --hard, git clean o git checkout destructivo.",
+    "Cumplir estrictamente orbitalframeworks-landingpage/AGENTS.md y PROJECT_CONTEXT.md: cero clientes, métricas, porcentajes o testimonios inventados; no usar 'Tech Studio' como posicionamiento principal; mantener la paleta oscura, glassmorphism y tipografías Big Shoulders Display / IBM Plex Sans / IBM Plex Mono.",
+    "Cumplir la política de privacidad y consentimiento: ni GA4 (gtag.js) ni Microsoft Clarity pueden descargarse o ejecutarse antes de que el usuario pulse 'Aceptar analítica'. El Mapa de Atención First-Party debe operar con cero cookies, cero almacenamiento de PII y cero IPs persistidas.",
+    "Seguridad de captura: nunca exponer tokens de Telegram, claves de API ni credenciales en el código cliente de React (src/). Cualquier credencial de Orbital Relay, correo o Clarity debe leerse por variables de entorno del servidor/Worker o configuración segura, con validación de origen, honeypot y rate-limit.",
+    "Evitar bloqueos de sandbox en QA: no exigir la inicialización de Chrome SUID/AppArmor dentro de un worker con Bubblewrap anidado si el entorno lo restringe; realizar las pruebas de contrato DOM, SSR, geometría CSS y flujos de estados con el runner de tests de Node (npm test) y verificadores deterministas sobre el build real en dist/."
+  ],
+  "nonGoals": [
+    "No ejecutar simulaciones sintéticas con MiroFish.",
+    "No hacer git push, merge a remoto ni desplegar en AWS Amplify o Cloudflare producción sin la revisión final del Sponsor.",
+    "No publicar posts en LinkedIn ni disparar correos comerciales salientes reales a prospectos durante la ejecución de pruebas."
+  ],
+  "references": [
+    "AGENTS.md",
+    "PROJECT_CONTEXT.md",
+    "README.md",
+    "docs/cro/2026-11-08/DIAGNOSTICO_Y_PRIORIDADES.md",
+    "docs/audits/2026-11-06/sandbox-recovery/INFORME_FINAL_AUDITORIA_V2.md",
+    "docs/BLOG_TO_LINKEDIN_OPERATING_SYSTEM.md",
+    "scripts/edge/README.md",
+    "scripts/edge/cloudflare-worker-content-negotiation.js",
+    "/srv/orbital/workspaces/orbital-operations/Docs/reference-sources/HARRY_SANDERS_SEO_REFERENCE.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/reference-sources/KATHERINE_GILLIGAN_UX_REFERENCE.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/playbooks/SEO_AND_AI_DISCOVERABILITY.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/playbooks/UX_INTERACTION_AND_FRONTEND.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/playbooks/ORBITAL_FIRST_USER_TESTING.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/playbooks/SYSTEMS_METRICS_AND_BOTTLENECKS.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/playbooks/SECURITY_REVIEW_AND_ADVERSARIAL_TESTING.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/canonical/04_REGISTRO_DE_HERRAMIENTAS_IA.md",
+    "/srv/orbital/workspaces/orbital-operations/Docs/canonical/05_PORTAFOLIO_Y_MAPA_DE_PROYECTOS.md"
+  ],
+  "budget": {
+    "maxSteerRounds": 6,
+    "maxPackageReworkRounds": 4,
+    "maxReplanRounds": 4,
+    "maxDirectorReviews": 12,
+    "maxProviderWaitCycles": 24
+  },
+  "workPackages": [
+    {
+      "id": "pkg-01-edge-shield-observability-and-triple-intake",
+      "objective": "Diseñar e implementar la capa de observabilidad en 2 niveles, el blindaje edge de Cloudflare y el pipeline de captura de leads con triple destino: (1) En src/analytics.ts, añadir el Mapa de Atención First-Party sin cookies ni PII (IntersectionObserver para medir dwell_time_ms y visibilidad de cada sección principal, profundidad de scroll 25/50/75/100%, selección del carril 'b2b_ops' vs 'product_idea' y eventos de contacto enviados por navigator.sendBeacon o fetch keepalive hacia /api/telemetry sin depender del banner de cookies) y añadir la carga consent-aware de Microsoft Clarity (leído de import.meta.env.VITE_CLARITY_PROJECT_ID) estrictamente dentro de grantAnalyticsConsent() coexistiendo con GA4; (2) En scripts/edge/cloudflare-worker-content-negotiation.js, mantener intacta la negociación Markdown y añadir el manejo de /api/telemetry (ignorando rutas de infraestructura /mcp, /healthz y /.well-known/*) y POST /api/lead-intake (con validación de esquema, honeypot, sanitización, rate-limit básico y despacho a 3 destinos configurables por env: webhook/notificación Telegram vía Orbital Relay, notificación/copia a contact.orbitalframeworks@gmail.com y payload estructurado para Orbital Leads); (3) Crear scripts/process-inbound-lead.mjs para validar, transformar y volcar/sincronizar cualquier lead capturado al formato de bandeja de entrada de Orbital Leads (compatible con acquisition/opportunity-inbox/external/ diferenciando carril b2b_ops y product_idea con estado READY_FOR_REVIEW o MANUAL_CONTACT_READY); (4) Documentar en docs/cro/2026-11-08/CLOUDFLARE_EDGE_SHIELD_AND_OBSERVABILITY.md las reglas exactas de WAF anti-scraping, Hotlink Protection y filtro analítico de subdominios MCP.",
+      "dependsOn": [],
+      "expectedResult": "src/analytics.ts con telemetría de atención first-party + Clarity consent-aware, Worker actualizado en scripts/edge/cloudflare-worker-content-negotiation.js con /api/telemetry y /api/lead-intake, script scripts/process-inbound-lead.mjs para ingesta hacia Orbital Leads + Telegram Relay + copia de correo, y guía técnica en docs/cro/2026-11-08/CLOUDFLARE_EDGE_SHIELD_AND_OBSERVABILITY.md.",
+      "validation": "evidence-result",
+      "modeHint": "workspace-write",
+      "writeScopes": [
+        "src/analytics.ts",
+        "scripts/edge",
+        "scripts/process-inbound-lead.mjs",
+        "docs/cro/2026-11-08"
+      ]
+    },
+    {
+      "id": "pkg-02-dual-funnel-and-unified-contact-capture-ux",
+      "objective": "Implementar el posicionamiento de Embudo Dual (Empresas B2B en operación + Fundadores/Creadores con una idea de app, web o producto digital) y unificar el componente de conversión y captura voluntaria en las 5 familias de páginas siguiendo HARRY_SANDERS_SEO_REFERENCE.md, KATHERINE_GILLIGAN_UX_REFERENCE.md y UX_INTERACTION_AND_FRONTEND.md: (1) Crear un componente reutilizable src/ContactCapturePanel.tsx (con estilos limpios acordes a la identidad de Orbital) que permita al visitante elegir su carril mediante pills interactivas ('Mejorar u ordenar procesos en mi empresa' vs 'Desarrollar una idea de app, web o producto digital'), dejar voluntariamente su Correo o WhatsApp/Teléfono más una línea opcional de contexto/idea para recibir contacto directo de Orbital (conectado a /api/lead-intake con los 11 estados de UX: initial, loading, success, error, empty, partial/degraded con fallback inmediato sin perder el texto escrito si el endpoint no responde en hosting estático, retry, duplicated action e invalid input con validación contextual), y ofrecer siempre visibles las 3 acciones directas ('Escribir desde mi correo ↗' vía mailto neutro con asunto/cuerpo breves adaptados al carril elegido, 'Abrir en Gmail ↗' y 'Copiar correo' con estado copiado); (2) Integrar este embudo dual y el componente o sus acciones unificadas en src/App.tsx (incorporando además la apertura del segundo carril de ideas/productos digitales en Hero/Servicios conectado a la prueba verificable de Wasy, Localisa y Checkio), src/CaseStudyPage.tsx, src/ServicePage.tsx, src/BlogPostPage.tsx y src/AboutPage.tsx.",
+      "dependsOn": [
+        "pkg-01-edge-shield-observability-and-triple-intake"
+      ],
+      "expectedResult": "Componente src/ContactCapturePanel.tsx con los 11 estados de UX y embudo dual integrado de forma consistente en src/App.tsx, src/CaseStudyPage.tsx, src/ServicePage.tsx, src/BlogPostPage.tsx y src/AboutPage.tsx, eliminando la dependencia exclusiva de Gmail Web Compose en páginas interiores.",
+      "validation": "evidence-result",
+      "modeHint": "workspace-write",
+      "writeScopes": [
+        "src/ContactCapturePanel.tsx",
+        "src/App.tsx",
+        "src/App.css",
+        "src/CaseStudyPage.tsx",
+        "src/ServicePage.tsx",
+        "src/BlogPostPage.tsx",
+        "src/AboutPage.tsx"
+      ]
+    },
+    {
+      "id": "pkg-03-audit-v2-p2-p3-remediation-and-ssr-404",
+      "objective": "Cerrar el 100% de las deudas técnicas P2 y P3 identificadas en docs/audits/2026-11-06/sandbox-recovery/INFORME_FINAL_AUDITORIA_V2.md: (1) Fix P2-01 y P3-02 (SSR Hydration React #418 en 404 y Soft-404 en /404): actualizar src/entry-server.tsx, src/main.tsx y scripts/prerender.mjs (y scripts/verify-build.mjs si valida 404) para que durante el build se prerenderice dist/404.html y dist/404/index.html con la vista NotFoundPage real, <meta name=\"robots\" content=\"noindex, nofollow\"> y sin canonical de Home, y que si en el cliente #root contiene HTML prerenderizado de Home pero la ruta resuelta es NotFoundPage, se reemplace limpiamente sin disparar Minified React error #418; (2) Fix P2-02 (Oclusión de CTA móvil por banner .analyticsConsent): compactar .analyticsConsent en src/AnalyticsConsent.tsx / src/index.css y asegurar padding-bottom / margen de resguardo suficiente en los contenedores finales de contacto/CTA en src/App.css, src/CaseStudyPage.css, src/ServicePage.css, src/Blog.css y src/AboutPage.css para viewports móviles (320x800, 360x800 y 390x844); (3) Fix P2-03 (Clipping de navegación institucional en /sobre-orbital-frameworks/): ajustar .aboutNav y .aboutNavActions en src/AboutPage.css en viewports <= 680px y <= 400px para que el enlace 'Contacto' tenga 0 px de recorte en 390x844 y 360x800 (body.scrollWidth == innerWidth); (4) Fix P3-01 (Favicon 404 en redirecciones): añadir <link rel=\"icon\" type=\"image/png\" href=\"/favicon-48x48.png\"> y <link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\"> en public/pedidos/index.html y public/consultas/index.html.",
+      "dependsOn": [
+        "pkg-02-dual-funnel-and-unified-contact-capture-ux"
+      ],
+      "expectedResult": "Deudas P2-01, P2-02, P2-03, P3-01 y P3-02 cerradas en código y build (dist/404.html prerenderizado sin React #418, 0 px de oclusión de CTA móvil en todas las plantillas, 0 px de clipping en /sobre-orbital-frameworks/ a 360px y 390px, y favicons en /pedidos/ y /consultas/).",
+      "validation": "evidence-result",
+      "modeHint": "workspace-write",
+      "writeScopes": [
+        "src",
+        "scripts/prerender.mjs",
+        "scripts/verify-build.mjs",
+        "public/pedidos/index.html",
+        "public/consultas/index.html"
+      ]
+    },
+    {
+      "id": "pkg-04-deterministic-tests-first-user-qa-and-worktree-sync",
+      "objective": "Ejecutar validación integral, revisión de seguridad y protocolo Orbital First-User Testing determinista: (1) Escribir y ejecutar tests/cro-integral-funnel-and-audit-v2.test.mjs verificando: presencia del Embudo Dual (b2b_ops y product_idea) y del ContactCapturePanel unificado en Home, Casos, Servicios, Blog y About; cobertura de los 11 estados de UX (incluyendo degradación elegante con preservación de input y bloqueo de envíos duplicados); funcionamiento del colector de atención first-party sin cookies y bloqueo estricto de GA4/Clarity antes del consentimiento; funcionamiento de /api/telemetry, /api/lead-intake y scripts/process-inbound-lead.mjs (generación de notificación Telegram Relay, copia email y archivo JSON válido para Orbital Leads con pruebas de honeypot/sanitización); prerender de dist/404.html y dist/404/index.html con noindex y sin canonical de Home (P2-01/P3-02); reglas CSS anti-oclusión móvil (P2-02) y anti-clipping en AboutPage.css (P2-03); y presencia de favicon en public/pedidos/index.html y public/consultas/index.html (P3-01); (2) Ejecutar npm run typecheck, npm run lint, npm run build, npm run verify:build y npm test asegurando 100% PASS; (3) Sincronizar los archivos de la solución hacia el worktree /srv/orbital/workspaces/orbital-landing-cro-20261108 y redactar el informe final de evidencia y evaluación de los 5 perfiles de First-User Testing en docs/cro/2026-11-08/REPORTE_INTEGRAL_CRO_OBSERVABILIDAD_Y_AUDITORIA_V2.md.",
+      "dependsOn": [
+        "pkg-03-audit-v2-p2-p3-remediation-and-ssr-404"
+      ],
+      "expectedResult": "Suite completa npm run typecheck, npm run lint, npm run build, npm run verify:build y npm test (incluyendo tests/cro-integral-funnel-and-audit-v2.test.mjs) en PASS, worktree sincronizado y reporte completo en docs/cro/2026-11-08/REPORTE_INTEGRAL_CRO_OBSERVABILIDAD_Y_AUDITORIA_V2.md.",
+      "validation": "qa-go",
+      "modeHint": "workspace-write",
+      "writeScopes": [
+        "tests",
+        "docs/cro/2026-11-08",
+        "src",
+        "scripts",
+        "public"
+      ]
+    }
+  ]
+}

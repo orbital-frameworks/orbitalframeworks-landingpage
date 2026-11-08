@@ -1,13 +1,10 @@
-import { useState } from 'react'
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
 import { servicesData, serviceSlugs, type ServiceSlug } from './servicesData'
-import { trackContactIntent, trackServiceIntent } from './analytics'
+import ContactCapturePanel from './ContactCapturePanel'
 import './ServicePage.css'
 
 export default function ServicePage({ slug }: { slug: ServiceSlug }) {
   const service = servicesData[slug]
-  const [copied, setCopied] = useState(false)
-
   const otherServices = serviceSlugs
     .filter((s) => s !== slug)
     .map((s) => servicesData[s])
@@ -15,37 +12,6 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
   const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=${encodeURIComponent(
     service.cta.subject,
   )}&body=${encodeURIComponent(service.cta.body)}`
-
-  const handleCopyEmail = async () => {
-    trackContactIntent('copy_email', { source_page: `/servicios/${slug}/`, service_slug: slug })
-    trackServiceIntent('service_to_contact', 'copy_email', slug)
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText('contact.orbitalframeworks@gmail.com')
-        setCopied(true)
-        setTimeout(() => setCopied(false), 3000)
-        return
-      }
-    } catch {
-      // Fallback
-    }
-
-    try {
-      const textarea = document.createElement('textarea')
-      textarea.value = 'contact.orbitalframeworks@gmail.com'
-      textarea.style.position = 'fixed'
-      textarea.style.opacity = '0'
-      document.body.appendChild(textarea)
-      textarea.focus()
-      textarea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 3000)
-    } catch {
-      // Ignore fallback failure
-    }
-  }
 
   return (
     <div className="servicePage">
@@ -253,52 +219,22 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
           <div className="serviceCtaShell">
             <div className="serviceCtaHeader">
               <span className="serviceCtaEyebrow">07 / Próximo paso</span>
-              <h2>Hablemos de la operación de tu negocio.</h2>
+              <h2>Hablemos de la operación de tu negocio o de tu nuevo producto.</h2>
               <p>
-                La primera conversación revisa tu situación concreta, cómo funciona hoy tu proceso,
+                La primera conversación revisa tu situación concreta, cómo funciona hoy tu proceso o qué idea deseas desarrollar,
                 qué conviene sistematizar y cómo evaluaríamos el resultado. No exigimos tener definida
                 la arquitectura antes de hablar.
               </p>
             </div>
 
-            <div className="serviceCtaDetails">
-              <div className="serviceCtaGuide">
-                <h3>Qué incluir en el mensaje:</h3>
-                <ol>
-                  <li>Empresa u organización y sector en Perú.</li>
-                  <li>Proceso, cuello de botella o problema concreto a resolver.</li>
-                  <li>Herramientas o sistemas actuales (Excel, ERP previo, chats, web).</li>
-                  <li>Prioridad y plazo estimado de inicio.</li>
-                </ol>
-              </div>
-
-              <div className="serviceCtaActionsBox">
-                <span className="serviceCtaChannelLabel">Escríbenos:</span>
-                <a
-                  className="serviceCtaPrimaryBtn"
-                  href={gmailComposeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Consultar por correo ↗
-                </a>
-
-                <div className="serviceCtaSubActions">
-                  <button
-                    type="button"
-                    className="serviceCtaCopyBtn"
-                    onClick={handleCopyEmail}
-                  >
-                    {copied ? '✓ Correo copiado' : 'Copiar dirección de correo'}
-                  </button>
-                </div>
-
-                <div className="serviceCtaAssurance">
-                  <span>Cuéntanos el contexto para evaluar el siguiente paso.</span>
-                  <span>Evaluación técnica directa sin presión comercial.</span>
-                </div>
-              </div>
-            </div>
+            <ContactCapturePanel
+              sourcePage={`/servicios/${slug}/`}
+              serviceSlug={slug}
+              initialLane={slug === 'desarrollo-software-medida' ? 'product_idea' : 'b2b_ops'}
+              customSubject={service.cta.subject}
+              customBody={service.cta.body}
+              gmailLabel="Consultar por correo ↗"
+            />
           </div>
         </section>
       </main>

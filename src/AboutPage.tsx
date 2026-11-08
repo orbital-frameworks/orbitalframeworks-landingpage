@@ -1,4 +1,5 @@
 import orbitalLogo from './assets/Orbital Frameworks (1).png'
+import ContactCapturePanel from './ContactCapturePanel'
 import './AboutPage.css'
 
 const people = [
@@ -54,7 +55,6 @@ const capabilities = [
 ]
 
 export default function AboutPage() {
-  const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=contact.orbitalframeworks%40gmail.com&su=Revisar%20una%20situaci%C3%B3n%20-%20Orbital%20Frameworks'
   return (
     <div className="aboutPage">
       <header className="aboutNav">
@@ -186,15 +186,17 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="aboutCta">
+        <section className="aboutCta" id="contacto">
           <div>
             <span>Orbital Frameworks</span>
-            <h2>¿Quieres revisar un problema concreto?</h2>
-            <p>Describe la situación actual y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
+            <h2>¿Quieres revisar un problema concreto o una idea de producto?</h2>
+            <p>Describe la situación actual o la idea que buscas construir y el resultado que tendría valor. Orbital revisará el contexto antes de recomendar una solución.</p>
           </div>
-          <div className="aboutCtaActions">
-            <a className="btn btnPrimary" href={gmailComposeUrl} target="_blank" rel="noopener noreferrer">Escribir por Gmail ↗</a>
-            <a className="btn btnGhost" href="/">Volver a la landing</a>
+          <div className="aboutCtaPanelShell">
+            <ContactCapturePanel
+              sourcePage="/sobre-orbital-frameworks/"
+              compact={true}
+            />
           </div>
         </section>
       </main>
