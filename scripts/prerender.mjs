@@ -24,6 +24,22 @@ const baseStructuredData = JSON.parse(structuredDataMatch[1])
 
 const pages = [
   {
+    pathname: '/empresas/',
+    output: 'dist/empresas/index.html',
+    title: 'Software a medida y automatización para empresas | Orbital Frameworks',
+    description: 'Desarrollo de software a medida, automatización de procesos operativos e integración de sistemas para empresas en Perú. Cuéntanos qué proceso necesitas ordenar o sistematizar.',
+    canonical: 'https://orbitalframeworks.qzz.io/empresas/',
+    dateModified: '2026-11-08',
+  },
+  {
+    pathname: '/crear-producto/',
+    output: 'dist/crear-producto/index.html',
+    title: 'Desarrollo de aplicaciones móviles y plataformas web desde cero | Orbital Frameworks',
+    description: 'Transformamos tu idea de aplicación móvil, plataforma web o SaaS en un producto real y verificable. De la definición de alcance y MVP a la arquitectura y lanzamiento.',
+    canonical: 'https://orbitalframeworks.qzz.io/crear-producto/',
+    dateModified: '2026-11-08',
+  },
+  {
     pathname: '/',
     output: 'dist/index.html',
     title: 'Software a medida y automatización para empresas | Orbital Frameworks',

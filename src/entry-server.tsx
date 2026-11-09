@@ -32,6 +32,8 @@ function resolvePage(pathname: string) {
   const match = p.match(/^\/casos\/([^/]+)$/)
   const slug = match?.[1]
   if (slug && isCaseStudySlug(slug)) return <CaseStudyPage slug={slug} />
+  if (p === '/empresas' || p === '/empresas/index.html') return <App landingMode="b2b_ops" sourcePage="/empresas/" />
+  if (p === '/crear-producto' || p === '/crear-producto/index.html') return <App landingMode="product_idea" sourcePage="/crear-producto/" />
   if (p === '/' || p === '/index.html') return <App />
   return <NotFoundPage />
 }

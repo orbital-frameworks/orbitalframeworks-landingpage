@@ -9,6 +9,8 @@ import { trackContactIntent } from './analytics'
 import ContactCapturePanel from './ContactCapturePanel'
 import './App.css'
 
+export type LandingMode = 'default' | 'b2b_ops' | 'product_idea'
+
 type NavItem = {
   id: string
   label: string
@@ -291,16 +293,24 @@ const serviceSequence = [
   'Ajustes, soporte y evolución',
 ]
 
-function ServicesSection() {
+function ServicesSection({ mode }: { mode: LandingMode }) {
   return (
     <section id="servicios" className="services">
       <div className="servicesShell">
         <header className="servicesHero">
           <div className="servicesHeroCopy">
-            <div className="servicesKicker">Qué podemos resolver / Orbital</div>
-            <h2 className="servicesTitle">¿Qué necesita mejorar tu empresa?</h2>
+            <div className="servicesKicker">
+              {mode === 'b2b_ops' ? 'Qué resolvemos para tu empresa / Orbital' : mode === 'product_idea' ? 'Cómo construimos productos / Orbital' : 'Qué podemos resolver / Orbital'}
+            </div>
+            <h2 className="servicesTitle">
+              {mode === 'b2b_ops' ? '¿Qué proceso necesita ordenar tu empresa?' : mode === 'product_idea' ? '¿Qué producto digital quieres crear?' : '¿Qué necesita mejorar tu empresa?'}
+            </h2>
             <p className="servicesLead">
-              Desde una web comercial o un nuevo producto digital desde cero, hasta un proceso interno que necesite menos trabajo manual.
+              {mode === 'b2b_ops'
+                ? 'Desde un sistema de gestión a medida hasta la automatización de pedidos o tareas repetitivas en tu operación.'
+                : mode === 'product_idea'
+                ? 'Diseñamos y desarrollamos aplicaciones móviles, plataformas web interactivas y soluciones comerciales de alta velocidad.'
+                : 'Desde una web comercial o un nuevo producto digital desde cero, hasta un proceso interno que necesite menos trabajo manual.'}
             </p>
           </div>
 
@@ -720,7 +730,7 @@ function TeamSection() {
   )
 }
 
-function ContactSection() {
+function ContactSection({ mode, sourcePage }: { mode: LandingMode; sourcePage: string }) {
   const copyEmail = async () => {
     let copied = false
     try {
@@ -757,8 +767,20 @@ function ContactSection() {
       <div className="contactInner">
         <div className="contactIntro">
           <div className="contactKicker">Contacto / Orbital Frameworks</div>
-          <h2 className="contactTitle">Hablemos de tu operación o de tu idea.</h2>
-          <p className="contactLead">¿Usan demasiadas hojas de cálculo y tareas manuales, o tienes la idea de lanzar una aplicación móvil, plataforma web o sistema propio? Elige tu carril, déjanos tu correo o WhatsApp para escribirte, o contáctanos directo.</p>
+          <h2 className="contactTitle">
+            {mode === 'b2b_ops'
+              ? 'Hablemos de la operación de tu empresa.'
+              : mode === 'product_idea'
+              ? 'Hablemos de tu idea o producto digital.'
+              : 'Hablemos de tu operación o de tu idea.'}
+          </h2>
+          <p className="contactLead">
+            {mode === 'b2b_ops'
+              ? '¿Usan demasiadas hojas de cálculo y tareas manuales repetitivas? Cuéntanos la situación actual de tu negocio y revisaremos por dónde empezar a sistematizar.'
+              : mode === 'product_idea'
+              ? '¿Tienes una idea de app móvil, plataforma web o SaaS y quieres construirla bien desde cero? Cuéntanos qué buscas crear y revisaremos viabilidad y alcance.'
+              : '¿Usan demasiadas hojas de cálculo y tareas manuales, o tienes la idea de lanzar una aplicación móvil, plataforma web o sistema propio? Elige tu carril, déjanos tu correo o WhatsApp para escribirte, o contáctanos directo.'}
+          </p>
           <div className="contactBlock">
             <span>Qué incluir en el mensaje</span>
             <strong>Tu negocio o proyecto, la situación actual o idea que deseas desarrollar, y qué resultado tendría valor.</strong>
@@ -770,7 +792,12 @@ function ContactSection() {
           </div>
         </div>
 
-        <ContactCapturePanel id="contacto-panel" sourcePage="/" onCopyEmail={copyEmail} />
+        <ContactCapturePanel
+          id="contacto-panel"
+          sourcePage={sourcePage}
+          initialLane={mode === 'product_idea' ? 'product_idea' : 'b2b_ops'}
+          onCopyEmail={copyEmail}
+        />
       </div>
       <footer className="siteFooter">
         <div className="siteFooterBrand">
@@ -799,7 +826,7 @@ function ContactSection() {
   )
 }
 
-function Hero() {
+function Hero({ mode }: { mode: LandingMode }) {
   const heroRef = usePointerParallaxVars()
   const pyramidRef = useRef<HTMLDivElement | null>(null)
 
@@ -925,25 +952,77 @@ function Hero() {
 
       <div className="heroInner">
         <div className="heroCopy">
-          <p className="heroKicker">Software a medida · Automatización · IA aplicada / Perú</p>
-          <h1 className="heroTitle" aria-label="Software para tu empresa">
-            <span>SOFTWARE</span><span>PARA TU</span><span>EMPRESA<span className="heroCursor" aria-hidden="true">._</span></span>
-          </h1>
-          <p className="heroLead">Desarrollamos sistemas para digitalizar procesos, conectar información y reducir trabajo repetitivo. También evaluamos cuándo la automatización o la IA realmente aportan valor.</p>
-          <div className="heroActions">
-            <a className="btn btnPrimary" href="#contacto">Cuéntanos qué necesitas resolver</a>
-            <a className="btn btnGhost" href="#proyectos">Ver proyectos reales</a>
-          </div>
+          {mode === 'b2b_ops' ? (
+            <>
+              <p className="heroKicker">Software a medida · Automatización · Procesos / Empresas Perú</p>
+              <h1 className="heroTitle" aria-label="Software para tu operación">
+                <span>SOFTWARE</span><span>PARA TU</span><span>OPERACIÓN<span className="heroCursor" aria-hidden="true">._</span></span>
+              </h1>
+              <p className="heroLead">Desarrollamos sistemas a medida para digitalizar procesos, conectar información y eliminar tareas manuales en hojas de cálculo. Ordenamos tu operación con software confiable.</p>
+              <div className="heroActions">
+                <a className="btn btnPrimary" href="#contacto">Cuéntanos qué proceso deseas mejorar</a>
+                <a className="btn btnGhost" href="#proyectos">Ver sistemas en operación</a>
+              </div>
+            </>
+          ) : mode === 'product_idea' ? (
+            <>
+              <p className="heroKicker">Desarrollo de software · Apps móviles · Web / Perú</p>
+              <h1 className="heroTitle" aria-label="De tu idea a un producto digital">
+                <span>DE TU IDEA</span><span>A UN PRODUCTO</span><span>DIGITAL<span className="heroCursor" aria-hidden="true">._</span></span>
+              </h1>
+              <p className="heroLead">Transformamos tu idea de aplicación móvil, plataforma web o SaaS en un producto real y verificable. De la definición de alcance y MVP a la arquitectura y lanzamiento.</p>
+              <div className="heroActions">
+                <a className="btn btnPrimary" href="#contacto">Cuéntanos tu idea de producto</a>
+                <a className="btn btnGhost" href="#proyectos">Ver productos lanzados</a>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="heroKicker">Software a medida · Automatización · IA aplicada / Perú</p>
+              <h1 className="heroTitle" aria-label="Software para tu empresa">
+                <span>SOFTWARE</span><span>PARA TU</span><span>EMPRESA<span className="heroCursor" aria-hidden="true">._</span></span>
+              </h1>
+              <p className="heroLead">Desarrollamos sistemas para digitalizar procesos, conectar información y reducir trabajo repetitivo. También evaluamos cuándo la automatización o la IA realmente aportan valor.</p>
+              <div className="heroActions">
+                <a className="btn btnPrimary" href="#contacto">Cuéntanos qué necesitas resolver</a>
+                <a className="btn btnGhost" href="#proyectos">Ver proyectos reales</a>
+              </div>
+            </>
+          )}
         </div>
 
         <aside className="heroPanel">
-          <div className="heroPanelLabel">Dos carriles de trabajo</div>
-          <p className="heroPanelText">Entendemos tu necesidad antes de decidir qué tecnología o arquitectura conviene.</p>
-          <div className="heroPanelList">
-            <div><span>CARRIL A · EMPRESAS</span><strong>Empresas y operación: ordenar procesos, automatizar tareas o construir sistemas a medida</strong></div>
-            <div><span>CARRIL B · NUEVOS PRODUCTOS</span><strong>Nuevos productos e ideas: transformar una idea de aplicación móvil, plataforma web o sistema digital en un producto real y verificable (como Wasy, Localisa y Checkio)</strong></div>
-            <div><span>PRIMER CONTACTO</span><strong>Elige tu carril abajo, déjanos tu contacto o escríbenos directo</strong></div>
-          </div>
+          {mode === 'b2b_ops' ? (
+            <>
+              <div className="heroPanelLabel">Enfoque operativo B2B</div>
+              <p className="heroPanelText">Entendemos cómo funciona tu empresa antes de decidir qué tecnología o arquitectura conviene.</p>
+              <div className="heroPanelList">
+                <div><span>SI NECESITAS</span><strong>Ordenar tareas, inventario, logística o flujos internos</strong></div>
+                <div><span>PODEMOS EVALUAR</span><strong>Software propio, integraciones con WhatsApp/ERP, automatización e IA</strong></div>
+                <div><span>PRIMER CONTACTO</span><strong>Cuéntanos el cuello de botella actual y el resultado esperado</strong></div>
+              </div>
+            </>
+          ) : mode === 'product_idea' ? (
+            <>
+              <div className="heroPanelLabel">De la idea al producto</div>
+              <p className="heroPanelText">Definimos el alcance mínimo viable para lanzar rápido sin costos inflados ni promesas vacías.</p>
+              <div className="heroPanelList">
+                <div><span>SI TIENES</span><strong>Una idea o proyecto de app móvil, plataforma web o SaaS</strong></div>
+                <div><span>PODEMOS CONSTRUIR</span><strong>Prototipo verificable, catálogo interactivo, MVP funcional o producto completo</strong></div>
+                <div><span>CASOS REALES</span><strong>Wasy (Marketplace y app móvil), Localisa (Mapa interactivo) y Checkio</strong></div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="heroPanelLabel">Dos carriles de trabajo</div>
+              <p className="heroPanelText">Entendemos tu necesidad antes de decidir qué tecnología o arquitectura conviene.</p>
+              <div className="heroPanelList">
+                <div><span>CARRIL A · EMPRESAS</span><strong>Empresas y operación: ordenar procesos, automatizar tareas o construir sistemas a medida</strong></div>
+                <div><span>CARRIL B · NUEVOS PRODUCTOS</span><strong>Nuevos productos e ideas: transformar una idea de aplicación móvil, plataforma web o sistema digital en un producto real y verificable (como Wasy, Localisa y Checkio)</strong></div>
+                <div><span>PRIMER CONTACTO</span><strong>Elige tu carril abajo, déjanos tu contacto o escríbenos directo</strong></div>
+              </div>
+            </>
+          )}
         </aside>
 
         <div className="heroShapes" aria-hidden="true">
@@ -960,7 +1039,31 @@ function Hero() {
   )
 }
 
-function App() {
+function getInitialMode(propMode: LandingMode): LandingMode {
+  if (propMode !== 'default') return propMode
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search)
+    const laneParam = params.get('lane') || params.get('carril') || params.get('interes')
+    if (laneParam === 'product_idea' || laneParam === 'productos' || laneParam === 'ideas') {
+      return 'product_idea'
+    }
+    if (laneParam === 'b2b_ops' || laneParam === 'empresas' || laneParam === 'operaciones') {
+      return 'b2b_ops'
+    }
+  }
+  return 'default'
+}
+
+function App({ landingMode = 'default', sourcePage = '/' }: { landingMode?: LandingMode; sourcePage?: string }) {
+  const [activeMode, setActiveMode] = useState<LandingMode>(() => getInitialMode(landingMode))
+
+  useEffect(() => {
+    if (landingMode !== 'default') return
+    const onPop = () => setActiveMode(getInitialMode(landingMode))
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [landingMode])
+
   const items = useMemo<NavItem[]>(() => [
     { id: 'inicio', label: 'Inicio' },
     { id: 'servicios', label: 'Servicios' },
@@ -973,13 +1076,13 @@ function App() {
   return (
     <>
       <NavBar items={items} />
-      <Hero />
-      <ServicesSection />
+      <Hero mode={activeMode} />
+      <ServicesSection mode={activeMode} />
       <PortfolioSection />
       <ProcessSection />
       <OrbitalLeadsSection />
       <TeamSection />
-      <ContactSection />
+      <ContactSection mode={activeMode} sourcePage={sourcePage} />
     </>
   )
 }
