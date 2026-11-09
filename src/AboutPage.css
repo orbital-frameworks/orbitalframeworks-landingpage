@@ -317,7 +317,23 @@
 }
 
 .aboutPerson {
-  min-height: 330px;
+  min-height: 0;
+}
+
+.aboutPersonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.aboutPersonAvatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(0, 210, 211, 0.45);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .aboutPerson > strong {
@@ -341,9 +357,9 @@
   margin: 0 auto;
   padding: clamp(90px, 10vw, 150px) 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 0.9fr) minmax(460px, 600px);
   gap: 48px;
-  align-items: end;
+  align-items: start;
   border-top: 1px solid rgba(0, 210, 211, 0.38);
 }
 

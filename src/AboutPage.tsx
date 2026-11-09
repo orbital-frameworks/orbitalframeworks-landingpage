@@ -5,12 +5,14 @@ import './AboutPage.css'
 const people = [
   {
     name: 'Angel Reaño',
+    photo: '/team/angel-reano.webp',
     role: 'Producto, operaciones y dirección de proyectos',
     description: 'Coordina la definición de problemas, el alcance de las soluciones y la ejecución de los proyectos de Orbital Frameworks.',
     linkedin: 'https://www.linkedin.com/in/angelreañovasquez/',
   },
   {
     name: 'Mathias Javier Murillo',
+    photo: '/team/mathias-murillo.webp',
     role: 'Desarrollo de software y producto',
     description: 'Desarrollador vinculado a Checkio y Localisa, con trabajo en productos digitales y construcción de software.',
     linkedin: 'https://www.linkedin.com/in/mathias-javier-murillo-744508350/',
@@ -176,7 +178,10 @@ export default function AboutPage() {
           <div className="aboutTeamGrid">
             {people.map((person, index) => (
               <article key={person.name} className="aboutPerson">
-                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div className="aboutPersonHeader">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <img className="aboutPersonAvatar" src={person.photo} alt={`Foto de ${person.name}`} width={76} height={76} loading="lazy" decoding="async" />
+                </div>
                 <h3>{person.name}</h3>
                 <strong>{person.role}</strong>
                 <p>{person.description}</p>

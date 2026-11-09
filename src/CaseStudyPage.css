@@ -213,3 +213,8 @@
   .caseEvidenceVisitBottom { padding-top: 34px; }
   .caseCta { padding-bottom: 160px; }
 }
+
+.caseCta .contactCapturePanel {
+  max-width: 780px;
+  margin: 0 auto;
+}

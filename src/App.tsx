@@ -299,13 +299,12 @@ function ServicesSection() {
           <div className="servicesHeroCopy">
             <div className="servicesKicker">Qué podemos resolver / Orbital</div>
             <h2 className="servicesTitle">¿Qué necesita mejorar tu empresa?</h2>
-          </div>
-
-          <div className="servicesHeroMeta">
             <p className="servicesLead">
               Desde una web comercial o un nuevo producto digital desde cero, hasta un proceso interno que necesite menos trabajo manual.
             </p>
+          </div>
 
+          <div className="servicesHeroMeta">
             <aside className="servicesManifesto">
               <span className="servicesManifestoLabel">Nuestro criterio</span>
               <p className="servicesManifestoText">
@@ -667,6 +666,7 @@ function TeamSection() {
   const people = [
     {
       initials: 'AR',
+      photo: '/team/angel-reano.webp',
       name: 'Angel Reaño',
       role: 'Producto, operaciones y dirección de proyectos',
       description: 'Coordina la definición de problemas, el alcance de las soluciones y la ejecución de los proyectos de Orbital Frameworks.',
@@ -674,6 +674,7 @@ function TeamSection() {
     },
     {
       initials: 'MM',
+      photo: '/team/mathias-murillo.webp',
       name: 'Mathias Javier Murillo',
       role: 'Desarrollo de software y producto',
       description: 'Desarrollador vinculado a Checkio y Localisa, con trabajo en productos digitales y construcción de software.',
@@ -694,8 +695,18 @@ function TeamSection() {
           {people.map((person, index) => (
             <article key={person.name} className="teamCard">
               <div className="teamCardTop">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div className="teamInitials" aria-hidden="true">{person.initials}</div>
+                <span>{String(index + 1).padStart(2, '0')} / EQUIPO DIRECTO</span>
+                <div className="teamAvatarWrap">
+                  <img
+                    className="teamAvatarImg"
+                    src={person.photo}
+                    alt={`Foto de ${person.name}`}
+                    width={96}
+                    height={96}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
               <h3>{person.name}</h3>
               <strong>{person.role}</strong>
@@ -746,7 +757,7 @@ function ContactSection() {
       <div className="contactInner">
         <div className="contactIntro">
           <div className="contactKicker">Contacto / Orbital Frameworks</div>
-          <h2 className="contactTitle">Cuéntanos qué necesita mejorar tu empresa o qué idea quieres construir.</h2>
+          <h2 className="contactTitle">Hablemos de tu operación o de tu idea.</h2>
           <p className="contactLead">¿Usan demasiadas hojas de cálculo y tareas manuales, o tienes la idea de lanzar una aplicación móvil, plataforma web o sistema propio? Elige tu carril, déjanos tu correo o WhatsApp para escribirte, o contáctanos directo.</p>
           <div className="contactBlock">
             <span>Qué incluir en el mensaje</span>
