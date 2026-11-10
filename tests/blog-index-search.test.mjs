@@ -88,10 +88,13 @@ test('normalization is accent-insensitive, case-insensitive, punctuation-safe, a
 
 test('deep body search returns a contextual fragment, not only metadata', () => {
   const results = filterAndSearchBlogPosts(BLOG_CORPUS, 'transacciones ACID')
-  assert.deepEqual(slugs(results), ['automatizacion-procesos-vs-excel-riesgo-operativo'])
-  assert.match(results[0][2][1], /transacciones ACID/i)
-  assert.match(results[0][2][0], /escala gradual/i)
-  assert.ok(results[0][1] > 0)
+  // New articles can legitimately match the same terms; keep this test tied
+  // to the original article's deep-body match rather than total result count.
+  const original = results.find(([item]) => item[0].slug === 'automatizacion-procesos-vs-excel-riesgo-operativo')
+  assert.ok(original)
+  assert.match(original[2][1], /transacciones ACID/i)
+  assert.match(original[2][0], /escala gradual/i)
+  assert.ok(original[1] > 0)
 })
 
 test('special WhatsApp HTML contributes headings, paragraphs, lists, and table rows to search', () => {
