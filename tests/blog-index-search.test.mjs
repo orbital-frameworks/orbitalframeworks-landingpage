@@ -24,13 +24,12 @@ import {
 const slugs = (results) => results.map(([item]) => item[0].slug)
 
 test('blog corpus keeps every published post in stable editorial order with explicit taxonomy', () => {
-  assert.equal(BLOG_CORPUS.length, 8)
+  assert.ok(BLOG_CORPUS.length >= 8, 'New approved articles must extend the corpus')
   assert.deepEqual(
     BLOG_CATEGORIES.map(([, label]) => label),
     ['Todos', 'Web y conversión', 'Automatización y operaciones', 'Software y sistemas'],
   )
-  assert.deepEqual(
-    BLOG_CORPUS.map((item) => item[0].slug),
+  const baselineOrder =
     [
       'como-hacer-un-briefing-tecnico-de-software-b2b',
       'web-con-visitas-pero-sin-consultas',
@@ -40,11 +39,10 @@ test('blog corpus keeps every published post in stable editorial order with expl
       'landing-page-b2b-tecnica-vs-web-corporativa',
       'digitalizacion-asistencia-personal-campo-trazabilidad',
       'lisa-serums-mapa-datos-automatizacion',
-    ],
-  )
-  assert.deepEqual(
-    Object.fromEntries(BLOG_CORPUS.map((item) => [item[0].slug, item[1]])),
-    {
+    ]
+  assert.deepEqual(BLOG_CORPUS.map((item) => item[0].slug).filter((slug) => baselineOrder.includes(slug)), baselineOrder)
+  const mapped = Object.fromEntries(BLOG_CORPUS.map((item) => [item[0].slug, item[1]]))
+  for (const [slug, expectedCategory] of Object.entries({
       'como-hacer-un-briefing-tecnico-de-software-b2b': 'software-y-sistemas',
       'web-con-visitas-pero-sin-consultas': 'web-y-conversion',
       'integracion-pedidos-whatsapp-almacen-operaciones': 'automatizacion-y-operaciones',
@@ -53,8 +51,7 @@ test('blog corpus keeps every published post in stable editorial order with expl
       'landing-page-b2b-tecnica-vs-web-corporativa': 'web-y-conversion',
       'digitalizacion-asistencia-personal-campo-trazabilidad': 'automatizacion-y-operaciones',
       'lisa-serums-mapa-datos-automatizacion': 'software-y-sistemas',
-    },
-  )
+    })) assert.equal(mapped[slug], expectedCategory, `Editorial category must remain stable: ${slug}`)
 })
 
 test('corpus extraction covers titles, leads, descriptions, headings, paragraphs, and tables for every article', () => {
