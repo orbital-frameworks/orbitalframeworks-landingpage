@@ -650,7 +650,8 @@ test('17. Webmaster and analytics platform verification: GSC token, sitemap inde
   // Verify public canonical routes, including the 5 November LISA release.
   const sitemapContent = readFileSync(join(root, 'public/sitemap.xml'), 'utf8')
   const locMatches = [...sitemapContent.matchAll(/<loc>(https:\/\/orbitalframeworks\.qzz.io[^<]*)<\/loc>/g)].map(m => m[1])
-  assert.equal(locMatches.length, 20, 'Sitemap must contain exactly 20 canonical routes')
+  assert.ok(locMatches.length >= 20, 'Sitemap must preserve 20 baseline canonical routes and allow new articles')
+  assert.equal(new Set(locMatches).size, locMatches.length, 'Sitemap must not contain duplicate canonical routes')
 
   const expectedUrls = [
     'https://orbitalframeworks.qzz.io/',

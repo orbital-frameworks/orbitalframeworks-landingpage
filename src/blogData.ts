@@ -6,6 +6,7 @@ export type BlogPostSlug =
   | 'web-con-visitas-pero-sin-consultas'
   | 'digitalizacion-asistencia-personal-campo-trazabilidad'
   | 'lisa-serums-mapa-datos-automatizacion'
+  | 'como-hacer-un-briefing-tecnico-de-software-b2b'
 
 
 export type BlogSection = {
@@ -56,6 +57,97 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'como-hacer-un-briefing-tecnico-de-software-b2b': {
+  "slug": "como-hacer-un-briefing-tecnico-de-software-b2b",
+  "route": "/blog/como-hacer-un-briefing-tecnico-de-software-b2b/",
+  "canonical": "https://orbitalframeworks.qzz.io/blog/como-hacer-un-briefing-tecnico-de-software-b2b/",
+  "title": "Cómo hacer un briefing técnico de software: la guía para líderes que no son programadores",
+  "metaTitle": "Cómo hacer un briefing técnico de software | Orbital Insights",
+  "metaDescription": "Aprende a estructurar un brief técnico de software sin ser programador. Define objetivos, reglas de negocio y flujos para evitar sobrecostos y retrasos.",
+  "eyebrow": "Orbital Insights / Metodología de Software y Gestión B2B",
+  "datePublished": "2026-11-10",
+  "dateModified": "2026-11-10",
+  "readingTime": "8 min de lectura",
+  "status": "PUBLISHED",
+  "statusLabel": "",
+  "statusNotice": "",
+  "prioritizedOwnerQuestion": "¿Cuáles son los vacíos de información más costosos que comete una empresa al redactar su primer requerimiento de software?",
+  "author": {
+    "name": "Orbital Frameworks",
+    "type": "Organization",
+    "url": "https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/"
+  },
+  "lead": "Una empresa decide que necesita un sistema interno, una aplicación móvil o una plataforma web. El gerente o líder de operaciones redacta un documento de tres páginas describiendo lo que imagina: «un panel moderno con gráficos, usuarios con contraseña y un flujo parecido a Uber pero para despachos de almacén». Seis meses después, el proyecto lleva meses de retraso, el presupuesto se ha duplicado y lo que entrega el equipo técnico no se parece a lo que la operación diaria necesita. Este escenario no suele ser consecuencia de un mal código ni de incompetencia técnica; nace casi siempre de un briefing técnico ambiguo. Cuando el negocio describe pantallas decorativas en lugar de reglas operativas, el equipo de ingeniería se ve obligado a adivinar cómo debe comportarse el sistema ante cada excepción diaria. En esta guía explicamos cómo redactar un brief técnico riguroso y accionable sin necesidad de escribir código ni dominar jerga de programación.",
+  "sections": [
+    {
+      "heading": "1. El error de partida: pedir pantallas en lugar de procesos",
+      "content": [
+        "El error más común al encargar software es comenzar por la interfaz gráfica: «queremos una pantalla azul con tres botones y un menú lateral». La interfaz es el último eslabón de una cadena lógica, no el punto de partida.",
+        "Cuando un desarrollador recibe una lista de pantallas desprovista de reglas operativas, surgen preguntas inmediatas que paralizan el avance:\n- ¿Qué sucede si el usuario ingresa un número de documento duplicado?\n- ¿Quién aprueba una solicitud si el supervisor está inactivo?\n- ¿El cálculo de precio depende de la lista general o de un contrato específico por cliente?\n- ¿Qué estado toma un pedido cuando el inventario físico es menor al registrado?",
+        "En la literatura de ingeniería de software formal (Karl Wiegers, Software Requirements), los requerimientos se organizan en tres niveles indispensables:\n1. *Requisitos de Negocio (Business Requirements): El objetivo comercial u operativo por el cual la empresa invierte tiempo y dinero.\n2. Requisitos de Usuario (User Requirements): Las tareas específicas que una persona de carne y hueso necesita completar en su jornada laboral.\n3. Requisitos Funcionales (Functional Requirements):* Lo que el software debe ejecutar de forma exacta ante cada entrada o evento.",
+        "Si un brief mezcla estos niveles o salta directo a la interfaz, el resultado es incertidumbre, estimaciones presupuestarias infladas para cubrir riesgos y retrabajo continuo."
+      ]
+    },
+    {
+      "heading": "2. Los 5 componentes indispensables de un brief técnico efectivo",
+      "content": [
+        "Para que una agencia de desarrollo o un equipo de ingeniería pueda cotizar con precisión y construir sin desvíos, el brief debe articularse en torno a cinco componentes estructurales:",
+        "Componente 1: Objetivo operativo medible\nEvita generalidades como «optimizar la gestión» o «digitalizar la empresa». Define el cambio concreto en la operación:\n- Ejemplo débil: «Hacer más rápida la atención al cliente».\n- Ejemplo riguroso: «Reducir el tiempo de registro y confirmación de pedidos de 25 minutos a menos de 5 minutos, eliminando el traspaso manual entre hojas de cálculo y el sistema de facturación».",
+        "Componente 2: Actores, roles y permisos de acceso\nEl software empresarial vive de fronteras de autoridad. El brief debe especificar quién entra, qué ve y qué tiene prohibido modificar:\n- Operador de almacén: Registra ingresos y salidas físicas de mercadería; no puede modificar precios de venta ni ver márgenes comerciales.\n- Ejecutivo de ventas: Crea pedidos y consulta stock disponible; no puede autorizar créditos ni anular facturas.\n- Administrador / Gerente: Supervisa métricas globales, aprueba excepciones y exporta reportes consolidados.",
+        "Componente 3: El «Flujo Feliz» (Happy Path) paso a paso\nDescribe la secuencia ideal de eventos desde que se dispara una necesidad hasta que se completa la transacción:\n1. El cliente solicita una cotización con lista de productos.\n2. El sistema valida automáticamente disponibilidad en inventario.\n3. El vendedor aplica descuento según política comercial establecida.\n4. El cliente confirma por correo o enlace seguro.\n5. El sistema reserva stock y notifica al almacén para picking.",
+        "Componente 4: Reglas de negocio y manejo de excepciones\nEl verdadero valor del software a medida radica en cómo gestiona los problemas del mundo real. Aquí es donde se gana o se pierde la eficiencia:\n- ¿Qué ocurre si un producto no tiene stock suficiente? ¿Se permite venta parcial o se bloquea el pedido completo?\n- ¿Hasta qué porcentaje de descuento puede otorgar un vendedor sin requerir aprobación del gerente de ventas?\n- ¿Qué validación fiscal se exige para emitir una factura electrónica?",
+        "Componente 5: Entorno tecnológico, datos de origen e integraciones\nTodo software corporativo debe convivir con herramientas previas. Aclara qué sistemas existen actualmente:\n- ¿Los datos de clientes residen en un ERP existente, en hojas de cálculo o en una base de datos SQL?\n- ¿Se requiere conexión con pasarelas de pago, servicios de facturación o mensajería como WhatsApp?\n- ¿Existen restricciones de hardware (por ejemplo, terminales móviles en campo sin conexión continua a internet)?"
+      ]
+    },
+    {
+      "heading": "3. Matriz de Decisión: Qué debe incluir y qué debe omitir tu brief",
+      "content": [
+        "Sección del Brief: Problema y Contexto — Lo que DEBE contener (Aporte de Valor): Dónde se generan cuellos de botella actuales, cuánto tiempo manual se pierde y qué fallos ocurren hoy. — Lo que DEBE omitir (Antipatrón o Relleno): Historia completa de la empresa desde su fundación o justificaciones abstractas de industria.",
+        "Sección del Brief: *Alcance (Scope)* — Lo que DEBE contener (Aporte de Valor): Lista explícita de lo que el sistema resolverá en la primera versión y lista de lo que NO formará parte del proyecto inicial. — Lo que DEBE omitir (Antipatrón o Relleno): Metáforas vagas («un sistema integral 360», «un Uber de cobranzas»).",
+        "Sección del Brief: Flujos de Usuario — Lo que DEBE contener (Aporte de Valor): Secuencia cronológica de pasos orientada a tareas concretas de los operadores. — Lo que DEBE omitir (Antipatrón o Relleno): Bocetos de diseño que intenten imponer la tipografía, colores o disposición exacta de botones.",
+        "Sección del Brief: Datos e Integraciones — Lo que DEBE contener (Aporte de Valor): Lista de campos obligatorios, formatos de entrada y sistemas externos con los que debe conversar. — Lo que DEBE omitir (Antipatrón o Relleno): Nombres de frameworks o librerías de programación elegidas por intuición sin análisis de arquitectura."
+      ]
+    },
+    {
+      "heading": "4. La lista de exclusión: definir qué NO hace el sistema",
+      "content": [
+        "Uno de los apartados más valiosos —y más frecuentemente ignorados— de un buen brief es la Lista de Exclusiones Explícitas.  \nEn proyectos de software, el alcance no solo se define por lo que se construye, sino por los límites que se trazan deliberadamente para no desbordar el presupuesto.",
+        "Al documentar qué queda fuera de la primera fase:\n- Evitas que el equipo de desarrollo asuma funciones complejas que encarecen la cotización.\n- Proteges la fecha de lanzamiento para poner el software en manos de usuarios reales cuanto antes.\n- Generas un backlog ordenado para fases posteriores una vez validada la operación.",
+        "Ejemplo práctico de exclusión: «En esta primera versión, el sistema no gestionará rutas de reparto con GPS ni integrará pasarelas de pago con tarjeta de crédito; la confirmación de pago continuará validándose mediante comprobante bancario adjunto por el operador»."
+      ]
+    },
+    {
+      "heading": "5. La prueba ácida antes de enviar tu brief a cotización",
+      "content": [
+        "Antes de compartir tu requerimiento con proveedores o equipos internos, somételo a esta prueba de tres preguntas:\n1. ¿Un equipo externo puede calcular horas de trabajo sin tener que adivinar qué significa cada función? Si abundan adjetivos como «fácil», «intuitivo» o «automático», reemplázalos por criterios objetivos («el operador completa el formulario en menos de 3 pasos sin recargar la página»).\n2. ¿Las excepciones principales tienen una regla clara asignada? Si el sistema solo sabe qué hacer cuando todo sale bien, fallará el primer día de uso en producción.\n3. ¿El éxito del proyecto se puede medir con un indicador operativo? Si al finalizar la implementación no puedes demostrar si el objetivo se cumplió, el brief carecía de dirección."
+      ]
+    }
+  ],
+  "decisionMatrix": [],
+  "internalLinks": [
+    {
+      "anchor": "Desarrollo de Software a Medida",
+      "url": "/servicios/desarrollo-software-medida/",
+      "label": "Conoce nuestro enfoque de para sistematizar procesos empresariales."
+    },
+    {
+      "anchor": "Automatización de Procesos",
+      "url": "/servicios/automatizacion-procesos/",
+      "label": "Revisa cómo estructuramos integraciones en ."
+    },
+    {
+      "anchor": "Checkio",
+      "url": "/casos/checkio/",
+      "label": "Lee nuestro caso de estudio sobre trazabilidad operativa en ."
+    }
+  ],
+  "cta": {
+    "headline": "¿Tienes en mente un proyecto de software y necesitas estructurar su alcance?",
+    "description": "En Orbital Frameworks te ayudamos a aterrizar la lógica operativa y los requerimientos técnicos de tu empresa antes de comprometer inversión en código. Conversemos sobre tu proceso y evaluemos la viabilidad técnica de tu proyecto.",
+    "subject": "Consulta sobre briefing y desarrollo de software a medida",
+    "body": "Hola equipo de Orbital, estamos evaluando sistematizar nuestro proceso de [describir área o flujo] y queremos revisar el alcance técnico y las alternativas de desarrollo.\n\nDetalles del proceso:\nObjetivo principal:\n"
+  }
+},
   'web-con-visitas-pero-sin-consultas': {
   "slug": "web-con-visitas-pero-sin-consultas",
   "route": "/blog/web-con-visitas-pero-sin-consultas/",

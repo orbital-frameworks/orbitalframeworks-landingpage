@@ -24,7 +24,7 @@ import {
 const slugs = (results) => results.map(([item]) => item[0].slug)
 
 test('blog corpus keeps every published post in stable editorial order with explicit taxonomy', () => {
-  assert.equal(BLOG_CORPUS.length, 7)
+  assert.equal(BLOG_CORPUS.length, 8)
   assert.deepEqual(
     BLOG_CATEGORIES.map(([, label]) => label),
     ['Todos', 'Web y conversión', 'Automatización y operaciones', 'Software y sistemas'],
@@ -32,6 +32,7 @@ test('blog corpus keeps every published post in stable editorial order with expl
   assert.deepEqual(
     BLOG_CORPUS.map((item) => item[0].slug),
     [
+      'como-hacer-un-briefing-tecnico-de-software-b2b',
       'web-con-visitas-pero-sin-consultas',
       'integracion-pedidos-whatsapp-almacen-operaciones',
       'software-a-medida-o-saas-como-decidir',
@@ -44,6 +45,7 @@ test('blog corpus keeps every published post in stable editorial order with expl
   assert.deepEqual(
     Object.fromEntries(BLOG_CORPUS.map((item) => [item[0].slug, item[1]])),
     {
+      'como-hacer-un-briefing-tecnico-de-software-b2b': 'software-y-sistemas',
       'web-con-visitas-pero-sin-consultas': 'web-y-conversion',
       'integracion-pedidos-whatsapp-almacen-operaciones': 'automatizacion-y-operaciones',
       'software-a-medida-o-saas-como-decidir': 'software-y-sistemas',
@@ -184,7 +186,7 @@ test('category and query combine without leaking results from another category',
 
 test('empty or whitespace query returns all category items in source order without match scoring', () => {
   const defaultAll = filterAndSearchBlogPosts(BLOG_CORPUS, '')
-  assert.equal(defaultAll.length, 7)
+  assert.equal(defaultAll.length, BLOG_CORPUS.length)
   assert.deepEqual(
     defaultAll.map((r) => r[0][0].slug),
     BLOG_CORPUS.map((item) => item[0].slug),

@@ -22,6 +22,17 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
   [SOFTWARE, 'Software y sistemas'],
 ]
 
+const SLUG_CATEGORIES: Record<string, BlogCategoryId> = {
+  'como-hacer-un-briefing-tecnico-de-software-b2b': 'software-y-sistemas',
+  'web-con-visitas-pero-sin-consultas': WEB,
+  'integracion-pedidos-whatsapp-almacen-operaciones': OPERATIONS,
+  'software-a-medida-o-saas-como-decidir': SOFTWARE,
+  'automatizacion-procesos-vs-excel-riesgo-operativo': OPERATIONS,
+  'landing-page-b2b-tecnica-vs-web-corporativa': WEB,
+  'digitalizacion-asistencia-personal-campo-trazabilidad': OPERATIONS,
+  'lisa-serums-mapa-datos-automatizacion': SOFTWARE,
+}
+
 const POST_CATEGORIES = [WEB, OPERATIONS, SOFTWARE, OPERATIONS, WEB, OPERATIONS, SOFTWARE] as const
 
 export const categoryName = (id: BlogCategoryId) => BLOG_CATEGORIES.find(([c]) => c === id)![1]
@@ -48,5 +59,5 @@ export const BLOG_CORPUS: BlogIndexItem[] = blogPostSlugs.map((slug, i) => {
       fields.push([FIELD_TABLE, 'Tabla', p.decisionMatrix.flatMap(Object.values).join(' ')])
     }
   }
-  return [p, POST_CATEGORIES[i], fields]
+  return [p, SLUG_CATEGORIES[slug] || POST_CATEGORIES[i] || SOFTWARE, fields]
 })
