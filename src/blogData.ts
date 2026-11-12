@@ -7,6 +7,7 @@ export type BlogPostSlug =
   | 'digitalizacion-asistencia-personal-campo-trazabilidad'
   | 'lisa-serums-mapa-datos-automatizacion'
   | 'como-hacer-un-briefing-tecnico-de-software-b2b'
+  | 'criterios-evaluacion-seleccion-proveedores-software-a-medida'
 
 
 export type BlogSection = {
@@ -57,6 +58,90 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'criterios-evaluacion-seleccion-proveedores-software-a-medida': {
+  "slug": "criterios-evaluacion-seleccion-proveedores-software-a-medida",
+  "route": "/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/",
+  "canonical": "https://orbitalframeworks.qzz.io/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/",
+  "title": "Cómo evaluar proveedores de software a medida: 5 preguntas técnicas más allá del precio",
+  "metaTitle": "Cómo evaluar proveedores de software a medida | Orbital Insights",
+  "metaDescription": "5 preguntas técnicas clave para seleccionar un proveedor de software a medida. Evalúa propiedad del código, arquitectura, pruebas y evita el vendor lock-in.",
+  "eyebrow": "Orbital Insights / Selección de Proveedores y Gobernanza de TI",
+  "datePublished": "2026-11-12",
+  "dateModified": "2026-11-12",
+  "readingTime": "7 min de lectura",
+  "status": "PUBLISHED",
+  "statusLabel": "",
+  "statusNotice": "",
+  "prioritizedOwnerQuestion": "¿Qué preguntas técnicas concretas permiten a una empresa detectar a tiempo si un proveedor de software creará un sistema cautivo o difícil de mantener?",
+  "author": {
+    "name": "Orbital Frameworks",
+    "type": "Organization",
+    "url": "https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/"
+  },
+  "lead": "Cuando una empresa decide contratar el desarrollo de un sistema a medida, el proceso de selección suele seguir un patrón predecible: se reciben tres o cuatro propuestas económicas, se revisan las capturas de pantalla de sus portafolios y se opta por la cotización intermedia o la más económica que prometa entregar en menor tiempo. Pocos meses después del lanzamiento, aparecen los problemas reales: cada pequeño cambio en el sistema toma semanas, el proveedor cobra tarifas exorbitantes por cualquier ajuste elemental, no existen manuales de arquitectura y, al consultar si otro equipo técnico puede intervenir la plataforma, la respuesta es lapidaria: «el código es propietario de la agencia o está tan enredado que convendría rehacerlo desde cero». Contratar software a medida no es comprar un producto empaquetado en una caja; es encargar la construcción de un activo operativo central para la empresa. En este artículo detallamos cinco preguntas técnicas y contractuales basadas en las mejores prácticas de adquisición de software (estándar IEEE Std 1062) para evaluar a un proveedor con rigor y proteger la soberanía tecnológica de tu negocio.",
+  "sections": [
+    {
+      "heading": "1. El sesgo del portafolio visual: por qué una demo bonita no garantiza calidad",
+      "content": [
+        "Uno de los mayores errores en la evaluación de proveedores de software es juzgar la capacidad de ingeniería exclusivamente a través de los ojos del diseñador. Una interfaz moderna, con animaciones fluidas y colores atractivos, puede construirse en pocos días sobre una base de código frágil, sin pruebas automatizadas y con serias vulnerabilidades de seguridad.",
+        "La calidad real de un software empresarial reside en lo que no se ve en una captura de pantalla:\n- ¿Cómo responde la base de datos cuando hay 200 usuarios concurrentes registrando transacciones?\n- ¿El código está modularizado para que una modificación en facturación no rompa el módulo de inventario?\n- ¿Existen registros de auditoría (logs) para saber exactamente qué usuario modificó un registro crítico?",
+        "Evaluar únicamente el aspecto visual equivale a comprar un edificio comercial inspeccionando solo el color de la pintura de la fachada, sin verificar los cimientos ni las instalaciones eléctricas."
+      ]
+    },
+    {
+      "heading": "2. Las 5 preguntas técnicas indispensables para auditar a un proveedor",
+      "content": [
+        "Antes de adjudicar un contrato de desarrollo, somete a los candidatos a estas cinco preguntas de control:",
+        "Pregunta 1: ¿Quién es el titular legal del repositorio Git y del código fuente desde el primer día?\n- La respuesta correcta: El cliente es el propietario exclusivo de todos los derechos patrimoniales sobre el código desarrollado. El repositorio (en GitHub, GitLab o similar) se aloja en la organización del cliente o se entrega con acceso total de lectura y administración en cada entrega quincenal.\n- *La señal de alerta roja (Red Flag):* «El código reside en nuestros servidores privados y se entregará un archivo ZIP al finalizar el proyecto» o «el software corre en nuestra plataforma propietaria y ustedes solo pagan por el uso». Si no controlas el repositorio, tu empresa no compró un activo; alquiló una dependencia forzada.",
+        "Pregunta 2: ¿Qué stack tecnológico utilizarán y qué tan accesible es el mercado laboral para mantenerlo?\n- La respuesta correcta: Tecnologías consolidadas, de código abierto, con amplia documentación y gran disponibilidad de ingenieros en el mercado (por ejemplo: TypeScript, Python, Node.js, PostgreSQL, React).\n- La señal de alerta roja: Frameworks esotéricos, plataformas cerradas que solo domina esa agencia o versiones obsoletas de herramientas que ya no reciben parches de seguridad. Si el día de mañana decides cambiar de proveedor, un stack estándar te permite incorporar nuevos desarrolladores en días; una tecnología de nicho te deja a merced del proveedor original.",
+        "Pregunta 3: ¿Cómo verifican que el código funciona antes de pasarlo a producción?\n- La respuesta correcta: Pruebas automatizadas (unitarias, de integración y de tipos), linters estáticos y pipelines de integración continua (CI/CD) que impiden desplegar código con errores conocidos.\n- La señal de alerta roja: «Probamos todo manualmente antes de entregárselo para que ustedes lo revisen». El testing exclusivamente manual es costoso, lento y deja escapar la mayoría de los errores de regresión (fallos en funciones viejas cuando se agrega una función nueva).",
+        "Pregunta 4: ¿Cómo documentan la arquitectura y las reglas de negocio del sistema?\n- La respuesta correcta: Documentación viva dentro del repositorio: diagramas de entidad-relación actualizados, especificación de APIs (OpenAPI / Swagger) y un archivo README operativo que explique cómo instalar, compilar y ejecutar el proyecto desde cero en un entorno limpio.\n- La señal de alerta roja: «El código se explica solo» o la promesa de «un manual en PDF de 100 páginas al terminar el contrato». Los manuales en PDF quedan desactualizados la primera semana; la documentación técnica debe formar parte del código.",
+        "Pregunta 5: ¿Cuál es el protocolo de salida (Exit Strategy) y la garantía post-lanzamiento?\n- La respuesta correcta: Un periodo explícito de garantía para corrección de bugs sin costo adicional tras el lanzamiento (típicamente 30 a 90 días), acompañado de sesiones formales de transferencia técnica y un compromiso de asistencia si la empresa decide transferir el mantenimiento a su propio equipo o a un tercero.\n- La señal de alerta roja: Ausencia total de cláusulas de garantía o contratos que imponen costos desproporcionados para entregar las credenciales de los servidores y las bases de datos."
+      ]
+    },
+    {
+      "heading": "3. Matriz de Evaluación Rápida de Proveedores",
+      "content": [
+        "Usa esta tabla comparativa para ponderar las ofertas técnicas que reciba tu empresa:",
+        "Criterio de Auditoría: Propiedad Intelectual — Proveedor Orientado a Activos Reales: Código y repositorio propiedad total del cliente desde el día 1. — Proveedor de Riesgo / Lock-in: Código restringido, retenido hasta el último pago o no transferible.",
+        "Criterio de Auditoría: Arquitectura — Proveedor Orientado a Activos Reales: Modular, desacoplada, con APIs documentadas y bases de datos relacionales estándar. — Proveedor de Riesgo / Lock-in: Monolito rígido donde la interfaz y la lógica de base de datos están mezcladas.",
+        "Criterio de Auditoría: Despliegues y CI/CD — Proveedor Orientado a Activos Reales: Despliegues automatizados mediante pipelines reproducibles en la nube del cliente. — Proveedor de Riesgo / Lock-in: Subidas manuales por FTP o acceso directo a servidores de producción sin control de cambios.",
+        "Criterio de Auditoría: Dependencia Operativa — Proveedor Orientado a Activos Reales: Diseñado para que cualquier ingeniero calificado pueda asumir el mantenimiento. — Proveedor de Riesgo / Lock-in: Diseñado deliberadamente como caja negra para forzar contratos cautivos de soporte mensual."
+      ]
+    },
+    {
+      "heading": "4. El peligro del 'Vendor Lock-in' y cómo blindar tu inversión",
+      "content": [
+        "El secuestro de proveedor (vendor lock-in) no suele ser un accidente; en muchas ocasiones es un modelo de negocio. Proveedores que cotizan por debajo del costo de mercado recuperan su margen cobrando horas de soporte caras una vez que la empresa depende operativamente del sistema para despachar pedidos o facturar.",
+        "Para blindar a tu empresa:\n1. Exige acceso continuo: No aceptes ver el progreso únicamente en reuniones mensuales de demostración. Revisa que los commits en Git reflejen actividad constante y ordenada.\n2. Infraestructura a tu nombre: Las cuentas de los servidores en la nube (AWS, Google Cloud, Azure o VPS privadas) y los dominios deben registrarse a nombre de tu empresa, otorgando permisos de acceso al proveedor, no al revés.\n3. Contratos con entregables técnicos claros: La definición de «terminado» (Definition of Done) debe incluir código fuente aprobado, suite de pruebas en verde y documentación de despliegue, no solo una pantalla visible en internet."
+      ]
+    }
+  ],
+  "decisionMatrix": [],
+  "internalLinks": [
+    {
+      "anchor": "Desarrollo de Software a Medida",
+      "url": "/servicios/desarrollo-software-medida/",
+      "label": "Conoce nuestros estándares de entrega en ."
+    },
+    {
+      "anchor": "Automatización de Procesos",
+      "url": "/servicios/automatizacion-procesos/",
+      "label": "Revisa cómo diseñamos integraciones limpias en ."
+    },
+    {
+      "anchor": "Wasy",
+      "url": "/casos/wasy/",
+      "label": "Explora nuestro caso de arquitectura modular en ."
+    }
+  ],
+  "cta": {
+    "headline": "¿Estás evaluando propuestas de software para tu empresa?",
+    "description": "En Orbital Frameworks creemos en el desarrollo de software transparente: entregamos código limpio, arquitecturas estándar y propiedad total de los repositorios para que tu inversión sea un activo que impulse tu negocio, sin ataduras artificiales.",
+    "subject": "Consulta sobre desarrollo y evaluación técnica de proyectos",
+    "body": "Hola equipo de Orbital, queremos evaluar una solución de software a medida para [describir requerimiento] y nos gustaría conocer su enfoque técnico y propuesta de trabajo.\n\nDetalles del proceso:\nObjetivo principal:\n"
+  }
+},
   'como-hacer-un-briefing-tecnico-de-software-b2b': {
   "slug": "como-hacer-un-briefing-tecnico-de-software-b2b",
   "route": "/blog/como-hacer-un-briefing-tecnico-de-software-b2b/",

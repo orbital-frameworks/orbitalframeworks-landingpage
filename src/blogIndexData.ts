@@ -23,6 +23,7 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
 ]
 
 const SLUG_CATEGORIES: Record<string, BlogCategoryId> = {
+  'criterios-evaluacion-seleccion-proveedores-software-a-medida': 'software-y-sistemas',
   'como-hacer-un-briefing-tecnico-de-software-b2b': 'software-y-sistemas',
   'web-con-visitas-pero-sin-consultas': WEB,
   'integracion-pedidos-whatsapp-almacen-operaciones': OPERATIONS,

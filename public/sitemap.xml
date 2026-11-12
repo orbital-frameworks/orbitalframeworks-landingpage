@@ -126,4 +126,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://orbitalframeworks.qzz.io/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
