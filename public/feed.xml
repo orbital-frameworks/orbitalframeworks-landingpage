@@ -8,6 +8,14 @@
     <lastBuildDate>Tue, 10 Nov 2026 16:30:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Conectar sistemas antiguos con APIs modernas: cómo modernizar sin el riesgo del 'Big Bang'</title>
+      <link>https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/</guid>
+      <pubDate>Mon, 16 Nov 2026 13:00:00 GMT</pubDate>
+      <description>Aprende a modernizar sistemas antiguos y ERPs locales con el patrón Strangler Fig y capas de API intermedias sin frenar la operación ni gastar en un Big Bang.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
+    <item>
       <title>Cómo evaluar proveedores de software a medida: 5 preguntas técnicas más allá del precio</title>
       <link>https://orbitalframeworks.qzz.io/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/</link>
       <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/</guid>

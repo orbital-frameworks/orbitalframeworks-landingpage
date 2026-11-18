@@ -132,4 +132,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

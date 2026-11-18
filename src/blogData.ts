@@ -8,6 +8,7 @@ export type BlogPostSlug =
   | 'lisa-serums-mapa-datos-automatizacion'
   | 'como-hacer-un-briefing-tecnico-de-software-b2b'
   | 'criterios-evaluacion-seleccion-proveedores-software-a-medida'
+  | 'integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo'
 
 
 export type BlogSection = {
@@ -58,6 +59,95 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo': {
+  "slug": "integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo",
+  "route": "/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/",
+  "canonical": "https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/",
+  "title": "Conectar sistemas antiguos con APIs modernas: cómo modernizar sin el riesgo del 'Big Bang'",
+  "metaTitle": "Conectar sistemas legacy con APIs modernas | Orbital Insights",
+  "metaDescription": "Aprende a modernizar sistemas antiguos y ERPs locales con el patrón Strangler Fig y capas de API intermedias sin frenar la operación ni gastar en un Big Bang.",
+  "eyebrow": "Orbital Insights / Arquitectura de Software e Integración de Sistemas",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "readingTime": "8 min de lectura técnica",
+  "status": "PUBLISHED",
+  "statusLabel": "",
+  "statusNotice": "",
+  "prioritizedOwnerQuestion": "¿Cómo puede una empresa conectar nuevas aplicaciones web o móviles a una base de datos antigua sin comprometer la estabilidad del sistema transaccional principal?",
+  "author": {
+    "name": "Orbital Frameworks",
+    "type": "Organization",
+    "url": "https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/"
+  },
+  "lead": "En el corazón operativo de miles de empresas medianas y consolidadas existe un sistema informático instalado hace diez, quince o veinte años. Puede ser un ERP local montado sobre un servidor físico en la oficina central, un desarrollo a medida en Visual Basic o un motor de base de datos relacional que nadie se atreve a reiniciar un lunes por la mañana. Ese sistema tiene un mérito indiscutible: funciona y procesa la facturación diaria. Sin embargo, se ha convertido en un obstáculo infranqueable para la innovación del negocio: no tiene interfaz móvil para los vendedores en terreno, no se comunica con la tienda web, no puede enviar notificaciones automáticas por WhatsApp y cada reporte gerencial exige exportar tablas y cruzarlas a mano en Excel. Frente a esta situación, la consultoría tradicional suele proponer una única salida radical: «hay que cambiarlo todo e implementar un nuevo ERP desde cero». Esta estrategia, conocida en la industria como el enfoque «Big Bang», encierra un riesgo operativo monumental: presupuestos que se triplican, años de implementación y la posibilidad real de paralizar los despachos de la empresa durante semanas. Existe una alternativa probada en la ingeniería de software moderna: *la modernización incremental mediante capas de API y el patrón arquitectónico del Estrangulador (Strangler Fig)*. En este artículo explicamos cómo aplicarla paso a paso.",
+  "sections": [
+    {
+      "heading": "1. La falacia del 'Big Bang': por qué demoler el sistema suele ser una trampa",
+      "content": [
+        "La tentación de iniciar un proyecto de software desde una hoja en blanco (Greenfield) es comprensible tanto para gerentes como para programadores. La promesa de una arquitectura limpia y moderna resulta seductora frente al desorden acumulado durante una década.",
+        "Sin embargo, los sistemas antiguos contienen un activo invisible pero vital: cientos de reglas de negocio tácitas y casos excepcionales que no están documentados en ningún manual. Por ejemplo:\n- La lógica especial de descuento para los tres clientes mayoristas más antiguos.\n- La fórmula de redondeo fiscal exigida por el contador en 2018 para evitar descuadres de céntimos.\n- Las restricciones horarias de despacho que impiden facturar mercadería pesada después de las 18:00.",
+        "Cuando una empresa intenta reescribir todo el sistema en un solo lanzamiento masivo, la mayoría de estas reglas se omiten en los nuevos requerimientos. El día del lanzamiento, la operación colapsa no por fallos en los servidores, sino porque el nuevo sistema desconoce cómo opera la empresa en el mundo real."
+      ]
+    },
+    {
+      "heading": "2. El Patrón del Estrangulador (Strangler Fig Application)",
+      "content": [
+        "En 2004, el reconocido arquitecto de software Martin Fowler bautizó este patrón inspirándose en las higueras estranguladoras de los bosques tropicales. Estas plantas depositan sus semillas en las ramas altas de un árbol hospedador, extienden raíces hacia el suelo rodeando el tronco y, con el paso de los años, forman una estructura autosuficiente mientras el árbol original envejece en su interior.",
+        "Llevado a la arquitectura de software empresarial, el patrón consiste en:\n1. No tocar el código fuente interno del sistema antiguo de golpe.\n2. Construir una capa intermedia de mediación (API Gateway o Adaptador de Canal).\n3. Desarrollar las nuevas funciones o interfaces como servicios web modernos independientes.\n4. Hacer que los nuevos módulos lean y escriban datos en la base de datos central a través de la capa de API.\n5. Reemplazar gradualmente módulo por módulo a lo largo del tiempo, hasta que el sistema legado pueda apagarse sin trauma."
+      ]
+    },
+    {
+      "heading": "3. Arquitectura en Tres Capas: Cómo se implementa en la práctica",
+      "content": [
+        "Para conectar herramientas web modernas a un sistema antiguo sin poner en peligro la operación, se diseña una arquitectura desacoplada de tres niveles:",
+        "``\n[ Capa 1: Nuevas Aplicaciones y Canales ]\n  • App móvil de vendedores en campo\n  • Portal de pedidos para clientes mayoristas\n  • Automatización de alertas operativas\n                 │\n                 ▼ (Llamadas REST / JSON seguras mediante HTTPS)\n[ Capa 2: Middleware / Fachada de APIs (Orbital) ]\n  • Validación de seguridad, tokens y permisos\n  • Caché de lectura para no sobrecargar el servidor local\n  • Lógica de transformación de formatos (JSON <-> SQL Legado)\n  • Registro de auditoría y colas de reintento\n                 │\n                 ▼ (Conexión controlada de solo lectura o escritura protegida)\n[ Capa 3: Sistema Central Legado / Base de Datos Existente ]\n  • ERP local / Servidor SQL on-premise\n  • Mantiene intacta la facturación y la contabilidad fiscal\n``",
+        "El rol clave del Adaptador de Canal (Channel Adapter)\nLa capa intermedia actúa como un traductor simultáneo. Las aplicaciones móviles y web modernas no necesitan saber si el sistema central fue programado en 2005; solo se comunican con endpoints modernos en formato JSON. Si en el futuro la empresa decide cambiar su base de datos o migrar a un nuevo ERP, solo se modifica el adaptador, sin tener que rediseñar las aplicaciones que usan los vendedores y los clientes."
+      ]
+    },
+    {
+      "heading": "4. Hoja de Ruta de Modernización en 3 Fases Seguras",
+      "content": [
+        "Para ejecutar este proceso con riesgo cero para el negocio, recomendamos seguir este orden cronológico:",
+        "Fase 1: Capa de Consulta y Lectura (Riesgo Nulo)\n- Se conecta la API intermedia a la base de datos local únicamente con permisos de lectura (SELECT).\n- Se construyen paneles gerenciales de consulta en tiempo real, portales de autoservicio de catálogo o reportes automáticos por correo.\n- Resultado: El sistema central no corre ningún peligro de corrupción de datos y la empresa obtiene valor inmediato en visibilidad.",
+        "Fase 2: Escritura Asíncrona con Validación Humana (Riesgo Controlado)\n- Las nuevas aplicaciones capturan transacciones (por ejemplo, pedidos de venta en la calle o solicitudes de clientes en un portal web).\n- La API intermedia valida la información y la deposita en una tabla intermedia o bandeja de entrada dentro del sistema legado.\n- Un operador en oficina revisa la bandeja y confirma el ingreso con un solo clic.\n- Resultado: Se elimina el tiempo manual de tipeo sin perder el control de supervisión del personal experimentado.",
+        "Fase 3: Escritura Directa Transaccional y Reemplazo de Módulos (Riesgo Mitigado)\n- Una vez verificada la solidez de las reglas de validación en la fase anterior, la API inyecta transacciones directamente en el sistema central mediante procedimientos almacenados seguros.\n- Si un módulo antiguo (por ejemplo, el módulo de cotizaciones) queda obsoleto, se apaga en la interfaz vieja y se opera al 100% desde la nueva plataforma web."
+      ]
+    },
+    {
+      "heading": "5. Matriz Comparativa: 'Big Bang' vs Modernización Incremental",
+      "content": [
+        "Factor de Evaluación: Tiempo hasta el primer valor útil — Enfoque 'Big Bang' (Reemplazo Total): 12 a 24 meses (o nunca si el proyecto se cancela). — Modernización Incremental con APIs: 4 a 8 semanas para el primer módulo en producción.",
+        "Factor de Evaluación: Riesgo de interrupción del negocio — Enfoque 'Big Bang' (Reemplazo Total): Crítico: un fallo en el día de lanzamiento paraliza ventas. — Modernización Incremental con APIs: Muy bajo: si un módulo nuevo falla, el sistema central sigue vivo.",
+        "Factor de Evaluación: Curva de aprendizaje del personal — Enfoque 'Big Bang' (Reemplazo Total): Choque cultural masivo; todos los empleados cambian de pantalla a la vez. — Modernización Incremental con APIs: Gradual; los usuarios adoptan herramientas modernas una por una.",
+        "Factor de Evaluación: Presupuesto e inversión — Enfoque 'Big Bang' (Reemplazo Total): Desembolso de capital masivo por adelantado sin garantía de retorno. — Modernización Incremental con APIs: Inversión modular por etapas autofinanciadas con los beneficios obtenidos."
+      ]
+    }
+  ],
+  "decisionMatrix": [],
+  "internalLinks": [
+    {
+      "anchor": "Automatización de Procesos",
+      "url": "/servicios/automatizacion-procesos/",
+      "label": "Conoce nuestras soluciones en para conectar sistemas dispersos."
+    },
+    {
+      "anchor": "Desarrollo de Software a Medida",
+      "url": "/servicios/desarrollo-software-medida/",
+      "label": "Revisa el servicio de para crear portales y herramientas a medida."
+    },
+    {
+      "anchor": "PeruLog Pallets",
+      "url": "/casos/perulog-pallets/",
+      "label": "Consulta nuestro caso de estudio de trazabilidad logística en ."
+    }
+  ],
+  "cta": {
+    "headline": "¿Tu empresa depende de un sistema antiguo que no se comunica con el resto de tu operación?",
+    "description": "En Orbital Frameworks diseñamos arquitecturas de integración y APIs a medida que permiten conectar nuevas herramientas web y móviles a tus bases de datos actuales, sin frenar tu facturación ni asumir el costo de un reemplazo total.",
+    "subject": "Consulta sobre integración de sistemas legacy y APIs",
+    "body": "Hola equipo de Orbital, tenemos un sistema central de [tipo de ERP o base de datos] y nos gustaría evaluar cómo conectar [describir app o portal web que se necesita] de forma segura.\n\nDetalles del proceso:\nObjetivo principal:\n"
+  }
+},
   'criterios-evaluacion-seleccion-proveedores-software-a-medida': {
   "slug": "criterios-evaluacion-seleccion-proveedores-software-a-medida",
   "route": "/blog/criterios-evaluacion-seleccion-proveedores-software-a-medida/",
