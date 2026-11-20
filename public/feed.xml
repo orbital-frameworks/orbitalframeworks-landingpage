@@ -8,6 +8,14 @@
     <lastBuildDate>Tue, 10 Nov 2026 16:30:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Datos operativos en silos: cómo construir una fuente única de verdad sin gastar una fortuna</title>
+      <link>https://orbitalframeworks.qzz.io/blog/fuente-unica-de-verdad-datos-operativos-silos-empresariales/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/fuente-unica-de-verdad-datos-operativos-silos-empresariales/</guid>
+      <pubDate>Thu, 19 Nov 2026 13:00:00 GMT</pubDate>
+      <description>Cómo unificar datos dispersos en silos operativos sin gastar en data lakes complejos. Principios de Master Data Management para empresas medianas.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
+    <item>
       <title>Conectar sistemas antiguos con APIs modernas: cómo modernizar sin el riesgo del 'Big Bang'</title>
       <link>https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/</link>
       <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo/</guid>
