@@ -8,6 +8,14 @@
     <lastBuildDate>Tue, 10 Nov 2026 16:30:00 GMT</lastBuildDate>
     <atom:link href="https://orbitalframeworks.qzz.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>MVP para software interno B2B: cómo validar una herramienta operativa sin sobreingeniería</title>
+      <link>https://orbitalframeworks.qzz.io/blog/mvp-para-software-interno-b2b-como-validar-sin-sobreingenieria/</link>
+      <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/mvp-para-software-interno-b2b-como-validar-sin-sobreingenieria/</guid>
+      <pubDate>Mon, 23 Nov 2026 13:00:00 GMT</pubDate>
+      <description>Cómo construir un MVP para herramientas internas de tu empresa con la técnica Walking Skeleton. Valida adopción operativa sin sobreingeniería ni meses perdidos.</description>
+      <author>contact.orbitalframeworks@gmail.com (Orbital Frameworks)</author>
+    </item>
+    <item>
       <title>Datos operativos en silos: cómo construir una fuente única de verdad sin gastar una fortuna</title>
       <link>https://orbitalframeworks.qzz.io/blog/fuente-unica-de-verdad-datos-operativos-silos-empresariales/</link>
       <guid isPermaLink="true">https://orbitalframeworks.qzz.io/blog/fuente-unica-de-verdad-datos-operativos-silos-empresariales/</guid>

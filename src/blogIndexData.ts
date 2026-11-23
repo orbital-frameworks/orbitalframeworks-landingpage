@@ -23,6 +23,7 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
 ]
 
 const SLUG_CATEGORIES: Record<string, BlogCategoryId> = {
+  'mvp-para-software-interno-b2b-como-validar-sin-sobreingenieria': 'software-y-sistemas',
   'fuente-unica-de-verdad-datos-operativos-silos-empresariales': 'software-y-sistemas',
   'integracion-sistemas-legacy-con-apis-modernas-sin-rehacer-todo': 'software-y-sistemas',
   'criterios-evaluacion-seleccion-proveedores-software-a-medida': 'software-y-sistemas',
