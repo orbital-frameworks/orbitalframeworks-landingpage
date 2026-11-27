@@ -23,6 +23,7 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
 ]
 
 const SLUG_CATEGORIES: Record<string, BlogCategoryId> = {
+  'cotizaciones-sin-seguimiento-control-comercial-b2b': 'automatizacion-y-operaciones',
   'automatizar-vs-redisenar-proceso-operativo-regla-proceso-roto': 'automatizacion-y-operaciones',
   'mvp-para-software-interno-b2b-como-validar-sin-sobreingenieria': 'software-y-sistemas',
   'fuente-unica-de-verdad-datos-operativos-silos-empresariales': 'software-y-sistemas',

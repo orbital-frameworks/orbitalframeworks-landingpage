@@ -12,6 +12,7 @@ export type BlogPostSlug =
   | 'fuente-unica-de-verdad-datos-operativos-silos-empresariales'
   | 'mvp-para-software-interno-b2b-como-validar-sin-sobreingenieria'
   | 'automatizar-vs-redisenar-proceso-operativo-regla-proceso-roto'
+  | 'cotizaciones-sin-seguimiento-control-comercial-b2b'
 
 
 export type BlogSection = {
@@ -62,6 +63,89 @@ export type BlogPost = {
 }
 
 export const blogPosts: Record<BlogPostSlug, BlogPost> = {
+  'cotizaciones-sin-seguimiento-control-comercial-b2b': {
+  "slug": "cotizaciones-sin-seguimiento-control-comercial-b2b",
+  "route": "/blog/cotizaciones-sin-seguimiento-control-comercial-b2b/",
+  "canonical": "https://orbitalframeworks.qzz.io/blog/cotizaciones-sin-seguimiento-control-comercial-b2b/",
+  "title": "Cotizaciones en PDF y Excel sin seguimiento: por qué se pierden ventas después de enviar la propuesta",
+  "metaTitle": "Cotizaciones B2B sin seguimiento en PDF y Excel | Orbital Insights",
+  "metaDescription": "Por qué enviar propuestas comerciales en PDF y Excel sueltos genera fugas silenciosas de ventas y 4 reglas operativas para ordenar el seguimiento hasta el pedido.",
+  "eyebrow": "Orbital Insights / Control Comercial y Operaciones B2B",
+  "datePublished": "2026-11-27",
+  "dateModified": "2026-11-27",
+  "readingTime": "6 min de lectura",
+  "status": "PUBLISHED",
+  "statusLabel": "",
+  "statusNotice": "",
+  "prioritizedOwnerQuestion": "¿En tu empresa hoy, dónde se frena más una cotización: al armarla antes de enviarla o al hacer seguimiento ordenado después de enviarla?",
+  "author": {
+    "name": "Orbital Frameworks",
+    "type": "Organization",
+    "url": "https://orbitalframeworks.qzz.io/sobre-orbital-frameworks/"
+  },
+  "lead": "En muchas empresas B2B el cuello de botella comercial no está en conseguir prospectos ni en redactar la oferta. El equipo responde rápido, arma la propuesta en Word o Excel, la exporta a PDF y la envía por correo o WhatsApp. El problema empieza al día siguiente: la cotización sale de la bandeja de entrada y desaparece de la vista del negocio. Cuando una propuesta comercial vive como un archivo suelto en la computadora de cada vendedor, el seguimiento depende exclusivamente de la memoria individual.",
+  "sections": [
+    {
+      "heading": "1. Qué ocurre realmente entre el envío del PDF y la respuesta del cliente",
+      "content": [
+        "En la operación diaria de una PYME B2B, el flujo manual suele repetirse con cuatro fricciones concretas:",
+        "1. Proliferación de versiones: aparecen archivos como COT-204_v2_final.pdf y COT-204_corregida.xlsx. Ante una consulta del cliente, dos personas internas pueden estar mirando precios o condiciones distintas.",
+        "2. Descuentos sin control de margen: cuando se negocia por WhatsApp o teléfono, el vendedor ajusta el monto final sobre el archivo para cerrar rápido, pero nadie verifica en ese momento si el margen sigue siendo rentable o si el stock comprometido sigue disponible.",
+        "3. Seguimiento sin agenda ni responsable: el envío de la cotización no crea una tarea con fecha límite. La gerencia solo se entera de las propuestas vencidas cuando revisa las ventas al cierre del mes.",
+        "4. Doble digitación al aprobarse: cuando el cliente confirma, alguien debe copiar manualmente los ítems desde el PDF hacia el sistema de pedidos, almacén o facturación, abriendo la puerta a errores de código, cantidad o dirección de entrega."
+      ]
+    },
+    {
+      "heading": "2. El diagnóstico: el archivo muerto frente al registro vivo",
+      "content": [
+        "El fallo no es falta de voluntad del equipo comercial. El problema es estructural: un PDF o una hoja de cálculo es una foto estática, no un proceso con estado.",
+        "Un archivo adjunto no sabe si ya venció su vigencia, no avisa cuando pasaron 72 horas sin respuesta, no bloquea un descuento por debajo del piso permitido y no conversa con el inventario ni con el área de despacho.",
+        "Pedirle disciplina manual al equipo para compensar una herramienta sin estados termina consumiendo horas en reuniones de seguimiento que solo reconstruyen lo que ya pasó."
+      ]
+    },
+    {
+      "heading": "3. Las 4 reglas operativas para ordenar tus cotizaciones B2B",
+      "content": [
+        "Antes de pensar en herramientas complejas, cualquier operación comercial puede evaluar su proceso actual contra cuatro criterios concretos:",
+        "1. Identidad única de la propuesta: pasar de copias locales (v2, final, ok) a un folio único con historial de cambios, fecha de emisión y vigencia visible.",
+        "2. Validación de precios y margen antes de enviar: lista de precios centralizada y topes de descuento con aprobación previa en lugar de ediciones manuales en plantilla.",
+        "3. Seguimiento con fecha y responsable: cada envío genera un próximo paso concreto con fecha, motivo y responsable asignado, eliminando la dependencia de la memoria del vendedor.",
+        "4. Paso directo a operación o pedido: cuando el cliente aprueba, la cotización se convierte directamente en orden o pedido sin volver a digitar cada ítem."
+      ]
+    },
+    {
+      "heading": "4. Cuándo conviene sistematizar el flujo de cotizaciones",
+      "content": [
+        "Mantener plantillas manuales puede funcionar mientras el volumen semanal es bajo, hay un solo vendedor y los precios casi no cambian. Sin embargo, cuando participan dos o más personas cotizando, existen listas diferenciadas por cliente o el tiempo entre la consulta y el envío define si se gana la orden, seguir operando sobre archivos sueltos genera pérdidas silenciosas difíciles de medir.",
+        "Sistematizar este punto no requiere un ERP sobredimensionado: suele bastar una herramienta web ligera conectada a tu catálogo de productos o servicios, con reglas claras de vigencia, alertas de seguimiento y exportación ordenada hacia facturación o despacho."
+      ]
+    }
+  ],
+  "decisionMatrix": [],
+  "internalLinks": [
+    {
+      "anchor": "Automatización de Procesos",
+      "url": "/servicios/automatizacion-procesos/",
+      "label": "Conoce nuestras metodologías en para eliminar fricción manual."
+    },
+    {
+      "anchor": "Desarrollo de Software a Medida",
+      "url": "/servicios/desarrollo-software-medida/",
+      "label": "Revisa el servicio de para construir herramientas alineadas a tu flujo real."
+    },
+    {
+      "anchor": "PeruLog Pallets",
+      "url": "/casos/perulog-pallets/",
+      "label": "Lee cómo estructuramos flujos eficientes en el caso ."
+    }
+  ],
+  "cta": {
+    "headline": "¿Tus cotizaciones siguen saliendo en archivos sueltos sin trazabilidad?",
+    "description": "En Orbital Frameworks te ayudamos a ordenar el flujo desde la propuesta hasta el pedido sin frenar al equipo comercial ni sobredimensionar tu operación.",
+    "subject": "Consulta sobre control comercial y seguimiento de cotizaciones B2B",
+    "body": "Hola equipo de Orbital, queremos evaluar cómo ordenar nuestro flujo de cotizaciones y seguimiento comercial.\n\nVolumen aproximado semanal:\nPrincipal cuello de botella hoy:\n"
+  }
+},
   'automatizar-vs-redisenar-proceso-operativo-regla-proceso-roto': {
   "slug": "automatizar-vs-redisenar-proceso-operativo-regla-proceso-roto",
   "route": "/blog/automatizar-vs-redisenar-proceso-operativo-regla-proceso-roto/",
